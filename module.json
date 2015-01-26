@@ -1,0 +1,10 @@
+{
+    "id": "wiki",
+    "name": "Wiki",
+    "description": "Wiki for spaces or user profiles.",
+    "keywords": ["wiki"],
+    "version": "0.1.0",
+    "humhub": {
+        "minVersion": "0.8.0"
+    }
+}
