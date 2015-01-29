@@ -100,14 +100,19 @@ class PageController extends ContentContainerController
 
     public function actionEdit()
     {
-        $title = Yii::app()->request->getQuery('title');
+        $id = (int) Yii::app()->request->getQuery('id');
 
-        $page = WikiPage::model()->contentContainer($this->contentContainer)->findByAttributes(array('title' => $title));
+        $page = WikiPage::model()->contentContainer($this->contentContainer)->findByAttributes(array('id' => $id));
         if ($page === null) {
             $page = new WikiPage();
-            $page->title = $title;
+            //$page->title = $title;
             $page->content->setContainer($this->contentContainer);
         }
+
+        if ($page->admin_only && !$page->canAdminister()) {
+            throw new CHttpException(403, 'Page not editable!');
+        }
+
         $revision = $page->createRevision();
 
         if (isset($_POST['WikiPage']) && isset($_POST['WikiPageRevision'])) {
@@ -115,7 +120,6 @@ class PageController extends ContentContainerController
 
             $page->attributes = $_POST['WikiPage'];
             $revision->attributes = $_POST['WikiPageRevision'];
-
 
             if ($page->validate()) {
                 $page->save();
@@ -146,7 +150,6 @@ class PageController extends ContentContainerController
 
     public function actionDelete()
     {
-
         $this->forcePostRequest();
 
         $id = Yii::app()->request->getQuery('id');
@@ -156,7 +159,9 @@ class PageController extends ContentContainerController
             throw new CHttpException(404, 'Page not found!');
         }
 
-        $page->delete();
+        if ($page->canAdminister()) {
+            $page->delete();
+        }
 
         $this->redirect($this->createContainerUrl('index'));
     }

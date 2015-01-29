@@ -28,16 +28,18 @@ class WikiPage extends HActiveRecordContent
      */
     public function rules()
     {
-        // NOTE: you should only define rules for those attributes that
-        // will receive user inputs.
-        return array(
-            array('title', 'required'),
-            array('is_home, admin_only', 'numerical', 'integerOnly' => true),
-            array('title', 'length', 'max' => 255),
-            // The following rule is used by search().
-            // @todo Please remove those attributes that should not be searched.
-            array('id, title, is_home, admin_only', 'safe', 'on' => 'search'),
-        );
+        $rules = array();
+
+        if ($this->canAdminister() || $this->isNewRecord) {
+            $rules[] = array('title', 'required');
+            $rules[] = array('title', 'length', 'max' => 255);
+            $rules[] = array('title', 'validateTitle');
+        }
+
+        if ($this->canAdminister()) {
+            $rules[] = array('is_home, admin_only', 'numerical', 'integerOnly' => true);
+        }
+        return $rules;
     }
 
     /**
@@ -62,8 +64,8 @@ class WikiPage extends HActiveRecordContent
         return array(
             'id' => 'ID',
             'title' => 'Title',
-            'is_home' => 'Is Home',
-            'admin_only' => 'Admin Only',
+            'is_home' => 'Is Homepage',
+            'admin_only' => 'Protected',
         );
     }
 
@@ -144,6 +146,35 @@ class WikiPage extends HActiveRecordContent
         }
 
         return parent::beforeDelete();
+    }
+
+    public function canAdminister()
+    {
+        if (get_class($this->content->container) == 'Space') {
+            return $this->content->container->isAdmin();
+        }
+
+        return false;
+    }
+
+    /**
+     * Title field validator
+     * 
+     * @param type $attribute
+     * @param type $params
+     */
+    public function validateTitle($attribute, $params)
+    {
+        $criteria = new CDbCriteria();
+        if (!$this->isNewRecord) {
+            $criteria->condition = 'id != :selfId';
+            $criteria->params = array(':selfId' => $this->id);
+        }
+
+        $page = WikiPage::model()->findByAttributes(array('title' => $this->title), $criteria);
+        if ($page !== null) {
+            $this->addError('title', Yii::t('WikiModule.base', 'Page title already in use!'));
+        }
     }
 
 }
