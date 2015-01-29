@@ -105,7 +105,6 @@ class PageController extends ContentContainerController
         $page = WikiPage::model()->contentContainer($this->contentContainer)->findByAttributes(array('id' => $id));
         if ($page === null) {
             $page = new WikiPage();
-            //$page->title = $title;
             $page->content->setContainer($this->contentContainer);
         }
 
@@ -164,6 +163,38 @@ class PageController extends ContentContainerController
         }
 
         $this->redirect($this->createContainerUrl('index'));
+    }
+
+    public function actionRevert()
+    {
+        $this->forcePostRequest();
+
+        $id = (int) Yii::app()->request->getQuery('id');
+        $toRevision = (int) Yii::app()->request->getQuery('toRevision');
+        $page = WikiPage::model()->contentContainer($this->contentContainer)->findByPk($id);
+
+        if ($page === null) {
+            throw new CHttpException(404, 'Page not found!');
+        }
+        
+        if ($page->admin_only && !$page->canAdminister()) {
+            throw new CHttpException(403, 'Page not editable!');
+        }
+        
+        $revision = WikiPageRevision::model()->findByAttributes(array(
+            'revision' => $toRevision,
+            'wiki_page_id' => $page->id
+        ));
+
+        if ($revision->is_latest) {
+            throw new CHttpException(404, 'Already latest revision!');
+        }
+
+        $revertedRevision = $page->createRevision();
+        $revertedRevision->content = $revision->content;
+        $revertedRevision->save();
+
+        $this->redirect($this->createContainerUrl('view', array('title' => $page->title)));
     }
 
 }

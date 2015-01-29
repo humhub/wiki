@@ -16,25 +16,39 @@
 </div>
 
 <div class="col-md-2">
-    <div class="panel panel-default">
-        <div class="panel-body">
 
-            <?php if (!$page->admin_only || $page->canAdminister()) : ?>
-                <?php echo CHtml::link(Yii::t('WikiModule.base', 'Edit'), $this->createContainerUrl('edit', array('id' => $page->id)), array('class' => 'btn btn-primary')); ?>
-                <br />
-                <br />
-            <?php endif; ?>
-            <?php echo CHtml::link(Yii::t('WikiModule.base', 'Show History'), $this->createContainerUrl('history', array('id' => $page->id)), array('class' => 'btn btn-xs btn-primary')); ?>
+    <?php if ($revision->is_latest): ?>
+
+        <div class="panel panel-default">
+            <div class="panel-body">
+
+                <?php if (!$page->admin_only || $page->canAdminister()) : ?>
+                    <?php echo CHtml::link(Yii::t('WikiModule.base', 'Edit'), $this->createContainerUrl('edit', array('id' => $page->id)), array('class' => 'btn btn-primary')); ?>
+                    <br />
+                    <br />
+                <?php endif; ?>
+                <?php echo CHtml::link(Yii::t('WikiModule.base', 'Show History'), $this->createContainerUrl('history', array('id' => $page->id)), array('class' => 'btn btn-xs btn-primary')); ?>
+            </div>
         </div>
-    </div>
 
-    <div class="panel panel-default">
-        <div class="panel-body">
-            <?php $this->widget('application.modules_core.comment.widgets.CommentLinkWidget', array('object' => $page, 'mode' => 'popup')); ?><br />
-            <?php $this->widget('application.modules_core.like.widgets.LikeLinkWidget', array('object' => $page)); ?>
-
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <?php $this->widget('application.modules_core.comment.widgets.CommentLinkWidget', array('object' => $page, 'mode' => 'popup')); ?><br />
+                <?php $this->widget('application.modules_core.like.widgets.LikeLinkWidget', array('object' => $page)); ?>
+            </div>
         </div>
-    </div>
+    <?php else: ?>
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <?php if (!$page->admin_only || $page->canAdminister()) : ?>
+                    <?php echo HHtml::postLink(Yii::t('WikiModule.base', 'Revert to this'), $this->createContainerUrl('revert', array('id' => $page->id, 'toRevision' => $revision->revision)), array('class' => 'btn btn-s btn-danger', 'confirm' => Yii::t('WikiModule.base', 'Really sure?'))); ?>
+                    <br /><br />
+                <?php endif; ?>
+                <?php echo CHtml::link(Yii::t('WikiModule.base', 'Show latest version'), $this->createContainerUrl('view', array('title' => $page->title)), array('class' => 'btn btn-xs btn-primary')); ?>
+                <?php echo CHtml::link(Yii::t('WikiModule.base', 'Back to History'), $this->createContainerUrl('history', array('id' => $page->id)), array('class' => 'btn btn-xs btn-primary')); ?>
+            </div>
+        </div>
+    <?php endif; ?>
 
 
     <?php if (!$page->isNewRecord): ?>
