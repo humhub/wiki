@@ -39,13 +39,6 @@
 
             <?php echo CHtml::submitButton(Yii::t('PageModule.base', 'Save'), array('class' => 'btn btn-primary')); ?>
 
-            <?php
-            if (!$page->isNewRecord) {
-                echo CHtml::link(Yii::t('WikiModule.base', 'Delete'), $this->createContainerUrl('//wiki/page/delete', array('id' => $page->id)), array('class' => 'btn btn-danger'));
-            }
-            ?>
-
-
             <?php $this->endWidget(); ?>
 
 
@@ -59,7 +52,7 @@
             <div class="panel-body">
 
 
-                <?php echo CHtml::link(Yii::t('WikiModule.base', 'Delete'), $this->createContainerUrl('//wiki/page/delete', array('id' => $page->id)), array('class' => 'btn btn-danger')); ?>
+                <?php echo HHtml::postLink(Yii::t('WikiModule.base', 'Delete'), $this->createContainerUrl('//wiki/page/delete', array('id' => $page->id)), array('class' => 'btn btn-danger', 'confirm' => Yii::t('WikiModule.base', 'Really sure?'))); ?>
                 <br /><br />
                 <?php echo CHtml::link(Yii::t('WikiModule.base', 'Page History'), $this->createContainerUrl('//wiki/page/history', array('id' => $page->id)), array('class' => 'btn btn-xs btn-primary')); ?>
                 <?php echo CHtml::link(Yii::t('WikiModule.base', 'Back to page'), $this->createContainerUrl('//wiki/page/view', array('title' => $page->title)), array('class' => 'btn btn-xs btn-primary')); ?>

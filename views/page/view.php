@@ -22,7 +22,6 @@
             <?php echo CHtml::link(Yii::t('WikiModule.base', 'Edit'), $this->createContainerUrl('edit', array('title' => $page->title)), array('class' => 'btn btn-primary')); ?>
             <br />
             <br />
-            <?php echo CHtml::link(Yii::t('WikiModule.base', 'Delete'), $this->createContainerUrl('edit', array('title' => $page->title)), array('class' => 'btn btn-xs btn-primary')); ?>
             <?php echo CHtml::link(Yii::t('WikiModule.base', 'Show History'), $this->createContainerUrl('history', array('id' => $page->id)), array('class' => 'btn btn-xs btn-primary')); ?>
         </div>
     </div>

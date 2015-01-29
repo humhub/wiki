@@ -137,4 +137,13 @@ class WikiPage extends HActiveRecordContent
         return $rev;
     }
 
+    public function beforeDelete()
+    {
+        foreach ($this->revisions as $revision) {
+            $revision->delete();
+        }
+
+        return parent::beforeDelete();
+    }
+
 }

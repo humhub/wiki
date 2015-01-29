@@ -62,7 +62,12 @@ class PageController extends ContentContainerController
 
     public function actionIndex()
     {
-        $this->redirect($this->createContainerUrl('list'));
+        $homePage = WikiPage::model()->contentContainer($this->contentContainer)->findByAttributes(array('is_home' => 1));
+        if ($homePage !== null) {
+            $this->redirect($this->createContainerUrl('view', array('title' => $homePage->title)));
+        } else {
+            $this->redirect($this->createContainerUrl('list'));
+        }
     }
 
     public function actionList()
@@ -137,6 +142,23 @@ class PageController extends ContentContainerController
         }
 
         $this->render('history', array('page' => $page));
+    }
+
+    public function actionDelete()
+    {
+
+        $this->forcePostRequest();
+
+        $id = Yii::app()->request->getQuery('id');
+        $page = WikiPage::model()->contentContainer($this->contentContainer)->findByPk($id);
+
+        if ($page === null) {
+            throw new CHttpException(404, 'Page not found!');
+        }
+
+        $page->delete();
+
+        $this->redirect($this->createContainerUrl('index'));
     }
 
 }
