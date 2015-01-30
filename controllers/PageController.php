@@ -106,6 +106,7 @@ class PageController extends ContentContainerController
         if ($page === null) {
             $page = new WikiPage();
             $page->content->setContainer($this->contentContainer);
+            $page->title = Yii::app()->request->getParam('title');
         }
 
         if ($page->admin_only && !$page->canAdminister()) {
