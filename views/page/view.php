@@ -11,15 +11,10 @@
             <h1><?php echo $page->title; ?></h1>
 
             <?php
-            
-            $parser = new \cebe\markdown\MarkdownExtra();
-            $md =  $parser->parse($revision->content);
+            $parser = new WikiMarkdown();
+            $md = $parser->parse($revision->content);
             $purifier = new CHtmlPurifier();
             echo $purifier->purify($md);
-                        
-
-            //$md = new CMarkdown;
-            //echo $md->transform(CHtml::encode($revision->content));
             ?>
 
         </div>
