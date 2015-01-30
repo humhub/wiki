@@ -5,27 +5,28 @@ class WikiModule extends HWebModule
 
     public function init()
     {
-        require(dirname(__FILE__) . '/vendors/markdown/inline/CodeTrait.php');
-        require(dirname(__FILE__) . '/vendors/markdown/inline/EmphStrongTrait.php');
-        require(dirname(__FILE__) . '/vendors/markdown/inline/LinkTrait.php');
-        require(dirname(__FILE__) . '/vendors/markdown/inline/StrikeoutTrait.php');
-        require(dirname(__FILE__) . '/vendors/markdown/inline/UrlLinkTrait.php');
 
-        require(dirname(__FILE__) . '/vendors/markdown/block/CodeTrait.php');
-        require(dirname(__FILE__) . '/vendors/markdown/block/FencedCodeTrait.php');
-        require(dirname(__FILE__) . '/vendors/markdown/block/HeadlineTrait.php');
-        require(dirname(__FILE__) . '/vendors/markdown/block/HtmlTrait.php');
-        require(dirname(__FILE__) . '/vendors/markdown/block/ListTrait.php');
-        require(dirname(__FILE__) . '/vendors/markdown/block/QuoteTrait.php');
-        require(dirname(__FILE__) . '/vendors/markdown/block/RuleTrait.php');
-        require(dirname(__FILE__) . '/vendors/markdown/block/TableTrait.php');
+        $this->setImport(array('wiki.components.*'));
         
-        require(dirname(__FILE__) . '/vendors/markdown/Parser.php');
-        require(dirname(__FILE__) . '/vendors/markdown/Markdown.php');
-        require(dirname(__FILE__) . '/vendors/markdown/MarkdownExtra.php');
-        require(dirname(__FILE__) . '/vendors/markdown/GithubMarkdown.php');
+        require(dirname(__FILE__) . '/vendors/cebe/markdown/inline/CodeTrait.php');
+        require(dirname(__FILE__) . '/vendors/cebe/markdown/inline/EmphStrongTrait.php');
+        require(dirname(__FILE__) . '/vendors/cebe/markdown/inline/LinkTrait.php');
+        require(dirname(__FILE__) . '/vendors/cebe/markdown/inline/StrikeoutTrait.php');
+        require(dirname(__FILE__) . '/vendors/cebe/markdown/inline/UrlLinkTrait.php');
 
+        require(dirname(__FILE__) . '/vendors/cebe/markdown/block/CodeTrait.php');
+        require(dirname(__FILE__) . '/vendors/cebe/markdown/block/FencedCodeTrait.php');
+        require(dirname(__FILE__) . '/vendors/cebe/markdown/block/HeadlineTrait.php');
+        require(dirname(__FILE__) . '/vendors/cebe/markdown/block/HtmlTrait.php');
+        require(dirname(__FILE__) . '/vendors/cebe/markdown/block/ListTrait.php');
+        require(dirname(__FILE__) . '/vendors/cebe/markdown/block/QuoteTrait.php');
+        require(dirname(__FILE__) . '/vendors/cebe/markdown/block/RuleTrait.php');
+        require(dirname(__FILE__) . '/vendors/cebe/markdown/block/TableTrait.php');
 
+        require(dirname(__FILE__) . '/vendors/cebe/markdown/Parser.php');
+        require(dirname(__FILE__) . '/vendors/cebe/markdown/Markdown.php');
+        require(dirname(__FILE__) . '/vendors/cebe/markdown/MarkdownExtra.php');
+        require(dirname(__FILE__) . '/vendors/cebe/markdown/GithubMarkdown.php');
 
         return parent::init();
     }

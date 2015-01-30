@@ -1,7 +1,5 @@
-<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/default.min.css">
-<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/highlight.min.js"></script>
-<script>hljs.initHighlightingOnLoad();</script>
-
+<link rel="stylesheet" href="<?php echo $this->getModule()->getAssetsUrl(); ?>/highlight.js/styles/zenburn.css">
+<script src="<?php echo $this->getModule()->getAssetsUrl(); ?>/highlight.js//highlight.pack.js"></script>
 
 <div class="col-md-8">
 
@@ -9,13 +7,7 @@
         <div class="panel-body">
 
             <h1><?php echo $page->title; ?></h1>
-
-            <?php
-            $parser = new WikiMarkdown();
-            $md = $parser->parse($revision->content);
-            $purifier = new CHtmlPurifier();
-            echo $purifier->purify($md);
-            ?>
+            <?php echo $content; ?>
 
         </div>
 
@@ -70,3 +62,14 @@
     <?php endif; ?>
 
 </div>
+
+
+<script>
+
+    $(document).ready(function() {
+        $('pre code').each(function(i, e) {
+            hljs.highlightBlock(e);
+        });
+    });
+
+</script>

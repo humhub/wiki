@@ -92,7 +92,7 @@ class PageController extends ContentContainerController
                 $revision = $page->latestRevision;
             }
 
-            $this->render('view', array('page' => $page, 'revision' => $revision));
+            $this->render('view', array('page' => $page, 'revision' => $revision, 'content' => $this->parseMarkdown($revision->content)));
         } else {
             $this->redirect($this->createContainerUrl('edit', array('title' => $title)));
         }
@@ -122,6 +122,9 @@ class PageController extends ContentContainerController
 
             if ($page->validate()) {
                 $page->save();
+
+                File::attachPrecreated($page, Yii::app()->request->getParam('fileUploaderHiddenGuidField'));
+
 
                 $revision->wiki_page_id = $page->id;
                 if ($revision->validate()) {
@@ -176,11 +179,11 @@ class PageController extends ContentContainerController
         if ($page === null) {
             throw new CHttpException(404, 'Page not found!');
         }
-        
+
         if ($page->admin_only && !$page->canAdminister()) {
             throw new CHttpException(403, 'Page not editable!');
         }
-        
+
         $revision = WikiPageRevision::model()->findByAttributes(array(
             'revision' => $toRevision,
             'wiki_page_id' => $page->id
@@ -195,6 +198,24 @@ class PageController extends ContentContainerController
         $revertedRevision->save();
 
         $this->redirect($this->createContainerUrl('view', array('title' => $page->title)));
+    }
+
+    public function actionPreview()
+    {
+        $this->forcePostRequest();
+        
+        $content = Yii::app()->request->getParam('markdown');
+        $markdown = $this->parseMarkdown($content);
+        
+        $this->renderPartial('preview', array('content' => $markdown));
+    }
+
+    private function parseMarkdown($md)
+    {
+        $parser = new WikiMarkdown();
+        $html = $parser->parse($md);
+        $purifier = new CHtmlPurifier();
+        return $purifier->purify($html);
     }
 
 }
