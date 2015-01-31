@@ -72,8 +72,18 @@ class PageController extends ContentContainerController
 
     public function actionList()
     {
-        $pages = WikiPage::model()->contentContainer($this->contentContainer)->findAll();
-        $this->render('list', array('pages' => $pages));
+        $criteria = new CDbCriteria();
+        $criteria->order = 'id DESC';
+
+        $pageCount = WikiPage::model()->contentContainer($this->contentContainer)->count($criteria);
+
+        $pagination = new CPagination($pageCount);
+        $pagination->setPageSize(50);
+        $pagination->applyLimit($criteria);
+
+        $pages = WikiPage::model()->contentContainer($this->contentContainer)->findAll($criteria);
+
+        $this->render('list', array('pages' => $pages, 'pagination' => $pagination));
     }
 
     public function actionView()
@@ -148,7 +158,20 @@ class PageController extends ContentContainerController
             throw new CHttpException(404, 'Page not found!');
         }
 
-        $this->render('history', array('page' => $page));
+        $criteria = new CDbCriteria();
+        $criteria->order = 'id DESC';
+        $criteria->condition = 'wiki_page_id=:pageId';
+        $criteria->params = array(':pageId' => $page->id);
+
+        $revisionCount = WikiPageRevision::model()->count($criteria);
+
+        $pagination = new CPagination($revisionCount);
+        $pagination->setPageSize(50);
+        $pagination->applyLimit($criteria);
+
+        $revisions = WikiPageRevision::model()->findAll($criteria);
+
+        $this->render('history', array('page' => $page, 'revisions' => $revisions, 'pagination' => $pagination));
     }
 
     public function actionDelete()
@@ -204,10 +227,10 @@ class PageController extends ContentContainerController
     public function actionPreview()
     {
         $this->forcePostRequest();
-        
+
         $content = Yii::app()->request->getParam('markdown');
         $markdown = $this->parseMarkdown($content);
-        
+
         $this->renderPartial('preview', array('content' => $markdown));
     }
 
@@ -215,6 +238,7 @@ class PageController extends ContentContainerController
     {
         $parser = new WikiMarkdown();
         $html = $parser->parse($md);
+
         $purifier = new CHtmlPurifier();
         return $purifier->purify($html);
     }
