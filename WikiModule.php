@@ -37,9 +37,12 @@ class WikiModule extends HWebModule
             'SpaceModuleBehavior' => array(
                 'class' => 'application.modules_core.space.behaviors.SpaceModuleBehavior',
             ),
+            
+            /*
             'UserModuleBehavior' => array(
                 'class' => 'application.modules_core.user.behaviors.UserModuleBehavior',
             ),
+            */
         );
     }
 

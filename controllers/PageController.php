@@ -55,8 +55,16 @@ class PageController extends ContentContainerController
 
     public function beforeAction($action)
     {
-        $this->subLayout = '_layout';
         $this->checkContainerAccess();
+
+        if ($this->contentContainer instanceof Space) {
+            $this->subLayout = '_layout_space';
+        }
+
+        if ($this->contentContainer instanceof User) {
+            $this->subLayout = '_layout_user';
+        }
+
         return parent::beforeAction($action);
     }
 

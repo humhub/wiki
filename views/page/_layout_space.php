@@ -1,6 +1,7 @@
 <div class="container">
     <div class="row">
         <div class="col-md-2">
+
             <!-- show space menu widget -->
             <?php $this->widget('application.modules_core.space.widgets.SpaceMenuWidget', array()); ?>
 
@@ -13,10 +14,10 @@
                 $this->widget('application.modules_core.space.widgets.SpaceAdminMenuWidget', array());
             }
             ?>
+
         </div>
 
         <?php echo $content; ?>
-
 
     </div>
 </div>

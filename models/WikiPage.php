@@ -126,6 +126,10 @@ class WikiPage extends HActiveRecordContent
             return $this->content->container->isAdmin();
         }
 
+        if (get_class($this->content->container) == 'User') {
+            return $this->content->container->id == Yii::app()->user->id;
+        }
+
         return false;
     }
 
