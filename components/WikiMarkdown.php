@@ -8,12 +8,12 @@ class WikiMarkdown extends cebe\markdown\GithubMarkdown
         // Handle urls to file 
         if (substr($url, 0, 10) === "file-guid-") {
             $guid = str_replace('file-guid-', '', $url);
-            $file = File::model()->findByAttributes(array('guid'=>$guid));
+            $file = File::model()->findByAttributes(array('guid' => $guid));
             if ($file !== null) {
                 return $file->getUrl();
             }
         }
-        
+
         // Handle internal wiki links
         if (substr($url, 0, 1) !== "." && substr($url, 0, 1) !== "/" && substr($url, 0, 7) !== "http://" && substr($url, 0, 8) !== "https://") {
             return Yii::app()->getController()->createContainerUrl('page/view', array('title' => $url));
@@ -64,6 +64,55 @@ class WikiMarkdown extends cebe\markdown\GithubMarkdown
     {
         $class = isset($block['language']) ? ' class="' . $block['language'] . '"' : '';
         return "<pre><code$class>" . htmlspecialchars($block['content'] . "\n", ENT_NOQUOTES | ENT_SUBSTITUTE, 'UTF-8') . "</code></pre>\n";
+    }
+
+    
+    /**
+     * "Dirty" hacked LinkTrait 
+     * 
+     * Try to allow also wiki urls with whitespaces etc.
+     */
+    protected function parseLinkOrImage($markdown)
+    {
+        if (strpos($markdown, ']') !== false && preg_match('/\[((?>[^\]\[]+|(?R))*)\]/', $markdown, $textMatches)) { // TODO improve bracket regex
+            $text = $textMatches[1];
+            $offset = strlen($textMatches[0]);
+            $markdown = substr($markdown, $offset);
+
+            $pattern = <<<REGEXP
+				/(?(R) # in case of recursion match parentheses
+					 \(((?>[^\s()]+)|(?R))*\)
+				|      # else match a link with title
+					^\(\s*(((?>[^\s()]+)|(?R))*)(\s+"(.*?)")?\s*\)
+				)/x
+REGEXP;
+            if (preg_match($pattern, $markdown, $refMatches)) {
+                // inline link
+                return [
+                    $text,
+                    isset($refMatches[2]) ? $refMatches[2] : '', // url
+                    empty($refMatches[5]) ? null : $refMatches[5], // title
+                    $offset + strlen($refMatches[0]), // offset
+                    null, // reference key
+                ];
+            } elseif (preg_match('/\((.*?)\)/', $markdown, $refMatches)) {
+                
+                // reference style link
+                if (empty($refMatches[1])) {
+                    $key = strtolower($text);
+                } else {
+                    $key = strtolower($refMatches[1]);
+                }
+                return [
+                    $text,
+                    $refMatches[1],
+                    $text, // title
+                    $offset + strlen($refMatches[0]), // offset
+                    null,
+                ];
+            }
+        }
+        return false;
     }
 
 }

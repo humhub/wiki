@@ -6,7 +6,7 @@
     <div class="panel panel-default">
         <div class="panel-body">
 
-            <h1><?php echo $page->title; ?></h1>
+            <h1><?php echo CHtml::encode($page->title); ?></h1>
             <?php echo $content; ?>
 
         </div>

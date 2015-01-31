@@ -137,6 +137,11 @@ class WikiPage extends HActiveRecordContent
      */
     public function validateTitle($attribute, $params)
     {
+
+        if (strpos($this->title, "/") !== false || strpos($this->title, ")") !== false || strpos($this->title, "(") !== false) {
+            $this->addError('title', Yii::t('WikiModule.base', 'Invalid character in page title!'));
+        }
+
         $criteria = new CDbCriteria();
         if (!$this->isNewRecord) {
             $criteria->condition = 'id != :selfId';

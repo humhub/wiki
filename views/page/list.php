@@ -9,7 +9,7 @@
 
             <ul>
                 <?php foreach ($pages as $page): ?>
-                    <li><?php echo HHtml::link($page->title, $this->createContainerUrl('view', array('title' => $page->title))); ?></li>
+                    <li><?php echo HHtml::link(CHtml::encode($page->title), $this->createContainerUrl('view', array('title' => $page->title))); ?></li>
                 <?php endforeach; ?>
             </ul>
 
