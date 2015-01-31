@@ -99,7 +99,7 @@ class PageController extends ContentContainerController
         $title = Yii::app()->request->getQuery('title');
         $revisionId = Yii::app()->request->getQuery('revision', 0);
 
-        $page = WikiPage::model()->findByAttributes(array('title' => $title));
+        $page = WikiPage::model()->contentContainer($this->contentContainer)->findByAttributes(array('title' => $title));
         if ($page !== null) {
 
             $revision = null;
@@ -124,6 +124,7 @@ class PageController extends ContentContainerController
         if ($page === null) {
             $page = new WikiPage();
             $page->content->setContainer($this->contentContainer);
+            $page->content->visibility = Content::VISIBILITY_PRIVATE;
             $page->title = Yii::app()->request->getParam('title');
         }
 
@@ -165,7 +166,7 @@ class PageController extends ContentContainerController
         if ($page === null) {
             throw new CHttpException(404, 'Page not found!');
         }
-
+        
         $criteria = new CDbCriteria();
         $criteria->order = 'id DESC';
         $criteria->condition = 'wiki_page_id=:pageId';
