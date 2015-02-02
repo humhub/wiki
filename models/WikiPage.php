@@ -152,7 +152,7 @@ class WikiPage extends HActiveRecordContent
             $criteria->params = array(':selfId' => $this->id);
         }
 
-        $page = WikiPage::model()->findByAttributes(array('title' => $this->title), $criteria);
+        $page = WikiPage::model()->contentContainer($this->content->container)->findByAttributes(array('title' => $this->title), $criteria);
         if ($page !== null) {
             $this->addError('title', Yii::t('WikiModule.base', 'Page title already in use!'));
         }
