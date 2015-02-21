@@ -4,8 +4,8 @@ class uninstall extends ZDbMigration {
 
     public function up() {
 
-        $this->dropTable('task');
-        $this->dropTable('task_user');
+        $this->dropTable('wiki_page');
+        $this->dropTable('wiki_page_revision');
     }
 
     public function down() {
