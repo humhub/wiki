@@ -148,7 +148,7 @@ class WikiPage extends HActiveRecordContent
 
         $criteria = new CDbCriteria();
         if (!$this->isNewRecord) {
-            $criteria->condition = 'id != :selfId';
+            $criteria->condition = 't.id != :selfId';
             $criteria->params = array(':selfId' => $this->id);
         }
 
