@@ -17,7 +17,8 @@
 
         </div>
 
-        <?php echo $content; ?>
-
+        <div class="col-md-10 wiki">
+            <?php echo $content; ?>
+        </div>
     </div>
 </div>

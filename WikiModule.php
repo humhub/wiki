@@ -6,8 +6,9 @@ class WikiModule extends HWebModule
     public function init()
     {
 
+
         $this->setImport(array('wiki.components.*'));
-        
+
         require_once(dirname(__FILE__) . '/vendors/cebe/markdown/inline/CodeTrait.php');
         require_once(dirname(__FILE__) . '/vendors/cebe/markdown/inline/EmphStrongTrait.php');
         require_once(dirname(__FILE__) . '/vendors/cebe/markdown/inline/LinkTrait.php');
@@ -37,7 +38,7 @@ class WikiModule extends HWebModule
             'SpaceModuleBehavior' => array(
                 'class' => 'application.modules_core.space.behaviors.SpaceModuleBehavior',
             ),
-            
+
             /*
             'UserModuleBehavior' => array(
                 'class' => 'application.modules_core.user.behaviors.UserModuleBehavior',

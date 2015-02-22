@@ -1,0 +1,161 @@
+.wiki {
+  color: #555555;
+}
+.wiki .nav > li > a {
+  padding: 6px 15px;
+}
+.wiki .wiki-welcome {
+  padding: 80px 0 0px 0;
+}
+.wiki .wiki-welcome h1 {
+  font-size: 37px;
+  font-weight: 200;
+}
+.wiki .wiki-welcome h2 {
+  font-size: 18px;
+  font-weight: 200;
+  line-height: 24px;
+  margin: 10px 0 10px 0;
+}
+.wiki .wiki-bg {
+  background-image: url('wiki-bg.jpg');
+  background-repeat: no-repeat;
+  background-position: left bottom;
+}
+.wiki .wiki-content {
+  border-right: 1px solid #eeeeee;
+  min-height: 400px;
+}
+.wiki .wiki-content .social-controls,
+.wiki .wiki-content .social-controls a {
+  font-size: 11px;
+  color: #AEAEAE;
+}
+.wiki .wiki-content .wiki-list {
+  list-style: none;
+  padding-left: 0;
+  margin-bottom: 180px;
+}
+.wiki .wiki-content .wiki-page-history-title {
+  padding-left: 15px;
+}
+.wiki .wiki-content .wiki-page-history-title .fa {
+  font-size: 18px;
+}
+.wiki .wiki-content ul.wiki-page-history {
+  list-style: none;
+  margin-left: 22px;
+  padding-left: 0px;
+  border-left: 1px dashed #AEAEAE;
+}
+.wiki .wiki-content ul.wiki-page-history li {
+  padding: 7px 18px;
+  position: relative;
+}
+.wiki .wiki-content ul.wiki-page-history li h5 {
+  margin-bottom: 0;
+}
+.wiki .wiki-content ul.wiki-page-history li .time,
+.wiki .wiki-content ul.wiki-page-history li .time a {
+  font-size: 12px;
+}
+.wiki .wiki-content ul.wiki-page-history li .horizontal-line {
+  position: absolute;
+  left: 2px;
+  top: 13px;
+  letter-spacing: 1px;
+  color: #AEAEAE;
+}
+.wiki .wiki-content ul.wiki-page-history li .wiki-author-link {
+  color: #AEAEAE;
+  text-decoration: underline;
+}
+.wiki .wiki-content ul.wiki-page-history li .wiki-page-view-link {
+  font-weight: normal;
+  font-size: 12px;
+  color: #4CD9C0;
+}
+.wiki .wiki-content ul.wiki-page-history li .wiki-page-view-link .fa {
+  font-size: 12px;
+}
+.wiki .wiki-content ul.wiki-page-history li .alert {
+  padding: 10px;
+  margin-bottom: 0px;
+}
+.wiki .wiki-content ul.wiki-page-history li .alert .horizontal-line {
+  top: 24px;
+}
+.wiki .wiki-menu .fa,
+.wiki .wiki-content .fa {
+  width: 16px;
+  font-size: 14px;
+}
+.wiki .wiki-menu .new,
+.wiki .wiki-content .new {
+  color: #4cc159;
+}
+.wiki .wiki-menu .delete,
+.wiki .wiki-content .delete {
+  color: #ec4332;
+}
+.wiki .wiki-menu .history,
+.wiki .wiki-content .history {
+  color: #ff8a00;
+}
+.wiki .wiki-menu .edit,
+.wiki .wiki-content .edit {
+  color: #00a8e6;
+}
+.wiki .wiki-menu .back,
+.wiki .wiki-content .back {
+  color: #555555;
+}
+#markdownpreview {
+  padding: 10px;
+}
+.markdown-render h1,
+.markdown-render h2,
+.markdown-render h3,
+.markdown-render h4,
+.markdown-render h5,
+.markdown-render h6 {
+  font-weight: bold !important;
+}
+.markdown-render h1 {
+  font-size: 28px !important;
+}
+.markdown-render h2 {
+  font-size: 24px !important;
+}
+.markdown-render h3 {
+  font-size: 18px !important;
+}
+.markdown-render h4 {
+  font-size: 16px !important;
+}
+.markdown-render h5 {
+  font-size: 14px !important;
+}
+.markdown-render h6 {
+  color: #999999;
+  font-size: 14px !important;
+}
+.markdown-render pre {
+  padding: 0;
+  border: none;
+  border-radius: 3px;
+}
+.markdown-render pre code {
+  padding: 10px;
+  border-radius: 3px;
+  font-size: 12px !important;
+}
+.markdown-render a,
+.markdown-render a:visited {
+  color: #4CD9C0 !important;
+  background-color: inherit;
+  text-decoration: none;
+}
+.markdown-render img {
+  max-width: 100%;
+}

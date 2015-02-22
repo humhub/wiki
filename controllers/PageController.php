@@ -65,6 +65,9 @@ class PageController extends ContentContainerController
             $this->subLayout = '_layout_user';
         }
 
+        $assetPrefix = Yii::app()->assetManager->publish(dirname(__FILE__) . '/../assets', true, 0, defined('YII_DEBUG'));
+        Yii::app()->clientScript->registerCssFile($assetPrefix . '/wiki.css');
+
         return parent::beforeAction($action);
     }
 
@@ -83,6 +86,7 @@ class PageController extends ContentContainerController
         $criteria = new CDbCriteria();
         $criteria->order = 'id DESC';
 
+        $homePage = WikiPage::model()->contentContainer($this->contentContainer)->findByAttributes(array('is_home' => 1));
         $pageCount = WikiPage::model()->contentContainer($this->contentContainer)->count($criteria);
 
         $pagination = new CPagination($pageCount);
@@ -91,13 +95,14 @@ class PageController extends ContentContainerController
 
         $pages = WikiPage::model()->contentContainer($this->contentContainer)->findAll($criteria);
 
-        $this->render('list', array('pages' => $pages, 'pagination' => $pagination));
+        $this->render('list', array('pages' => $pages, 'pagination' => $pagination, 'homePage' => $homePage));
     }
 
     public function actionView()
     {
         $title = Yii::app()->request->getQuery('title');
         $revisionId = Yii::app()->request->getQuery('revision', 0);
+        $homePage = WikiPage::model()->contentContainer($this->contentContainer)->findByAttributes(array('is_home' => 1));
 
         $page = WikiPage::model()->contentContainer($this->contentContainer)->findByAttributes(array('title' => $title));
         if ($page !== null) {
@@ -110,7 +115,7 @@ class PageController extends ContentContainerController
                 $revision = $page->latestRevision;
             }
 
-            $this->render('view', array('page' => $page, 'revision' => $revision, 'content' => $this->parseMarkdown($revision->content)));
+            $this->render('view', array('page' => $page, 'revision' => $revision, 'homePage' => $homePage, 'content' => $this->parseMarkdown($revision->content)));
         } else {
             $this->redirect($this->createContainerUrl('edit', array('title' => $title)));
         }
@@ -118,7 +123,11 @@ class PageController extends ContentContainerController
 
     public function actionEdit()
     {
+        //$assetPrefix = Yii::app()->assetManager->publish(dirname(__FILE__) . '/../assets', true, 0, defined('YII_DEBUG'));
+        //Yii::app()->clientScript->registerCssFile($assetPrefix . '/bootstrap-markdown-override.css');
+
         $id = (int) Yii::app()->request->getQuery('id');
+        $homePage = WikiPage::model()->contentContainer($this->contentContainer)->findByAttributes(array('is_home' => 1));
 
         $page = WikiPage::model()->contentContainer($this->contentContainer)->findByAttributes(array('id' => $id));
         if ($page === null) {
@@ -154,12 +163,13 @@ class PageController extends ContentContainerController
             }
         }
 
-        $this->render('edit', array('page' => $page, 'revision' => $revision));
+        $this->render('edit', array('page' => $page, 'revision' => $revision, 'homePage' => $homePage));
     }
 
     public function actionHistory()
     {
         $id = Yii::app()->request->getQuery('id');
+        $homePage = WikiPage::model()->contentContainer($this->contentContainer)->findByAttributes(array('is_home' => 1));
 
         $page = WikiPage::model()->contentContainer($this->contentContainer)->findByPk($id);
 
@@ -180,7 +190,7 @@ class PageController extends ContentContainerController
 
         $revisions = WikiPageRevision::model()->findAll($criteria);
 
-        $this->render('history', array('page' => $page, 'revisions' => $revisions, 'pagination' => $pagination));
+        $this->render('history', array('page' => $page, 'revisions' => $revisions, 'pagination' => $pagination, 'homePage' => $homePage));
     }
 
     public function actionDelete()
