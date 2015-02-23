@@ -6,14 +6,14 @@
     <div class="panel-body">
 
         <div class="row">
-            <div class="col-md-10 wiki-content">
+            <div class="col-lg-10 col-md-9 col-sm-9 wiki-content">
                 <h1><strong><?php echo CHtml::encode($page->title); ?></strong></h1>
                 <hr>
 
                 <div class="markdown-render">
                     <?php echo $content; ?>
                 </div>
-                <br>
+                <hr>
 
                 <div class="social-controls">
                     <?php $this->widget('application.modules_core.comment.widgets.CommentLinkWidget', array('object' => $page)); ?>
@@ -22,8 +22,8 @@
                 <?php $this->widget('application.modules_core.comment.widgets.CommentsWidget', array('object' => $page)); ?>
             </div>
 
-            <div class="col-md-2 wiki-menu">
-                <ul class="nav nav-pills nav-stacked" style="max-width: 300px;">
+            <div class="col-lg-2 col-md-3 col-sm-3 wiki-menu">
+                <ul class="nav nav-pills nav-stacked">
 
 
                     <?php if ($revision->is_latest): ?>

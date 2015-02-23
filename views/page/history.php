@@ -1,7 +1,7 @@
 <div class="panel panel-default">
     <div class="panel-body">
         <div class="row">
-            <div class="col-md-10 wiki-content">
+            <div class="col-lg-10 col-md-9 col-sm-9 wiki-content">
                 <h1><?php echo Yii::t('WikiModule.base', '<strong>Page</strong> history'); ?></h1>
                 <br>
 
@@ -52,8 +52,8 @@
                     </div>
                 </ul>
             </div>
-            <div class="col-md-2 wiki-menu">
-                <ul class="nav nav-pills nav-stacked" style="max-width: 300px;">
+            <div class="col-lg-2 col-md-3 col-sm-3 wiki-menu">
+                <ul class="nav nav-pills nav-stacked">
                     <li><?php echo CHtml::link('<i class="fa fa-reply back"></i> ' . Yii::t('WikiModule.base', 'Back to page'), $this->createContainerUrl('//wiki/page/view', array('title' => $page->title))); ?></li>
                     <li class="nav-divider"></li>
                     <?php if ($homePage !== null) : ?>

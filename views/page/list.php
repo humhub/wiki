@@ -3,7 +3,7 @@
     <div class="panel-body">
 
         <div class="row">
-            <div class="col-md-10 wiki-content">
+            <div class="col-lg-10 col-md-9 col-sm-9 wiki-content">
 
                 <?php if (count($pages) != 0) : ?>
                     <h1><?php echo Yii::t('WikiModule.base', '<strong>Overview</strong> of all pages'); ?></h1>
@@ -55,9 +55,9 @@
                 </div>
 
             </div>
-            <div class="col-md-2 wiki-menu">
+            <div class="col-lg-2 col-md-3 col-sm-3 wiki-menu">
 
-                <ul class="nav nav-pills nav-stacked" style="max-width: 300px;">
+                <ul class="nav nav-pills nav-stacked">
                     <li><a href="<?php echo $this->createContainerUrl('//wiki/page/edit'); ?>"><i
                                 class="fa fa-file-text-o new"></i> <?php echo Yii::t('WikiModule.base', 'New page'); ?>
                         </a></li>

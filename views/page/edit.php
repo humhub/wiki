@@ -3,7 +3,7 @@
     <div class="panel-body">
 
         <div class="row">
-            <div class="col-md-10 wiki-content">
+            <div class="col-lg-10 col-md-9 col-sm-9 wiki-content">
 
                 <?php if (!$page->isNewRecord) : ?>
                     <h1><?php echo Yii::t('WikiModule.base', '<strong>Edit</strong> page'); ?></h1>
@@ -117,10 +117,10 @@
                 <?php $this->endWidget(); ?>
             </div>
 
-            <div class="col-md-2 wiki-menu">
+            <div class="col-lg-2 col-md-3 col-sm-3 wiki-menu">
                 <?php if (!$page->isNewRecord): ?>
 
-                    <ul class="nav nav-pills nav-stacked" style="max-width: 300px;">
+                    <ul class="nav nav-pills nav-stacked">
                         <?php if ($page->canAdminister()): ?>
                             <!-- load modal confirm widget -->
                             <li><?php $this->widget('application.widgets.ModalConfirmWidget', array(
@@ -153,7 +153,7 @@
                     </ul>
 
                 <?php else: ?>
-                    <ul class="nav nav-pills nav-stacked" style="max-width: 300px;">
+                    <ul class="nav nav-pills nav-stacked">
                         <li><?php echo CHtml::link('<i class="fa fa-reply back"></i> ' . Yii::t('WikiModule.base', 'Cancel'), $this->createContainerUrl('//wiki/page/list', array('title' => $page->title))); ?></li>
                         <li class="nav-divider"></li>
                         <?php if ($homePage !== null) : ?>

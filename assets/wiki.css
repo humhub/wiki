@@ -30,6 +30,11 @@
 .wiki .wiki-content .social-controls a {
   font-size: 11px;
   color: #AEAEAE;
+  margin-bottom: 10px;
+}
+.wiki .wiki-content .wall-entry-controls .like {
+  font-size: 11px;
+  color: #AEAEAE;
 }
 .wiki .wiki-content .wiki-list {
   list-style: none;
@@ -40,7 +45,7 @@
   padding-left: 15px;
 }
 .wiki .wiki-content .wiki-page-history-title .fa {
-  font-size: 18px;
+  font-size: 14px;
 }
 .wiki .wiki-content ul.wiki-page-history {
   list-style: none;
@@ -109,6 +114,23 @@
 .wiki .wiki-menu .back,
 .wiki .wiki-content .back {
   color: #555555;
+}
+@media (max-width: 767px) {
+  .wiki .wiki-menu .nav-pills {
+    padding: 5px;
+    margin-top: 15px;
+    border-radius: 3px;
+    background-color: rgba(0, 0, 0, 0.6);
+  }
+  .wiki .wiki-menu .nav-pills .nav-divider {
+    background-color: #727272;
+  }
+  .wiki .wiki-menu .nav-pills a {
+    color: #ffffff;
+  }
+  .wiki .wiki-menu .nav-pills a:hover {
+    background-color: #5d5d5d;
+  }
 }
 #markdownpreview {
   padding: 10px;
