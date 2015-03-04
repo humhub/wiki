@@ -44,7 +44,6 @@ class WikiModuleEvents
 
     public static function onProfileMenuInit($event)
     {
-
         $user = Yii::app()->getController()->getUser();
 
         if ($user->isModuleEnabled('wiki')) {

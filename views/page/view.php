@@ -1,7 +1,3 @@
-<link rel="stylesheet" href="<?php echo $this->getModule()->getAssetsUrl(); ?>/highlight.js/styles/github.css">
-<script src="<?php echo $this->getModule()->getAssetsUrl(); ?>/highlight.js//highlight.pack.js"></script>
-
-
 <div class="panel panel-default">
     <div class="panel-body">
 
@@ -11,7 +7,7 @@
                 <hr>
 
                 <div class="markdown-render">
-                    <?php echo $content; ?>
+                    <?php $this->widget('application.widgets.MarkdownViewWidget', array('markdown' => $content, 'parserClass' => 'WikiMarkdownParser')); ?>
                 </div>
                 <hr>
 
@@ -24,7 +20,6 @@
 
             <div class="col-lg-2 col-md-3 col-sm-3 wiki-menu">
                 <ul class="nav nav-pills nav-stacked">
-
 
                     <?php if ($revision->is_latest): ?>
 
@@ -39,7 +34,8 @@
                         <?php if (!$page->admin_only || $page->canAdminister()) : ?>
 
                             <!-- load modal confirm widget -->
-                            <li><?php $this->widget('application.widgets.ModalConfirmWidget', array(
+                            <li><?php
+                                $this->widget('application.widgets.ModalConfirmWidget', array(
                                     'uniqueID' => 'modal_pagedelete_' . $page->id,
                                     'linkOutput' => 'a',
                                     'title' => Yii::t('WikiModule.base', '<strong>Confirm</strong> page reverting'),
@@ -48,9 +44,8 @@
                                     'buttonFalse' => Yii::t('WikiModule.base', 'Cancel'),
                                     'linkContent' => '<i class="fa fa-history history"></i> ' . Yii::t('WikiModule.base', 'Revert this'),
                                     'linkHref' => $this->createContainerUrl('revert', array('id' => $page->id, 'toRevision' => $revision->revision)),
-                                    'confirmJS' => 'function(jsonResp) { window.location.href = "'. $this->createContainerUrl('view', array('title' => $page->title)) .'"; }'
+                                    'confirmJS' => 'function(jsonResp) { window.location.href = "' . $this->createContainerUrl('view', array('title' => $page->title)) . '"; }'
                                 ));
-
                                 ?></li>
 
 
@@ -66,7 +61,7 @@
                         </a></li>
 
                     <li class="nav-divider"></li>
-                    <?php if ($homePage !== null) : ?>
+                        <?php if ($homePage !== null) : ?>
                         <li><?php echo CHtml::link('<i class="fa fa-newspaper-o"></i> ' . Yii::t('WikiModule.base', 'Main page'), $this->createContainerUrl('//wiki/page/index', array())); ?></li>
                     <?php endif; ?>
                     <li><?php echo CHtml::link('<i class="fa fa-list-alt"></i> ' . Yii::t('WikiModule.base', 'Overview'), $this->createContainerUrl('//wiki/page/list', array())); ?></li>
@@ -80,15 +75,3 @@
     </div>
 
 </div>
-
-
-<script>
-
-    $(document).ready(function () {
-        $('pre code').each(function (i, e) {
-            hljs.highlightBlock(e);
-        });
-    });
-
-</script>
-

@@ -114,8 +114,7 @@ class PageController extends ContentContainerController
             if ($revision == null) {
                 $revision = $page->latestRevision;
             }
-
-            $this->render('view', array('page' => $page, 'revision' => $revision, 'homePage' => $homePage, 'content' => $this->parseMarkdown($revision->content)));
+            $this->render('view', array('page' => $page, 'revision' => $revision, 'homePage' => $homePage, 'content' => $revision->content));
         } else {
             $this->redirect($this->createContainerUrl('edit', array('title' => $title)));
         }
@@ -176,7 +175,7 @@ class PageController extends ContentContainerController
         if ($page === null) {
             throw new CHttpException(404, 'Page not found!');
         }
-        
+
         $criteria = new CDbCriteria();
         $criteria->order = 'id DESC';
         $criteria->condition = 'wiki_page_id=:pageId';
@@ -243,23 +242,14 @@ class PageController extends ContentContainerController
         $this->redirect($this->createContainerUrl('view', array('title' => $page->title)));
     }
 
-    public function actionPreview()
+    /**
+     * Markdown preview action for MarkdownViewWidget
+     * We require an own preview action here to also handle internal wiki links.
+     */
+    public function actionPreviewMarkdown()
     {
         $this->forcePostRequest();
-
-        $content = Yii::app()->request->getParam('markdown');
-        $markdown = $this->parseMarkdown($content);
-
-        $this->renderPartial('preview', array('content' => $markdown));
-    }
-
-    private function parseMarkdown($md)
-    {
-        $parser = new WikiMarkdown();
-        $html = $parser->parse($md);
-
-        $purifier = new CHtmlPurifier();
-        return $purifier->purify($html);
+        return $this->widget('application.widgets.MarkdownViewWidget', array('markdown' => Yii::app()->request->getParam('markdown'), 'parserClass' => 'WikiMarkdownParser'));
     }
 
 }
