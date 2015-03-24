@@ -56,15 +56,8 @@ class PageController extends ContentContainerController
     public function beforeAction($action)
     {
         $this->checkContainerAccess();
-
-        if ($this->contentContainer instanceof Space) {
-            $this->subLayout = '_layout_space';
-        }
-
-        if ($this->contentContainer instanceof User) {
-            $this->subLayout = '_layout_user';
-        }
-
+        $this->hideSidebar = true;
+        
         $assetPrefix = Yii::app()->assetManager->publish(dirname(__FILE__) . '/../assets', true, 0, defined('YII_DEBUG'));
         Yii::app()->clientScript->registerCssFile($assetPrefix . '/wiki.css');
 
@@ -122,9 +115,6 @@ class PageController extends ContentContainerController
 
     public function actionEdit()
     {
-        //$assetPrefix = Yii::app()->assetManager->publish(dirname(__FILE__) . '/../assets', true, 0, defined('YII_DEBUG'));
-        //Yii::app()->clientScript->registerCssFile($assetPrefix . '/bootstrap-markdown-override.css');
-
         $id = (int) Yii::app()->request->getQuery('id');
         $homePage = WikiPage::model()->contentContainer($this->contentContainer)->findByAttributes(array('is_home' => 1));
 
