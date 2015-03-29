@@ -3,9 +3,9 @@
     "name": "Wiki",
     "description": "Wiki for spaces or user profiles.",
     "keywords": ["wiki"],
-    "version": "0.9",
+    "version": "0.9.1",
     "humhub": {
-        "minVersion": "0.10.1"
+        "minVersion": "0.11"
     },
     "screenshots": ["assets/screen1.jpg", "assets/screen2.jpg", "assets/screen3.jpg"]
 }
