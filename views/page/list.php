@@ -10,24 +10,15 @@
                 <?php endif; ?>
 
                 <?php if (count($pages) == 0) : ?>
-
                     <div class="text-center wiki-welcome">
                         <h1><?php echo Yii::t('WikiModule.base', '<strong>Wiki</strong> Module'); ?></h1>
-
                         <h2><?php echo Yii::t('WikiModule.base', 'No pages created yet.  So it\'s on you.<br>Create the first page now.'); ?></h2>
-
                         <br>
-
                         <p>
                             <a href="<?php echo $this->createContainerUrl('//wiki/page/edit'); ?>"
                                class="btn btn-primary btn-lg"><?php echo Yii::t('WikiModule.base', 'Let\'s go!'); ?></a>
                         </p>
                     </div>
-
-
-
-
-
                 <?php endif; ?>
                 <br>
                 <ul class="wiki-list">
@@ -63,7 +54,7 @@
                         </a></li>
                     <?php if (count($pages) != 0) : ?>
                         <li class="nav-divider"></li>
-                        <?php if ($homePage !== null) : ?>
+                            <?php if ($homePage !== null) : ?>
                             <li><?php echo CHtml::link('<i class="fa fa-newspaper-o"></i> ' . Yii::t('WikiModule.base', 'Main page'), $this->createContainerUrl('//wiki/page/index', array())); ?></li>
                         <?php endif; ?>
                         <li><?php echo CHtml::link('<i class="fa fa-list-alt"></i> ' . Yii::t('WikiModule.base', 'Overview'), $this->createContainerUrl('//wiki/page/list', array())); ?></li>

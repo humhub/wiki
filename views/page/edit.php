@@ -81,7 +81,6 @@
 
                         <?php endif; ?>
 
-                                            <!--<li><?php /* echo CHtml::link('<i class="fa fa-clock-o history"></i> ' . Yii::t('WikiModule.base', 'Page History'), $this->createContainerUrl('//wiki/page/history', array('id' => $page->id))); */ ?></li>-->
                         <li><?php echo CHtml::link('<i class="fa fa-reply back"></i> ' . Yii::t('WikiModule.base', 'Cancel'), $this->createContainerUrl('//wiki/page/view', array('title' => $page->title))); ?></li>
                         <li class="nav-divider"></li>
                         <?php if ($homePage !== null) : ?>
