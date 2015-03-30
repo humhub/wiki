@@ -9,9 +9,13 @@ class WikiModule extends HWebModule
             'SpaceModuleBehavior' => array(
                 'class' => 'application.modules_core.space.behaviors.SpaceModuleBehavior',
             ),
+            
+            /* Disabled, todo: Handle private/public pages
             'UserModuleBehavior' => array(
                 'class' => 'application.modules_core.user.behaviors.UserModuleBehavior',
             ),
+             * 
+             */
         );
     }
 

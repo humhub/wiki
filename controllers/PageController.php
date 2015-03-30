@@ -61,6 +61,10 @@ class PageController extends ContentContainerController
         $assetPrefix = Yii::app()->assetManager->publish(dirname(__FILE__) . '/../assets', true, 0, defined('YII_DEBUG'));
         Yii::app()->clientScript->registerCssFile($assetPrefix . '/wiki.css');
 
+        if ($this->contentContainer instanceof Space && !$this->contentContainer->isMember()) {
+            throw new CHttpException(403, 'You need to be member of this space to this wiki!');
+        }
+        
         return parent::beforeAction($action);
     }
 
