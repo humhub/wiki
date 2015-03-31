@@ -170,4 +170,9 @@ class WikiPage extends HActiveRecordContent
         return Yii::t('WikiModule.models_WikiPage', "Wiki page") . " \"" . Helpers::truncateText($this->title, 25) . "\"";
     }
 
+    public function getUrl()
+    {
+        return $this->content->container->createUrl('//wiki/page/view', array('title' => $this->title));
+    }
+
 }
