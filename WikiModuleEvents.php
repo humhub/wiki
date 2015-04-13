@@ -28,11 +28,12 @@ class WikiModuleEvents
 
     public static function onSpaceMenuInit(CEvent $event)
     {
-        if ($event->sender->space->isModuleEnabled('wiki') && $event->sender->space->isMember()) {
+        $space = Yii::app()->getController()->getSpace();
+        if ($space->isModuleEnabled('wiki') && $space->isMember()) {
             $event->sender->addItem(array(
                 'label' => Yii::t('WikiModule.base', 'Wiki'),
                 'group' => 'modules',
-                'url' => $event->sender->space->createUrl('//wiki/page'),
+                'url' => $space->createUrl('//wiki/page'),
                 'icon' => '<i class="fa fa-book"></i>',
                 'isActive' => (Yii::app()->controller->module && Yii::app()->controller->module->id == 'wiki'),
             ));
