@@ -81,7 +81,7 @@ class PageController extends ContentContainerController
     public function actionList()
     {
         $criteria = new CDbCriteria();
-        $criteria->order = 'id DESC';
+        $criteria->order = 'title ASC';
 
         $homePage = WikiPage::model()->contentContainer($this->contentContainer)->findByAttributes(array('is_home' => 1));
         $pageCount = WikiPage::model()->contentContainer($this->contentContainer)->count($criteria);
