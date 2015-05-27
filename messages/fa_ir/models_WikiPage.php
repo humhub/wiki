@@ -1,4 +1,4 @@
 <?php
 return array (
-  'Wiki page' => '',
+  'Wiki page' => 'صفحه‌ی ویکی',
 );

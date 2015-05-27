@@ -1,6 +1,6 @@
 <?php
 return array (
-  '<strong>Confirm</strong> page deleting' => '<strong>Confirmar</strong> el borrado de la página',
+  '<strong>Confirm</strong> page deleting' => '<strong>Confirmar</strong> la eliminación de la página',
   '<strong>Confirm</strong> page reverting' => '<strong>Confirmar</strong> reversión de la página',
   '<strong>Overview</strong> of all pages' => '<strong>Resumen</strong> de todas las páginas',
   '<strong>Page</strong> history' => '<strong>Historial</strong> de la página',
