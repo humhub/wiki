@@ -28,7 +28,7 @@ class WikiModuleEvents
 
     public static function onSpaceMenuInit(CEvent $event)
     {
-        if ($event->sender->space->isModuleEnabled('wiki') && $event->sender->space->isMember()) {
+        if ($event->sender->space !== null && $event->sender->space->isModuleEnabled('wiki') && $event->sender->space->isMember()) {
             $event->sender->addItem(array(
                 'label' => Yii::t('WikiModule.base', 'Wiki'),
                 'group' => 'modules',
