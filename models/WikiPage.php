@@ -82,10 +82,15 @@ class WikiPage extends HActiveRecordContent
 
     public function afterSave()
     {
-
-        // Make sure there are no multiple homepages
         if ($this->is_home == 1) {
-            WikiPage::model()->contentContainer($this->content->container)->updateAll(array('is_home' => 0), 'id!=:selfId', array(':selfId' => $this->id));
+            // Make sure all other pages are not marked as homepage
+            $criteria = new CDbCriteria();
+            $criteria->condition = 't.is_home=1 AND t.id <> :selfId';
+            $criteria->params = array(':selfId' => $this->id);
+            foreach (WikiPage::model()->contentContainer($this->content->container)->findAll($criteria) as $wikiHomePage) {
+                $wikiHomePage->is_home = 0;
+                $wikiHomePage->save();
+            }
         }
 
         return parent::afterSave();
