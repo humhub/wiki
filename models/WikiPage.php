@@ -85,7 +85,9 @@ class WikiPage extends HActiveRecordContent
 
         // Make sure there are no multiple homepages
         if ($this->is_home == 1) {
-            WikiPage::model()->contentContainer($this->content->container)->updateAll(array('is_home' => 0), 'id!=:selfId', array(':selfId' => $this->id));
+            WikiPage::model()->contentContainer($this->content->container)->updateAll(array('is_home' => 0), 
+                'id!=:selfId AND id IN (SELECT object_id FROM content WHERE object_model="WikiPage" AND space_id=:spaceId)', 
+                array(':selfId' => $this->id, ':spaceId' => $this->content->container->id));
         }
 
         return parent::afterSave();
