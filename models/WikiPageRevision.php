@@ -1,5 +1,10 @@
 <?php
 
+namespace module\wiki\models;
+
+use humhub\components\ActiveRecord;
+use humhub\modules\user\models\User;
+
 /**
  * This is the model class for table "wiki_page_revision".
  *
@@ -11,13 +16,13 @@
  * @property integer $user_id
  * @property string $content
  */
-class WikiPageRevision extends HActiveRecord
+class WikiPageRevision extends ActiveRecord
 {
 
     /**
      * @return string the associated database table name
      */
-    public function tableName()
+    public static function tableName()
     {
         return 'wiki_page_revision';
     }
@@ -30,25 +35,15 @@ class WikiPageRevision extends HActiveRecord
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('revision, wiki_page_id, user_id', 'required'),
-            array('revision, is_latest, wiki_page_id, user_id', 'numerical', 'integerOnly' => true),
+            array(['revision', 'wiki_page_id', 'user_id'], 'required'),
+            array(['revision', 'is_latest', 'wiki_page_id', 'user_id'], 'integer'),
             array('content', 'safe'),
-            // The following rule is used by search().
-            // @todo Please remove those attributes that should not be searched.
-            array('id, revision, is_latest, wiki_page_id, user_id, content', 'safe', 'on' => 'search'),
         );
     }
 
-    /**
-     * @return array relational rules.
-     */
-    public function relations()
+    public function getAuthor()
     {
-        // NOTE: you may need to adjust the relation name and the related
-        // class name for the relations automatically generated below.
-        return array(
-            'author' => array(self::BELONGS_TO, 'User', 'user_id'),            
-        );
+        return $this->hasOne(User::className(), ['id' => 'user_id']);
     }
 
     /**
@@ -67,56 +62,21 @@ class WikiPageRevision extends HActiveRecord
     }
 
     /**
-     * Retrieves a list of models based on the current search/filter conditions.
-     *
-     * Typical usecase:
-     * - Initialize the model fields with values from filter form.
-     * - Execute this method to get CActiveDataProvider instance which will filter
-     * models according to data in model fields.
-     * - Pass data provider to CGridView, CListView or any similar widget.
-     *
-     * @return CActiveDataProvider the data provider that can return the models
-     * based on the search/filter conditions.
+     * @inheritdoc
      */
-    public function search()
+    public function beforeSave($insert)
     {
-        // @todo Please modify the following code to remove attributes that should not be searched.
-
-        $criteria = new CDbCriteria;
-
-        $criteria->compare('id', $this->id);
-        $criteria->compare('revision', $this->revision);
-        $criteria->compare('is_latest', $this->is_latest);
-        $criteria->compare('wiki_page_id', $this->wiki_page_id);
-        $criteria->compare('user_id', $this->user_id);
-        $criteria->compare('content', $this->content, true);
-
-        return new CActiveDataProvider($this, array(
-            'criteria' => $criteria,
-        ));
+        $this->is_latest = 1;
+        return parent::beforeSave($insert);
     }
 
     /**
-     * Returns the static model of the specified AR class.
-     * Please note that you should have this exact method in all your CActiveRecord descendants!
-     * @param string $className active record class name.
-     * @return WikiPageRevision the static model class
+     * @inheritdoc
      */
-    public static function model($className = __CLASS__)
+    public function afterSave($insert, $changedAttributes)
     {
-        return parent::model($className);
-    }
-
-    public function beforeSave()
-    {
-        $this->is_latest = 1;
-        return parent::beforeSave();
-    }
-
-    public function afterSave()
-    {
-        WikiPageRevision::model()->updateAll(array('is_latest' => 0), 'wiki_page_id=:wikiPageId AND id!=:selfId', array(':wikiPageId' => $this->wiki_page_id, ':selfId' => $this->id));
-        return parent::afterSave();
+        WikiPageRevision::updateAll(['is_latest' => 0], 'wiki_page_id=:wikiPageId AND id!=:selfId', [':wikiPageId' => $this->wiki_page_id, ':selfId' => $this->id]);
+        return parent::afterSave($insert, $changedAttributes);
     }
 
 }

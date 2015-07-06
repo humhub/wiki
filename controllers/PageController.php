@@ -1,25 +1,19 @@
 <?php
 
-/**
- * HumHub
- * Copyright © 2014 The HumHub Project
- *
- * The texts of the GNU Affero General Public License with an additional
- * permission and of our proprietary license can be found at and
- * in the LICENSE file you have received along with this program.
- *
- * According to our dual licensing model, this program can be used either
- * under the terms of the GNU Affero General Public License, version 3,
- * or under a proprietary license.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- */
+namespace module\wiki\controllers;
+
+use Yii;
+use yii\web\HttpException;
+use humhub\widgets\MarkdownView;
+use humhub\modules\content\components\ContentContainerController;
+use humhub\modules\space\models\Space;
+use humhub\modules\file\models\File;
+use humhub\modules\content\models\Content;
+use module\wiki\models\WikiPage;
+use module\wiki\models\WikiPageRevision;
 
 /**
- * Description of PageController
+ * PageController
  *
  * @author luke
  */
@@ -27,213 +21,192 @@ class PageController extends ContentContainerController
 {
 
     /**
-     * @return array action filters
+     * @inheritdoc
      */
-    public function filters()
-    {
-        return array(
-            'accessControl', // perform access control for CRUD operations
-        );
-    }
-
-    /**
-     * Specifies the access control rules.
-     * This method is used by the 'accessControl' filter.
-     * @return array access control rules
-     */
-    public function accessRules()
-    {
-        return array(
-            array('allow', // allow authenticated user to perform 'create' and 'update' actions
-                'users' => array('@'),
-            ),
-            array('deny', // deny all users
-                'users' => array('*'),
-            ),
-        );
-    }
+    public $hideSidebar = true;
 
     public function beforeAction($action)
     {
-        $this->checkContainerAccess();
-        $this->hideSidebar = true;
-        
-        $assetPrefix = Yii::app()->assetManager->publish(dirname(__FILE__) . '/../assets', true, 0, defined('YII_DEBUG'));
-        Yii::app()->clientScript->registerCssFile($assetPrefix . '/wiki.css');
-
         if ($this->contentContainer instanceof Space && !$this->contentContainer->isMember()) {
-            throw new CHttpException(403, 'You need to be member of this space to this wiki!');
+            throw new HttpException(403, 'You need to be member of this space to this wiki!');
         }
-        
+
         return parent::beforeAction($action);
     }
 
     public function actionIndex()
     {
-        $homePage = WikiPage::model()->contentContainer($this->contentContainer)->findByAttributes(array('is_home' => 1));
+        $homePage = $this->getHomePage();
+
         if ($homePage !== null) {
-            $this->redirect($this->createContainerUrl('view', array('title' => $homePage->title)));
-        } else {
-            $this->redirect($this->createContainerUrl('list'));
+            return $this->redirect($this->contentContainer->createUrl('/wiki/page/view', array('title' => $homePage->title)));
         }
+
+        return $this->redirect($this->contentContainer->createUrl('/wiki/page/list'));
     }
 
     public function actionList()
     {
-        $criteria = new CDbCriteria();
-        $criteria->order = 'title ASC';
+        $pageSize = 10;
+        $query = WikiPage::find()->contentContainer($this->contentContainer);
+        $countQuery = clone $query;
 
-        $homePage = WikiPage::model()->contentContainer($this->contentContainer)->findByAttributes(array('is_home' => 1));
-        $pageCount = WikiPage::model()->contentContainer($this->contentContainer)->count($criteria);
+        $pagination = new \yii\data\Pagination(['totalCount' => $countQuery->count(), 'pageSize' => $pageSize]);
+        $query->offset($pagination->offset)->limit($pagination->limit);
 
-        $pagination = new CPagination($pageCount);
-        $pagination->setPageSize(50);
-        $pagination->applyLimit($criteria);
-
-        $pages = WikiPage::model()->contentContainer($this->contentContainer)->findAll($criteria);
-
-        $this->render('list', array('pages' => $pages, 'pagination' => $pagination, 'homePage' => $homePage));
+        return $this->render('list', array(
+                    'pages' => $query->all(),
+                    'pagination' => $pagination,
+                    'homePage' => $this->getHomePage(),
+                    'contentContainer' => $this->contentContainer,
+        ));
     }
 
     public function actionView()
     {
-        $title = Yii::app()->request->getQuery('title');
-        $revisionId = Yii::app()->request->getQuery('revision', 0);
-        $homePage = WikiPage::model()->contentContainer($this->contentContainer)->findByAttributes(array('is_home' => 1));
+        $title = Yii::$app->request->get('title');
+        $revisionId = Yii::$app->request->get('revision', 0);
 
-        $page = WikiPage::model()->contentContainer($this->contentContainer)->findByAttributes(array('title' => $title));
+        $page = WikiPage::find()->contentContainer($this->contentContainer)->where(['title' => $title])->one();
         if ($page !== null) {
 
             $revision = null;
             if ($revisionId != 0) {
-                $revision = WikiPageRevision::model()->findByAttributes(array('wiki_page_id' => $page->id, 'revision' => $revisionId));
+                $revision = WikiPageRevision::findOne(['wiki_page_id' => $page->id, 'revision' => $revisionId]);
             }
             if ($revision == null) {
                 $revision = $page->latestRevision;
             }
-            $this->render('view', array('page' => $page, 'revision' => $revision, 'homePage' => $homePage, 'content' => $revision->content));
+            return $this->render('view', [
+                        'page' => $page,
+                        'revision' => $revision,
+                        'homePage' => $this->getHomePage(),
+                        'contentContainer' => $this->contentContainer,
+                        'content' => $revision->content
+            ]);
         } else {
-            $this->redirect($this->createContainerUrl('edit', array('title' => $title)));
+            return $this->redirect($this->contentContainer->createUrl('edit', array('title' => $title)));
         }
     }
 
     public function actionEdit()
     {
-        $id = (int) Yii::app()->request->getQuery('id');
-        $homePage = WikiPage::model()->contentContainer($this->contentContainer)->findByAttributes(array('is_home' => 1));
+        $id = (int) Yii::$app->request->get('id');
 
-        $page = WikiPage::model()->contentContainer($this->contentContainer)->findByAttributes(array('id' => $id));
+        $page = WikiPage::find()->contentContainer($this->contentContainer)->readable()->where(['wiki_page.id' => $id])->one();
         if ($page === null) {
             $page = new WikiPage();
             $page->content->setContainer($this->contentContainer);
             $page->content->visibility = Content::VISIBILITY_PRIVATE;
-            $page->title = Yii::app()->request->getParam('title');
+            $page->title = Yii::$app->request->get('title');
         }
 
         if ($page->admin_only && !$page->canAdminister()) {
-            throw new CHttpException(403, 'Page not editable!');
+            throw new HttpException(403, 'Page not editable!');
         }
 
         $revision = $page->createRevision();
 
-        if (isset($_POST['WikiPage']) && isset($_POST['WikiPageRevision'])) {
+        if ($page->load(Yii::$app->request->post()) && $revision->load(Yii::$app->request->post())) {
             $page->content->container = $this->contentContainer;
-
-            $page->attributes = $_POST['WikiPage'];
-            $revision->attributes = $_POST['WikiPageRevision'];
-
             if ($page->validate()) {
                 $page->save();
-
-                File::attachPrecreated($page, Yii::app()->request->getParam('fileUploaderHiddenGuidField'));
-
-
+                File::attachPrecreated($page, Yii::$app->request->post('fileUploaderHiddenGuidField'));
                 $revision->wiki_page_id = $page->id;
                 if ($revision->validate()) {
                     $revision->save();
-                    $this->redirect($this->createContainerUrl('view', array('title' => $page->title)));
+                    return $this->redirect($this->contentContainer->createUrl('view', array('title' => $page->title)));
                 }
             }
         }
 
-        $this->render('edit', array('page' => $page, 'revision' => $revision, 'homePage' => $homePage));
+        return $this->render('edit', [
+                    'page' => $page,
+                    'revision' => $revision,
+                    'homePage' => $this->getHomePage(),
+                    'contentContainer' => $this->contentContainer
+        ]);
     }
 
     public function actionHistory()
     {
-        $id = Yii::app()->request->getQuery('id');
-        $homePage = WikiPage::model()->contentContainer($this->contentContainer)->findByAttributes(array('is_home' => 1));
+        $id = Yii::$app->request->get('id');
 
-        $page = WikiPage::model()->contentContainer($this->contentContainer)->findByPk($id);
+        $page = WikiPage::find()->contentContainer($this->contentContainer)->readable()->where(['wiki_page.id' => $id])->one();
 
         if ($page === null) {
-            throw new CHttpException(404, 'Page not found!');
+            throw new HttpException(404, 'Page not found!');
         }
 
-        $criteria = new CDbCriteria();
-        $criteria->order = 'id DESC';
-        $criteria->condition = 'wiki_page_id=:pageId';
-        $criteria->params = array(':pageId' => $page->id);
+        $query = WikiPageRevision::find();
+        $query->orderBy('wiki_page_revision.id DESC');
+        $query->where(['wiki_page_id' => $page->id]);
+        $query->joinWith('author');
 
-        $revisionCount = WikiPageRevision::model()->count($criteria);
+        $countQuery = clone $query;
 
-        $pagination = new CPagination($revisionCount);
-        $pagination->setPageSize(50);
-        $pagination->applyLimit($criteria);
+        $pagination = new \yii\data\Pagination(['totalCount' => $countQuery->count(), 'pageSize' => "20"]);
+        $query->offset($pagination->offset)->limit($pagination->limit);
 
-        $revisions = WikiPageRevision::model()->findAll($criteria);
 
-        $this->render('history', array('page' => $page, 'revisions' => $revisions, 'pagination' => $pagination, 'homePage' => $homePage));
+        return $this->render('history', array(
+                    'page' => $page,
+                    'revisions' => $query->all(),
+                    'pagination' => $pagination,
+                    'homePage' => $this->getHomePage(),
+                    'contentContainer' => $this->contentContainer)
+        );
     }
 
     public function actionDelete()
     {
         $this->forcePostRequest();
 
-        $id = Yii::app()->request->getQuery('id');
-        $page = WikiPage::model()->contentContainer($this->contentContainer)->findByPk($id);
+        $id = Yii::$app->request->get('id');
+        $page = WikiPage::find()->contentContainer($this->contentContainer)->where(['wiki_page.id' => $id])->one();
 
         if ($page === null) {
-            throw new CHttpException(404, 'Page not found!');
+            throw new HttpException(404, 'Page not found!');
         }
 
         if ($page->canAdminister()) {
             $page->delete();
         }
 
-        $this->redirect($this->createContainerUrl('index'));
+        return $this->redirect($this->contentContainer->createUrl('index'));
     }
 
     public function actionRevert()
     {
         $this->forcePostRequest();
 
-        $id = (int) Yii::app()->request->getQuery('id');
-        $toRevision = (int) Yii::app()->request->getQuery('toRevision');
-        $page = WikiPage::model()->contentContainer($this->contentContainer)->findByPk($id);
+        $id = (int) Yii::$app->request->get('id');
+        $toRevision = (int) Yii::$app->request->get('toRevision');
+
+        $page = WikiPage::find()->contentContainer($this->contentContainer)->readable()->where(['wiki_page.id' => $id])->one();
 
         if ($page === null) {
-            throw new CHttpException(404, 'Page not found!');
+            throw new HttpException(404, 'Page not found!');
         }
 
         if ($page->admin_only && !$page->canAdminister()) {
-            throw new CHttpException(403, 'Page not editable!');
+            throw new HttpException(403, 'Page not editable!');
         }
 
-        $revision = WikiPageRevision::model()->findByAttributes(array(
-            'revision' => $toRevision,
-            'wiki_page_id' => $page->id
+        $revision = WikiPageRevision::findOne(array(
+                    'revision' => $toRevision,
+                    'wiki_page_id' => $page->id
         ));
 
         if ($revision->is_latest) {
-            throw new CHttpException(404, 'Already latest revision!');
+            throw new HttpException(404, 'Already latest revision!');
         }
 
         $revertedRevision = $page->createRevision();
         $revertedRevision->content = $revision->content;
         $revertedRevision->save();
 
-        $this->redirect($this->createContainerUrl('view', array('title' => $page->title)));
+        return $this->redirect($this->contentContainer->createUrl('view', array('title' => $page->title)));
     }
 
     /**
@@ -243,7 +216,15 @@ class PageController extends ContentContainerController
     public function actionPreviewMarkdown()
     {
         $this->forcePostRequest();
-        return $this->widget('application.widgets.MarkdownViewWidget', array('markdown' => Yii::app()->request->getParam('markdown'), 'parserClass' => 'WikiMarkdownParser'));
+        $content = MarkdownView::widget(['markdown' => Yii::$app->request->post('markdown'), 'parserClass' => 'module\wiki\Markdown']);
+
+        return $this->renderAjaxContent($content);
+    }
+
+    private function getHomePage()
+    {
+        return WikiPage::find()->contentContainer($this->contentContainer)->readable()->where(['is_home' => 1])->one();
+        ;
     }
 
 }

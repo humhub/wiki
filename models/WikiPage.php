@@ -1,5 +1,13 @@
 <?php
 
+namespace module\wiki\models;
+
+use Yii;
+use humhub\modules\space\models\Space;
+use humhub\modules\user\models\User;
+use humhub\modules\content\components\ContentActiveRecord;
+use module\wiki\models\WikiPageRevision;
+
 /**
  * This is the model class for table "wiki_page".
  *
@@ -9,7 +17,7 @@
  * @property integer $is_home
  * @property integer $admin_only
  */
-class WikiPage extends HActiveRecordContent
+class WikiPage extends ContentActiveRecord
 {
 
     // Atm not attach wiki pages to wall
@@ -18,7 +26,7 @@ class WikiPage extends HActiveRecordContent
     /**
      * @return string the associated database table name
      */
-    public function tableName()
+    public static function tableName()
     {
         return 'wiki_page';
     }
@@ -32,28 +40,26 @@ class WikiPage extends HActiveRecordContent
 
         if ($this->canAdminister() || $this->isNewRecord) {
             $rules[] = array('title', 'required');
-            $rules[] = array('title', 'length', 'max' => 255);
+            $rules[] = array('title', 'string', 'max' => 255);
             $rules[] = array('title', 'validateTitle');
         }
 
         if ($this->canAdminister()) {
-            $rules[] = array('is_home, admin_only', 'numerical', 'integerOnly' => true);
+            $rules[] = array(['is_home', 'admin_only'], 'integer');
         }
         return $rules;
     }
 
-    /**
-     * @return array relational rules.
-     */
-    public function relations()
+    public function getLatestRevision()
     {
-        // NOTE: you may need to adjust the relation name and the related
-        // class name for the relations automatically generated below.
-        return array(
-            'latestRevision' => array(self::HAS_ONE, 'WikiPageRevision', 'wiki_page_id',
-                'condition' => 'latestRevision.is_latest=1'),
-            'revisions' => array(self::HAS_MANY, 'WikiPageRevision', 'wiki_page_id', 'together' => false, 'order' => 'revision DESC'),
-        );
+        return $this->hasOne(WikiPageRevision::className(), ['wiki_page_id' => 'id'])->andWhere(['wiki_page_revision.is_latest' => 1]);
+    }
+
+    public function getRevisions()
+    {
+        $query = $this->hasMany(WikiPageRevision::className(), ['wiki_page_id' => 'id']);
+        $query->addOrderBy(['revision' => SORT_DESC]);
+        return $query;
     }
 
     /**
@@ -69,41 +75,28 @@ class WikiPage extends HActiveRecordContent
         );
     }
 
-    /**
-     * Returns the static model of the specified AR class.
-     * Please note that you should have this exact method in all your CActiveRecord descendants!
-     * @param string $className active record class name.
-     * @return WikiPage the static model class
-     */
-    public static function model($className = __CLASS__)
-    {
-        return parent::model($className);
-    }
-
-    public function afterSave()
+    public function afterSave($insert, $changedAttributes)
     {
         if ($this->is_home == 1) {
-            // Make sure all other pages are not marked as homepage
-            $criteria = new CDbCriteria();
-            $criteria->condition = 't.is_home=1 AND t.id <> :selfId';
-            $criteria->params = array(':selfId' => $this->id);
-            foreach (WikiPage::model()->contentContainer($this->content->container)->findAll($criteria) as $wikiHomePage) {
-                $wikiHomePage->is_home = 0;
-                $wikiHomePage->save();
+
+            $query = self::find()->contentContainer($this->content->container)->where(['wiki_page.is_home' => 1])->andWhere(['!=', 'wiki_page.id', $this->id]);
+            foreach ($query->all() as $page) {
+                $page->is_home = 0;
+                $page->save();
             }
         }
 
-        return parent::afterSave();
+        return parent::afterSave($insert, $changedAttributes);
     }
 
     public function createRevision()
     {
 
         $rev = new WikiPageRevision();
-        $rev->user_id = Yii::app()->user->id;
+        $rev->user_id = Yii::$app->user->id;
         $rev->revision = time();
 
-        $lastRevision = WikiPageRevision::model()->findByAttributes(array('is_latest' => 1, 'wiki_page_id' => $this->id));
+        $lastRevision = WikiPageRevision::find()->where(array('is_latest' => 1, 'wiki_page_id' => $this->id))->one();
         if ($lastRevision !== null) {
             $rev->content = $lastRevision->content;
         }
@@ -127,12 +120,10 @@ class WikiPage extends HActiveRecordContent
 
     public function canAdminister()
     {
-        if (get_class($this->content->container) == 'Space') {
+        if ($this->content->container instanceof Space) {
             return $this->content->container->isAdmin();
-        }
-
-        if (get_class($this->content->container) == 'User') {
-            return $this->content->container->id == Yii::app()->user->id;
+        } elseif ($this->content->container instanceof User) {
+            return $this->content->container->id == Yii::$app->user->id;
         }
 
         return false;
@@ -151,14 +142,13 @@ class WikiPage extends HActiveRecordContent
             $this->addError('title', Yii::t('WikiModule.base', 'Invalid character in page title!'));
         }
 
-        $criteria = new CDbCriteria();
+        $query = self::find()->contentContainer($this->content->container);
         if (!$this->isNewRecord) {
-            $criteria->condition = 't.id != :selfId';
-            $criteria->params = array(':selfId' => $this->id);
+            $query->andWhere(['!=', 'wiki_page.id', $this->id]);
         }
+        $query->andWhere(['wiki_page.title' => $this->title]);
 
-        $page = WikiPage::model()->contentContainer($this->content->container)->findByAttributes(array('title' => $this->title), $criteria);
-        if ($page !== null) {
+        if ($query->count() != 0) {
             $this->addError('title', Yii::t('WikiModule.base', 'Page title already in use!'));
         }
     }
@@ -172,7 +162,7 @@ class WikiPage extends HActiveRecordContent
      */
     public function getContentTitle()
     {
-        return Yii::t('WikiModule.models_WikiPage', "Wiki page") . " \"" . Helpers::truncateText($this->title, 25) . "\"";
+        return Yii::t('WikiModule.models_WikiPage', "Wiki page") . " \"" . \humhub\libs\Helpers::truncateText($this->title, 25) . "\"";
     }
 
     public function getUrl()
