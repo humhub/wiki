@@ -1,14 +1,19 @@
 <?php
 
-class uninstall extends ZDbMigration {
+use yii\db\Migration;
 
-    public function up() {
+class uninstall extends Migration
+{
+
+    public function up()
+    {
 
         $this->dropTable('wiki_page');
         $this->dropTable('wiki_page_revision');
     }
 
-    public function down() {
+    public function down()
+    {
         echo "uninstall does not support migration down.\n";
         return false;
     }

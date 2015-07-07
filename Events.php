@@ -27,8 +27,7 @@ class Events extends \yii\base\Object
 
     public static function onProfileMenuInit($event)
     {
-        $user = Yii::$app->getController()->getUser();
-
+        $user = $event->sender->user;
         if ($user->isModuleEnabled('wiki')) {
             $event->sender->addItem(array(
                 'label' => Yii::t('WikiModule.base', 'Wiki'),

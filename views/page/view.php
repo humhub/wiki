@@ -18,7 +18,7 @@ module\Wiki\Assets::register($this);
                 <hr>
 
                 <div class="social-controls">
-                    <?php echo \humhub\modules\comment\widgets\Link::widget(array('object' => $page)); ?>
+                    <?php echo \humhub\modules\comment\widgets\CommentLink::widget(array('object' => $page)); ?>
                     &middot; <?php echo \humhub\modules\like\widgets\LikeLink::widget(array('object' => $page)); ?>
                 </div>
                 <?php echo \humhub\modules\comment\widgets\Comments::widget(array('object' => $page)); ?>
