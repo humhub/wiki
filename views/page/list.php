@@ -2,7 +2,7 @@
 
 use yii\helpers\Html;
 
-module\Wiki\Assets::register($this);
+humhub\modules\wiki\Assets::register($this);
 ?>
 <div class="panel panel-default wiki-bg">
 

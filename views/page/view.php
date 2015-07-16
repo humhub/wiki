@@ -2,7 +2,7 @@
 
 use yii\helpers\Html;
 
-module\Wiki\Assets::register($this);
+humhub\modules\wiki\Assets::register($this);
 ?>
 <div class="panel panel-default">
     <div class="panel-body">
@@ -13,7 +13,7 @@ module\Wiki\Assets::register($this);
                 <hr>
 
                 <div class="markdown-render">
-                    <?php echo \humhub\widgets\MarkdownView::widget(['markdown' => $content, 'parserClass' => "module\wiki\Markdown"]); ?>
+                    <?php echo \humhub\widgets\MarkdownView::widget(['markdown' => $content, 'parserClass' => "humhub\modules\wiki\Markdown"]); ?>
                 </div>
                 <hr>
 

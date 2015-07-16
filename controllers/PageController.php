@@ -1,6 +1,6 @@
 <?php
 
-namespace module\wiki\controllers;
+namespace humhub\modules\wiki\controllers;
 
 use Yii;
 use yii\web\HttpException;
@@ -9,8 +9,8 @@ use humhub\modules\content\components\ContentContainerController;
 use humhub\modules\space\models\Space;
 use humhub\modules\file\models\File;
 use humhub\modules\content\models\Content;
-use module\wiki\models\WikiPage;
-use module\wiki\models\WikiPageRevision;
+use humhub\modules\wiki\models\WikiPage;
+use humhub\modules\wiki\models\WikiPageRevision;
 
 /**
  * PageController
@@ -216,7 +216,7 @@ class PageController extends ContentContainerController
     public function actionPreviewMarkdown()
     {
         $this->forcePostRequest();
-        $content = MarkdownView::widget(['markdown' => Yii::$app->request->post('markdown'), 'parserClass' => 'module\wiki\Markdown']);
+        $content = MarkdownView::widget(['markdown' => Yii::$app->request->post('markdown'), 'parserClass' => 'humhub\modules\wiki\Markdown']);
 
         return $this->renderAjaxContent($content);
     }

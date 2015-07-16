@@ -1,6 +1,6 @@
 <?php
 
-namespace module\wiki\models;
+namespace humhub\modules\wiki\models;
 
 use humhub\components\ActiveRecord;
 use humhub\modules\user\models\User;

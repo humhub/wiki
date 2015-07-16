@@ -1,9 +1,9 @@
 <?php
 
-namespace module\wiki;
+namespace humhub\modules\wiki;
 
 use Yii;
-use module\wiki\models\WikiPage;
+use humhub\modules\wiki\models\WikiPage;
 
 class Module extends \humhub\components\Module
 {
@@ -55,7 +55,7 @@ class Module extends \humhub\components\Module
           foreach (WikiPage::model()->contentContainer($user)->findAll() as $page) {
           $page->delete();
           }
-         * 
+         *
          */
     }
 

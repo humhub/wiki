@@ -1,6 +1,6 @@
 <?php
 
-namespace module\wiki;
+namespace humhub\modules\wiki;
 
 use Yii;
 use humhub\modules\content\components\ContentContainerController;

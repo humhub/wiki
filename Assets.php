@@ -6,14 +6,19 @@
  * @license https://www.humhub.com/licences
  */
 
-namespace module\wiki;
+namespace humhub\modules\wiki;
 
 use yii\web\AssetBundle;
 
 class Assets extends AssetBundle
 {
 
-    public $sourcePath = '@module/wiki/assets';
+    public function init()
+    {
+        $this->sourcePath = dirname(__FILE__) . '/assets';
+        parent::init();
+    }
+
     public $css = [
         'wiki.css'
     ];

@@ -1,8 +1,8 @@
 <?php
 
 use humhub\components\Migration;
-use module\wiki\models\WikiPage;
-use module\wiki\models\WikiPageRevision;
+use humhub\modules\wiki\models\WikiPage;
+use humhub\modules\wiki\models\WikiPageRevision;
 
 class m150705_081309_namespace extends Migration
 {

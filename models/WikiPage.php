@@ -1,12 +1,12 @@
 <?php
 
-namespace module\wiki\models;
+namespace humhub\modules\wiki\models;
 
 use Yii;
 use humhub\modules\space\models\Space;
 use humhub\modules\user\models\User;
 use humhub\modules\content\components\ContentActiveRecord;
-use module\wiki\models\WikiPageRevision;
+use humhub\modules\wiki\models\WikiPageRevision;
 
 /**
  * This is the model class for table "wiki_page".
@@ -131,7 +131,7 @@ class WikiPage extends ContentActiveRecord
 
     /**
      * Title field validator
-     * 
+     *
      * @param type $attribute
      * @param type $params
      */
