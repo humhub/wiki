@@ -4,59 +4,56 @@ namespace humhub\modules\wiki;
 
 use Yii;
 use humhub\modules\wiki\models\WikiPage;
+use humhub\modules\space\models\Space;
+use humhub\modules\content\components\ContentContainerActiveRecord;
+use humhub\modules\content\components\ContentContainerModule;
 
-class Module extends \humhub\components\Module
+class Module extends ContentContainerModule
 {
 
-    public function behaviors()
+    /**
+     * @inheritdoc
+     */
+    public function getContentContainerTypes()
     {
         return [
-            //   \humhub\modules\user\behaviors\UserModule::className(),
-            \humhub\modules\space\behaviors\SpaceModule::className(),
+            Space::className(),
         ];
     }
 
+    /**
+     * @inheritdoc
+     */
     public function disable()
     {
-        if (parent::disable()) {
-
-            foreach (WikiPage::model()->findAll() as $page) {
-                $page->delete();
-            }
-
-            return true;
+        parent::disable();
+        foreach (WikiPage::model()->findAll() as $page) {
+            $page->delete();
         }
-
-        return false;
     }
 
-    public function getSpaceModuleDescription()
+    /**
+     * @inheritdoc
+     */
+    public function getContentContainerDescription(ContentContainerActiveRecord $container)
     {
-        return Yii::t('WikiModule.base', 'Adds a wiki to this space.');
+        if ($container instanceof Space) {
+            return Yii::t('WikiModule.base', 'Adds a wiki to this space.');
+        } elseif ($container instanceof User) {
+            return Yii::t('WikiModule.base', 'Adds a wiki to your profile.');
+        }
     }
 
-    public function getUserModuleDescription()
+    /**
+     * @inheritdoc
+     */
+    public function disableContentContainer(ContentContainerActiveRecord $container)
     {
-        return Yii::t('WikiModule.base', 'Adds a wiki to your profile.');
-    }
+        parent::disableContentContainer($container);
 
-    public function disableSpaceModule(Space $space)
-    {
-        /*
-          foreach (WikiPage::model()->contentContainer($space)->findAll() as $page) {
-          $page->delete();
-          }
-         */
-    }
-
-    public function disableUserModule(User $user)
-    {
-        /*
-          foreach (WikiPage::model()->contentContainer($user)->findAll() as $page) {
-          $page->delete();
-          }
-         *
-         */
+        foreach (WikiPage::model()->contentContainer($container)->findAll() as $page) {
+            $page->delete();
+        }
     }
 
 }
