@@ -26,10 +26,11 @@ class Module extends ContentContainerModule
      */
     public function disable()
     {
-        parent::disable();
         foreach (WikiPage::model()->findAll() as $page) {
             $page->delete();
         }
+
+        parent::disable();
     }
 
     /**
