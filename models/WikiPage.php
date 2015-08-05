@@ -153,16 +153,14 @@ class WikiPage extends ContentActiveRecord
         }
     }
 
-    /**
-     * Returns a title/text which identifies this IContent.
-     *
-     * e.g. Wiki: Page title...
-     *
-     * @return String
-     */
-    public function getContentTitle()
+    public function getContentName()
     {
-        return Yii::t('WikiModule.models_WikiPage', "Wiki page") . " \"" . \humhub\libs\Helpers::truncateText($this->title, 25) . "\"";
+        return Yii::t('WikiModule.models_WikiPage', "Wiki page");
+    }
+
+    public function getContentDescription()
+    {
+        return $this->title;
     }
 
     public function getUrl()
