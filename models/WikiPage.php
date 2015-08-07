@@ -7,6 +7,7 @@ use humhub\modules\space\models\Space;
 use humhub\modules\user\models\User;
 use humhub\modules\content\components\ContentActiveRecord;
 use humhub\modules\wiki\models\WikiPageRevision;
+use humhub\modules\search\interfaces\Searchable;
 
 /**
  * This is the model class for table "wiki_page".
@@ -17,11 +18,12 @@ use humhub\modules\wiki\models\WikiPageRevision;
  * @property integer $is_home
  * @property integer $admin_only
  */
-class WikiPage extends ContentActiveRecord
+class WikiPage extends ContentActiveRecord implements Searchable
 {
 
     // Atm not attach wiki pages to wall
-    public $autoAddToWall = false;
+    public $autoAddToWall = true;
+    public $wallEntryClass = "humhub\modules\wiki\widgets\WallEntry";
 
     /**
      * @return string the associated database table name
@@ -166,6 +168,20 @@ class WikiPage extends ContentActiveRecord
     public function getUrl()
     {
         return $this->content->container->createUrl('//wiki/page/view', array('title' => $this->title));
+    }
+
+    // Searchable Attributes / Informations
+    public function getSearchAttributes()
+    {
+        $content = "";
+        if ($this->latestRevision !== null) {
+            $content = $this->latestRevision->content;
+        }
+
+        return array(
+            'title' => $this->title,
+            'lastPageContent' => $content,
+        );
     }
 
 }

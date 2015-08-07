@@ -36,7 +36,7 @@ humhub\modules\wiki\Assets::register($this);
 
                                 <div class="media-body"><i class="fa fa-clock-o history pull-left"></i>
                                     <h4 class="media-heading"><a
-                                            href="<?php echo $contentContainer->createUrl('view', array('title' => $page->title, 'revision' => $revision->revision)); ?>"><?php echo Html::encode($page->title); ?></a> <a class="wiki-page-view-link" href="<?php echo $contentContainer->createUrl('view', array('title' => $page->title, 'revision' => $revision->revision)); ?>">[ <i class="fa fa-eye"></i><?php echo Yii::t('WikiModule.base', 'View'); ?> ]</a><br>
+                                            href="<?php echo $contentContainer->createUrl('view', array('title' => $page->title, 'revision' => $revision->revision)); ?>"><?php echo Html::encode($page->title); ?></a> <a class="wiki-page-view-link colorInfo" href="<?php echo $contentContainer->createUrl('view', array('title' => $page->title, 'revision' => $revision->revision)); ?>">[ <i class="fa fa-eye"></i><?php echo Yii::t('WikiModule.base', 'View'); ?> ]</a><br>
                                         <h5><?php echo Yii::t('WikiModule.base', 'Edited at'); ?> <?php echo Yii::$app->formatter->asDateTime($revision->revision); ?> <?php echo Yii::t('WikiModule.base', 'by'); ?> <?php echo Html::a(Html::encode($revision->author->displayName), $revision->author->getUrl(), array('class' => 'wiki-author-link')); ?></h5>
                                     </h4>
 
