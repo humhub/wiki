@@ -25,7 +25,7 @@ return array (
   'Page title already in use!' => 'Título da página já está em uso!',
   'Revert' => 'Reverter',
   'Revert this' => 'Reverter este',
-  'View' => '',
+  'View' => 'Visualizar',
   'Wiki' => 'Wiki',
   'by' => 'por',
 );
