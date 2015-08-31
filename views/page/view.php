@@ -20,6 +20,21 @@ humhub\modules\wiki\Assets::register($this);
                 <div class="social-controls">
                     <?php echo \humhub\modules\comment\widgets\CommentLink::widget(array('object' => $page)); ?>
                     &middot; <?php echo \humhub\modules\like\widgets\LikeLink::widget(array('object' => $page)); ?>
+                    &middot; 
+                    <?php
+                    echo humhub\widgets\ModalConfirm::widget(array(
+                        'uniqueID' => 'modal_permalink',
+                        'linkOutput' => 'a',
+                        'title' => Yii::t('ContentModule.widgets_views_permaLink', '<strong>Permalink</strong> to this page'),
+                        'message' => '<textarea rows="3" id="permalink-txt" class="form-control permalink-txt">' . \yii\helpers\Url::to(['/content/perma', 'id' => $page->content->id], true) . '</textarea><p class="help-block">Copy to clipboard: Ctrl+C, Enter</p>',
+                        'buttonFalse' => Yii::t('ContentModule.widgets_views_permaLink', 'Close'),
+                        'linkContent' => Yii::t('ContentModule.widgets_views_permaLink', 'Permalink'),
+                        'linkHref' => '',
+                        'confirmJS' => 'function(jsonResp) { wallDelete(jsonResp); }',
+                        'modalShownJS' => 'setTimeout(function(){$("#permalink-txt").focus(); $("#permalink-txt").select();}, 1);'
+                    ));
+                    ?>                    
+
                 </div>
                 <?php echo \humhub\modules\comment\widgets\Comments::widget(array('object' => $page)); ?>
             </div>
