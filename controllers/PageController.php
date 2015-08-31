@@ -47,7 +47,7 @@ class PageController extends ContentContainerController
 
     public function actionList()
     {
-        $pageSize = 10;
+        $pageSize = 100;
         $query = WikiPage::find()->contentContainer($this->contentContainer);
         $countQuery = clone $query;
 

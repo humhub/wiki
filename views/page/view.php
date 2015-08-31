@@ -8,7 +8,7 @@ humhub\modules\wiki\Assets::register($this);
     <div class="panel-body">
 
         <div class="row">
-            <div class="col-lg-10 col-md-9 col-sm-9 wiki-content">
+            <div class="col-lg-9 col-md-9 col-sm-9 wiki-content">
                 <h1><strong><?php echo Html::encode($page->title); ?></strong></h1>
                 <hr>
 
@@ -20,26 +20,11 @@ humhub\modules\wiki\Assets::register($this);
                 <div class="social-controls">
                     <?php echo \humhub\modules\comment\widgets\CommentLink::widget(array('object' => $page)); ?>
                     &middot; <?php echo \humhub\modules\like\widgets\LikeLink::widget(array('object' => $page)); ?>
-                    &middot; 
-                    <?php
-                    echo humhub\widgets\ModalConfirm::widget(array(
-                        'uniqueID' => 'modal_permalink',
-                        'linkOutput' => 'a',
-                        'title' => Yii::t('ContentModule.widgets_views_permaLink', '<strong>Permalink</strong> to this page'),
-                        'message' => '<textarea rows="3" id="permalink-txt" class="form-control permalink-txt">' . \yii\helpers\Url::to(['/content/perma', 'id' => $page->content->id], true) . '</textarea><p class="help-block">Copy to clipboard: Ctrl+C, Enter</p>',
-                        'buttonFalse' => Yii::t('ContentModule.widgets_views_permaLink', 'Close'),
-                        'linkContent' => Yii::t('ContentModule.widgets_views_permaLink', 'Permalink'),
-                        'linkHref' => '',
-                        'confirmJS' => 'function(jsonResp) { wallDelete(jsonResp); }',
-                        'modalShownJS' => 'setTimeout(function(){$("#permalink-txt").focus(); $("#permalink-txt").select();}, 1);'
-                    ));
-                    ?>                    
-
                 </div>
                 <?php echo \humhub\modules\comment\widgets\Comments::widget(array('object' => $page)); ?>
             </div>
 
-            <div class="col-lg-2 col-md-3 col-sm-3 wiki-menu">
+            <div class="col-lg-3 col-md-3 col-sm-3 wiki-menu">
                 <ul class="nav nav-pills nav-stacked">
 
                     <?php if ($revision->is_latest): ?>
@@ -49,6 +34,24 @@ humhub\modules\wiki\Assets::register($this);
                         <?php endif; ?>
 
                         <li><?php echo Html::a('<i class="fa fa-clock-o history"></i> ' . Yii::t('WikiModule.base', 'Page History'), $contentContainer->createUrl('/wiki/page/history', array('id' => $page->id))); ?></li>
+                        <li>
+                            <?php
+                            echo humhub\widgets\ModalConfirm::widget(array(
+                                'uniqueID' => 'modal_permalink',
+                                'linkOutput' => 'a',
+                                'title' => Yii::t('ContentModule.widgets_views_permaLink', '<strong>Permalink</strong> to this page'),
+                                'message' => '<textarea rows="3" id="permalink-txt" class="form-control permalink-txt">' . \yii\helpers\Url::to(['/content/perma', 'id' => $page->content->id], true) . '</textarea><p class="help-block">Copy to clipboard: Ctrl+C, Enter</p>',
+                                'buttonFalse' => Yii::t('ContentModule.widgets_views_permaLink', 'Close'),
+                                'linkContent' => '<i class="fa fa-link link"></i> ' . Yii::t('WikiModule.base', 'Permalink'),
+                                'linkHref' => '',
+                                'confirmJS' => 'function(jsonResp) { wallDelete(jsonResp); }',
+                                'modalShownJS' => 'setTimeout(function(){$("#permalink-txt").focus(); $("#permalink-txt").select();}, 1);'
+                            ));
+                            ?>
+                        </li>
+
+
+
 
                     <?php else: ?>
 

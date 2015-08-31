@@ -3,7 +3,7 @@
     "name": "Wiki",
     "description": "Wiki for spaces.",
     "keywords": ["wiki"],
-    "version": "1.0.1",
+    "version": "1.0.2",
     "humhub": {
         "minVersion": "0.20"
     },
