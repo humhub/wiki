@@ -47,8 +47,8 @@ class PageController extends ContentContainerController
 
     public function actionList()
     {
-        $pageSize = 100;
-        $query = WikiPage::find()->contentContainer($this->contentContainer);
+        $pageSize = 30;
+        $query = WikiPage::find()->orderBy('title ASC')->contentContainer($this->contentContainer);
         $countQuery = clone $query;
 
         $pagination = new \yii\data\Pagination(['totalCount' => $countQuery->count(), 'pageSize' => $pageSize]);
