@@ -52,7 +52,7 @@ class Module extends ContentContainerModule
     {
         parent::disableContentContainer($container);
 
-        foreach (WikiPage::model()->contentContainer($container)->findAll() as $page) {
+        foreach (WikiPage::find()->contentContainer($container)->all() as $page) {
             $page->delete();
         }
     }
