@@ -26,7 +26,7 @@ class Module extends ContentContainerModule
      */
     public function disable()
     {
-        foreach (WikiPage::model()->findAll() as $page) {
+        foreach (WikiPage::find()->all() as $page) {
             $page->delete();
         }
 
