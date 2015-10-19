@@ -31,7 +31,7 @@ humhub\modules\wiki\Assets::register($this);
                                          src="<?php echo $revision->author->getProfileImage()->getUrl(); ?>" alt="36x36"
                                          data-src="holder.js/36x36" style="width: 36px; height: 36px;" width="36"
                                          height="36" data-toggle="tooltip" data-placement="top" title=""
-                                         data-original-title="<strong><?php echo Html::encode($revision->author->displayName); ?></strong><br><?php echo Html::encode($revision->author->profile->title); ?>">
+                                         data-original-title="<?php echo Html::encode($revision->author->displayName); ?>">
                                 </a>
 
                                 <div class="media-body"><i class="fa fa-clock-o history pull-left"></i>
