@@ -14,6 +14,10 @@ namespace humhub\modules\wiki\widgets;
 class WallEntry extends \humhub\modules\content\widgets\WallEntry
 {
 
+    /**
+     * @inheritdoc
+     */
+    public $showFiles = false;
 
     /**
      * @inheritdoc

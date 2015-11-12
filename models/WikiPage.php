@@ -21,8 +21,14 @@ use humhub\modules\search\interfaces\Searchable;
 class WikiPage extends ContentActiveRecord implements Searchable
 {
 
-    // Atm not attach wiki pages to wall
+    /**
+     * @inheritdoc
+     */
     public $autoAddToWall = true;
+
+    /**
+     * @inheritdoc
+     */
     public $wallEntryClass = "humhub\modules\wiki\widgets\WallEntry";
 
     /**
