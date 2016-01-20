@@ -76,6 +76,16 @@ class PageController extends ContentContainerController
             }
             if ($revision == null) {
                 $revision = $page->latestRevision;
+                
+                // There is no revision for this page.
+                if ($revision == null) {
+                    // Delete page without revision
+                    $page->delete();
+                    
+                    // Forward to edit
+                    return $this->redirect($this->contentContainer->createUrl('edit', array('title' => $page->title)));
+                }
+                
             }
             return $this->render('view', [
                         'page' => $page,
