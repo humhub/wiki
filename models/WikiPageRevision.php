@@ -2,6 +2,7 @@
 
 namespace humhub\modules\wiki\models;
 
+use Yii;
 use humhub\components\ActiveRecord;
 use humhub\modules\user\models\User;
 
@@ -46,6 +47,11 @@ class WikiPageRevision extends ActiveRecord
         return $this->hasOne(User::className(), ['id' => 'user_id']);
     }
 
+    public function getPage()
+    {
+        return $this->hasOne(User::className(), ['id' => 'wiki_page_id']);
+    }
+
     /**
      * @return array customized attribute labels (name=>label)
      */
@@ -76,6 +82,8 @@ class WikiPageRevision extends ActiveRecord
     public function afterSave($insert, $changedAttributes)
     {
         WikiPageRevision::updateAll(['is_latest' => 0], 'wiki_page_id=:wikiPageId AND id!=:selfId', [':wikiPageId' => $this->wiki_page_id, ':selfId' => $this->id]);
+        Yii::$app->search->update(WikiPage::findOne(['id' => $this->wiki_page_id]));
+
         return parent::afterSave($insert, $changedAttributes);
     }
 
