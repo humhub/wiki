@@ -32,7 +32,7 @@ humhub\modules\wiki\Assets::register($this);
 
 
                 <div class="form-group">
-                    <?php echo $form->textArea($revision, 'content', array('id' => 'txtWikiPageContent', 'rows' => '15', 'placeholder' => Yii::t('WikiModule.views_page_edit', 'Page content'))); ?>
+                    <?php echo $form->textArea($revision, 'content', array('id' => 'txtWikiPageContent', 'style' => 'height:350px;padding:10px', 'rows' => '15', 'placeholder' => Yii::t('WikiModule.views_page_edit', 'Page content'))); ?>
                     <?php echo humhub\widgets\MarkdownEditor::widget(array('fieldId' => 'txtWikiPageContent', 'previewUrl' => $contentContainer->createUrl('preview-markdown'))); ?>
                     <script>
                         $(document).ready(function () {
@@ -68,18 +68,18 @@ humhub\modules\wiki\Assets::register($this);
                         <?php if ($page->canAdminister()): ?>
                             <!-- load modal confirm widget -->
                             <li><?php
-                            echo \humhub\widgets\ModalConfirm::widget(array(
-                                'uniqueID' => 'modal_pagedelete_' . $page->id,
-                                'linkOutput' => 'a',
-                                'title' => Yii::t('WikiModule.base', '<strong>Confirm</strong> page deleting'),
-                                'message' => Yii::t('WikiModule.base', 'Do you really want to delete this page?'),
-                                'buttonTrue' => Yii::t('WikiModule.base', 'Delete'),
-                                'buttonFalse' => Yii::t('WikiModule.base', 'Cancel'),
-                                'linkContent' => '<i class="fa fa-trash-o delete"></i> ' . Yii::t('WikiModule.base', 'Delete'),
-                                'linkHref' => $contentContainer->createUrl('//wiki/page/delete', array('id' => $page->id)),
-                                'confirmJS' => 'function(jsonResp) { window.location.href = "' . $contentContainer->createUrl('index') . '"; }'
-                            ));
-                            ?></li>
+                                echo \humhub\widgets\ModalConfirm::widget(array(
+                                    'uniqueID' => 'modal_pagedelete_' . $page->id,
+                                    'linkOutput' => 'a',
+                                    'title' => Yii::t('WikiModule.base', '<strong>Confirm</strong> page deleting'),
+                                    'message' => Yii::t('WikiModule.base', 'Do you really want to delete this page?'),
+                                    'buttonTrue' => Yii::t('WikiModule.base', 'Delete'),
+                                    'buttonFalse' => Yii::t('WikiModule.base', 'Cancel'),
+                                    'linkContent' => '<i class="fa fa-trash-o delete"></i> ' . Yii::t('WikiModule.base', 'Delete'),
+                                    'linkHref' => $contentContainer->createUrl('//wiki/page/delete', array('id' => $page->id)),
+                                    'confirmJS' => 'function(jsonResp) { window.location.href = "' . $contentContainer->createUrl('index') . '"; }'
+                                ));
+                                ?></li>
 
                         <?php endif; ?>
 
