@@ -5,7 +5,7 @@
     "keywords": ["wiki"],
     "version": "1.1.0",
     "humhub": {
-        "minVersion": "0.20"
+        "minVersion": "1.0"
     },
     "screenshots": ["assets/screen1.jpg", "assets/screen2.jpg", "assets/screen3.jpg"]
 }
