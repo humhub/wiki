@@ -76,16 +76,16 @@ class PageController extends ContentContainerController
             }
             if ($revision == null) {
                 $revision = $page->latestRevision;
-                
+
                 // There is no revision for this page.
                 if ($revision == null) {
+
                     // Delete page without revision
                     $page->delete();
-                    
+
                     // Forward to edit
                     return $this->redirect($this->contentContainer->createUrl('edit', array('title' => $page->title)));
                 }
-                
             }
             return $this->render('view', [
                         'page' => $page,
@@ -105,14 +105,21 @@ class PageController extends ContentContainerController
 
         $page = WikiPage::find()->contentContainer($this->contentContainer)->readable()->where(['wiki_page.id' => $id])->one();
         if ($page === null) {
+            if (!$this->canCreatePage()) {
+                throw new HttpException(403, 'Page creation disabled!');
+            }
+
             $page = new WikiPage();
             $page->content->setContainer($this->contentContainer);
             $page->content->visibility = Content::VISIBILITY_PRIVATE;
             $page->title = Yii::$app->request->get('title');
+            $page->scenario = 'create';
+        } elseif (!$this->canEdit($page)) {
+            throw new HttpException(403, 'Page not editable!');
         }
 
-        if ($page->admin_only && !$page->canAdminister()) {
-            throw new HttpException(403, 'Page not editable!');
+        if ($this->canAdminister()) {
+            $page->scenario = 'admin';
         }
 
         $revision = $page->createRevision();
@@ -179,9 +186,10 @@ class PageController extends ContentContainerController
             throw new HttpException(404, 'Page not found!');
         }
 
-        if ($page->canAdminister()) {
-            $page->delete();
+        if ($this->canAdminister()) {
+            throw new HttpException(400, 'Access denied!');
         }
+        $page->delete();
 
         return $this->redirect($this->contentContainer->createUrl('index'));
     }
@@ -199,7 +207,7 @@ class PageController extends ContentContainerController
             throw new HttpException(404, 'Page not found!');
         }
 
-        if ($page->admin_only && !$page->canAdminister()) {
+        if (!$this->canEdit($page)) {
             throw new HttpException(403, 'Page not editable!');
         }
 
@@ -231,10 +239,41 @@ class PageController extends ContentContainerController
         return $this->renderAjaxContent($content);
     }
 
+    /**
+     * @return WikiPage the homepage
+     */
     private function getHomePage()
     {
         return WikiPage::find()->contentContainer($this->contentContainer)->readable()->where(['is_home' => 1])->one();
-        ;
+    }
+
+    /**
+     * @return boolean can manage wiki sites?
+     */
+    public function canAdminister()
+    {
+        return $this->contentContainer->permissionManager->can(new \humhub\modules\wiki\permissions\AdministerPages());
+    }
+
+    /**
+     * @param WikiPage $page
+     * @return boolean can edit given wiki site?
+     */
+    public function canEdit($page)
+    {
+        if ($page->admin_only) {
+            return $this->canAdminister();
+        }
+
+        return $this->contentContainer->permissionManager->can(new \humhub\modules\wiki\permissions\EditPages());
+    }
+
+    /**
+     * @return boolean can create new wiki site
+     */
+    public function canCreatePage()
+    {
+        return $this->contentContainer->permissionManager->can(new \humhub\modules\wiki\permissions\CreatePage());
     }
 
 }

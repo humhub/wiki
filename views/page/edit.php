@@ -20,7 +20,7 @@ humhub\modules\wiki\Assets::register($this);
 
                 <?php $form = CActiveForm::begin(); ?>
 
-                <?php if ($page->canAdminister() || $page->isNewRecord): ?>
+                <?php if ($this->context->canAdminister() || $page->isNewRecord): ?>
                     <div class="form-group">
                         <?php // echo $form->labelEx($page, 'title');  ?>
                         <?php echo $form->textField($page, 'title', array('class' => 'form-control', 'placeholder' => Yii::t('WikiModule.views_page_edit', 'New page title'))); ?>
@@ -42,7 +42,7 @@ humhub\modules\wiki\Assets::register($this);
                     </script>
                 </div>
 
-                <?php if ($page->canAdminister()): ?>
+                <?php if ($this->context->canAdminister()): ?>
                     <div class="form-group">
                         <div class="checkbox">
                             <label>
@@ -65,7 +65,7 @@ humhub\modules\wiki\Assets::register($this);
                 <?php if (!$page->isNewRecord): ?>
 
                     <ul class="nav nav-pills nav-stacked">
-                        <?php if ($page->canAdminister()): ?>
+                        <?php if ($this->context->canAdminister()): ?>
                             <!-- load modal confirm widget -->
                             <li><?php
                                 echo \humhub\widgets\ModalConfirm::widget(array(

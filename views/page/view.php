@@ -29,7 +29,7 @@ humhub\modules\wiki\Assets::register($this);
 
                     <?php if ($revision->is_latest): ?>
 
-                        <?php if (!$page->admin_only || $page->canAdminister()) : ?>
+                        <?php if ($this->context->canEdit($page)) : ?>
                             <li><?php echo Html::a('<i class="fa fa-pencil-square-o edit"></i> ' . Yii::t('WikiModule.base', 'Edit page'), $contentContainer->createUrl('/wiki/page/edit', array('id' => $page->id))); ?></li>
                         <?php endif; ?>
 
@@ -55,7 +55,7 @@ humhub\modules\wiki\Assets::register($this);
 
                     <?php else: ?>
 
-                        <?php if (!$page->admin_only || $page->canAdminister()) : ?>
+                        <?php if ($this->context->canAdminister()) : ?>
 
                             <!-- load modal confirm widget -->
                             <li><?php
@@ -80,12 +80,16 @@ humhub\modules\wiki\Assets::register($this);
 
 
                     <li class="nav-divider"></li>
-                    <li><a href="<?php echo $contentContainer->createUrl('/wiki/page/edit'); ?>"><i
-                                class="fa fa-file-text-o new"></i> <?php echo Yii::t('WikiModule.base', 'New page'); ?>
-                        </a></li>
 
-                    <li class="nav-divider"></li>
-                        <?php if ($homePage !== null) : ?>
+                    <?php if ($this->context->canCreatePage()): ?>
+                        <li><a href="<?php echo $contentContainer->createUrl('/wiki/page/edit'); ?>"><i
+                                    class="fa fa-file-text-o new"></i> <?php echo Yii::t('WikiModule.base', 'New page'); ?>
+                            </a></li>
+                        <li class="nav-divider"></li>
+
+                    <?php endif; ?>
+
+                    <?php if ($homePage !== null) : ?>
                         <li><?php echo Html::a('<i class="fa fa-newspaper-o"></i> ' . Yii::t('WikiModule.base', 'Main page'), $contentContainer->createUrl('//wiki/page/index', array())); ?></li>
                     <?php endif; ?>
                     <li><?php echo Html::a('<i class="fa fa-list-alt"></i> ' . Yii::t('WikiModule.base', 'Overview'), $contentContainer->createUrl('//wiki/page/list', array())); ?></li>

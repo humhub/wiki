@@ -45,17 +45,19 @@ class WikiPage extends ContentActiveRecord implements Searchable
     public function rules()
     {
         $rules = array();
-
-        if ($this->canAdminister() || $this->isNewRecord) {
-            $rules[] = array('title', 'required');
-            $rules[] = array('title', 'string', 'max' => 255);
-            $rules[] = array('title', 'validateTitle');
-        }
-
-        if ($this->canAdminister()) {
-            $rules[] = array(['is_home', 'admin_only'], 'integer');
-        }
+        $rules[] = ['title', 'required'];
+        $rules[] = ['title', 'string', 'max' => 255];
+        $rules[] = ['title', 'validateTitle'];
+        $rules[] = [['is_home', 'admin_only'], 'integer'];
         return $rules;
+    }
+
+    public function scenarios()
+    {
+        $scenarios = parent::scenarios();
+        $scenarios['create'] = ['title'];
+        $scenarios['admin'] = ['title', 'is_home', 'admin_only'];
+        return $scenarios;
     }
 
     public function getLatestRevision()
@@ -124,17 +126,6 @@ class WikiPage extends ContentActiveRecord implements Searchable
         }
 
         return parent::beforeDelete();
-    }
-
-    public function canAdminister()
-    {
-        if ($this->content->container instanceof Space) {
-            return $this->content->container->isAdmin();
-        } elseif ($this->content->container instanceof User) {
-            return $this->content->container->id == Yii::$app->user->id;
-        }
-
-        return false;
     }
 
     /**

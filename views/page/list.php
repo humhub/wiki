@@ -44,11 +44,17 @@ humhub\modules\wiki\Assets::register($this);
             <div class="col-lg-2 col-md-3 col-sm-3 wiki-menu">
 
                 <ul class="nav nav-pills nav-stacked">
-                    <li><a href="<?php echo $contentContainer->createUrl('//wiki/page/edit'); ?>"><i
-                                class="fa fa-file-text-o new"></i> <?php echo Yii::t('WikiModule.base', 'New page'); ?>
-                        </a></li>
+                    <?php if ($this->context->canCreatePage()): ?>
+                        <li><a href="<?php echo $contentContainer->createUrl('//wiki/page/edit'); ?>"><i
+                                    class="fa fa-file-text-o new"></i> <?php echo Yii::t('WikiModule.base', 'New page'); ?>
+                            </a></li>
+
+                        <?php if (count($pages) != 0) : ?>
+                            <li class="nav-divider"></li>
+                        <?php endif; ?>
+                    <?php endif; ?>
+
                     <?php if (count($pages) != 0) : ?>
-                        <li class="nav-divider"></li>
                             <?php if ($homePage !== null) : ?>
                             <li><?php echo Html::a('<i class="fa fa-newspaper-o"></i> ' . Yii::t('WikiModule.base', 'Main page'), $contentContainer->createUrl('/wiki/page/index', array())); ?></li>
                         <?php endif; ?>
