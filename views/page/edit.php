@@ -46,12 +46,12 @@ humhub\modules\wiki\Assets::register($this);
                     <div class="form-group">
                         <div class="checkbox">
                             <label>
-                                <?php echo $form->checkBox($page, 'is_home', array()); ?> <?php echo $page->getAttributeLabel('is_home'); ?>
+                                <?php echo $form->checkBox($page, 'is_home', array()); ?> <?php echo Yii::t('WikiModule.views_page_edit', $page->getAttributeLabel('is_home')); ?>
                             </label>
                         </div>
                         <div class="checkbox">
                             <label>
-                                <?php echo $form->checkBox($page, 'admin_only', array()); ?> <?php echo $page->getAttributeLabel('admin_only'); ?>
+                                <?php echo $form->checkBox($page, 'admin_only', array()); ?> <?php echo Yii::t('WikiModule.views_page_edit', $page->getAttributeLabel('admin_only')); ?>
                             </label>
                         </div>
                     </div>
