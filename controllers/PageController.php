@@ -27,11 +27,15 @@ class PageController extends ContentContainerController
 
     public function beforeAction($action)
     {
-        if ($this->contentContainer instanceof Space && !$this->contentContainer->isMember()) {
-            throw new HttpException(403, 'You need to be member of this space to this wiki!');
+        if (parent::beforeAction($action)) {
+            if ($this->contentContainer instanceof Space && !$this->contentContainer->isMember()) {
+                throw new HttpException(403, 'You need to be member of this space to this wiki!');
+            }
+
+            return true;
         }
 
-        return parent::beforeAction($action);
+        return false;
     }
 
     public function actionIndex()
