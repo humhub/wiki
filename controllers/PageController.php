@@ -190,7 +190,7 @@ class PageController extends ContentContainerController
             throw new HttpException(404, 'Page not found!');
         }
 
-        if ($this->canAdminister()) {
+        if (!$this->canAdminister()) {
             throw new HttpException(400, 'Access denied!');
         }
         $page->delete();
