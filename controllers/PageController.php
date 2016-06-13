@@ -96,7 +96,8 @@ class PageController extends ContentContainerController
                         'revision' => $revision,
                         'homePage' => $this->getHomePage(),
                         'contentContainer' => $this->contentContainer,
-                        'content' => $revision->content
+                        'content' => $revision->content,
+                        'canViewHistory' => $this->canViewHistory()
             ]);
         } else {
             return $this->redirect($this->contentContainer->createUrl('edit', array('title' => $title)));
@@ -151,6 +152,10 @@ class PageController extends ContentContainerController
 
     public function actionHistory()
     {
+        if(!$this->canViewHistory()) {
+            throw new HttpException(403, 'Permission to view this page denied!');
+        }
+        
         $id = Yii::$app->request->get('id');
 
         $page = WikiPage::find()->contentContainer($this->contentContainer)->readable()->where(['wiki_page.id' => $id])->one();
@@ -278,6 +283,14 @@ class PageController extends ContentContainerController
     public function canCreatePage()
     {
         return $this->contentContainer->permissionManager->can(new \humhub\modules\wiki\permissions\CreatePage());
+    }
+    
+    /**
+     * @return boolean can view wiki page history?
+     */
+    public function canViewHistory()
+    {
+        return $this->contentContainer->permissionManager->can(new \humhub\modules\wiki\permissions\ViewHistory());
     }
 
 }

@@ -32,9 +32,10 @@ humhub\modules\wiki\Assets::register($this);
                         <?php if ($this->context->canEdit($page)) : ?>
                             <li><?php echo Html::a('<i class="fa fa-pencil-square-o edit"></i> ' . Yii::t('WikiModule.base', 'Edit page'), $contentContainer->createUrl('/wiki/page/edit', array('id' => $page->id))); ?></li>
                         <?php endif; ?>
-
-                        <li><?php echo Html::a('<i class="fa fa-clock-o history"></i> ' . Yii::t('WikiModule.base', 'Page History'), $contentContainer->createUrl('/wiki/page/history', array('id' => $page->id))); ?></li>
-                        <li>
+                        
+                        <?php if ($canViewHistory) : ?>
+                            <li><?php echo Html::a('<i class="fa fa-clock-o history"></i> ' . Yii::t('WikiModule.base', 'Page History'), $contentContainer->createUrl('/wiki/page/history', array('id' => $page->id))); ?></li>
+                        <?php endif; ?><li>
                             <?php
                             echo humhub\widgets\ModalConfirm::widget(array(
                                 'uniqueID' => 'modal_permalink',
