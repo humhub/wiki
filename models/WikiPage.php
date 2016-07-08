@@ -80,8 +80,8 @@ class WikiPage extends ContentActiveRecord implements Searchable
         return array(
             'id' => 'ID',
             'title' => 'Title',
-            'is_home' => 'Is Homepage',
-            'admin_only' => 'Protected',
+            'is_home' => Yii::t('WikiModule.base', 'Is homepage'),
+            'admin_only' => Yii::t('WikiModule.base', 'Protected'),
         );
     }
 
