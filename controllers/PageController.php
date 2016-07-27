@@ -29,9 +29,8 @@ class PageController extends ContentContainerController
     {
         if (parent::beforeAction($action)) {
             if ($this->contentContainer instanceof Space && !$this->contentContainer->isMember()) {
-                throw new HttpException(403, 'You need to be member of this space to this wiki!');
+                throw new HttpException(403, Yii::t('WikiModule.base', 'You need to be member of the space "%space_name%" to access this wiki page!', ['%space_name%' => $this->contentContainer->name]));
             }
-
             return true;
         }
 
@@ -111,7 +110,7 @@ class PageController extends ContentContainerController
         $page = WikiPage::find()->contentContainer($this->contentContainer)->readable()->where(['wiki_page.id' => $id])->one();
         if ($page === null) {
             if (!$this->canCreatePage()) {
-                throw new HttpException(403, 'Page creation disabled!');
+                throw new HttpException(403, Yii::t('WikiModule.base', 'Page creation disabled!'));
             }
 
             $page = new WikiPage();
@@ -120,7 +119,7 @@ class PageController extends ContentContainerController
             $page->title = Yii::$app->request->get('title');
             $page->scenario = 'create';
         } elseif (!$this->canEdit($page)) {
-            throw new HttpException(403, 'Page not editable!');
+            throw new HttpException(403, Yii::t('WikiModule.base', 'Page not editable!'));
         }
 
         if ($this->canAdminister()) {
@@ -153,7 +152,7 @@ class PageController extends ContentContainerController
     public function actionHistory()
     {
         if(!$this->canViewHistory()) {
-            throw new HttpException(403, 'Permission to view this page denied!');
+            throw new HttpException(403, Yii::t('WikiModule.base', 'Permission denied. You have no rights to view the history.'));
         }
         
         $id = Yii::$app->request->get('id');
@@ -161,7 +160,7 @@ class PageController extends ContentContainerController
         $page = WikiPage::find()->contentContainer($this->contentContainer)->readable()->where(['wiki_page.id' => $id])->one();
 
         if ($page === null) {
-            throw new HttpException(404, 'Page not found!');
+            throw new HttpException(404, Yii::t('WikiModule.base', 'Page not found.'));
         }
 
         $query = WikiPageRevision::find();
@@ -192,11 +191,11 @@ class PageController extends ContentContainerController
         $page = WikiPage::find()->contentContainer($this->contentContainer)->where(['wiki_page.id' => $id])->one();
 
         if ($page === null) {
-            throw new HttpException(404, 'Page not found!');
+            throw new HttpException(404, Yii::t('WikiModule.base', 'Page not found.'));
         }
 
         if (!$this->canAdminister()) {
-            throw new HttpException(400, 'Access denied!');
+            throw new HttpException(403, Yii::t('WikiModule.base', 'Permission denied. You have no administration rights.'));
         }
         $page->delete();
 
@@ -213,11 +212,11 @@ class PageController extends ContentContainerController
         $page = WikiPage::find()->contentContainer($this->contentContainer)->readable()->where(['wiki_page.id' => $id])->one();
 
         if ($page === null) {
-            throw new HttpException(404, 'Page not found!');
+            throw new HttpException(404, Yii::t('WikiModule.base', 'Page not found.'));
         }
 
         if (!$this->canEdit($page)) {
-            throw new HttpException(403, 'Page not editable!');
+            throw new HttpException(403, Yii::t('WikiModule.base', 'Page not editable!'));
         }
 
         $revision = WikiPageRevision::findOne(array(
@@ -226,7 +225,7 @@ class PageController extends ContentContainerController
         ));
 
         if ($revision->is_latest) {
-            throw new HttpException(404, 'Already latest revision!');
+            throw new HttpException(404, Yii::t('WikiModule.base', 'Revert not possible. Already latest revision!'));
         }
 
         $revertedRevision = $page->createRevision();
