@@ -18,7 +18,14 @@
  */
 return [
     'Is homepage' => '',
+    'Page creation disabled!' => '',
+    'Page not editable!' => '',
+    'Page not found.' => '',
+    'Permission denied. You have no administration rights.' => '',
+    'Permission denied. You have no rights to view the history.' => '',
     'Protected' => '',
+    'Revert not possible. Already latest revision!' => '',
+    'You need to be member of the space "%space_name%" to access this wiki page!' => '',
     '<strong>Confirm</strong> page deleting' => '<strong>Подтвердите</strong> удаление страницы',
     '<strong>Confirm</strong> page reverting' => '<strong>Подтвердите</strong> восстановление страницы',
     '<strong>Overview</strong> of all pages' => '<strong>Обзор</strong> всех страниц',

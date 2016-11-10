@@ -18,8 +18,15 @@
  */
 return [
     'Is homepage' => '',
+    'Page creation disabled!' => '',
+    'Page not editable!' => '',
+    'Page not found.' => '',
     'Permalink' => '',
+    'Permission denied. You have no administration rights.' => '',
+    'Permission denied. You have no rights to view the history.' => '',
     'Protected' => '',
+    'Revert not possible. Already latest revision!' => '',
+    'You need to be member of the space "%space_name%" to access this wiki page!' => '',
     '<strong>Confirm</strong> page deleting' => '<strong>Patvirtinti</strong> puslapio ištrinimą',
     '<strong>Confirm</strong> page reverting' => '<strong>Patvirtinti</strong> ankstesnį puslapio nustatymą',
     '<strong>Overview</strong> of all pages' => '<strong>Visų</strong> puslapių apžvalga',
