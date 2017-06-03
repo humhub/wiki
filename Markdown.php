@@ -13,6 +13,9 @@ use humhub\modules\content\components\ContentContainerController;
 class Markdown extends \humhub\libs\Markdown
 {
 
+    public $enableNewlines = true;
+
+    
     protected function handleInternalUrls($url)
     {
 
