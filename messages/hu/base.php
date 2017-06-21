@@ -27,7 +27,7 @@ return array (
   'Page not editable!' => '',
   'Page not found.' => '',
   'Page title already in use!' => 'Már van ilyen című oldal!',
-  'Permalink' => '',
+  'Permalink' => 'Tartalom linkje',
   'Permission denied. You have no administration rights.' => '',
   'Permission denied. You have no rights to view the history.' => '',
   'Protected' => 'Védett',
