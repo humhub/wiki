@@ -57,7 +57,7 @@ humhub\modules\wiki\Assets::register($this);
                     </div>
                 <?php endif; ?>
                 <hr>
-                <?php echo Html::submitButton(Yii::t('WikiModule.views_page_edit', 'Save'), array('class' => 'btn btn-primary')); ?>
+                <?php echo Html::submitButton(Yii::t('WikiModule.views_page_edit', 'Save'), array('class' => 'btn btn-primary', 'data-ui-loader' => true)); ?>
                 <?php CActiveForm::end(); ?>
             </div>
 
