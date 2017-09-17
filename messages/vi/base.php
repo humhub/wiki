@@ -4,9 +4,9 @@ return array (
   '<strong>Confirm</strong> page reverting' => '<strong>Xác nhận</strong> hoàn trả lại trang',
   '<strong>Overview</strong> of all pages' => '<strong>Tổng quan</strong> tất cả các trang',
   '<strong>Page</strong> history' => 'Lịch sử <strong>Trang</strong>',
-  '<strong>Wiki</strong> Module' => 'Module <strong>Wiki </strong>',
-  'Adds a wiki to this space.' => 'Thêm một wiki vào phòng làm việc này.',
-  'Adds a wiki to your profile.' => 'Thêm một wiki vào profile của bạn',
+  '<strong>Wiki</strong> Module' => 'Module <strong>Kiến thức</strong>',
+  'Adds a wiki to this space.' => 'Thêm module Kiến thức vào phòng làm việc này.',
+  'Adds a wiki to your profile.' => 'Thêm module Kiến thức vào trang cá nhân của bạn',
   'Back to page' => 'Quay trở lại trang',
   'Cancel' => 'Hủy',
   'Delete' => 'Xóa',
@@ -20,7 +20,7 @@ return array (
   'Let\'s go!' => 'Triển khai thôi!',
   'Main page' => 'Trang chính',
   'New page' => 'Trang mới',
-  'No pages created yet.  So it\'s on you.<br>Create the first page now.' => 'Chưa có trang nào được tạo. Hãy br>Là người tạo trang đầu tiên.
+  'No pages created yet.  So it\'s on you.<br>Create the first page now.' => 'Chưa có trang nào được tạo. Hãy <br>Là người tạo trang đầu tiên.
 ',
   'Overview' => 'Tổng quan',
   'Page History' => 'Lịch sử trang',
@@ -36,7 +36,7 @@ return array (
   'Revert not possible. Already latest revision!' => 'Không có khả năng hoàn trả lại. Đây là bản sửa đổi mới nhất!',
   'Revert this' => 'Hoàn trả lại bản này',
   'View' => 'Xem',
-  'Wiki' => 'Wiki',
-  'You need to be member of the space "%space_name%" to access this wiki page!' => 'Bạn cần là thành viên của phòng làm việc "%space_name%"  để truy cập trang wiki này!',
+  'Wiki' => 'Trang kiến thức',
+  'You need to be member of the space "%space_name%" to access this wiki page!' => 'Bạn cần là thành viên của phòng làm việc "%space_name%"  để truy cập trang kiến thức này!',
   'by' => 'bởi',
 );

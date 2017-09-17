@@ -1,4 +1,4 @@
 <?php
 return array (
-  'Wiki page' => 'Trang Wiki',
+  'Wiki page' => 'Trang Kiến thức',
 );
