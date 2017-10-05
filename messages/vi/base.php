@@ -36,7 +36,7 @@ return array (
   'Revert not possible. Already latest revision!' => 'Không có khả năng hoàn trả lại. Đây là bản sửa đổi mới nhất!',
   'Revert this' => 'Hoàn trả lại bản này',
   'View' => 'Xem',
-  'Wiki' => 'Trang kiến thức',
+  'Wiki' => 'Kiến thức',
   'You need to be member of the space "%space_name%" to access this wiki page!' => 'Bạn cần là thành viên của phòng làm việc "%space_name%"  để truy cập trang kiến thức này!',
   'by' => 'bởi',
 );
