@@ -1,4 +1,4 @@
 <?php
-return array (
+return  [
   'Open wiki page...' => 'Wiki oldal megnyitása...',
-);
+];

@@ -28,9 +28,9 @@ humhub\modules\wiki\Assets::register($this);
                 <?php endif; ?>
                 <br>
                 <ul class="wiki-list">
-                    <?php foreach ($pages as $page): ?>
+                    <?php foreach ($pages as $page) : ?>
                         <li>
-                            <h1 class="wiki-page-history-title"><?php echo Html::a('<i class="fa fa-file-text-o"></i> ' . Html::encode($page->title), $contentContainer->createUrl('view', array('title' => $page->title))); ?></h1>
+                            <h1 class="wiki-page-history-title"><?php echo Html::a('<i class="fa fa-file-text-o"></i> ' . Html::encode($page->title), $contentContainer->createUrl('view', ['title' => $page->title])); ?></h1>
                         </li>
 
                     <?php endforeach; ?>
@@ -44,7 +44,7 @@ humhub\modules\wiki\Assets::register($this);
             <div class="col-lg-2 col-md-3 col-sm-3 wiki-menu">
 
                 <ul class="nav nav-pills nav-stacked">
-                    <?php if ($this->context->canCreatePage()): ?>
+                    <?php if ($this->context->canCreatePage()) : ?>
                         <li><a href="<?php echo $contentContainer->createUrl('//wiki/page/edit'); ?>"><i
                                     class="fa fa-file-text-o new"></i> <?php echo Yii::t('WikiModule.base', 'New page'); ?>
                             </a></li>
@@ -56,9 +56,9 @@ humhub\modules\wiki\Assets::register($this);
 
                     <?php if (count($pages) != 0) : ?>
                             <?php if ($homePage !== null) : ?>
-                            <li><?php echo Html::a('<i class="fa fa-newspaper-o"></i> ' . Yii::t('WikiModule.base', 'Main page'), $contentContainer->createUrl('/wiki/page/index', array())); ?></li>
-                        <?php endif; ?>
-                        <li><?php echo Html::a('<i class="fa fa-list-alt"></i> ' . Yii::t('WikiModule.base', 'Overview'), $contentContainer->createUrl('/wiki/page/list', array())); ?></li>
+                            <li><?php echo Html::a('<i class="fa fa-newspaper-o"></i> ' . Yii::t('WikiModule.base', 'Main page'), $contentContainer->createUrl('/wiki/page/index', [])); ?></li>
+                            <?php endif; ?>
+                        <li><?php echo Html::a('<i class="fa fa-list-alt"></i> ' . Yii::t('WikiModule.base', 'Overview'), $contentContainer->createUrl('/wiki/page/list', [])); ?></li>
                     <?php endif; ?>
                 </ul>
             </div>

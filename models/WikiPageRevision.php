@@ -35,11 +35,11 @@ class WikiPageRevision extends ActiveRecord
     {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
-        return array(
-            array(['revision', 'wiki_page_id', 'user_id'], 'required'),
-            array(['revision', 'is_latest', 'wiki_page_id', 'user_id'], 'integer'),
-            array('content', 'safe'),
-        );
+        return [
+            [['revision', 'wiki_page_id', 'user_id'], 'required'],
+            [['revision', 'is_latest', 'wiki_page_id', 'user_id'], 'integer'],
+            ['content', 'safe'],
+        ];
     }
 
     public function getAuthor()
@@ -57,14 +57,14 @@ class WikiPageRevision extends ActiveRecord
      */
     public function attributeLabels()
     {
-        return array(
+        return [
             'id' => 'ID',
             'revision' => 'Revision',
             'is_latest' => 'Is Latest',
             'wiki_page_id' => 'Wiki Page',
             'user_id' => 'User',
             'content' => 'Content',
-        );
+        ];
     }
 
     /**
@@ -86,5 +86,4 @@ class WikiPageRevision extends ActiveRecord
 
         return parent::afterSave($insert, $changedAttributes);
     }
-
 }

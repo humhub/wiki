@@ -1,5 +1,5 @@
 <?php
-return array (
+return  [
   '<strong>Confirm</strong> page deleting' => '',
   '<strong>Confirm</strong> page reverting' => '',
   '<strong>Overview</strong> of all pages' => '',
@@ -38,4 +38,4 @@ return array (
   'Wiki' => '',
   'You need to be member of the space "%space_name%" to access this wiki page!' => '',
   'by' => '',
-);
+];

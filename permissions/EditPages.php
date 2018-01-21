@@ -36,16 +36,15 @@ class EditPages extends \humhub\libs\BasePermission
     /**
      * @inheritdoc
      */
-    protected $title = "Edit pages";
+    protected $title = 'Edit pages';
 
     /**
      * @inheritdoc
      */
-    protected $description = "Allows the user to edit or revert pages";
+    protected $description = 'Allows the user to edit or revert pages';
 
     /**
      * @inheritdoc
      */
     protected $moduleId = 'wiki';
-
 }

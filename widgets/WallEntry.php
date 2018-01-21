@@ -26,10 +26,9 @@ class WallEntry extends \humhub\modules\content\widgets\WallEntry
     {
         $revision = $this->contentObject->latestRevision;
         if ($revision === null) {
-            return "";
+            return '';
         }
         
-        return $this->render('wallEntry', array('wiki' => $this->contentObject, 'content' => $revision->content, 'justEdited' => $this->justEdited));
+        return $this->render('wallEntry', ['wiki' => $this->contentObject, 'content' => $revision->content, 'justEdited' => $this->justEdited]);
     }
-
 }

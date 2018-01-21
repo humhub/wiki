@@ -36,16 +36,15 @@ class CreatePage extends \humhub\libs\BasePermission
     /**
      * @inheritdoc
      */
-    protected $title = "Create pages";
+    protected $title = 'Create pages';
 
     /**
      * @inheritdoc
      */
-    protected $description = "Allows the user to create new pages";
+    protected $description = 'Allows the user to create new pages';
 
     /**
      * @inheritdoc
      */
     protected $moduleId = 'wiki';
-
 }

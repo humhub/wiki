@@ -1,5 +1,5 @@
 <?php
-return array (
+return  [
   '<strong>Confirm</strong> page deleting' => 'Biztosan <strong>törli</strong> az oldalt?',
   '<strong>Confirm</strong> page reverting' => 'Biztosan <strong>visszaállítja</strong> az oldalt?',
   '<strong>Overview</strong> of all pages' => '<strong>Oldalak</strong> listája',
@@ -38,4 +38,4 @@ return array (
   'Wiki' => '',
   'You need to be member of the space "%space_name%" to access this wiki page!' => '',
   'by' => '',
-);
+];

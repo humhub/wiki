@@ -19,5 +19,4 @@ class m150705_081309_namespace extends Migration
 
         return false;
     }
-
 }

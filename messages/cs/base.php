@@ -1,5 +1,5 @@
 <?php
-return array (
+return  [
   '<strong>Confirm</strong> page deleting' => '<strong>Potvrďte</strong> smazání stránky',
   '<strong>Confirm</strong> page reverting' => '<strong>Potvrďte</strong> obnovu stránky',
   '<strong>Overview</strong> of all pages' => '<strong>Přehled</strong> všech stránek',
@@ -38,4 +38,4 @@ return array (
   'Wiki' => 'Wiki',
   'You need to be member of the space "%space_name%" to access this wiki page!' => 'Pro přístup na tuto stránku wiki musíte být členem prostoru  "%space_name%" ',
   'by' => 'uživatelem',
-);
+];

@@ -9,9 +9,8 @@ return [
     'id' => 'wiki',
     'class' => 'humhub\modules\wiki\Module',
     'namespace' => 'humhub\modules\wiki',
-    'events' => array(
-        array('class' => Menu::className(), 'event' => Menu::EVENT_INIT, 'callback' => array('humhub\modules\wiki\Events', 'onSpaceMenuInit')),
-        array('class' => ProfileMenu::className(), 'event' => ProfileMenu::EVENT_INIT, 'callback' => array('humhub\modules\wiki\Events', 'onProfileMenuInit')),
-    ),
+    'events' => [
+        ['class' => Menu::className(), 'event' => Menu::EVENT_INIT, 'callback' => ['humhub\modules\wiki\Events', 'onSpaceMenuInit']],
+        ['class' => ProfileMenu::className(), 'event' => ProfileMenu::EVENT_INIT, 'callback' => ['humhub\modules\wiki\Events', 'onProfileMenuInit']],
+    ],
 ];
-?>

@@ -42,7 +42,7 @@ class PageController extends ContentContainerController
         $homePage = $this->getHomePage();
 
         if ($homePage !== null) {
-            return $this->redirect($this->contentContainer->createUrl('/wiki/page/view', array('title' => $homePage->title)));
+            return $this->redirect($this->contentContainer->createUrl('/wiki/page/view', ['title' => $homePage->title]));
         }
 
         return $this->redirect($this->contentContainer->createUrl('/wiki/page/list'));
@@ -57,12 +57,12 @@ class PageController extends ContentContainerController
         $pagination = new \yii\data\Pagination(['totalCount' => $countQuery->count(), 'pageSize' => $pageSize]);
         $query->offset($pagination->offset)->limit($pagination->limit);
 
-        return $this->render('list', array(
+        return $this->render('list', [
                     'pages' => $query->all(),
                     'pagination' => $pagination,
                     'homePage' => $this->getHomePage(),
                     'contentContainer' => $this->contentContainer,
-        ));
+        ]);
     }
 
     public function actionView()
@@ -72,7 +72,6 @@ class PageController extends ContentContainerController
 
         $page = WikiPage::find()->contentContainer($this->contentContainer)->where(['title' => $title])->one();
         if ($page !== null) {
-
             $revision = null;
             if ($revisionId != 0) {
                 $revision = WikiPageRevision::findOne(['wiki_page_id' => $page->id, 'revision' => $revisionId]);
@@ -82,12 +81,11 @@ class PageController extends ContentContainerController
 
                 // There is no revision for this page.
                 if ($revision == null) {
-
                     // Delete page without revision
                     $page->delete();
 
                     // Forward to edit
-                    return $this->redirect($this->contentContainer->createUrl('edit', array('title' => $page->title)));
+                    return $this->redirect($this->contentContainer->createUrl('edit', ['title' => $page->title]));
                 }
             }
             return $this->render('view', [
@@ -99,7 +97,7 @@ class PageController extends ContentContainerController
                         'canViewHistory' => $this->canViewHistory()
             ]);
         } else {
-            return $this->redirect($this->contentContainer->createUrl('edit', array('title' => $title)));
+            return $this->redirect($this->contentContainer->createUrl('edit', ['title' => $title]));
         }
     }
 
@@ -136,7 +134,7 @@ class PageController extends ContentContainerController
                 $revision->wiki_page_id = $page->id;
                 if ($revision->validate()) {
                     $revision->save();
-                    return $this->redirect($this->contentContainer->createUrl('view', array('title' => $page->title)));
+                    return $this->redirect($this->contentContainer->createUrl('view', ['title' => $page->title]));
                 }
             }
         }
@@ -151,7 +149,7 @@ class PageController extends ContentContainerController
 
     public function actionHistory()
     {
-        if(!$this->canViewHistory()) {
+        if (!$this->canViewHistory()) {
             throw new HttpException(403, Yii::t('WikiModule.base', 'Permission denied. You have no rights to view the history.'));
         }
         
@@ -170,17 +168,16 @@ class PageController extends ContentContainerController
 
         $countQuery = clone $query;
 
-        $pagination = new \yii\data\Pagination(['totalCount' => $countQuery->count(), 'pageSize' => "20"]);
+        $pagination = new \yii\data\Pagination(['totalCount' => $countQuery->count(), 'pageSize' => '20']);
         $query->offset($pagination->offset)->limit($pagination->limit);
 
 
-        return $this->render('history', array(
+        return $this->render('history', [
                     'page' => $page,
                     'revisions' => $query->all(),
                     'pagination' => $pagination,
                     'homePage' => $this->getHomePage(),
-                    'contentContainer' => $this->contentContainer)
-        );
+                    'contentContainer' => $this->contentContainer]);
     }
 
     public function actionDelete()
@@ -219,10 +216,10 @@ class PageController extends ContentContainerController
             throw new HttpException(403, Yii::t('WikiModule.base', 'Page not editable!'));
         }
 
-        $revision = WikiPageRevision::findOne(array(
+        $revision = WikiPageRevision::findOne([
                     'revision' => $toRevision,
                     'wiki_page_id' => $page->id
-        ));
+        ]);
 
         if ($revision->is_latest) {
             throw new HttpException(404, Yii::t('WikiModule.base', 'Revert not possible. Already latest revision!'));
@@ -232,7 +229,7 @@ class PageController extends ContentContainerController
         $revertedRevision->content = $revision->content;
         $revertedRevision->save();
 
-        return $this->redirect($this->contentContainer->createUrl('view', array('title' => $page->title)));
+        return $this->redirect($this->contentContainer->createUrl('view', ['title' => $page->title]));
     }
 
     /**
@@ -291,5 +288,4 @@ class PageController extends ContentContainerController
     {
         return $this->contentContainer->permissionManager->can(new \humhub\modules\wiki\permissions\ViewHistory());
     }
-
 }

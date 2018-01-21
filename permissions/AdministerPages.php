@@ -35,16 +35,15 @@ class AdministerPages extends \humhub\libs\BasePermission
     /**
      * @inheritdoc
      */
-    protected $title = "Administer pages";
+    protected $title = 'Administer pages';
 
     /**
      * @inheritdoc
      */
-    protected $description = "Allows the user to administer  pages (rename, delete, protect, make homepage)";
+    protected $description = 'Allows the user to administer  pages (rename, delete, protect, make homepage)';
 
     /**
      * @inheritdoc
      */
     protected $moduleId = 'wiki';
-
 }

@@ -1,5 +1,5 @@
 <?php
-return array (
+return  [
   '<strong>Confirm</strong> page deleting' => '<strong>Bekreft</strong> sletting av side
 ',
   '<strong>Confirm</strong> page reverting' => '<strong>Bekreft</strong> tilbakestilling av side',
@@ -39,4 +39,4 @@ return array (
   'Wiki' => 'Wiki',
   'You need to be member of the space "%space_name%" to access this wiki page!' => 'Du må være medlem av gruppen "%space_name%" for å se denne wikisiden!',
   'by' => 'av',
-);
+];

@@ -29,7 +29,7 @@ class WikiPage extends ContentActiveRecord implements Searchable
     /**
      * @inheritdoc
      */
-    public $wallEntryClass = "humhub\modules\wiki\widgets\WallEntry";
+    public $wallEntryClass = 'humhub\modules\wiki\widgets\WallEntry';
 
     /**
      * @return string the associated database table name
@@ -44,7 +44,7 @@ class WikiPage extends ContentActiveRecord implements Searchable
      */
     public function rules()
     {
-        $rules = array();
+        $rules = [];
         $rules[] = ['title', 'required'];
         $rules[] = ['title', 'string', 'max' => 255];
         $rules[] = ['title', 'validateTitle'];
@@ -77,18 +77,17 @@ class WikiPage extends ContentActiveRecord implements Searchable
      */
     public function attributeLabels()
     {
-        return array(
+        return [
             'id' => 'ID',
             'title' => 'Title',
             'is_home' => Yii::t('WikiModule.base', 'Is homepage'),
             'admin_only' => Yii::t('WikiModule.base', 'Protected'),
-        );
+        ];
     }
 
     public function afterSave($insert, $changedAttributes)
     {
         if ($this->is_home == 1) {
-
             $query = self::find()->contentContainer($this->content->container)->where(['wiki_page.is_home' => 1])->andWhere(['!=', 'wiki_page.id', $this->id]);
             foreach ($query->all() as $page) {
                 $page->is_home = 0;
@@ -106,7 +105,7 @@ class WikiPage extends ContentActiveRecord implements Searchable
         $rev->user_id = Yii::$app->user->id;
         $rev->revision = time();
 
-        $lastRevision = WikiPageRevision::find()->where(array('is_latest' => 1, 'wiki_page_id' => $this->id))->one();
+        $lastRevision = WikiPageRevision::find()->where(['is_latest' => 1, 'wiki_page_id' => $this->id])->one();
         if ($lastRevision !== null) {
             $rev->content = $lastRevision->content;
         }
@@ -137,7 +136,7 @@ class WikiPage extends ContentActiveRecord implements Searchable
     public function validateTitle($attribute, $params)
     {
 
-        if (strpos($this->title, "/") !== false || strpos($this->title, ")") !== false || strpos($this->title, "(") !== false) {
+        if (strpos($this->title, '/') !== false || strpos($this->title, ')') !== false || strpos($this->title, '(') !== false) {
             $this->addError('title', Yii::t('WikiModule.base', 'Invalid character in page title!'));
         }
 
@@ -154,7 +153,7 @@ class WikiPage extends ContentActiveRecord implements Searchable
 
     public function getContentName()
     {
-        return Yii::t('WikiModule.models_WikiPage', "Wiki page");
+        return Yii::t('WikiModule.models_WikiPage', 'Wiki page');
     }
 
     public function getContentDescription()
@@ -164,21 +163,20 @@ class WikiPage extends ContentActiveRecord implements Searchable
 
     public function getUrl()
     {
-        return $this->content->container->createUrl('//wiki/page/view', array('title' => $this->title));
+        return $this->content->container->createUrl('//wiki/page/view', ['title' => $this->title]);
     }
 
     // Searchable Attributes / Informations
     public function getSearchAttributes()
     {
-        $content = "";
+        $content = '';
         if ($this->latestRevision !== null) {
             $content = $this->latestRevision->content;
         }
 
-        return array(
+        return [
             'title' => $this->title,
             'lastPageContent' => $content,
-        );
+        ];
     }
-
 }

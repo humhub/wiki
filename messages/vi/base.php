@@ -1,5 +1,5 @@
 <?php
-return array (
+return  [
   '<strong>Confirm</strong> page deleting' => '<strong>Xác nhận</strong> xóa trang',
   '<strong>Confirm</strong> page reverting' => '<strong>Xác nhận</strong> hoàn trả lại trang',
   '<strong>Overview</strong> of all pages' => '<strong>Tổng quan</strong> tất cả các trang',
@@ -39,4 +39,4 @@ return array (
   'Wiki' => 'Kiến thức',
   'You need to be member of the space "%space_name%" to access this wiki page!' => 'Bạn cần là thành viên của phòng làm việc "%space_name%"  để truy cập trang kiến thức này!',
   'by' => 'bởi',
-);
+];
