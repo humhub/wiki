@@ -1,4 +1,4 @@
 <?php
-return array (
+return  [
   'Open wiki page...' => 'Mở trang Kiến thức...',
-);
+];

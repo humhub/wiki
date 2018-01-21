@@ -22,5 +22,4 @@ class Assets extends AssetBundle
     public $css = [
         'wiki.css'
     ];
-
 }

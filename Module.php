@@ -73,5 +73,4 @@ class Module extends ContentContainerModule
 
         return [];
     }
-
 }

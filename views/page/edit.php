@@ -14,26 +14,26 @@ humhub\modules\wiki\Assets::register($this);
 
                 <?php if (!$page->isNewRecord) : ?>
                     <h1><?php echo Yii::t('WikiModule.views_page_edit', '<strong>Edit</strong> page'); ?></h1>
-                <?php else: ?>
+                <?php else : ?>
                     <h1><?php echo Yii::t('WikiModule.views_page_edit', '<strong>Create</strong> new page'); ?></h1>
                 <?php endif; ?>
 
                 <?php $form = CActiveForm::begin(); ?>
 
-                <?php if ($this->context->canAdminister() || $page->isNewRecord): ?>
+                <?php if ($this->context->canAdminister() || $page->isNewRecord) : ?>
                     <div class="form-group">
                         <?php // echo $form->labelEx($page, 'title');  ?>
-                        <?php echo $form->textField($page, 'title', array('class' => 'form-control', 'placeholder' => Yii::t('WikiModule.views_page_edit', 'New page title'))); ?>
+                        <?php echo $form->textField($page, 'title', ['class' => 'form-control', 'placeholder' => Yii::t('WikiModule.views_page_edit', 'New page title')]); ?>
                         <?php echo $form->error($page, 'title'); ?>
                     </div>
-                <?php else: ?>
+                <?php else : ?>
                     <?php echo $form->hiddenField($page, 'title'); ?>
                 <?php endif; ?>
 
 
                 <div class="form-group">
-                    <?php echo $form->textArea($revision, 'content', array('id' => 'txtWikiPageContent', 'style' => 'height:350px;padding:10px', 'rows' => '15', 'placeholder' => Yii::t('WikiModule.views_page_edit', 'Page content'))); ?>
-                    <?php echo humhub\widgets\MarkdownEditor::widget(array('fieldId' => 'txtWikiPageContent', 'previewUrl' => $contentContainer->createUrl('preview-markdown'))); ?>
+                    <?php echo $form->textArea($revision, 'content', ['id' => 'txtWikiPageContent', 'style' => 'height:350px;padding:10px', 'rows' => '15', 'placeholder' => Yii::t('WikiModule.views_page_edit', 'Page content')]); ?>
+                    <?php echo humhub\widgets\MarkdownEditor::widget(['fieldId' => 'txtWikiPageContent', 'previewUrl' => $contentContainer->createUrl('preview-markdown')]); ?>
                     <script>
                         $(document).ready(function () {
                             // Fix MarkdownEditor Url Placeholder, user can also insert wiki page title
@@ -42,33 +42,33 @@ humhub\modules\wiki\Assets::register($this);
                     </script>
                 </div>
 
-                <?php if ($this->context->canAdminister()): ?>
+                <?php if ($this->context->canAdminister()) : ?>
                     <div class="form-group">
                         <div class="checkbox">
                             <label>
-                                <?php echo $form->checkBox($page, 'is_home', array()); ?> <?php echo $page->getAttributeLabel('is_home'); ?>
+                                <?php echo $form->checkBox($page, 'is_home', []); ?> <?php echo $page->getAttributeLabel('is_home'); ?>
                             </label>
                         </div>
                         <div class="checkbox">
                             <label>
-                                <?php echo $form->checkBox($page, 'admin_only', array()); ?> <?php echo $page->getAttributeLabel('admin_only'); ?>
+                                <?php echo $form->checkBox($page, 'admin_only', []); ?> <?php echo $page->getAttributeLabel('admin_only'); ?>
                             </label>
                         </div>
                     </div>
                 <?php endif; ?>
                 <hr>
-                <?php echo Html::submitButton(Yii::t('WikiModule.views_page_edit', 'Save'), array('class' => 'btn btn-primary', 'data-ui-loader' => true)); ?>
+                <?php echo Html::submitButton(Yii::t('WikiModule.views_page_edit', 'Save'), ['class' => 'btn btn-primary', 'data-ui-loader' => true]); ?>
                 <?php CActiveForm::end(); ?>
             </div>
 
             <div class="col-lg-2 col-md-3 col-sm-3 wiki-menu">
-                <?php if (!$page->isNewRecord): ?>
+                <?php if (!$page->isNewRecord) : ?>
 
                     <ul class="nav nav-pills nav-stacked">
-                        <?php if ($this->context->canAdminister()): ?>
+                        <?php if ($this->context->canAdminister()) : ?>
                             <!-- load modal confirm widget -->
                             <li><?php
-                                echo \humhub\widgets\ModalConfirm::widget(array(
+                                echo \humhub\widgets\ModalConfirm::widget([
                                     'uniqueID' => 'modal_pagedelete_' . $page->id,
                                     'linkOutput' => 'a',
                                     'title' => Yii::t('WikiModule.base', '<strong>Confirm</strong> page deleting'),
@@ -76,29 +76,29 @@ humhub\modules\wiki\Assets::register($this);
                                     'buttonTrue' => Yii::t('WikiModule.base', 'Delete'),
                                     'buttonFalse' => Yii::t('WikiModule.base', 'Cancel'),
                                     'linkContent' => '<i class="fa fa-trash-o delete"></i> ' . Yii::t('WikiModule.base', 'Delete'),
-                                    'linkHref' => $contentContainer->createUrl('//wiki/page/delete', array('id' => $page->id)),
+                                    'linkHref' => $contentContainer->createUrl('//wiki/page/delete', ['id' => $page->id]),
                                     'confirmJS' => 'function(jsonResp) { window.location.href = "' . $contentContainer->createUrl('index') . '"; }'
-                                ));
+                                ]);
                                 ?></li>
 
                         <?php endif; ?>
 
-                        <li><?php echo Html::a('<i class="fa fa-reply back"></i> ' . Yii::t('WikiModule.base', 'Cancel'), $contentContainer->createUrl('//wiki/page/view', array('title' => $page->title))); ?></li>
+                        <li><?php echo Html::a('<i class="fa fa-reply back"></i> ' . Yii::t('WikiModule.base', 'Cancel'), $contentContainer->createUrl('//wiki/page/view', ['title' => $page->title])); ?></li>
                         <li class="nav-divider"></li>
                         <?php if ($homePage !== null) : ?>
-                            <li><?php echo Html::a('<i class="fa fa-newspaper-o"></i> ' . Yii::t('WikiModule.base', 'Main page'), $contentContainer->createUrl('//wiki/page/index', array())); ?></li>
+                            <li><?php echo Html::a('<i class="fa fa-newspaper-o"></i> ' . Yii::t('WikiModule.base', 'Main page'), $contentContainer->createUrl('//wiki/page/index', [])); ?></li>
                         <?php endif; ?>
-                        <li><?php echo Html::a('<i class="fa fa-list-alt"></i> ' . Yii::t('WikiModule.base', 'Overview'), $contentContainer->createUrl('//wiki/page/list', array())); ?></li>
+                        <li><?php echo Html::a('<i class="fa fa-list-alt"></i> ' . Yii::t('WikiModule.base', 'Overview'), $contentContainer->createUrl('//wiki/page/list', [])); ?></li>
                     </ul>
 
-                <?php else: ?>
+                <?php else : ?>
                     <ul class="nav nav-pills nav-stacked">
-                        <li><?php echo Html::a('<i class="fa fa-reply back"></i> ' . Yii::t('WikiModule.base', 'Cancel'), $contentContainer->createUrl('//wiki/page/list', array('title' => $page->title))); ?></li>
+                        <li><?php echo Html::a('<i class="fa fa-reply back"></i> ' . Yii::t('WikiModule.base', 'Cancel'), $contentContainer->createUrl('//wiki/page/list', ['title' => $page->title])); ?></li>
                         <li class="nav-divider"></li>
                             <?php if ($homePage !== null) : ?>
-                            <li><?php echo Html::a('<i class="fa fa-newspaper-o"></i> ' . Yii::t('WikiModule.base', 'Main page'), $contentContainer->createUrl('//wiki/page/index', array())); ?></li>
-                        <?php endif; ?>
-                        <li><?php echo Html::a('<i class="fa fa-list-alt"></i> ' . Yii::t('WikiModule.base', 'Overview'), $contentContainer->createUrl('//wiki/page/list', array())); ?></li>
+                            <li><?php echo Html::a('<i class="fa fa-newspaper-o"></i> ' . Yii::t('WikiModule.base', 'Main page'), $contentContainer->createUrl('//wiki/page/index', [])); ?></li>
+                            <?php endif; ?>
+                        <li><?php echo Html::a('<i class="fa fa-list-alt"></i> ' . Yii::t('WikiModule.base', 'Overview'), $contentContainer->createUrl('//wiki/page/list', [])); ?></li>
                     </ul>
                 <?php endif; ?>
             </div>

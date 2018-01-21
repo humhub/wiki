@@ -29,16 +29,15 @@ class ViewHistory extends \humhub\libs\BasePermission
     /**
      * @inheritdoc
      */
-    protected $title = "View History";
+    protected $title = 'View History';
 
     /**
      * @inheritdoc
      */
-    protected $description = "Allows the user to view the history of wiki pages";
+    protected $description = 'Allows the user to view the history of wiki pages';
 
     /**
      * @inheritdoc
      */
     protected $moduleId = 'wiki';
-
 }

@@ -1,4 +1,4 @@
 <?php
-return array (
+return  [
   'Open wiki page...' => 'Ouvir la page wiki...',
-);
+];
