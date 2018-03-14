@@ -5,11 +5,16 @@ namespace humhub\modules\wiki;
 use Yii;
 use humhub\modules\wiki\models\WikiPage;
 use humhub\modules\space\models\Space;
+use humhub\modules\user\models\User;
 use humhub\modules\content\components\ContentContainerActiveRecord;
 use humhub\modules\content\components\ContentContainerModule;
 
 class Module extends ContentContainerModule
 {
+    /**
+     * @var int amount of results per page in the wiki overview
+     */
+    public $pageSize = 30;
 
     /**
      * @inheritdoc

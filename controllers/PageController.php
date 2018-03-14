@@ -50,7 +50,7 @@ class PageController extends ContentContainerController
 
     public function actionList()
     {
-        $pageSize = 30;
+        $pageSize = Yii::$app->getModule('wiki')->pageSize;
         $query = WikiPage::find()->orderBy('title ASC')->contentContainer($this->contentContainer);
         $countQuery = clone $query;
 
