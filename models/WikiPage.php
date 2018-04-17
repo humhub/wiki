@@ -2,12 +2,10 @@
 
 namespace humhub\modules\wiki\models;
 
-use Yii;
-use humhub\modules\space\models\Space;
-use humhub\modules\user\models\User;
 use humhub\modules\content\components\ContentActiveRecord;
-use humhub\modules\wiki\models\WikiPageRevision;
 use humhub\modules\search\interfaces\Searchable;
+use Yii;
+use yii\db\Expression;
 
 /**
  * This is the model class for table "wiki_page".
@@ -17,9 +15,16 @@ use humhub\modules\search\interfaces\Searchable;
  * @property string $title
  * @property integer $is_home
  * @property integer $admin_only
+ * @property integer $is_category
+ * @property integer $parent_page_id
+ *
  */
 class WikiPage extends ContentActiveRecord implements Searchable
 {
+
+    const SCENARIO_CREATE = 'create';
+    const SCENARIO_ADMIN_EDIT = 'admin';
+    const SCENARIO_EDIT = 'edit';
 
     /**
      * @inheritdoc
@@ -30,6 +35,11 @@ class WikiPage extends ContentActiveRecord implements Searchable
      * @inheritdoc
      */
     public $wallEntryClass = "humhub\modules\wiki\widgets\WallEntry";
+
+    /**
+     * @var array newly attached files
+     */
+    public $newFiles = [];
 
     /**
      * @return string the associated database table name
@@ -44,19 +54,22 @@ class WikiPage extends ContentActiveRecord implements Searchable
      */
     public function rules()
     {
-        $rules = array();
-        $rules[] = ['title', 'required'];
-        $rules[] = ['title', 'string', 'max' => 255];
-        $rules[] = ['title', 'validateTitle'];
-        $rules[] = [['is_home', 'admin_only'], 'integer'];
-        return $rules;
+        return [
+            [['newFiles'], 'safe'],
+            ['title', 'required'],
+            ['title', 'string', 'max' => 255],
+            ['title', 'validateTitle'],
+            ['parent_page_id', 'validateParentPage'],
+            [['is_home', 'admin_only', 'is_category'], 'integer']
+        ];
+
     }
 
     public function scenarios()
     {
         $scenarios = parent::scenarios();
-        $scenarios['create'] = ['title'];
-        $scenarios['admin'] = ['title', 'is_home', 'admin_only'];
+        $scenarios['create'] = ['title', 'newFiles'];
+        $scenarios['admin'] = ['title', 'is_home', 'admin_only', 'is_category', 'newFiles', 'parent_page_id'];
         return $scenarios;
     }
 
@@ -82,14 +95,34 @@ class WikiPage extends ContentActiveRecord implements Searchable
             'title' => 'Title',
             'is_home' => Yii::t('WikiModule.base', 'Is homepage'),
             'admin_only' => Yii::t('WikiModule.base', 'Protected'),
+            'is_category' => Yii::t('WikiModule.base', 'Is category'),
+            'parent_page_id' => Yii::t('WikiModule.base', 'Category')
         );
+    }
+
+
+    public function beforeSave($insert)
+    {
+        if ($this->is_category || empty($this->parent_page_id)) {
+            $this->parent_page_id = null;
+        }
+
+        // Check if category flag was removed
+        if ((int) $this->getOldAttribute('is_category') != (int) $this->is_category && (int) $this->is_category == 0) {
+            WikiPage::updateAll(['parent_page_id' => new Expression('NULL')], ['parent_page_id' => $this->id]);
+        }
+
+        return parent::beforeSave($insert);
     }
 
     public function afterSave($insert, $changedAttributes)
     {
         if ($this->is_home == 1) {
 
-            $query = self::find()->contentContainer($this->content->container)->where(['wiki_page.is_home' => 1])->andWhere(['!=', 'wiki_page.id', $this->id]);
+            $query = self::find()->contentContainer($this->content->container);
+            $query->andWhere(['wiki_page.is_home' => 1]);
+            $query->andWhere(['!=', 'wiki_page.id', $this->id]);
+
             foreach ($query->all() as $page) {
                 $page->is_home = 0;
                 $page->save();
@@ -99,6 +132,9 @@ class WikiPage extends ContentActiveRecord implements Searchable
         return parent::afterSave($insert, $changedAttributes);
     }
 
+    /**
+     * @return WikiPageRevision
+     */
     public function createRevision()
     {
 
@@ -131,8 +167,8 @@ class WikiPage extends ContentActiveRecord implements Searchable
     /**
      * Title field validator
      *
-     * @param type $attribute
-     * @param type $params
+     * @param string $attribute
+     * @param array $params
      */
     public function validateTitle($attribute, $params)
     {
@@ -149,6 +185,25 @@ class WikiPage extends ContentActiveRecord implements Searchable
 
         if ($query->count() != 0) {
             $this->addError('title', Yii::t('WikiModule.base', 'Page title already in use!'));
+        }
+    }
+
+    public function validateParentPage($attribute, $params)
+    {
+        if (empty($this->parent_page_id)) {
+            return;
+        }
+
+        $query = static::find();
+        $query->contentContainer($this->content->container);
+        $query->andWhere(['wiki_page.id' => $this->parent_page_id]);
+        $query->andWhere(['is_category' => 1]);
+        if (!$this->isNewRecord) {
+            $query->andWhere(['!=', 'wiki_page.id', $this->id]);
+        }
+
+        if ($query->count() != 1) {
+            $this->addError('parent_page_id', Yii::t('WikiModule.base', 'Invalid category!'));
         }
     }
 
@@ -179,6 +234,40 @@ class WikiPage extends ContentActiveRecord implements Searchable
             'title' => $this->title,
             'lastPageContent' => $content,
         );
+    }
+
+    public function findChildren()
+    {
+        $query = static::find();
+        return $query->andWhere(['parent_page_id' => $this->id])->orderBy('title ASC');
+    }
+
+    public function getCategoryPage()
+    {
+        return $this->hasOne(static::class, ['id' => 'parent_page_id']);
+    }
+
+    /**
+     * @return array
+     * @throws \yii\base\Exception
+     */
+    public function getCategoryList()
+    {
+        $categories = [];
+
+        $query = static::find()->contentContainer($this->content->container);
+        $query->andWhere(['wiki_page.is_category' => 1]);
+
+        if (!$this->isNewRecord) {
+            $query->andWhere(['!=', 'wiki_page.id', $this->id]);
+        }
+
+        $categories[] = '';
+        foreach ($query->all() as $category) {
+            $categories[$category->id] = $category->title;
+        }
+
+        return $categories;
     }
 
 }

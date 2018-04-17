@@ -2,29 +2,30 @@
 
 namespace humhub\modules\wiki\controllers;
 
-use Yii;
-use yii\web\HttpException;
-use humhub\widgets\MarkdownView;
 use humhub\modules\content\components\ContentContainerController;
-use humhub\modules\space\models\Space;
-use humhub\modules\file\models\File;
 use humhub\modules\content\models\Content;
+use humhub\modules\file\models\File;
+use humhub\modules\space\models\Space;
 use humhub\modules\wiki\models\WikiPage;
 use humhub\modules\wiki\models\WikiPageRevision;
+use humhub\widgets\MarkdownView;
+use Yii;
+use yii\base\Exception;
+use yii\web\HttpException;
 
 /**
  * PageController
  *
  * @author luke
  */
-class PageController extends ContentContainerController
+class PageController extends BaseController
 {
 
     /**
-     * @inheritdoc
+     * @param $action
+     * @return bool
+     * @throws HttpException
      */
-    public $hideSidebar = true;
-
     public function beforeAction($action)
     {
         if (parent::beforeAction($action)) {
@@ -37,34 +38,30 @@ class PageController extends ContentContainerController
         return false;
     }
 
+    /**
+     * @return $this|void|\yii\web\Response
+     * @throws \yii\base\Exception
+     */
     public function actionIndex()
     {
-        $homePage = $this->getHomePage();
-
-        if ($homePage !== null) {
-            return $this->redirect($this->contentContainer->createUrl('/wiki/page/view', array('title' => $homePage->title)));
-        }
-
-        return $this->redirect($this->contentContainer->createUrl('/wiki/page/list'));
+        return $this->redirect($this->contentContainer->createUrl('/wiki/overview'));
     }
 
+    /**
+     * @return string
+     * @throws \yii\base\Exception
+     */
     public function actionList()
     {
-        $pageSize = Yii::$app->getModule('wiki')->pageSize;
-        $query = WikiPage::find()->orderBy('title ASC')->contentContainer($this->contentContainer);
-        $countQuery = clone $query;
-
-        $pagination = new \yii\data\Pagination(['totalCount' => $countQuery->count(), 'pageSize' => $pageSize]);
-        $query->offset($pagination->offset)->limit($pagination->limit);
-
-        return $this->render('list', array(
-                    'pages' => $query->all(),
-                    'pagination' => $pagination,
-                    'homePage' => $this->getHomePage(),
-                    'contentContainer' => $this->contentContainer,
-        ));
+        return $this->redirect($this->contentContainer->createUrl('/wiki/overview/list'));
     }
 
+    /**
+     * @return $this|string|void|\yii\web\Response
+     * @throws \yii\base\Exception
+     * @throws \yii\base\InvalidConfigException
+     * @throws \yii\db\StaleObjectException
+     */
     public function actionView()
     {
         $title = Yii::$app->request->get('title');
@@ -91,21 +88,27 @@ class PageController extends ContentContainerController
                 }
             }
             return $this->render('view', [
-                        'page' => $page,
-                        'revision' => $revision,
-                        'homePage' => $this->getHomePage(),
-                        'contentContainer' => $this->contentContainer,
-                        'content' => $revision->content,
-                        'canViewHistory' => $this->canViewHistory()
+                'page' => $page,
+                'revision' => $revision,
+                'homePage' => $this->getHomePage(),
+                'contentContainer' => $this->contentContainer,
+                'content' => $revision->content,
+                'canViewHistory' => $this->canViewHistory()
             ]);
         } else {
             return $this->redirect($this->contentContainer->createUrl('edit', array('title' => $title)));
         }
     }
 
+    /**
+     * @return $this|string|void|\yii\web\Response
+     * @throws HttpException
+     * @throws \yii\base\Exception
+     * @throws \yii\base\InvalidConfigException
+     */
     public function actionEdit()
     {
-        $id = (int) Yii::$app->request->get('id');
+        $id = (int)Yii::$app->request->get('id');
 
         $page = WikiPage::find()->contentContainer($this->contentContainer)->readable()->where(['wiki_page.id' => $id])->one();
         if ($page === null) {
@@ -132,7 +135,8 @@ class PageController extends ContentContainerController
             $page->content->container = $this->contentContainer;
             if ($page->validate()) {
                 $page->save();
-                File::attachPrecreated($page, Yii::$app->request->post('fileUploaderHiddenGuidField'));
+                $page->fileManager->attach($page->newFiles);
+
                 $revision->wiki_page_id = $page->id;
                 if ($revision->validate()) {
                     $revision->save();
@@ -142,19 +146,27 @@ class PageController extends ContentContainerController
         }
 
         return $this->render('edit', [
-                    'page' => $page,
-                    'revision' => $revision,
-                    'homePage' => $this->getHomePage(),
-                    'contentContainer' => $this->contentContainer
+            'page' => $page,
+            'revision' => $revision,
+            'homePage' => $this->getHomePage(),
+            'contentContainer' => $this->contentContainer,
+            'canAdminister' => $this->canAdminister(),
+            'hasCategories' => $this->hasCategoryPages()
         ]);
     }
 
+    /**
+     * @return string
+     * @throws HttpException
+     * @throws \yii\base\Exception
+     * @throws \yii\base\InvalidConfigException
+     */
     public function actionHistory()
     {
-        if(!$this->canViewHistory()) {
+        if (!$this->canViewHistory()) {
             throw new HttpException(403, Yii::t('WikiModule.base', 'Permission denied. You have no rights to view the history.'));
         }
-        
+
         $id = Yii::$app->request->get('id');
 
         $page = WikiPage::find()->contentContainer($this->contentContainer)->readable()->where(['wiki_page.id' => $id])->one();
@@ -175,14 +187,21 @@ class PageController extends ContentContainerController
 
 
         return $this->render('history', array(
-                    'page' => $page,
-                    'revisions' => $query->all(),
-                    'pagination' => $pagination,
-                    'homePage' => $this->getHomePage(),
-                    'contentContainer' => $this->contentContainer)
+                'page' => $page,
+                'revisions' => $query->all(),
+                'pagination' => $pagination,
+                'homePage' => $this->getHomePage(),
+                'contentContainer' => $this->contentContainer)
         );
     }
 
+    /**
+     * @return $this|void|\yii\web\Response
+     * @throws HttpException
+     * @throws \yii\base\Exception
+     * @throws \yii\base\InvalidConfigException
+     * @throws \yii\db\StaleObjectException
+     */
     public function actionDelete()
     {
         $this->forcePostRequest();
@@ -202,12 +221,18 @@ class PageController extends ContentContainerController
         return $this->redirect($this->contentContainer->createUrl('index'));
     }
 
+    /**
+     * @return $this|void|\yii\web\Response
+     * @throws HttpException
+     * @throws \yii\base\Exception
+     * @throws \yii\base\InvalidConfigException
+     */
     public function actionRevert()
     {
         $this->forcePostRequest();
 
-        $id = (int) Yii::$app->request->get('id');
-        $toRevision = (int) Yii::$app->request->get('toRevision');
+        $id = (int)Yii::$app->request->get('id');
+        $toRevision = (int)Yii::$app->request->get('toRevision');
 
         $page = WikiPage::find()->contentContainer($this->contentContainer)->readable()->where(['wiki_page.id' => $id])->one();
 
@@ -220,8 +245,8 @@ class PageController extends ContentContainerController
         }
 
         $revision = WikiPageRevision::findOne(array(
-                    'revision' => $toRevision,
-                    'wiki_page_id' => $page->id
+            'revision' => $toRevision,
+            'wiki_page_id' => $page->id
         ));
 
         if ($revision->is_latest) {
@@ -238,6 +263,8 @@ class PageController extends ContentContainerController
     /**
      * Markdown preview action for MarkdownViewWidget
      * We require an own preview action here to also handle internal wiki links.
+     * @throws HttpException
+     * @throws \Exception
      */
     public function actionPreviewMarkdown()
     {
@@ -248,24 +275,9 @@ class PageController extends ContentContainerController
     }
 
     /**
-     * @return WikiPage the homepage
-     */
-    private function getHomePage()
-    {
-        return WikiPage::find()->contentContainer($this->contentContainer)->readable()->where(['is_home' => 1])->one();
-    }
-
-    /**
-     * @return boolean can manage wiki sites?
-     */
-    public function canAdminister()
-    {
-        return $this->contentContainer->permissionManager->can(new \humhub\modules\wiki\permissions\AdministerPages());
-    }
-
-    /**
      * @param WikiPage $page
      * @return boolean can edit given wiki site?
+     * @throws \yii\base\InvalidConfigException
      */
     public function canEdit($page)
     {
@@ -276,20 +288,7 @@ class PageController extends ContentContainerController
         return $this->contentContainer->permissionManager->can(new \humhub\modules\wiki\permissions\EditPages());
     }
 
-    /**
-     * @return boolean can create new wiki site
-     */
-    public function canCreatePage()
-    {
-        return $this->contentContainer->permissionManager->can(new \humhub\modules\wiki\permissions\CreatePage());
-    }
-    
-    /**
-     * @return boolean can view wiki page history?
-     */
-    public function canViewHistory()
-    {
-        return $this->contentContainer->permissionManager->can(new \humhub\modules\wiki\permissions\ViewHistory());
-    }
+
+
 
 }

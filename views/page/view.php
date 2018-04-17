@@ -1,6 +1,14 @@
 <?php
 
+use humhub\modules\comment\widgets\CommentLink;
+use humhub\modules\comment\widgets\Comments;
+use humhub\modules\like\widgets\LikeLink;
+use humhub\widgets\MarkdownView;
 use yii\helpers\Html;
+
+/* @var $this \humhub\components\View */
+/* @var $page \humhub\modules\wiki\models\WikiPage */
+/* @var $revision \humhub\modules\wiki\models\WikiPageRevision */
 
 humhub\modules\wiki\Assets::register($this);
 ?>
@@ -9,19 +17,38 @@ humhub\modules\wiki\Assets::register($this);
 
         <div class="row">
             <div class="col-lg-9 col-md-9 col-sm-9 wiki-content">
-                <h1><strong><?php echo Html::encode($page->title); ?></strong></h1>
+                <h1>
+                    <strong><?= Html::encode($page->title); ?></strong>
+                    <?php if ($page->categoryPage !== null): ?>
+                        <a href="<?= $page->categoryPage->getUrl(); ?>" class="pull-right"><span
+                                    class="label label-primary"><?= $page->categoryPage->title; ?></span></a>
+                    <?php endif; ?>
+                </h1>
                 <hr>
 
                 <div class="markdown-render">
-                    <?php echo \humhub\widgets\MarkdownView::widget(['markdown' => $content, 'parserClass' => "humhub\modules\wiki\Markdown"]); ?>
+                    <?= MarkdownView::widget(['markdown' => $content, 'parserClass' => "humhub\modules\wiki\Markdown"]); ?>
                 </div>
-                <hr>
 
+                <?php if (!empty($content)) : ?>
+                    <hr>
+                <?php endif; ?>
+
+                <?php if ($page->is_category): ?>
+                    <h1><?= Yii::t('WikiModule.base', 'Pages in this category'); ?></h1>
+                    <ul class="wiki-page-list">
+                        <?php foreach ($page->findChildren()->all() as $page): ?>
+                            <li><?= Html::a('<i class="fa fa-file-text-o"></i> ' . Html::encode($page->title), $page->getUrl()); ?></li>
+                        <?php endforeach; ?>
+                    </ul>
+                    <br/>
+                    <hr/>
+                <?php endif; ?>
                 <div class="social-controls">
-                    <?php echo \humhub\modules\comment\widgets\CommentLink::widget(array('object' => $page)); ?>
-                    &middot; <?php echo \humhub\modules\like\widgets\LikeLink::widget(array('object' => $page)); ?>
+                    <?= CommentLink::widget(['object' => $page]); ?>
+                    &middot; <?= LikeLink::widget(['object' => $page]); ?>
                 </div>
-                <?php echo \humhub\modules\comment\widgets\Comments::widget(array('object' => $page)); ?>
+                <?= Comments::widget(['object' => $page]); ?>
             </div>
 
             <div class="col-lg-3 col-md-3 col-sm-3 wiki-menu">
@@ -30,12 +57,13 @@ humhub\modules\wiki\Assets::register($this);
                     <?php if ($revision->is_latest): ?>
 
                         <?php if ($this->context->canEdit($page)) : ?>
-                            <li><?php echo Html::a('<i class="fa fa-pencil-square-o edit"></i> ' . Yii::t('WikiModule.base', 'Edit page'), $contentContainer->createUrl('/wiki/page/edit', array('id' => $page->id))); ?></li>
+                            <li><?= Html::a('<i class="fa fa-pencil-square-o edit"></i> ' . Yii::t('WikiModule.base', 'Edit page'), $contentContainer->createUrl('/wiki/page/edit', array('id' => $page->id))); ?></li>
                         <?php endif; ?>
-                        
+
                         <?php if ($canViewHistory) : ?>
-                            <li><?php echo Html::a('<i class="fa fa-clock-o history"></i> ' . Yii::t('WikiModule.base', 'Page History'), $contentContainer->createUrl('/wiki/page/history', array('id' => $page->id))); ?></li>
-                        <?php endif; ?><li>
+                            <li><?= Html::a('<i class="fa fa-clock-o history"></i> ' . Yii::t('WikiModule.base', 'Page History'), $contentContainer->createUrl('/wiki/page/history', array('id' => $page->id))); ?></li>
+                        <?php endif; ?>
+                        <li>
                             <?php
                             echo humhub\widgets\ModalConfirm::widget(array(
                                 'uniqueID' => 'modal_permalink',
@@ -50,8 +78,6 @@ humhub\modules\wiki\Assets::register($this);
                             ));
                             ?>
                         </li>
-
-
 
 
                     <?php else: ?>
@@ -73,27 +99,24 @@ humhub\modules\wiki\Assets::register($this);
                                 ));
                                 ?></li>
 
-
                         <?php endif; ?>
-                        <li><?php echo Html::a('<i class="fa fa-reply"></i> ' . Yii::t('WikiModule.base', 'Go back'), $contentContainer->createUrl('/wiki/page/history', array('id' => $page->id))); ?></li>
+                        <li><?= Html::a('<i class="fa fa-reply"></i> ' . Yii::t('WikiModule.base', 'Go back'), $contentContainer->createUrl('/wiki/page/history', array('id' => $page->id))); ?></li>
 
                     <?php endif; ?>
-
 
                     <li class="nav-divider"></li>
 
                     <?php if ($this->context->canCreatePage()): ?>
                         <li><a href="<?php echo $contentContainer->createUrl('/wiki/page/edit'); ?>"><i
-                                    class="fa fa-file-text-o new"></i> <?php echo Yii::t('WikiModule.base', 'New page'); ?>
+                                        class="fa fa-file-text-o new"></i> <?php echo Yii::t('WikiModule.base', 'New page'); ?>
                             </a></li>
                         <li class="nav-divider"></li>
-
                     <?php endif; ?>
 
                     <?php if ($homePage !== null) : ?>
-                        <li><?php echo Html::a('<i class="fa fa-newspaper-o"></i> ' . Yii::t('WikiModule.base', 'Main page'), $contentContainer->createUrl('//wiki/page/index', array())); ?></li>
+                        <li><?= Html::a('<i class="fa fa-newspaper-o"></i> ' . Yii::t('WikiModule.base', 'Main page'), $contentContainer->createUrl('//wiki/page/index', array())); ?></li>
                     <?php endif; ?>
-                    <li><?php echo Html::a('<i class="fa fa-list-alt"></i> ' . Yii::t('WikiModule.base', 'Overview'), $contentContainer->createUrl('//wiki/page/list', array())); ?></li>
+                    <li><?= Html::a('<i class="fa fa-list-alt"></i> ' . Yii::t('WikiModule.base', 'Overview'), $contentContainer->createUrl('//wiki/page', array())); ?></li>
                 </ul>
 
 
