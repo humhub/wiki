@@ -1,4 +1,4 @@
 <?php
 return array (
-  'Open wiki page...' => 'Ganze Wiki-Seite lesen ...',
+  'Open wiki page...' => 'Wiki-Seite öffnen...',
 );
