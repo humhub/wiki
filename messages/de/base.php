@@ -1,6 +1,6 @@
 <?php
 return array (
-  '<strong>Confirm</strong> page deleting' => 'Seitenlöschung <strong>bestätigen</strong> ',
+  '<strong>Confirm</strong> page deleting' => 'Löschen der Seite <strong>bestätigen</strong> ',
   '<strong>Confirm</strong> page reverting' => 'Seiten rückgängig machen <strong>bestätigen</strong> ',
   '<strong>Overview</strong> of all pages' => '<strong>Übersicht</strong> aller Seiten',
   '<strong>Page</strong> history' => '<strong>Seiten</strong>historie',
@@ -36,6 +36,6 @@ return array (
   'Revert this' => 'Dies rückgängig machen',
   'View' => 'Ansicht',
   'Wiki' => 'Wiki',
-  'You need to be member of the space "%space_name%" to access this wiki page!' => 'Um auf diese Wiki-Seite zugreifen zu können, musst Du Mitglied des Space "%space_name%" sein!',
+  'You need to be member of the space "%space_name%" to access this wiki page!' => 'Um auf diese Wiki-Seite zugreifen zu können, musst du Mitglied des Space "%space_name%" sein!',
   'by' => 'von',
 );
