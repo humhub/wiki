@@ -89,7 +89,9 @@ class OverviewController extends BaseController
             'homePage' => $this->getHomePage(),
             'contentContainer' => $this->contentContainer,
             'categoryPageLimit' => 5,
-            'pagesWithoutCategoryQuery' => WikiPage::find()->contentContainer($this->contentContainer)->andWhere(['IS', 'parent_page_id', new Expression('NULL')]),
+            'pagesWithoutCategoryQuery' => WikiPage::find()->contentContainer($this->contentContainer)
+            	->andWhere(['IS', 'parent_page_id', new Expression('NULL')])
+            	->andWhere(['wiki_page.is_category' => 0]),
         ));
 
     }
