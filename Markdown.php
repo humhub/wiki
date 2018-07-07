@@ -14,7 +14,6 @@ class Markdown extends \humhub\libs\Markdown
 {
 
     public $enableNewlines = true;
-
     
     protected function handleInternalUrls($url)
     {
@@ -25,12 +24,10 @@ class Markdown extends \humhub\libs\Markdown
                 return $url;
             }
 
-            if (substr($url, 0, 10) !== "file-guid-" && substr($url, 0, 1) !== "." && substr($url, 0, 1) !== "/" && substr($url, 0, 7) !== "http://" && substr($url, 0, 8) !== "https://") {
-                return Yii::$app->controller->contentContainer->createUrl('/wiki/page/view', array('title' => $url));
+            if (substr($url, 0, 10) !== 'file-guid-' && substr($url, 0, 1) !== '.' && substr($url, 0, 1) !== '/' && substr($url, 0, 7) !== 'http://' && substr($url, 0, 8) !== 'https://' && preg_match('/^<([^\s]*?@[^\s]*?\.\w+?)>/', $url)) {
+                return Yii::$app->controller->contentContainer->createUrl('/wiki/page/view', ['title' => $url]);
             }
         }
-
-
 
         return parent::handleInternalUrls($url);
     }
