@@ -54,7 +54,7 @@ humhub\modules\wiki\Assets::register($this);
                     <?php endforeach; ?>
 
                     <?php $total = $pagesWithoutCategoryQuery->count(); ?>
-                    <?php if ($total !== 0): ?>
+                    <?php if ($total != 0): ?>
                         <li>
                             <div class="page-category-title" style="margin-bottom:12px">
                                 <?= Html::a('<i class="fa fa-list-ol"></i> ' . Yii::t('WikiModule.base', 'Pages without category') . ' (' . $total . ')', $contentContainer->createUrl('/wiki/page/list', [])); ?>
