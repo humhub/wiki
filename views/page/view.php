@@ -45,8 +45,8 @@ humhub\modules\wiki\Assets::register($this);
                     <hr/>
                 <?php endif; ?>
                 <div class="social-controls">
-                    <?= CommentLink::widget(['object' => $page]); ?>
-                    &middot; <?= LikeLink::widget(['object' => $page]); ?>
+                    <?= LikeLink::widget(['object' => $page]); ?>
+                    &middot; <?= CommentLink::widget(['object' => $page]); ?>
                 </div>
                 <?= Comments::widget(['object' => $page]); ?>
             </div>
