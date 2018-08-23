@@ -116,7 +116,7 @@ humhub\modules\wiki\Assets::register($this);
                     <?php if ($homePage !== null) : ?>
                         <li><?= Html::a('<i class="fa fa-newspaper-o"></i> ' . Yii::t('WikiModule.base', 'Main page'), $contentContainer->createUrl('//wiki/page/index', array())); ?></li>
                     <?php endif; ?>
-                    <li><?= Html::a('<i class="fa fa-list-alt"></i> ' . Yii::t('WikiModule.base', 'Overview'), $contentContainer->createUrl('//wiki/page', array())); ?></li>
+                    <li><?= Html::a('<i class="fa fa-list-alt"></i> ' . Yii::t('WikiModule.base', 'Overview'), $contentContainer->createUrl('//wiki/overview/list', array())); ?></li>
                 </ul>
 
 

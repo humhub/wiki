@@ -1,6 +1,12 @@
 Changelog
 =========
 
+1.2.1  (23 August, 2018)
+------------------------
+- Fix: Overview link broken, when home page is set
+- Chg: Swap like and comment link order (Felli)
+
+
 1.2.0  (07 August, 2018)
 ------------------------
 - Enh: Added categories
