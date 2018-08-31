@@ -14,7 +14,7 @@ use yii\helpers\Html;
 /* @var $canAdminister boolean */
 /* @var $contentContainer \humhub\modules\content\components\ContentContainerActiveRecord */
 
-humhub\modules\wiki\Assets::register($this);
+humhub\modules\wiki\assets\Assets::register($this);
 ?>
 <div class="panel panel-default wiki-bg">
 

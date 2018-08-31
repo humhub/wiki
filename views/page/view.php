@@ -3,14 +3,16 @@
 use humhub\modules\comment\widgets\CommentLink;
 use humhub\modules\comment\widgets\Comments;
 use humhub\modules\like\widgets\LikeLink;
+use humhub\modules\wiki\widgets\WikiRichText;
 use humhub\widgets\MarkdownView;
 use yii\helpers\Html;
 
 /* @var $this \humhub\components\View */
 /* @var $page \humhub\modules\wiki\models\WikiPage */
 /* @var $revision \humhub\modules\wiki\models\WikiPageRevision */
+/* @var $content string */
 
-humhub\modules\wiki\Assets::register($this);
+humhub\modules\wiki\assets\Assets::register($this);
 ?>
 <div class="panel panel-default">
     <div class="panel-body">
@@ -27,7 +29,7 @@ humhub\modules\wiki\Assets::register($this);
                 <hr>
 
                 <div class="markdown-render">
-                    <?= MarkdownView::widget(['markdown' => $content, 'parserClass' => "humhub\modules\wiki\Markdown"]); ?>
+                    <?= WikiRichText::output($content) ?>
                 </div>
 
                 <?php if (!empty($content)) : ?>

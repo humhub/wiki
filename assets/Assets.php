@@ -6,7 +6,7 @@
  * @license https://www.humhub.com/licences
  */
 
-namespace humhub\modules\wiki;
+namespace humhub\modules\wiki\assets;
 
 use yii\web\AssetBundle;
 
@@ -15,14 +15,14 @@ class Assets extends AssetBundle
 
     public $publishOptions = ['forceCopy' => true];
 
-    public function init()
-    {
-        $this->sourcePath = dirname(__FILE__) . '/assets';
-        parent::init();
-    }
+    public $sourcePath = '@wiki/resources';
+
 
     public $css = [
-        'wiki.css'
+        'css/wiki.css'
     ];
 
+    public $js = [
+        'js/humhub.wiki.js'
+    ];
 }

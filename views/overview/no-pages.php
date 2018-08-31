@@ -10,7 +10,7 @@
 /* @var $canCreatePage boolean */
 /* @var $createPageUrl string */
 
-humhub\modules\wiki\Assets::register($this);
+humhub\modules\wiki\assets\Assets::register($this);
 ?>
 <div class="panel panel-default wiki-bg">
 

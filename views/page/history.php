@@ -2,7 +2,7 @@
 
 use yii\helpers\Html;
 
-humhub\modules\wiki\Assets::register($this);
+humhub\modules\wiki\assets\Assets::register($this);
 ?>
 <div class="panel panel-default">
     <div class="panel-body">

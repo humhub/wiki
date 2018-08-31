@@ -7,9 +7,10 @@
 
 namespace humhub\modules\wiki\controllers;
 
-use humhub\modules\wiki\models\WikiPage;
 use Yii;
+use yii\data\Pagination;
 use yii\db\Expression;
+use humhub\modules\wiki\models\WikiPage;
 
 
 /**
@@ -58,16 +59,16 @@ class OverviewController extends BaseController
 
         $countQuery = clone $query;
 
-        $pagination = new \yii\data\Pagination(['totalCount' => $countQuery->count(), 'pageSize' => $pageSize]);
+        $pagination = new Pagination(['totalCount' => $countQuery->count(), 'pageSize' => $pageSize]);
         $query->offset($pagination->offset)->limit($pagination->limit);
 
-        return $this->render('list', array(
+        return $this->render('list', [
             'pages' => $query->all(),
             'pagination' => $pagination,
             'homePage' => $this->getHomePage(),
             'contentContainer' => $this->contentContainer,
             'hasCategories' => $this->hasCategoryPages(),
-        ));
+        ]);
     }
 
 
@@ -84,7 +85,7 @@ class OverviewController extends BaseController
             ->orderBy('title ASC')
             ->andWhere(['wiki_page.is_category' => 1]);
 
-        return $this->render('list-categories', array(
+        return $this->render('list-categories', [
             'categories' => $query->all(),
             'homePage' => $this->getHomePage(),
             'contentContainer' => $this->contentContainer,
@@ -92,7 +93,7 @@ class OverviewController extends BaseController
             'pagesWithoutCategoryQuery' => WikiPage::find()->contentContainer($this->contentContainer)
             	->andWhere(['IS', 'parent_page_id', new Expression('NULL')])
             	->andWhere(['wiki_page.is_category' => 0]),
-        ));
+        ]);
 
     }
 }

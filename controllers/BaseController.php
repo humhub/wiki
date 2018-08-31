@@ -9,6 +9,9 @@ namespace humhub\modules\wiki\controllers;
 
 use humhub\modules\content\components\ContentContainerController;
 use humhub\modules\wiki\models\WikiPage;
+use humhub\modules\wiki\permissions\AdministerPages;
+use humhub\modules\wiki\permissions\CreatePage;
+use humhub\modules\wiki\permissions\ViewHistory;
 
 
 /**
@@ -29,7 +32,7 @@ abstract class BaseController extends ContentContainerController
      */
     public function canCreatePage()
     {
-        return $this->contentContainer->permissionManager->can(new \humhub\modules\wiki\permissions\CreatePage());
+        return $this->contentContainer->permissionManager->can(CreatePage::class);
     }
 
     /**
@@ -38,7 +41,7 @@ abstract class BaseController extends ContentContainerController
      */
     public function canViewHistory()
     {
-        return $this->contentContainer->permissionManager->can(new \humhub\modules\wiki\permissions\ViewHistory());
+        return $this->contentContainer->permissionManager->can(ViewHistory::class);
     }
 
     /**
@@ -56,7 +59,7 @@ abstract class BaseController extends ContentContainerController
      */
     public function canAdminister()
     {
-        return $this->contentContainer->permissionManager->can(new \humhub\modules\wiki\permissions\AdministerPages());
+        return $this->contentContainer->permissionManager->can(AdministerPages::class);
     }
 
 
@@ -77,5 +80,4 @@ abstract class BaseController extends ContentContainerController
     {
         return (WikiPage::find()->contentContainer($this->contentContainer)->andWhere(['is_category' => 1])->count() > 0);
     }
-
 }

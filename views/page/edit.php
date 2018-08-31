@@ -1,6 +1,7 @@
 <?php
 
-use humhub\widgets\ActiveForm;
+use humhub\modules\wiki\widgets\WikiEditor;
+use yii\bootstrap\ActiveForm;
 use humhub\widgets\MarkdownField;
 use yii\helpers\Html;
 
@@ -12,7 +13,12 @@ use yii\helpers\Html;
 /* @var $hasCategories boolean */
 /* @var $contentContainer \humhub\modules\content\components\ContentContainerActiveRecord */
 
-humhub\modules\wiki\Assets::register($this);
+humhub\modules\wiki\assets\Assets::register($this);
+
+$title = ($page->isNewRecord)
+    ? Yii::t('WikiModule.views_page_edit', '<strong>Create</strong> new page')
+    : Yii::t('WikiModule.views_page_edit', '<strong>Edit</strong> page');
+
 ?>
 <div class="panel panel-default">
 
@@ -21,11 +27,7 @@ humhub\modules\wiki\Assets::register($this);
         <div class="row">
             <div class="col-lg-10 col-md-9 col-sm-9 wiki-content">
 
-                <?php if (!$page->isNewRecord) : ?>
-                    <h1><?= Yii::t('WikiModule.views_page_edit', '<strong>Edit</strong> page'); ?></h1>
-                <?php else: ?>
-                    <h1><?= Yii::t('WikiModule.views_page_edit', '<strong>Create</strong> new page'); ?></h1>
-                <?php endif; ?>
+                <h1><?= $title ?></h1>
 
                 <?php $form = ActiveForm::begin(['enableClientValidation' => false]); ?>
 
@@ -35,7 +37,8 @@ humhub\modules\wiki\Assets::register($this);
                     <?= $form->field($page, 'title')->hiddenInput(); ?>
                 <?php endif; ?>
 
-                <?= $form->field($revision, 'content')->widget(MarkdownField::class, ['fileModel' => $page, 'fileAttribute' => 'newFiles', 'rows' => 10])->label(false) ?>
+                <?= $form->field($revision, 'content')->widget(WikiEditor::class)->label(false) ?>
+
                 <script>
                     $(document).ready(function () {
                         // Fix MarkdownEditor Url Placeholder, user can also insert wiki page title

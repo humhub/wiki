@@ -75,12 +75,12 @@ class WikiPage extends ContentActiveRecord implements Searchable
 
     public function getLatestRevision()
     {
-        return $this->hasOne(WikiPageRevision::className(), ['wiki_page_id' => 'id'])->andWhere(['wiki_page_revision.is_latest' => 1]);
+        return $this->hasOne(WikiPageRevision::class, ['wiki_page_id' => 'id'])->andWhere(['wiki_page_revision.is_latest' => 1]);
     }
 
     public function getRevisions()
     {
-        $query = $this->hasMany(WikiPageRevision::className(), ['wiki_page_id' => 'id']);
+        $query = $this->hasMany(WikiPageRevision::class, ['wiki_page_id' => 'id']);
         $query->addOrderBy(['revision' => SORT_DESC]);
         return $query;
     }

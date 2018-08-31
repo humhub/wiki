@@ -87,6 +87,7 @@ class PageController extends BaseController
                     return $this->redirect($this->contentContainer->createUrl('edit', array('title' => $page->title)));
                 }
             }
+
             return $this->render('view', [
                 'page' => $page,
                 'revision' => $revision,
@@ -106,21 +107,16 @@ class PageController extends BaseController
      * @throws \yii\base\Exception
      * @throws \yii\base\InvalidConfigException
      */
-    public function actionEdit()
+    public function actionEdit($id = null, $title = null)
     {
-        $id = (int)Yii::$app->request->get('id');
-
         $page = WikiPage::find()->contentContainer($this->contentContainer)->readable()->where(['wiki_page.id' => $id])->one();
+
         if ($page === null) {
             if (!$this->canCreatePage()) {
                 throw new HttpException(403, Yii::t('WikiModule.base', 'Page creation disabled!'));
             }
 
-            $page = new WikiPage();
-            $page->content->setContainer($this->contentContainer);
-            $page->content->visibility = Content::VISIBILITY_PRIVATE;
-            $page->title = Yii::$app->request->get('title');
-            $page->scenario = 'create';
+            $page = new WikiPage($this->contentContainer, ['title' => $title, 'scenario' => WikiPage::SCENARIO_CREATE]);
         } elseif (!$this->canEdit($page)) {
             throw new HttpException(403, Yii::t('WikiModule.base', 'Page not editable!'));
         }
@@ -133,14 +129,12 @@ class PageController extends BaseController
 
         if ($page->load(Yii::$app->request->post()) && $revision->load(Yii::$app->request->post())) {
             $page->content->container = $this->contentContainer;
-            if ($page->validate()) {
-                $page->save();
+            if ($page->save()) {
                 $page->fileManager->attach($page->newFiles);
 
                 $revision->wiki_page_id = $page->id;
-                if ($revision->validate()) {
-                    $revision->save();
-                    return $this->redirect($this->contentContainer->createUrl('view', array('title' => $page->title)));
+                if ($revision->save()) {
+                    return $this->redirect($this->contentContainer->createUrl('view', ['title' => $page->title]));
                 }
             }
         }

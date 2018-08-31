@@ -16,6 +16,8 @@ class Module extends ContentContainerModule
      */
     public $pageSize = 30;
 
+    public $resourcesPath = 'resources';
+
     /**
      * @inheritdoc
      */

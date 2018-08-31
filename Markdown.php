@@ -28,7 +28,7 @@ class Markdown extends \humhub\libs\Markdown
             if (substr($url, 0, 10) !== 'file-guid-' && substr($url, 0, 1) !== '.' && substr($url, 0, 1) !== '/' && 
             		substr($url, 0, 7) !== 'http://' && substr($url, 0, 8) !== 'https://' &&
             		substr($url, 0, 7) !== 'mailto:') {
-                  return Yii::$app->controller->contentContainer->createUrl('/wiki/page/view', array('title' => $url));
+                  return Yii::$app->controller->contentContainer->createUrl('/wiki/page/view', ['title' => $url]);
             }
         }
 
