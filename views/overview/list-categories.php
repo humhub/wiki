@@ -5,6 +5,8 @@
  * @license https://www.humhub.com/licences
  */
 
+use humhub\modules\wiki\widgets\WikiSearchDropdown;
+use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
 
 /* @var $this \humhub\components\View */
@@ -103,6 +105,11 @@ humhub\modules\wiki\assets\Assets::register($this);
             </div>
         </div>
 
+       <?php /* <?php $model = new \humhub\modules\wiki\models\WikiPageSearch()?>
+        <?php $form = ActiveForm::begin() ?>
 
+        <?= $form->field($model, 'id')->widget(WikiSearchDropdown::class)?>
+
+        <?php ActiveForm::end() ?> */ ?>
     </div>
 </div>
