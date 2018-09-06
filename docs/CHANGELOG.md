@@ -1,6 +1,10 @@
 Changelog
 =========
 
+1.2.2  (23 August, 2018)
+------------------------
+- Fix #82 Edit of category points to page edit
+
 1.2.1  (23 August, 2018)
 ------------------------
 - Fix: Overview link broken, when home page is set

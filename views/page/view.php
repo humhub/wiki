@@ -39,8 +39,8 @@ humhub\modules\wiki\assets\Assets::register($this);
                 <?php if ($page->is_category): ?>
                     <h1><?= Yii::t('WikiModule.base', 'Pages in this category'); ?></h1>
                     <ul class="wiki-page-list">
-                        <?php foreach ($page->findChildren()->all() as $page): ?>
-                            <li><?= Html::a('<i class="fa fa-file-text-o"></i> ' . Html::encode($page->title), $page->getUrl()); ?></li>
+                        <?php foreach ($page->findChildren()->all() as $subPage): ?>
+                            <li><?= Html::a('<i class="fa fa-file-text-o"></i> ' . Html::encode($subPage->title), $subPage->getUrl()); ?></li>
                         <?php endforeach; ?>
                     </ul>
                     <br/>
@@ -59,11 +59,11 @@ humhub\modules\wiki\assets\Assets::register($this);
                     <?php if ($revision->is_latest): ?>
 
                         <?php if ($this->context->canEdit($page)) : ?>
-                            <li><?= Html::a('<i class="fa fa-pencil-square-o edit"></i> ' . Yii::t('WikiModule.base', 'Edit page'), $contentContainer->createUrl('/wiki/page/edit', array('id' => $page->id))); ?></li>
+                            <li><?= Html::a('<i class="fa fa-pencil-square-o edit"></i> ' . Yii::t('WikiModule.base', 'Edit page'), $contentContainer->createUrl('/wiki/page/edit', ['id' => $page->id])); ?></li>
                         <?php endif; ?>
 
                         <?php if ($canViewHistory) : ?>
-                            <li><?= Html::a('<i class="fa fa-clock-o history"></i> ' . Yii::t('WikiModule.base', 'Page History'), $contentContainer->createUrl('/wiki/page/history', array('id' => $page->id))); ?></li>
+                            <li><?= Html::a('<i class="fa fa-clock-o history"></i> ' . Yii::t('WikiModule.base', 'Page History'), $contentContainer->createUrl('/wiki/page/history', ['id' => $page->id])); ?></li>
                         <?php endif; ?>
                         <li>
                             <?php
