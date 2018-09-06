@@ -87,6 +87,7 @@ class PageController extends BaseController
                     return $this->redirect($this->contentContainer->createUrl('edit', array('title' => $page->title)));
                 }
             }
+
             return $this->render('view', [
                 'page' => $page,
                 'revision' => $revision,
