@@ -1,5 +1,7 @@
 humhub.module('wiki', function(module, require, $) {
     let richtext = require('ui.richtext.prosemirror');
+    let Widget = require('ui.widget').Widget;
+    let modal = require('ui.modal');
 
     let wiki = {
         id: 'wiki',
@@ -72,7 +74,8 @@ humhub.module('wiki', function(module, require, $) {
 
     var menuItem = function(context) {
         let schema = context.schema;
-        debugger;
+        let markType = schema.marks.wiki;
+
         //let command = richtext.api.menu.markActive(schema.marks.wiki);
         let itemOptions = {
             title: context.translate("Wiki Link"),
@@ -82,7 +85,25 @@ humhub.module('wiki', function(module, require, $) {
             },
             sortOrder: 410,
             run(state, dispatch, view) {
+                debugger;
+                /*if (richtext.api.menu.markActive(state, markType)) {
+                    richtext.api.commands.toggleMark(markType)(state, dispatch);
+                    return true
+                }*/
 
+                let linkModal = modal.get('#wikiLinkModal');
+                linkModal.$.off('submitted').on('submitted', function() {
+                    debugger;
+                    var pageItem = Widget.instance('#wikipagesearch-title').item;
+
+                    var attrs = {
+                        title: pageItem.title,
+                        href: pageItem.href,
+                        wikiId: pageItem.id
+                    };
+
+                    richtext.api.commands.toggleMark(markType, attrs)(state, dispatch);
+                }).show();
             },
             enable(state) {
                 return true; //richtext.api.menu.markActive(state, schema.marks.wiki)
@@ -104,7 +125,30 @@ humhub.module('wiki', function(module, require, $) {
         }
     });
 
-    module.export({
+    var SearchDropdown = Widget.extend();
 
+    SearchDropdown.prototype.init = function() {
+        var that = this;
+        this.$.autocomplete({
+            source: this.options.searchUrl,
+            minLength: 2,
+            appendTo: '#wikiLinkModal',
+            select: function(evt, ui) {
+                that.item = ui.item;
+            }
+        })
+    };
+
+    var setEditorLink = function(evt) {
+        debugger;
+        modal = modal.get('#wikiLinkModal');
+        modal.$.trigger('submitted');
+        modal.close();
+    };
+
+    debugger;
+    module.export({
+        SearchDropdown: SearchDropdown,
+        setEditorLink: setEditorLink
     })
 });

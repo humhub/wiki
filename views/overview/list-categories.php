@@ -32,8 +32,8 @@ humhub\modules\wiki\assets\Assets::register($this);
                     <?php foreach ($categories as $category): ?>
                         <?php $total = $category->findChildren()->count(); ?>
                         <li>
-                            <div class="page-category-title" style="margin-bottom:12px">
-                                <?= Html::a('<i class="fa fa-list-ol"></i> ' . Html::encode($category->title) . ' (' . $total . ')', $category->getUrl()); ?>
+                            <div class="page-category-title" >
+                                <?= Html::a('<i class="fa fa-list-ol"></i> ' . Html::encode($category->title) . ' <small>(' . $total . ')</small>', $category->getUrl()); ?>
                             </div>
                             <ul class="wiki-page-list">
                                 <?php foreach ($category->findChildren()->limit($categoryPageLimit)->all() as $page): ?>
@@ -58,8 +58,8 @@ humhub\modules\wiki\assets\Assets::register($this);
                     <?php $total = $pagesWithoutCategoryQuery->count(); ?>
                     <?php if ($total != 0): ?>
                         <li>
-                            <div class="page-category-title" style="margin-bottom:12px">
-                                <?= Html::a('<i class="fa fa-list-ol"></i> ' . Yii::t('WikiModule.base', 'Pages without category') . ' (' . $total . ')', $contentContainer->createUrl('/wiki/page/list', [])); ?>
+                            <div class="page-category-title">
+                                <?= Html::a('<i class="fa fa-list-ol"></i> ' . Yii::t('WikiModule.base', 'Pages without category') . ' <small>(' . $total . ')</small>', $contentContainer->createUrl('/wiki/page/list', [])); ?>
                             </div>
                             <ul class="wiki-page-list">
                                 <?php foreach ($pagesWithoutCategoryQuery->limit($categoryPageLimit)->all() as $page): ?>
@@ -104,12 +104,5 @@ humhub\modules\wiki\assets\Assets::register($this);
                 </ul>
             </div>
         </div>
-
-       <?php /* <?php $model = new \humhub\modules\wiki\models\WikiPageSearch()?>
-        <?php $form = ActiveForm::begin() ?>
-
-        <?= $form->field($model, 'id')->widget(WikiSearchDropdown::class)?>
-
-        <?php ActiveForm::end() ?> */ ?>
     </div>
 </div>

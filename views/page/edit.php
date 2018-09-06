@@ -2,7 +2,7 @@
 
 use humhub\modules\wiki\widgets\WikiEditor;
 use yii\bootstrap\ActiveForm;
-use humhub\widgets\MarkdownField;
+use humhub\modules\wiki\widgets\WikiLinkModal;
 use yii\helpers\Html;
 
 /* @var $this \humhub\components\View */
@@ -104,6 +104,8 @@ $title = ($page->isNewRecord)
 
     </div>
 </div>
+
+<?= WikiLinkModal::widget() ?>
 
 <script>
     $('#wikipage-is_category').click(function () {

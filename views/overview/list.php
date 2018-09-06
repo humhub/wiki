@@ -33,7 +33,7 @@ humhub\modules\wiki\assets\Assets::register($this);
                             <?php if ($page->is_category) : ?>
                                 <span class="page-category-title">
                                 <?= Html::a('<i class="fa fa-list-ol"></i> ' . Html::encode($page->title), $page->getUrl()); ?>
-                                    (<?= $page->findChildren()->count(); ?>)
+                                    <small>(<?= $page->findChildren()->count(); ?>)</small>
                             </span>
                             <?php else: ?>
                                 <span class="page-title">

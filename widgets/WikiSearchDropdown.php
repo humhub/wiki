@@ -5,10 +5,15 @@ namespace humhub\modules\wiki\widgets;
 
 
 use humhub\modules\ui\form\widgets\JsInputWidget;
+use yii\helpers\Url;
 
 class WikiSearchDropdown extends JsInputWidget
 {
-    public $jsWidget = 'wiki.search';
+    public $jsWidget = 'wiki.SearchDropdown';
+
+    public $init = true;
+
+    public $placeholder;
 
     public function run()
     {
@@ -16,7 +21,22 @@ class WikiSearchDropdown extends JsInputWidget
             'model' => $this->model,
             'field' => $this->attribute,
             'container' => $this->container,
-            'inputId' => $this->getId(true)
+            'options' => $this->getOptions(),
         ]);
+    }
+
+    public function getAttributes()
+    {
+        return [
+            'class' => 'form-control',
+            'placeholder' => $this->placeholder
+        ];
+    }
+
+    public function getData()
+    {
+        return [
+          'search-url' => Url::to(['/wiki/search/search'])
+        ];
     }
 }
