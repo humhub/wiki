@@ -26,7 +26,7 @@ $title = ($page->isNewRecord)
     <div class="panel-body">
 
         <div class="row">
-            <div class="col-lg-10 col-md-9 col-sm-9 wiki-content">
+            <div id="wiki-page-edit" class="col-lg-10 col-md-9 col-sm-9 wiki-content">
 
                 <h1><?= $title ?></h1>
 
@@ -61,45 +61,47 @@ $title = ($page->isNewRecord)
             </div>
 
             <div class="col-lg-2 col-md-3 col-sm-3 wiki-menu">
-                <?php if (!$page->isNewRecord): ?>
+                <div class="wiki-menu-fixed">
+                    <?php if (!$page->isNewRecord): ?>
 
-                    <ul class="nav nav-pills nav-stacked">
-                        <?php if ($canAdminister): ?>
-                            <!-- load modal confirm widget -->
-                            <li><?php
-                                echo \humhub\widgets\ModalConfirm::widget(array(
-                                    'uniqueID' => 'modal_pagedelete_' . $page->id,
-                                    'linkOutput' => 'a',
-                                    'title' => Yii::t('WikiModule.base', '<strong>Confirm</strong> page deleting'),
-                                    'message' => Yii::t('WikiModule.base', 'Do you really want to delete this page?'),
-                                    'buttonTrue' => Yii::t('WikiModule.base', 'Delete'),
-                                    'buttonFalse' => Yii::t('WikiModule.base', 'Cancel'),
-                                    'linkContent' => '<i class="fa fa-trash-o delete"></i> ' . Yii::t('WikiModule.base', 'Delete'),
-                                    'linkHref' => $contentContainer->createUrl('//wiki/page/delete', array('id' => $page->id)),
-                                    'confirmJS' => 'function(jsonResp) { window.location.href = "' . $contentContainer->createUrl('index') . '"; }'
-                                ));
-                                ?></li>
+                        <ul class="nav nav-pills nav-stacked">
+                            <?php if ($canAdminister): ?>
+                                <!-- load modal confirm widget -->
+                                <li><?php
+                                    echo \humhub\widgets\ModalConfirm::widget(array(
+                                        'uniqueID' => 'modal_pagedelete_' . $page->id,
+                                        'linkOutput' => 'a',
+                                        'title' => Yii::t('WikiModule.base', '<strong>Confirm</strong> page deleting'),
+                                        'message' => Yii::t('WikiModule.base', 'Do you really want to delete this page?'),
+                                        'buttonTrue' => Yii::t('WikiModule.base', 'Delete'),
+                                        'buttonFalse' => Yii::t('WikiModule.base', 'Cancel'),
+                                        'linkContent' => '<i class="fa fa-trash-o delete"></i> ' . Yii::t('WikiModule.base', 'Delete'),
+                                        'linkHref' => $contentContainer->createUrl('//wiki/page/delete', array('id' => $page->id)),
+                                        'confirmJS' => 'function(jsonResp) { window.location.href = "' . $contentContainer->createUrl('index') . '"; }'
+                                    ));
+                                    ?></li>
 
-                        <?php endif; ?>
+                            <?php endif; ?>
 
-                        <li><?= Html::a('<i class="fa fa-reply back"></i> ' . Yii::t('WikiModule.base', 'Cancel'), Url::toWiki($page)); ?></li>
-                        <li class="nav-divider"></li>
-                        <?php if ($homePage !== null) : ?>
-                            <li><?= Html::a('<i class="fa fa-newspaper-o"></i> ' . Yii::t('WikiModule.base', 'Main page'), $contentContainer->createUrl('//wiki/page/index', array())); ?></li>
-                        <?php endif; ?>
-                        <li><?= Html::a('<i class="fa fa-list-alt"></i> ' . Yii::t('WikiModule.base', 'Overview'), $contentContainer->createUrl('//wiki/page/list', array())); ?></li>
-                    </ul>
+                            <li><?= Html::a('<i class="fa fa-reply back"></i> ' . Yii::t('WikiModule.base', 'Cancel'), Url::toWiki($page)); ?></li>
+                            <li class="nav-divider"></li>
+                            <?php if ($homePage !== null) : ?>
+                                <li><?= Html::a('<i class="fa fa-newspaper-o"></i> ' . Yii::t('WikiModule.base', 'Main page'), $contentContainer->createUrl('//wiki/page/index', array())); ?></li>
+                            <?php endif; ?>
+                            <li><?= Html::a('<i class="fa fa-list-alt"></i> ' . Yii::t('WikiModule.base', 'Overview'), $contentContainer->createUrl('//wiki/page/list', array())); ?></li>
+                        </ul>
 
-                <?php else: ?>
-                    <ul class="nav nav-pills nav-stacked">
-                        <li><?= Html::a('<i class="fa fa-reply back"></i> ' . Yii::t('WikiModule.base', 'Cancel'), $contentContainer->createUrl('//wiki/page/list', array('title' => $page->title))); ?></li>
-                        <li class="nav-divider"></li>
-                        <?php if ($homePage !== null) : ?>
-                            <li><?= Html::a('<i class="fa fa-newspaper-o"></i> ' . Yii::t('WikiModule.base', 'Main page'), $contentContainer->createUrl('//wiki/page/index', array())); ?></li>
-                        <?php endif; ?>
-                        <li><?= Html::a('<i class="fa fa-list-alt"></i> ' . Yii::t('WikiModule.base', 'Overview'), $contentContainer->createUrl('//wiki/page/list', array())); ?></li>
-                    </ul>
-                <?php endif; ?>
+                    <?php else: ?>
+                        <ul class="nav nav-pills nav-stacked">
+                            <li><?= Html::a('<i class="fa fa-reply back"></i> ' . Yii::t('WikiModule.base', 'Cancel'), $contentContainer->createUrl('//wiki/page/list', array('title' => $page->title))); ?></li>
+                            <li class="nav-divider"></li>
+                            <?php if ($homePage !== null) : ?>
+                                <li><?= Html::a('<i class="fa fa-newspaper-o"></i> ' . Yii::t('WikiModule.base', 'Main page'), $contentContainer->createUrl('//wiki/page/index', array())); ?></li>
+                            <?php endif; ?>
+                            <li><?= Html::a('<i class="fa fa-list-alt"></i> ' . Yii::t('WikiModule.base', 'Overview'), $contentContainer->createUrl('//wiki/page/list', array())); ?></li>
+                        </ul>
+                    <?php endif; ?>
+                </div>
             </div>
         </div>
 
@@ -121,6 +123,7 @@ $title = ($page->isNewRecord)
     });
 
     hideCategorySelect();
+
     function hideCategorySelect() {
         if ($('#wikipage-is_category').is(":not(:checked)")) {
             $('.field-wikipage-parent_page_id').show();

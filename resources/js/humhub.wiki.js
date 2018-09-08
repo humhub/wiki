@@ -207,41 +207,12 @@ humhub.module('wiki', function(module, require, $) {
         });
     };
 
-    module.initOnPjaxLoad = true;
-
-    var init = function(pjax) {
-        setTimeout(buildIndex, 200);
-        setTimeout(checkAnchor, 1000);
-
-        $(window).off('scroll.wiki').on('scroll.wiki', function () {
-            checkNavScroll();
-        });
-
-        checkNavScroll();
-    };
-
-    var checkNavScroll = function() {
-        var $window = $(window);
-        var windowHeight = $window.height();
-        var windowBottom = $window.scrollTop();
-
-        var menuTop = $('.wiki-menu').offset().top;
-        var scrollTop = $window.scrollTop() + getViewOffset();
-
-        if(scrollTop > menuTop) {
-            $('.wiki-menu-fixed').css({'margin-top' : (scrollTop - menuTop + 5)+'px'})
-        } else {
-            $('.wiki-menu-fixed').css({'margin-top' : 0})
-        }
-    };
-
     var checkAnchor = function() {
         var url = window.location.href;
 
         var hash = url.substring(url.indexOf("#"));
 
         if(hash && hash.length) {
-            debugger;
             toAnchor(hash)
         }
     }
@@ -252,6 +223,8 @@ humhub.module('wiki', function(module, require, $) {
         if(offset === null) {
             offset = $('#topbar-first').length ? $('#topbar-first').height() : 0;
             offset += $('#topbar-second').length ? $('#topbar-second').height() : 0;
+            // TODO: Workaround for enterprise edition the offset should be configurable by theme variable!
+            offset += $('.space-nav').find('.container-fluid').length ? $('.space-nav').height() : 0;
         }
 
         return offset;
@@ -286,10 +259,67 @@ humhub.module('wiki', function(module, require, $) {
         $('html, body').animate({
             scrollTop: $(anchor).offset().top - getViewOffset()
         }, 200)
+    };
+
+    module.initOnPjaxLoad = true;
+
+    var init = function(pjax) {
+        if(!$('.wiki-content').length) {
+            return;
+        }
+
+        if($('.wiki-page-content').length) {
+            setTimeout(buildIndex, 200);
+            setTimeout(checkAnchor, 1000);
+        }
+
+        $(window).off('scroll.wiki').on('scroll.wiki', function () {
+            checkScroll();
+        });
+
+        checkScroll();
+    };
+
+
+    var checkScroll = function() {
+        var $window = $(window);
+        var windowHeight = $window.height();
+        var windowBottom = $window.scrollTop();
+
+        var menuTop = $('.wiki-menu').offset().top;
+        var scrollTop = $window.scrollTop() + getViewOffset();
+
+        if(scrollTop > menuTop) {
+            $('.wiki-menu-fixed').css({'margin-top' : (scrollTop - menuTop + 5)+'px'});
+
+            if($('#wiki-page-edit').length) {
+                var $richtext = $('#wiki-page-edit').find('.humhub-ui-richtext');
+                var $richtextMenuBar = $('#wiki-page-edit').find('.ProseMirror-menubar');
+                var richtextTop = $richtext.offset().top;
+                if(scrollTop > richtextTop) {
+                    $richtextMenuBar.css({'position':'absolute', 'top': (scrollTop - richtextTop+ 1)+'px'});
+                } else {
+                    $richtextMenuBar.css({'position':'relative', 'top': '0'});
+                }
+            }
+        } else {
+            $('.wiki-menu-fixed').css({'margin-top' : 0});
+            if($('#wiki-page-edit').length) {
+                var $richtextMenuBar = $('#wiki-page-edit').find('.ProseMirror-menubar');
+                $richtextMenuBar.css({'position':'relative', 'top': '0'});
+            }
+
+        }
+    };
+
+    var unload = function() {
+        $(window).off('scroll.wiki');
+        offset = null;
     }
 
     module.export({
         init: init,
+        unload: unload,
         SearchDropdown: SearchDropdown,
         CategoryListView: CategoryListView,
         setEditorLink: setEditorLink
