@@ -1,0 +1,2 @@
+[29-Jun-2017 13:44:35 UTC] PHP Fatal error:  Trait 'calendar\_generated\UnitTesterActions' not found in E:\codebase\humhub\modules\meeting\tests\codeception\_support\UnitTester.php on line 21
+[29-Jun-2017 13:45:06 UTC] PHP Fatal error:  Trait 'calendar\_generated\UnitTesterActions' not found in E:\codebase\humhub\modules\meeting\tests\codeception\_support\UnitTester.php on line 21

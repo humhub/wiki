@@ -2,6 +2,7 @@ humhub.module('wiki', function(module, require, $) {
     let richtext = require('ui.richtext.prosemirror');
     let Widget = require('ui.widget').Widget;
     let modal = require('ui.modal');
+    let client = require('client');
 
     let wiki = {
         id: 'wiki',
@@ -146,9 +147,151 @@ humhub.module('wiki', function(module, require, $) {
         modal.close();
     };
 
-    debugger;
+
+    var CategoryListView = Widget.extend();
+
+    CategoryListView.prototype.init = function() {
+        this.$.find('.fa-caret-square-o-down').on('click', function() {
+            var $icon = $(this);
+            var $pageList = $icon.parent().siblings('.wiki-page-list');
+            $pageList.slideToggle('fast', function() {
+                var newIconClass = ($pageList.is(':visible')) ? 'fa-caret-square-o-down' : 'fa-caret-square-o-right';
+                $icon.removeClass('fa-caret-square-o-down fa-caret-square-o-right').addClass(newIconClass);
+            });
+        });
+
+        this.$.find('.page-title, .page-category-title').hover(function() {
+            $(this).find('.wiki-edit').show();
+        }, function() {
+            $(this).find('.wiki-edit').hide();
+        });
+
+        this.$.sortable({
+            handle: '.page-category-title',
+            helper: 'clone',
+            update: $.proxy(this.dropItem, this)
+            //placeholder: "task-list-state-highlight",
+            //update: $.proxy(this.dropItem, this)
+        });
+
+        this.$.find('.wiki-page-list').sortable({
+            handle: '.page-title',
+            connectWith: '.wiki-page-list:not(#category_list_view)',
+            helper: 'clone',
+            update: $.proxy(this.dropItem, this)
+        });
+    };
+
+    CategoryListView.prototype.dropItem = function (event, ui) {
+        var $item = ui.item;
+        var pageId = $item.data('page-id');
+        debugger;
+
+        var targetId = $item.is('.wiki-category-list-item') ? null : $item.closest('.wiki-category-list-item').data('page-id');
+
+        var data = {
+            'ItemDrop[id]': pageId,
+            'ItemDrop[targetId]': targetId,
+            'ItemDrop[index]': $item.index()
+        };
+
+        var that = this;
+        client.post(this.options.dropUrl, {data: data}).then(function(response) {
+            if (!response.success) {
+                $item.closest('.category_list_view, .wiki-page-list').sortable('cancel');
+                module.log.error('', true);
+            }
+        }).catch(function(e) {
+            module.log.error(e, true);
+            $item.closest('.category_list_view, .wiki-page-list').sortable('cancel');
+        });
+    };
+
+    module.initOnPjaxLoad = true;
+
+    var init = function(pjax) {
+        setTimeout(buildIndex, 200);
+        setTimeout(checkAnchor, 1000);
+
+        $(window).off('scroll.wiki').on('scroll.wiki', function () {
+            checkNavScroll();
+        });
+
+        checkNavScroll();
+    };
+
+    var checkNavScroll = function() {
+        var $window = $(window);
+        var windowHeight = $window.height();
+        var windowBottom = $window.scrollTop();
+
+        var menuTop = $('.wiki-menu').offset().top;
+        var scrollTop = $window.scrollTop() + getViewOffset();
+
+        if(scrollTop > menuTop) {
+            $('.wiki-menu-fixed').css({'margin-top' : (scrollTop - menuTop + 5)+'px'})
+        } else {
+            $('.wiki-menu-fixed').css({'margin-top' : 0})
+        }
+    };
+
+    var checkAnchor = function() {
+        var url = window.location.href;
+
+        var hash = url.substring(url.indexOf("#"));
+
+        if(hash && hash.length) {
+            debugger;
+            toAnchor(hash)
+        }
+    }
+
+    var offset = null;
+
+    var getViewOffset = function() {
+        if(offset === null) {
+            offset = $('#topbar-first').length ? $('#topbar-first').height() : 0;
+            offset += $('#topbar-second').length ? $('#topbar-second').height() : 0;
+        }
+
+        return offset;
+    }
+
+    var buildIndex = function() {
+        var $list = $('<ul class="nav nav-pills nav-stacked">');
+        $('.markdown-render').find('h1').each(function() {
+            var $h1 = $(this).clone();
+            var $anchor = $h1.find('.header-anchor').clone();
+            $anchor.show();
+
+            $h1.find('.header-anchor').remove();
+            var test = $h1.text();
+            $anchor.text($h1.text());
+
+            var $li = $('<li>');
+            $anchor.prepend('<i class="fa fa-caret-right"></i>');
+            $anchor.on('click', function(evt) {
+                evt.preventDefault();
+                toAnchor($anchor.attr('href'));
+            });
+            $li.append($anchor);
+            $list.append($li);
+
+        });
+        $list.append('<li class="nav-divider"></li>');
+        $('.wiki-menu-fixed').prepend($list);
+    };
+
+    var toAnchor = function(anchor) {
+        $('html, body').animate({
+            scrollTop: $(anchor).offset().top - getViewOffset()
+        }, 200)
+    }
+
     module.export({
+        init: init,
         SearchDropdown: SearchDropdown,
+        CategoryListView: CategoryListView,
         setEditorLink: setEditorLink
     })
 });

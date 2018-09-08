@@ -9,7 +9,7 @@ namespace humhub\modules\wiki\controllers;
 
 use Yii;
 use yii\data\Pagination;
-use yii\db\Expression;
+use humhub\modules\wiki\helpers\Url;
 use humhub\modules\wiki\models\WikiPage;
 
 
@@ -28,14 +28,10 @@ class OverviewController extends BaseController
     {
         $homePage = $this->getHomePage();
         if ($homePage !== null) {
-            return $this->redirect($this->contentContainer->createUrl('/wiki/page/view', ['title' => $homePage->title]));
+            return $this->redirect(Url::toWiki($homePage));
         }
 
-        if ($this->hasCategoryPages()) {
-            return $this->redirect($this->contentContainer->createUrl('/wiki/overview/list-categories'));
-        }
-
-        return $this->redirect($this->contentContainer->createUrl('/wiki/overview/list'));
+        return $this->redirect(Url::toOverview($this->contentContainer));
     }
 
     /**
@@ -72,6 +68,10 @@ class OverviewController extends BaseController
     }
 
 
+    /**
+     * @return OverviewController|string|\yii\console\Response|\yii\web\Response
+     * @throws \yii\base\Exception
+     */
     public function actionListCategories()
     {
 
@@ -79,20 +79,10 @@ class OverviewController extends BaseController
             return $this->redirect($this->contentContainer->createUrl('/wiki/overview/list'));
         }
 
-        // Get created categories
-        $query = WikiPage::find()
-            ->contentContainer($this->contentContainer)
-            ->orderBy('title ASC')
-            ->andWhere(['wiki_page.is_category' => 1]);
-
         return $this->render('list-categories', [
-            'categories' => $query->all(),
             'homePage' => $this->getHomePage(),
             'contentContainer' => $this->contentContainer,
-            'categoryPageLimit' => 5,
-            'pagesWithoutCategoryQuery' => WikiPage::find()->contentContainer($this->contentContainer)
-            	->andWhere(['IS', 'parent_page_id', new Expression('NULL')])
-            	->andWhere(['wiki_page.is_category' => 0]),
+            'canCreate' => $this->canCreatePage()
         ]);
 
     }

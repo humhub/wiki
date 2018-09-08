@@ -4,6 +4,7 @@ use humhub\modules\wiki\widgets\WikiEditor;
 use yii\bootstrap\ActiveForm;
 use humhub\modules\wiki\widgets\WikiLinkModal;
 use yii\helpers\Html;
+use humhub\modules\wiki\helpers\Url;
 
 /* @var $this \humhub\components\View */
 /* @var $page \humhub\modules\wiki\models\WikiPage */
@@ -34,7 +35,7 @@ $title = ($page->isNewRecord)
                 <?php if ($canAdminister || $page->isNewRecord): ?>
                     <?= $form->field($page, 'title')->textInput(['placeholder' => Yii::t('WikiModule.views_page_edit', 'New page title')])->label(false); ?>
                 <?php else: ?>
-                    <?= $form->field($page, 'title')->hiddenInput(); ?>
+                    <?= $form->field($page, 'title')->hiddenInput()->label(false); ?>
                 <?php endif; ?>
 
                 <?= $form->field($revision, 'content')->widget(WikiEditor::class)->label(false) ?>
@@ -81,7 +82,7 @@ $title = ($page->isNewRecord)
 
                         <?php endif; ?>
 
-                        <li><?= Html::a('<i class="fa fa-reply back"></i> ' . Yii::t('WikiModule.base', 'Cancel'), $contentContainer->createUrl('//wiki/page/view', array('title' => $page->title))); ?></li>
+                        <li><?= Html::a('<i class="fa fa-reply back"></i> ' . Yii::t('WikiModule.base', 'Cancel'), Url::toWiki($page)); ?></li>
                         <li class="nav-divider"></li>
                         <?php if ($homePage !== null) : ?>
                             <li><?= Html::a('<i class="fa fa-newspaper-o"></i> ' . Yii::t('WikiModule.base', 'Main page'), $contentContainer->createUrl('//wiki/page/index', array())); ?></li>

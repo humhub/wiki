@@ -1,10 +1,4 @@
 .layout-content-container {
-  color: #555555;
-
-  .nav > li > a {
-    padding: 6px 15px;
-  }
-
   .wiki-welcome {
 
     padding: 80px 0 0px 0;
@@ -29,9 +23,46 @@
     background-position: left bottom;
   }
 
+  .wiki-menu {
+    .nav > li > a {
+      padding: 6px 15px;
+    }
+
+
+  }
+
+  .wiki-content, .wiki-menu {
+    hr.dashed {
+      border-style: dashed;
+    }
+  }
+
+  .wiki-page-content {
+    min-height: 320px;
+
+    .wiki-category-list-item {
+      padding-bottom: 0px !important;
+    }
+
+    .markdown-render {
+      margin-bottom: 10px;
+    }
+
+    .wiki-sub-pages {
+      border-bottom: 1px solid #eee;
+      border-top: 1px dashed #eee;
+      padding: 5px;
+      margin-bottom:5px;
+
+      ul.wiki-page-list {
+        margin-bottom: 0px;
+        padding-left: 2px;
+      }
+    }
+  }
+
   .wiki-content {
     border-right: 1px solid #eeeeee;
-    min-height: 320px;
 
     .social-controls, .social-controls a {
       font-size: 11px;
@@ -46,17 +77,23 @@
       }
     }
 
-
     ul.wiki-page-list {
       list-style: none;
-      padding-left: 0;
+      padding-left:10px;
 
       li {
-        font-size: 16px;
+        font-size: 14px;
         padding-bottom:6px;
       }
 
+      a:hover {
+        text-decoration: underline;
+      }
+
       .page-title, .page-category-title {
+        .wiki-edit {
+          padding-left:5px;
+        }
         .fa {
           font-size: 14px;
         }
@@ -67,15 +104,10 @@
         margin-bottom:10px;
       }
 
-
-      padding-left:15px;
       ul.wiki-page-list {
-          padding-left:30px;
+          padding-left:20px;
       }
-
-
     }
-
 
     ul.wiki-page-history {
       list-style: none;

@@ -6,6 +6,7 @@ use humhub\modules\content\components\ContentContainerController;
 use humhub\modules\content\models\Content;
 use humhub\modules\file\models\File;
 use humhub\modules\space\models\Space;
+use humhub\modules\wiki\models\forms\WikiPageItemDrop;
 use humhub\modules\wiki\models\WikiPage;
 use humhub\modules\wiki\models\WikiPageRevision;
 use humhub\widgets\MarkdownView;
@@ -149,6 +150,16 @@ class PageController extends BaseController
         ]);
     }
 
+    public function actionSort()
+    {
+        $dropModel = new WikiPageItemDrop(['contentContainer' => $this->contentContainer]);
+        if($dropModel->load(Yii::$app->request->post()) && $dropModel->save()) {
+            return $this->asJson(['success' => true]);
+        }
+
+        return $this->asJson(['success' => false]);
+    }
+
     /**
      * @return string
      * @throws HttpException
@@ -275,11 +286,7 @@ class PageController extends BaseController
      */
     public function canEdit($page)
     {
-        if ($page->admin_only) {
-            return $this->canAdminister();
-        }
-
-        return $this->contentContainer->permissionManager->can(new \humhub\modules\wiki\permissions\EditPages());
+        return $page->content->canEdit();
     }
 
     public function actionSearch($term = null) {

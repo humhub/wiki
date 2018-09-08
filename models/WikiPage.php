@@ -3,7 +3,10 @@
 namespace humhub\modules\wiki\models;
 
 use humhub\modules\content\components\ContentActiveRecord;
+use humhub\modules\content\components\ContentContainerActiveRecord;
 use humhub\modules\search\interfaces\Searchable;
+use humhub\modules\wiki\helpers\Url;
+use humhub\modules\wiki\permissions\AdministerPages;
 use Yii;
 use yii\db\Expression;
 
@@ -17,6 +20,8 @@ use yii\db\Expression;
  * @property integer $admin_only
  * @property integer $is_category
  * @property integer $parent_page_id
+ *
+ * @property-read WikiPage|null $categoryPage
  *
  */
 class WikiPage extends ContentActiveRecord implements Searchable
@@ -35,6 +40,11 @@ class WikiPage extends ContentActiveRecord implements Searchable
      * @inheritdoc
      */
     public $wallEntryClass = "humhub\modules\wiki\widgets\WallEntry";
+
+    /**
+     * @inheritdoc
+     */
+    public $managePermission = AdministerPages::class;
 
     /**
      * @var array newly attached files
@@ -132,6 +142,12 @@ class WikiPage extends ContentActiveRecord implements Searchable
         return parent::afterSave($insert, $changedAttributes);
     }
 
+    public function canEdit()
+    {
+        // Note this function is not called directly but called by Content::canEdit() with additional checks
+        return !$this->admin_only || $this->content->container->can(AdministerPages::class);
+    }
+
     /**
      * @return WikiPageRevision
      */
@@ -219,7 +235,7 @@ class WikiPage extends ContentActiveRecord implements Searchable
 
     public function getUrl()
     {
-        return $this->content->container->createUrl('//wiki/page/view', array('title' => $this->title));
+        return Url::toWiki($this);
     }
 
     // Searchable Attributes / Informations
@@ -236,10 +252,24 @@ class WikiPage extends ContentActiveRecord implements Searchable
         );
     }
 
+    /**
+     * @return \humhub\modules\content\components\ActiveQueryContent
+     */
     public function findChildren()
     {
-        $query = static::find();
-        return $query->andWhere(['parent_page_id' => $this->id])->orderBy('title ASC');
+        return static::find()->andWhere(['parent_page_id' => $this->id])->orderBy('sort_order ASC, title ASC');
+    }
+
+    /**
+     * @param ContentContainerActiveRecord $contentContainer
+     * @return \humhub\modules\content\components\ActiveQueryContent
+     * @throws \yii\base\Exception
+     */
+    public static function findUnsorted(ContentContainerActiveRecord $contentContainer)
+    {
+        return static::find()->contentContainer($contentContainer)
+            ->andWhere(['IS', 'parent_page_id', new Expression('NULL')])
+            ->andWhere(['wiki_page.is_category' => 0])->orderBy('sort_order ASC, title ASC');
     }
 
     public function getCategoryPage()
@@ -255,8 +285,7 @@ class WikiPage extends ContentActiveRecord implements Searchable
     {
         $categories = [];
 
-        $query = static::find()->contentContainer($this->content->container);
-        $query->andWhere(['wiki_page.is_category' => 1]);
+        $query = static::findCategories($this->content->container);
 
         if (!$this->isNewRecord) {
             $query->andWhere(['!=', 'wiki_page.id', $this->id]);
@@ -268,6 +297,11 @@ class WikiPage extends ContentActiveRecord implements Searchable
         }
 
         return $categories;
+    }
+
+    public static function findCategories(ContentContainerActiveRecord $container)
+    {
+        return static::find()->contentContainer($container)->andWhere(['wiki_page.is_category' => 1])->orderBy('sort_order ASC, title ASC');
     }
 
 }

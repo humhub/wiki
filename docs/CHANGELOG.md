@@ -1,6 +1,15 @@
 Changelog
 =========
 
+1.3.0
+------------------------
+- Chng: Major refactoring
+- Fix: Wiki Anchor not working on init
+- Enh: Use of URL Helper class
+- Enh: Added fixed nav behaviour
+- Enh: Added wiki index to nav
+- Enh: Added drag/drop in wiki overview
+
 1.2.2  (23 August, 2018)
 ------------------------
 - Fix #82 Edit of category points to page edit

@@ -2,6 +2,7 @@
 
 namespace humhub\modules\wiki;
 
+use humhub\modules\wiki\helpers\Url;
 use Yii;
 use humhub\modules\content\components\ContentContainerController;
 
@@ -28,7 +29,7 @@ class Markdown extends \humhub\libs\Markdown
             if (substr($url, 0, 10) !== 'file-guid-' && substr($url, 0, 1) !== '.' && substr($url, 0, 1) !== '/' && 
             		substr($url, 0, 7) !== 'http://' && substr($url, 0, 8) !== 'https://' &&
             		substr($url, 0, 7) !== 'mailto:') {
-                  return Yii::$app->controller->contentContainer->createUrl('/wiki/page/view', ['title' => $url]);
+                  return Url::toWikiByTitle($url, Yii::$app->controller->contentContainer);
             }
         }
 

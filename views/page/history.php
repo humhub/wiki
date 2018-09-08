@@ -1,6 +1,7 @@
 <?php
 
 use yii\helpers\Html;
+use humhub\modules\wiki\helpers\Url;
 
 humhub\modules\wiki\assets\Assets::register($this);
 ?>
@@ -54,7 +55,7 @@ humhub\modules\wiki\assets\Assets::register($this);
             </div>
             <div class="col-lg-2 col-md-3 col-sm-3 wiki-menu">
                 <ul class="nav nav-pills nav-stacked">
-                    <li><?php echo Html::a('<i class="fa fa-reply back"></i> ' . Yii::t('WikiModule.base', 'Back to page'), $contentContainer->createUrl('/wiki/page/view', array('title' => $page->title))); ?></li>
+                    <li><?php echo Html::a('<i class="fa fa-reply back"></i> ' . Yii::t('WikiModule.base', 'Back to page'), Url::toWiki($page)); ?></li>
                     <li class="nav-divider"></li>
                         <?php if ($homePage !== null) : ?>
                         <li><?php echo Html::a('<i class="fa fa-newspaper-o"></i> ' . Yii::t('WikiModule.base', 'Main page'), $contentContainer->createUrl('/wiki/page/index', array())); ?></li>
