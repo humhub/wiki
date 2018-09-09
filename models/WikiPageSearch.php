@@ -4,6 +4,7 @@
 namespace humhub\modules\wiki\models;
 
 
+use humhub\modules\content\components\ContentContainerActiveRecord;
 use Yii;
 use yii\base\Model;
 
@@ -20,13 +21,25 @@ class WikiPageSearch extends Model
     public $anchor;
 
     /**
+     * @var string label
+     */
+    public $label;
+
+    /**
+     * @var ContentContainerActiveRecord
+     */
+    public $contentContainer;
+
+
+    /**
      * @inheritdoc
      */
     public function attributeLabels()
     {
         return [
             'title' => Yii::t('WikiModule.base', 'Title'),
-            'anchor' => Yii::t('WikiModule.base', 'Anchor')
+            'anchor' => Yii::t('WikiModule.base', 'Anchor'),
+            'label' => Yii::t('WikiModule.base', 'Label')
         ];
     }
 

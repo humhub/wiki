@@ -1,16 +1,22 @@
 <?php
 
 use humhub\modules\wiki\models\WikiPageSearch;
-use humhub\modules\wiki\widgets\WikiSearchDropdown;
+use humhub\modules\wiki\widgets\WikiSearchInput;
 use yii\widgets\ActiveForm;
 
 /* @var $this \humhub\components\View */
+/* @var $contentContainer \humhub\modules\content\components\ContentActiveRecord */
 
 $model = new WikiPageSearch();
 ?>
 
 <?php $form = ActiveForm::begin() ?>
 
-<?= $form->field($model, 'title')->widget(WikiSearchDropdown::class, ['placeholder' => Yii::t('WikiModule.base', 'Search for Wiki Title')])?>
+<?= $form->field($model, 'label')->textInput() ?>
+
+<?= $form->field($model, 'title')->widget(WikiSearchInput::class, [
+    'contentContainer' => $contentContainer,
+    'placeholder' => Yii::t('WikiModule.base', 'Search for Wiki Title')
+])?>
 
 <?php ActiveForm::end() ?>

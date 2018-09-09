@@ -34,8 +34,8 @@ $icon = $page->is_category ? 'fa-file-word-o' : 'fa-file-text-o';
                 <hr>
 
                 <?php if (!empty($content)) : ?>
-                    <div class="markdown-render">
-                        <?= WikiRichText::output($content) ?>
+                    <div class="markdown-render" style="display:none">
+                        <?= WikiRichText::output($content, ['id' => 'wiki-page-richtext']) ?>
                     </div>
                 <?php endif; ?>
 

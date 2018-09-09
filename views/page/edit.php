@@ -108,7 +108,7 @@ $title = ($page->isNewRecord)
     </div>
 </div>
 
-<?= WikiLinkModal::widget() ?>
+<?= WikiLinkModal::widget(['contentContainer' => $contentContainer]) ?>
 
 <script>
     $('#wikipage-is_category').click(function () {

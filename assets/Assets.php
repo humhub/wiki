@@ -17,12 +17,12 @@ class Assets extends AssetBundle
 
     public $sourcePath = '@wiki/resources';
 
-
     public $css = [
         'css/wiki.css'
     ];
 
     public $js = [
-        'js/humhub.wiki.js'
+        'js/humhub.wiki.js',
+        'js/humhub.wiki.linkExtension.js'
     ];
 }
