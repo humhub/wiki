@@ -37,7 +37,7 @@ class WikiPageSearch extends Model
     public function attributeLabels()
     {
         return [
-            'title' => Yii::t('WikiModule.base', 'Title'),
+            'title' => Yii::t('WikiModule.base', 'Choose a Wiki Page'),
             'anchor' => Yii::t('WikiModule.base', 'Anchor'),
             'label' => Yii::t('WikiModule.base', 'Label')
         ];

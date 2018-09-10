@@ -62,15 +62,8 @@ humhub.module('wiki', function(module, require, $) {
     };
 
     var checkAnchor = function() {
-        var url = window.location.href;
-
-        var hashIndex = url.indexOf("#");
-        if(hashIndex >= 0) {
-            var hash = url.substring(hashIndex);
-
-            if(hash && hash.length) {
-                toAnchor(hash)
-            }
+        if(window.location.hash) {
+            toAnchor(window.location.hash)
         }
     };
 
@@ -90,17 +83,23 @@ humhub.module('wiki', function(module, require, $) {
     var buildIndex = function() {
         var $list = $('<ul class="nav nav-pills nav-stacked">');
         var hasHeadLine = false;
-        $('#wiki-page-richtext').children('h1').each(function() {
+        $('#wiki-page-richtext').children('h1,h2').each(function() {
             hasHeadLine = true;
-            var $h1 = $(this).clone();
-            var $anchor = $h1.find('.header-anchor').clone();
+
+            var $header = $(this).clone();
+            var $anchor = $header.find('.header-anchor').clone();
             $anchor.show();
 
-            $h1.find('.header-anchor').remove();
-            var test = $h1.text();
-            $anchor.text($h1.text());
+            $header.find('.header-anchor').remove();
+            var test = $header.text();
+            $anchor.text($header.text());
 
             var $li = $('<li>');
+
+            var cssClass = $header.is('h2') ? 'wiki-menu-sub-section' : 'wiki-menu-section';
+
+            $li.addClass(cssClass);
+
             $anchor.prepend('<i class="fa fa-caret-right"></i>');
             $anchor.on('click', function(evt) {
                 evt.preventDefault();
@@ -120,7 +119,11 @@ humhub.module('wiki', function(module, require, $) {
     var toAnchor = function(anchor) {
         $('html, body').animate({
             scrollTop: $(anchor).offset().top - getViewOffset()
-        }, 200)
+        }, 200);
+
+        if(history && history.replaceState) {
+            history.replaceState(null, null, anchor);
+        }
     };
 
     module.initOnPjaxLoad = true;
@@ -177,6 +180,12 @@ humhub.module('wiki', function(module, require, $) {
         }
     };
 
+    var revertRevision = function(evt) {
+        client.post(evt).then(function(evt) {
+            //client.pjax.redirect
+        });
+    };
+
     var unload = function() {
         $(window).off('scroll.wiki');
         offset = null;
@@ -185,6 +194,7 @@ humhub.module('wiki', function(module, require, $) {
     module.export({
         CategoryListView: CategoryListView,
         init: init,
+        revertRevision: revertRevision,
         unload: unload
     })
 });

@@ -6,6 +6,7 @@ use humhub\modules\content\components\ContentContainerController;
 use humhub\modules\content\models\Content;
 use humhub\modules\file\models\File;
 use humhub\modules\space\models\Space;
+use humhub\modules\wiki\helpers\Url;
 use humhub\modules\wiki\models\forms\WikiPageItemDrop;
 use humhub\modules\wiki\models\WikiPage;
 use humhub\modules\wiki\models\WikiPageRevision;
@@ -95,7 +96,10 @@ class PageController extends BaseController
                 'homePage' => $this->getHomePage(),
                 'contentContainer' => $this->contentContainer,
                 'content' => $revision->content,
-                'canViewHistory' => $this->canViewHistory()
+                'canViewHistory' => $this->canViewHistory(),
+                'canEdit' => $this->canEdit($page),
+                'canAdminister' => $this->canAdminister(),
+                'canCreatePage' => $this->canCreatePage()
             ]);
         } else {
             return $this->redirect($this->contentContainer->createUrl('edit', array('title' => $title)));
@@ -262,7 +266,9 @@ class PageController extends BaseController
         $revertedRevision->content = $revision->content;
         $revertedRevision->save();
 
-        return $this->redirect($this->contentContainer->createUrl('view', array('title' => $page->title)));
+        return $this->redirect(Url::toWiki($page));
+
+        return ['success' => true, 'redirect' => Url::toWiki($page)];
     }
 
     /**
