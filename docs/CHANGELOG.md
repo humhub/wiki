@@ -11,6 +11,7 @@ Changelog
 - Enh: Added wiki index to nav
 - Enh: Added drag/drop in wiki overview
 - Enh: Added edit link to wall-entry context menu
+- Enh: Added changed at information to page view
 
 1.2.2  (23 August, 2018)
 ------------------------
