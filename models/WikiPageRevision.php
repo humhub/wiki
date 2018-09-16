@@ -35,11 +35,11 @@ class WikiPageRevision extends ActiveRecord
     {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
-        return array(
-            array(['revision', 'wiki_page_id', 'user_id'], 'required'),
-            array(['revision', 'is_latest', 'wiki_page_id', 'user_id'], 'integer'),
-            array('content', 'safe'),
-        );
+        return [
+            [['revision', 'wiki_page_id', 'user_id'], 'required'],
+            [['revision', 'is_latest', 'wiki_page_id', 'user_id'], 'integer'],
+            ['content', 'safe'],
+        ];
     }
 
     public function getAuthor()

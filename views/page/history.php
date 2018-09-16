@@ -2,69 +2,65 @@
 
 use yii\helpers\Html;
 use humhub\modules\wiki\helpers\Url;
+use humhub\modules\wiki\widgets\WikiContent;
+use humhub\modules\user\widgets\Image;
+use humhub\widgets\LinkPager;
+use humhub\modules\wiki\widgets\WikiMenu;
 
 humhub\modules\wiki\assets\Assets::register($this);
+
+/* @var $page \humhub\modules\wiki\models\WikiPage */
+/* @var $pagination \yii\data\Pagination */
+/* @var $revisions \humhub\modules\wiki\models\WikiPageRevision[] */
+
+
 ?>
 <div class="panel panel-default">
     <div class="panel-body">
         <div class="row">
-            <div class="col-lg-10 col-md-9 col-sm-9 wiki-content">
-                <h1><?php echo Yii::t('WikiModule.base', '<strong>Page</strong> history'); ?></h1>
-                <br>
 
-                <h1 class="wiki-page-history-title"><i
-                        class="fa fa-file-text-o"></i> <?php echo Html::encode($page->title); ?></h1>
+            <?php WikiContent::begin(['title' => Yii::t('WikiModule.base', '<strong>Page</strong> history')])?>
+
+                <h1 class="wiki-page-history-title"><i class="fa fa-file-text-o"></i> <?= Html::encode($page->title); ?></h1>
+
                 <ul class="wiki-page-history">
                     <?php $first = true; ?>
                     <?php foreach ($revisions as $revision): ?>
                         <li>
-                            <div class="media <?php
-                    if ($first == true && $pagination->page == 0) {
-                        echo "alert alert-warning";
-                        $first = false;
-                    }
-                        ?>">
-
+                            <div class="media <?= ($first && $pagination->page == 0) ? 'alert alert-warning' : '' ?>">
                                 <div class="horizontal-line">---</div>
 
-                                <a href="<?php echo $revision->author->getUrl(); ?>" class="pull-left">
-                                    <img class="media-object img-rounded tt"
-                                         src="<?php echo $revision->author->getProfileImage()->getUrl(); ?>" alt="36x36"
-                                         data-src="holder.js/36x36" style="width: 36px; height: 36px;" width="36"
-                                         height="36" data-toggle="tooltip" data-placement="top" title=""
-                                         data-original-title="<?php echo Html::encode($revision->author->displayName); ?>">
-                                </a>
+                                <?= Image::widget(['user' => $revision->author, 'showTooltip' => true, 'width' => 36, 'htmlOptions' => ['class' => 'pull-left'] ]) ?>
 
-                                <div class="media-body"><i class="fa fa-clock-o history pull-left"></i>
-                                    <h4 class="media-heading"><a
-                                            href="<?php echo $contentContainer->createUrl('view', array('title' => $page->title, 'revision' => $revision->revision)); ?>"><?php echo Html::encode($page->title); ?></a> <a class="wiki-page-view-link colorInfo" href="<?php echo $contentContainer->createUrl('view', array('title' => $page->title, 'revision' => $revision->revision)); ?>">[ <i class="fa fa-eye"></i><?php echo Yii::t('WikiModule.base', 'View'); ?> ]</a><br>
-                                        <h5><?php echo Yii::t('WikiModule.base', 'Edited at'); ?> <?php echo Yii::$app->formatter->asDateTime($revision->revision); ?> <?php echo Yii::t('WikiModule.base', 'by'); ?> <?php echo Html::a(Html::encode($revision->author->displayName), $revision->author->getUrl(), array('class' => 'wiki-author-link')); ?></h5>
+                                <div class="media-body">
+                                    <i class="fa fa-clock-o history pull-left"></i>
+                                    <h4 class="media-heading">
+                                        <a href="<?= $contentContainer->createUrl('view', ['title' => $page->title, 'revision' => $revision->revision]); ?>">
+                                            <?= Html::encode($page->title); ?></a>
+                                           <a class="wiki-page-view-link colorInfo" href="<?= Url::toWiki($page, $revision); ?>">
+                                               [ <i class="fa fa-eye"></i><?= Yii::t('WikiModule.base', 'View'); ?> ]
+                                           </a><br>
+                                        <h5>
+                                            <?= Yii::t('WikiModule.base', 'Edited at'); ?>
+                                            <?= Yii::$app->formatter->asDateTime($revision->revision); ?>
+                                            <?= Yii::t('WikiModule.base', 'by'); ?>
+                                            <?= Html::a(Html::encode($revision->author->displayName), $revision->author->getUrl(), ['class' => 'wiki-author-link']); ?>
+                                        </h5>
                                     </h4>
 
                                 </div>
 
                             </div>
-
                         </li>
                     <?php endforeach; ?>
 
                     <div class="text-center">
-                        <?= \humhub\widgets\LinkPager::widget(['pagination' => $pagination]); ?> 
+                        <?= LinkPager::widget(['pagination' => $pagination]); ?>
                     </div>
                 </ul>
-            </div>
-            <div class="col-lg-2 col-md-3 col-sm-3 wiki-menu">
-                <ul class="nav nav-pills nav-stacked">
-                    <li><?php echo Html::a('<i class="fa fa-reply back"></i> ' . Yii::t('WikiModule.base', 'Back to page'), Url::toWiki($page)); ?></li>
-                    <li class="nav-divider"></li>
-                        <?php if ($homePage !== null) : ?>
-                        <li><?php echo Html::a('<i class="fa fa-newspaper-o"></i> ' . Yii::t('WikiModule.base', 'Main page'), $contentContainer->createUrl('/wiki/page/index', array())); ?></li>
-                    <?php endif; ?>
-                    <li><?php echo Html::a('<i class="fa fa-list-alt"></i> ' . Yii::t('WikiModule.base', 'Overview'), $contentContainer->createUrl('/wiki/page/list', array())); ?></li>
-                </ul>
-            </div>
+            <?php WikiContent::end() ?>
+
+            <?= WikiMenu::widget(['page' => $page, 'blocks' => [[WikiMenu::LINK_BACK_TO_PAGE], WikiMenu::BLOCK_START]])?>
         </div>
-
-
     </div>
 </div>

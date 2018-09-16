@@ -4,11 +4,13 @@ Changelog
 1.3.0
 ------------------------
 - Chng: Major refactoring
-- Fix: Wiki Anchor not working on init
-- Enh: Use of URL Helper class
+- Enh: Use of wiki anchors 
+- Chng: Use of URL Helper class
+- Enh: Use of new richtext
 - Enh: Added fixed nav behaviour
 - Enh: Added wiki index to nav
 - Enh: Added drag/drop in wiki overview
+- Enh: Added edit link to wall-entry context menu
 
 1.2.2  (23 August, 2018)
 ------------------------

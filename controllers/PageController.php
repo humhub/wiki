@@ -55,7 +55,7 @@ class PageController extends BaseController
      */
     public function actionList()
     {
-        return $this->redirect($this->contentContainer->createUrl('/wiki/overview/list'));
+        return $this->redirect($this->contentContainer->createUrl('/wiki/overview/list-categories'));
     }
 
     /**
@@ -112,7 +112,7 @@ class PageController extends BaseController
      * @throws \yii\base\Exception
      * @throws \yii\base\InvalidConfigException
      */
-    public function actionEdit($id = null, $title = null)
+    public function actionEdit($id = null, $title = null, $categoryId = null)
     {
         $page = WikiPage::find()->contentContainer($this->contentContainer)->readable()->where(['wiki_page.id' => $id])->one();
 
@@ -130,12 +130,19 @@ class PageController extends BaseController
             $page->scenario = 'admin';
         }
 
+        if($categoryId) {
+            $category = WikiPage::find()->contentContainer($this->contentContainer)->readable()->where(['wiki_page.id' => $categoryId, 'is_category' => 1])->one();
+            if($category) {
+                $page->parent_page_id = $categoryId;
+            }
+        }
+
         $revision = $page->createRevision();
 
         if ($page->load(Yii::$app->request->post()) && $revision->load(Yii::$app->request->post())) {
             $page->content->container = $this->contentContainer;
             if ($page->save()) {
-                $page->fileManager->attach($page->newFiles);
+                $page->fileManager->attach(Yii::$app->request->post('fileList'));
 
                 $revision->wiki_page_id = $page->id;
                 if ($revision->save()) {
@@ -211,20 +218,20 @@ class PageController extends BaseController
      * @throws \yii\base\InvalidConfigException
      * @throws \yii\db\StaleObjectException
      */
-    public function actionDelete()
+    public function actionDelete($id)
     {
         $this->forcePostRequest();
 
-        $id = Yii::$app->request->get('id');
         $page = WikiPage::find()->contentContainer($this->contentContainer)->where(['wiki_page.id' => $id])->one();
 
-        if ($page === null) {
+        if (!$page) {
             throw new HttpException(404, Yii::t('WikiModule.base', 'Page not found.'));
         }
 
         if (!$this->canAdminister()) {
             throw new HttpException(403, Yii::t('WikiModule.base', 'Permission denied. You have no administration rights.'));
         }
+
         $page->delete();
 
         return $this->redirect($this->contentContainer->createUrl('index'));

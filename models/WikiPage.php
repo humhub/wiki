@@ -47,11 +47,6 @@ class WikiPage extends ContentActiveRecord implements Searchable
     public $managePermission = AdministerPages::class;
 
     /**
-     * @var array newly attached files
-     */
-    public $newFiles = [];
-
-    /**
      * @return string the associated database table name
      */
     public static function tableName()
@@ -65,7 +60,6 @@ class WikiPage extends ContentActiveRecord implements Searchable
     public function rules()
     {
         return [
-            [['newFiles'], 'safe'],
             ['title', 'required'],
             ['title', 'string', 'max' => 255],
             ['title', 'validateTitle'],
@@ -78,8 +72,8 @@ class WikiPage extends ContentActiveRecord implements Searchable
     public function scenarios()
     {
         $scenarios = parent::scenarios();
-        $scenarios['create'] = ['title', 'newFiles'];
-        $scenarios['admin'] = ['title', 'is_home', 'admin_only', 'is_category', 'newFiles', 'parent_page_id'];
+        $scenarios['create'] = ['title'];
+        $scenarios['admin'] = ['title', 'is_home', 'admin_only', 'is_category', 'parent_page_id'];
         return $scenarios;
     }
 
@@ -250,6 +244,16 @@ class WikiPage extends ContentActiveRecord implements Searchable
             'title' => $this->title,
             'lastPageContent' => $content,
         );
+    }
+
+    public function getIcon()
+    {
+        return 'fa-file-word-o';
+    }
+
+    public static function getHome(ContentContainerActiveRecord $container)
+    {
+        return static::find()->contentContainer($container)->readable()->where(['is_home' => 1])->one();
     }
 
     /**

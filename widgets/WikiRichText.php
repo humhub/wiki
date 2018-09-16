@@ -21,8 +21,9 @@ class WikiRichText extends ProsemirrorRichText
     protected function parseOutput()
     {
         $output = parent::parseOutput();
-        $output = $this->parseInternalLinks($output);
+        // WikiLinks have to be parsed before internal links!
         $output = $this->parseWikiLinks($output);
+        $output = $this->parseInternalLinks($output);
         return $output;
 
     }
@@ -32,7 +33,8 @@ class WikiRichText extends ProsemirrorRichText
             $url = $match[2];
 
             if(strpos($url, "file-guid-") !== 0 && strpos($url, "file-guid:") !== 0 && $url[0] !== '.' && $url[0] !== '/' && strpos($url, ':') === false) {
-                return '['.$match[1].']('.Yii::$app->controller->contentContainer->createUrl('/wiki/page/view', ['title' => $match[2]]).')';
+                $page = WikiPage::findOne(['title' => $match[2]]);
+                return $this->toWikiLink($match[1], $page);
             }
 
             if(!$this->edit) {
@@ -60,15 +62,24 @@ class WikiRichText extends ProsemirrorRichText
     {
         // $match[0]: markdown, $match[1]: name, $match[2]: extension(wiki) $match[3]: wikiId
         return static::replaceLinkExtension($text, 'wiki', function($match) {
-            $page = WikiPage::findOne(['id' => $match[3]]);
-
-            if(!$page) {
-                return  '['.$match[1].'](wiki:'.$match[3].' "#")';
-            } else if(!$this->edit) {
-                return  '['.$match[1].'](wiki:'.Url::toWiki($page).' "'.$page->title.'")';
-            } else {
-                return  '['.$match[1].'](wiki:'.$page->id.' "'.$page->title.'")';
-            }
+            return $this->toWikiLink($match[1],  WikiPage::findOne(['id' => $match[3]]));
         });
     }
+
+    public function toWikiLink($label, $page, $title = null)
+    {
+        if(!$page) {
+            // page not found format is [<label>](wiki:#)
+            return  $this->toWikiLink($label, '#');
+        }
+
+        if($page instanceof WikiPage) {
+            // In edit mode we use wiki:<wikiId> format in rendered richtext we use actual wiki url
+            $url = $this->edit ? $page->id : Url::toWiki($page);
+            return $this->toWikiLink($label, $url, $page->title);
+        }
+
+        return '['.$label.'](wiki:'.$page.' "'.$title.'")';
+    }
+
 }

@@ -9,6 +9,10 @@ use humhub\widgets\TimeAgo;
 
 $icon = $page->is_category ? 'fa-file-word-o' : 'fa-file-text-o';
 
+if($page->is_home) {
+    $icon = 'fa-home';
+}
+
 ?>
 
 <h1>

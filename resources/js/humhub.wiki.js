@@ -1,6 +1,7 @@
 humhub.module('wiki', function(module, require, $) {
     var Widget = require('ui.widget').Widget;
     var client = require('client');
+    var modal = require('ui.modal');
 
     var CategoryListView = Widget.extend();
 
@@ -15,17 +16,17 @@ humhub.module('wiki', function(module, require, $) {
         });
 
         this.$.find('.page-title, .page-category-title').hover(function() {
-            $(this).find('.wiki-edit').show();
+            $(this).find('.wiki-page-control').show();
         }, function() {
-            $(this).find('.wiki-edit').hide();
+            $(this).find('.wiki-page-control').hide();
         });
 
         this.$.sortable({
             handle: '.page-category-title',
+            items: '.wiki-category-list-item[data-page-id]',
             helper: 'clone',
             update: $.proxy(this.dropItem, this)
             //placeholder: "task-list-state-highlight",
-            //update: $.proxy(this.dropItem, this)
         });
 
         this.$.find('.wiki-page-list').sortable({
@@ -39,7 +40,6 @@ humhub.module('wiki', function(module, require, $) {
     CategoryListView.prototype.dropItem = function (event, ui) {
         var $item = ui.item;
         var pageId = $item.data('page-id');
-        debugger;
 
         var targetId = $item.is('.wiki-category-list-item') ? null : $item.closest('.wiki-category-list-item').data('page-id');
 
@@ -82,6 +82,18 @@ humhub.module('wiki', function(module, require, $) {
 
     var buildIndex = function() {
         var $list = $('<ul class="nav nav-pills nav-stacked">');
+
+        var $listHeader = $('<li><a href="#"><i class="fa fa-list-ol"></i> '+module.text('pageindex')+'</li></a>').on('click', function(evt) {
+            evt.preventDefault();
+            var $siblings = $(this).siblings(':not(.nav-divider)');
+            if($siblings.first().is(':visible')) {
+                $siblings.hide();
+            } else {
+                $siblings.show();
+            }
+        });
+        $list.append($listHeader);
+
         var hasHeadLine = false;
         $('#wiki-page-richtext').children('h1,h2').each(function() {
             hasHeadLine = true;
@@ -91,7 +103,12 @@ humhub.module('wiki', function(module, require, $) {
             $anchor.show();
 
             $header.find('.header-anchor').remove();
-            var test = $header.text();
+            var text = $header.text();
+
+            if(!text || !text.trim().length) {
+                return;
+            }
+
             $anchor.text($header.text());
 
             var $li = $('<li>');
@@ -117,6 +134,8 @@ humhub.module('wiki', function(module, require, $) {
     };
 
     var toAnchor = function(anchor) {
+        anchor = '#'+$.escapeSelector(anchor.substr(1, anchor.length));
+
         $('html, body').animate({
             scrollTop: $(anchor).offset().top - getViewOffset()
         }, 200);
@@ -141,6 +160,11 @@ humhub.module('wiki', function(module, require, $) {
                 checkAnchor();
                 checkScroll();
             }
+
+            $('.wiki-content').find('.header-anchor').on('click', function(evt) {
+                evt.preventDefault();
+                toAnchor($(this).attr('href'));
+            });
         });
 
         $(window).off('scroll.wiki').on('scroll.wiki', function () {
@@ -151,6 +175,10 @@ humhub.module('wiki', function(module, require, $) {
 
 
     var checkScroll = function() {
+        if(!$('.wiki-menu').length) {
+            return;
+        }
+
         var $window = $(window);
         var windowHeight = $window.height();
         var windowBottom = $window.scrollTop();
@@ -186,6 +214,10 @@ humhub.module('wiki', function(module, require, $) {
         });
     };
 
+    var actionDelete = function(evt) {
+        client.pjax.post(evt);
+    };
+
     var unload = function() {
         $(window).off('scroll.wiki');
         offset = null;
@@ -195,6 +227,7 @@ humhub.module('wiki', function(module, require, $) {
         CategoryListView: CategoryListView,
         init: init,
         revertRevision: revertRevision,
+        actionDelete: actionDelete,
         unload: unload
     })
 });

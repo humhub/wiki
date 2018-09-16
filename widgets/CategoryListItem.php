@@ -48,6 +48,11 @@ class CategoryListItem extends Widget
      */
     public $contentContainer;
 
+    /**
+     * @var bool
+     */
+    public $hideTitle = false;
+
     public $icon = 'fa-caret-square-o-down';
 
     /**
@@ -70,6 +75,7 @@ class CategoryListItem extends Widget
             'title' => $this->title,
             'url' => $this->url,
             'pages' => $this->pages,
+            'hideTitle' => $this->hideTitle,
             'editUrl' => $this->editUrl,
             'contentContainer' => $this->contentContainer,
             'category' => $this->category

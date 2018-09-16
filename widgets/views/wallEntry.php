@@ -1,18 +1,26 @@
 <?php
 
-use humhub\libs\Helpers;
-use humhub\widgets\MarkdownView;
+use humhub\libs\Html;
+use humhub\modules\wiki\helpers\Url;
+use humhub\modules\wiki\widgets\WikiRichText;
+use humhub\widgets\Button;
+use humhub\widgets\Link;
+
+/* @var $wiki \humhub\modules\wiki\models\WikiPage */
+
+\humhub\modules\wiki\assets\Assets::register($this);
+
+$wikiUrl = Url::toWiki($wiki);
 
 ?>
 <div class="media meeting">
     <div class="media-body">
-        <h4 class="media-heading"><a href="<?php echo $wiki->getUrl(); ?>"><?php echo $wiki->title; ?></a></h4>
+        <h4 class="media-heading"><?= Link::to(Html::encode($wiki->title), $wikiUrl)->icon('fa-file-text-o')?></h4>
+        <br>
         <div class="markdown-render">
-            <?php echo MarkdownView::widget(['markdown' => Helpers::truncateText($content, 500), 'parserClass' => "humhub\modules\wiki\Markdown"]); ?>
+            <?= WikiRichText::output($content, ['maxLength' => 500, 'exclude' => ['anchor']]) ?>
         </div>
-
-        <a href="<?php echo $wiki->getUrl(); ?>" class="btn btn-sm btn-default" data-ui-loader><i class=" fa
-                                                                                   fa-file-text-o"></i> <?php echo Yii::t('WikiModule.widgets_views_wallentry', 'Open wiki page...'); ?>
-        </a>
+        <br>
+        <?= Button::defaultType(Yii::t('WikiModule.widgets_views_wallentry', 'Open wiki page...'))->link($wikiUrl)->sm() ?>
     </div>
 </div>

@@ -55,7 +55,6 @@ class CategoryListView extends JsWidget
             'options' => $this->getOptions(),
             'categories' => $categories,
             'unsortedPages' => $unsortedPages,
-            'listUrl' => $this->contentContainer->createUrl('/wiki/page/list'),
             'contentContainer' => $this->contentContainer,
             'canEdit' => $canEdit
         ]);

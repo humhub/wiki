@@ -8,6 +8,8 @@
 
 namespace humhub\modules\wiki\widgets;
 
+use humhub\modules\wiki\helpers\Url;
+
 /**
  * @inheritdoc
  */
@@ -19,6 +21,13 @@ class WallEntry extends \humhub\modules\content\widgets\WallEntry
      */
     public $showFiles = false;
 
+    public $editMode = self::EDIT_MODE_NEW_WINDOW;
+
+    public function getEditUrl()
+    {
+        return Url::toWikiEdit($this->contentObject);
+    }
+
     /**
      * @inheritdoc
      */
@@ -29,7 +38,7 @@ class WallEntry extends \humhub\modules\content\widgets\WallEntry
             return "";
         }
         
-        return $this->render('wallEntry', array('wiki' => $this->contentObject, 'content' => $revision->content, 'justEdited' => $this->justEdited));
+        return $this->render('wallEntry', ['wiki' => $this->contentObject, 'content' => $revision->content, 'justEdited' => $this->justEdited]);
     }
 
 }

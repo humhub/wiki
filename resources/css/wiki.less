@@ -44,6 +44,12 @@
 
   }
 
+  #wiki-page-edit {
+    .ProseMirror {
+      min-height: 150px !important;
+    }
+  }
+
   .wiki-content, .wiki-menu {
     hr.dashed {
       border-style: dashed;
@@ -52,10 +58,6 @@
 
   .wiki-page-content {
     min-height: 320px;
-
-    [data-wiki-page] {
-      color: #97d271 !important;
-    }
 
     .wiki-category-list-item {
       padding-bottom: 0 !important;
@@ -82,8 +84,28 @@
   .wiki-content {
     border-right: 1px solid #eeeeee;
 
+    h1 .fa {
+      font-size: inherit;
+      width: inherit;
+    }
+
     [data-wiki-page] {
       color: #4cc159;
+    }
+
+    [data-wiki-page="#"] {
+      color: #ec4332 !important;
+    }
+
+    .page-title.editable, .page-category-title.editable {
+      cursor: pointer;
+      .fa-pencil {
+        margin-left:5px;
+      }
+    }
+
+    .page-title.editable:hover, .page-category-title.editable:hover {
+      background-color: #fff8e0;
     }
 
     .social-controls, .social-controls a {
@@ -109,16 +131,16 @@
         padding-bottom:6px;
       }
 
-      a:hover {
-        text-decoration: underline;
-      }
-
       .page-title, .page-category-title {
         .wiki-edit {
           padding-left:5px;
         }
         .fa {
           font-size: 14px;
+        }
+
+        .wiki-page-control {
+          color: #999999;
         }
       }
 

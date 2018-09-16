@@ -8,6 +8,8 @@
 
 namespace humhub\modules\wiki\assets;
 
+use Yii;
+use humhub\modules\ui\view\components\View;
 use yii\web\AssetBundle;
 
 class Assets extends AssetBundle
@@ -25,4 +27,25 @@ class Assets extends AssetBundle
         'js/humhub.wiki.js',
         'js/humhub.wiki.linkExtension.js'
     ];
+
+    /**
+     * @param View $view
+     * @return AssetBundle
+     */
+    public static function register($view)
+    {
+        $view->registerJsConfig([
+            'wiki' => [
+                'text' => [
+                    'pageindex' => Yii::t('WikiModule.base', 'Page index')
+                ]
+            ],
+            'wiki.linkExtension' => [
+                'text' => [
+                    'pageNotFound' => Yii::t('WikiModule.base', 'Page not found')
+                ]
+            ]
+        ]);
+        return parent::register($view);
+    }
 }

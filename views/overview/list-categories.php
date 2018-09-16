@@ -6,7 +6,8 @@
  */
 
 use humhub\modules\wiki\widgets\CategoryListView;
-use humhub\widgets\Button;
+use humhub\modules\wiki\widgets\WikiContent;
+use humhub\modules\wiki\widgets\WikiMenu;
 
 /* @var $this \humhub\components\View */
 /* @var $homePage boolean */
@@ -23,29 +24,14 @@ $createUrl = $contentContainer->createUrl('//wiki/page/edit');
     <div class="panel-body">
 
         <div class="row">
-            <div class="col-lg-10 col-md-9 col-sm-9 wiki-content">
-                <h1><?= Yii::t('WikiModule.base', '<strong>Index</strong>'); ?></h1>
-                <hr>
+            <?php WikiContent::begin(['cssClass' => 'wiki-page-content', 'title' => Yii::t('WikiModule.base', '<strong>Index</strong>'), 'titleIcon' => 'fa-list-ol']) ?>
 
                 <?= CategoryListView::widget(['contentContainer' => $contentContainer]) ?>
 
-            </div>
-            <div class="col-lg-2 col-md-3 col-sm-3 wiki-menu">
+            <?php WikiContent::end() ?>
 
-                <ul class="nav nav-pills nav-stacked">
-                    <?php if ($canCreate) : ?>
-                        <li>
-                            <?= Button::asLink(Yii::t('WikiModule.base', 'New page'), $createUrl)->icon('fa-file-text-o new')?>
-                        </li>
-                    <?php endif; ?>
+            <?= WikiMenu::widget(['container' => $contentContainer, 'excludes' => [WikiMenu::LINK_INDEX]])?>
 
-                    <?php if ($homePage) : ?>
-                        <li class="nav-divider"></li>
-                        <li><?= Button::asLink(Yii::t('WikiModule.base', 'Main page'), $homeUrl)->icon('fa-newspaper-o') ?></li>
-                    <?php endif; ?>
-
-                </ul>
-            </div>
         </div>
     </div>
 </div>

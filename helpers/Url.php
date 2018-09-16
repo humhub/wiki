@@ -12,6 +12,7 @@ use humhub\modules\content\components\ContentContainerActiveRecord;
 use humhub\modules\content\components\ContentContainerController;
 use humhub\modules\wiki\models\WikiPage;
 use humhub\modules\wiki\models\WikiPageRevision;
+use humhub\modules\wiki\tests\codeception\fixtures\WikiPageFixture;
 
 
 /**
@@ -23,6 +24,7 @@ class Url extends \yii\helpers\Url
     const ROUTE_OVERVIEW = '/wiki/overview/list-categories';
     const ROUTE_WIKI_PAGE = '/wiki/page/view';
     const ROUTE_WIKI_EDIT = '/wiki/page/edit';
+    const ROUTE_WIKI_DELETE = '/wiki/page/delete';
     const ROUTE_WIKI_HISTORY = '/wiki/page/history';
     const ROUTE_WIKI_REVERT = '/wiki/page/revert';
 
@@ -43,12 +45,18 @@ class Url extends \yii\helpers\Url
 
     public static function toWikiRevertRevision(WikiPage $page, WikiPageRevision $revision)
     {
+
         return static::to([static::ROUTE_WIKI_REVERT, 'id' => $page->id, 'toRevision' => $revision->revision, 'container' => $page->content->container]);
     }
 
-    public static function toWikiCreate(ContentContainerActiveRecord $container)
+    public static function toWikiCreateForCategory(WikiPage $page)
     {
-        return static::wikiEdit($container);
+        return static::wikiEdit($page->content->container, null, $page->id);
+    }
+
+    public static function toWikiCreate(ContentContainerActiveRecord $container, $categoryId = null)
+    {
+        return static::wikiEdit($container, null, $categoryId);
     }
 
     public static function toWikiEdit(WikiPage $page)
@@ -56,24 +64,31 @@ class Url extends \yii\helpers\Url
         return static::wikiEdit($page->content->container, $page->id);
     }
 
-    private static function wikiEdit(ContentContainerActiveRecord $container, $id = null)
+    private static function wikiEdit(ContentContainerActiveRecord $container, $id = null, $categoryId = null)
     {
-        return static::to([static::ROUTE_WIKI_EDIT, 'id' => $id, 'container' => $container]);
+        return static::to([static::ROUTE_WIKI_EDIT, 'id' => $id, 'container' => $container, 'categoryId' => $categoryId]);
     }
 
     /**
      * @param WikiPage $page
-     * @param null $revision
+     * @param WikiPageRevision $revision
      * @return string
      */
-    public static function toWiki(WikiPage $page, $revision = null)
+    public static function toWiki(WikiPage $page, WikiPageRevision $revision = null)
     {
-        return static::to([static::ROUTE_WIKI_PAGE, 'title' => $page->title, 'revision' => $revision, 'container' => $page->content->container]);
+        $rev = $revision ? $revision->revision : null;
+        return static::to([static::ROUTE_WIKI_PAGE, 'title' => $page->title, 'revision' => $rev, 'container' => $page->content->container]);
     }
 
-    public static function toWikiByTitle($title, ContentContainerActiveRecord $container,  $revision = null)
+    public static function toWikiDelete(WikiPage $page)
     {
-        return static::to([static::ROUTE_WIKI_PAGE, 'title' => $title, 'revision' => $revision, 'container' => $container]);
+        return static::to([static::ROUTE_WIKI_DELETE, 'id' => $page->id, 'container' => $page->content->container]);
+    }
+
+    public static function toWikiByTitle($title, ContentContainerActiveRecord $container, WikiPageRevision  $revision = null)
+    {
+        $rev = $revision ? $revision->revision : null;
+        return static::to([static::ROUTE_WIKI_PAGE, 'title' => $title, 'revision' => $rev, 'container' => $container]);
     }
 
 }

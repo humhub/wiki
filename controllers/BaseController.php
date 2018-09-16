@@ -50,7 +50,7 @@ abstract class BaseController extends ContentContainerController
      */
     protected function getHomePage()
     {
-        return WikiPage::find()->contentContainer($this->contentContainer)->readable()->where(['is_home' => 1])->one();
+        return WikiPage::getHome($this->contentContainer);
     }
 
     /**
