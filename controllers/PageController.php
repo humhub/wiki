@@ -7,6 +7,7 @@ use humhub\modules\content\models\Content;
 use humhub\modules\file\models\File;
 use humhub\modules\space\models\Space;
 use humhub\modules\wiki\helpers\Url;
+use humhub\modules\wiki\models\forms\PageEditForm;
 use humhub\modules\wiki\models\forms\WikiPageItemDrop;
 use humhub\modules\wiki\models\WikiPage;
 use humhub\modules\wiki\models\WikiPageRevision;
@@ -107,53 +108,21 @@ class PageController extends BaseController
     }
 
     /**
-     * @return $this|string|void|\yii\web\Response
+     * @return $this|string|\yii\web\Response
      * @throws HttpException
      * @throws \yii\base\Exception
      * @throws \yii\base\InvalidConfigException
      */
     public function actionEdit($id = null, $title = null, $categoryId = null)
     {
-        $page = WikiPage::find()->contentContainer($this->contentContainer)->readable()->where(['wiki_page.id' => $id])->one();
+        $form = (new PageEditForm(['container' => $this->contentContainer]))->forPage($id,$title,$categoryId);
 
-        if ($page === null) {
-            if (!$this->canCreatePage()) {
-                throw new HttpException(403, Yii::t('WikiModule.base', 'Page creation disabled!'));
-            }
-
-            $page = new WikiPage($this->contentContainer, ['title' => $title, 'scenario' => WikiPage::SCENARIO_CREATE]);
-        } elseif (!$this->canEdit($page)) {
-            throw new HttpException(403, Yii::t('WikiModule.base', 'Page not editable!'));
-        }
-
-        if ($this->canAdminister()) {
-            $page->scenario = 'admin';
-        }
-
-        if($categoryId) {
-            $category = WikiPage::find()->contentContainer($this->contentContainer)->readable()->where(['wiki_page.id' => $categoryId, 'is_category' => 1])->one();
-            if($category) {
-                $page->parent_page_id = $categoryId;
-            }
-        }
-
-        $revision = $page->createRevision();
-
-        if ($page->load(Yii::$app->request->post()) && $revision->load(Yii::$app->request->post())) {
-            $page->content->container = $this->contentContainer;
-            if ($page->save()) {
-                $page->fileManager->attach(Yii::$app->request->post('fileList'));
-
-                $revision->wiki_page_id = $page->id;
-                if ($revision->save()) {
-                    return $this->redirect($this->contentContainer->createUrl('view', ['title' => $page->title]));
-                }
-            }
+        if($form->load(Yii::$app->request->post()) && $form->save()) {
+            return $this->redirect(Url::toWiki($form->page));
         }
 
         return $this->render('edit', [
-            'page' => $page,
-            'revision' => $revision,
+            'model' => $form,
             'homePage' => $this->getHomePage(),
             'contentContainer' => $this->contentContainer,
             'canAdminister' => $this->canAdminister(),
@@ -202,12 +171,12 @@ class PageController extends BaseController
         $query->offset($pagination->offset)->limit($pagination->limit);
 
 
-        return $this->render('history', array(
+        return $this->render('history', [
                 'page' => $page,
                 'revisions' => $query->all(),
                 'pagination' => $pagination,
                 'homePage' => $this->getHomePage(),
-                'contentContainer' => $this->contentContainer)
+                'contentContainer' => $this->contentContainer]
         );
     }
 

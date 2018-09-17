@@ -41,6 +41,13 @@ class OverviewController extends BaseController
      */
     public function actionListCategories()
     {
+        if (!$this->hasPages()) {
+            return $this->render('no-pages', [
+                'canCreatePage' => $this->canCreatePage(),
+                'createPageUrl' => $this->contentContainer->createUrl('/wiki/page/edit'),
+                'contentContainer' => $this->contentContainer
+            ]);
+        }
 
         return $this->render('list-categories', [
             'homePage' => $this->getHomePage(),

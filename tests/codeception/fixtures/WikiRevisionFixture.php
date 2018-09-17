@@ -10,11 +10,12 @@
 namespace humhub\modules\wiki\tests\codeception\fixtures;
 
 use humhub\modules\wiki\models\WikiPage;
+use humhub\modules\wiki\models\WikiPageRevision;
 use yii\test\ActiveFixture;
 
 class WikiRevisionFixture extends ActiveFixture
 {
-    public $modelClass = WikiPage::class;
+    public $modelClass = WikiPageRevision::class;
     public $dataFile = '@wiki/tests/codeception/fixtures/data/wikiRevision.php';
 
 }

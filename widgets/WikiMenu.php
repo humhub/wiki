@@ -11,6 +11,7 @@ namespace humhub\modules\wiki\widgets;
 
 use humhub\components\Widget;
 use humhub\modules\content\components\ContentContainerActiveRecord;
+use humhub\modules\content\widgets\MoveContentLink;
 use humhub\modules\content\widgets\PermaLink;
 use humhub\modules\wiki\helpers\Url;
 use humhub\modules\wiki\models\WikiPage;
@@ -38,6 +39,8 @@ class WikiMenu extends Widget
     const LINK_REVERT = 'revert';
     const LINK_REVERT_GO_BACK = 'revert_go_back';
 
+    const LINK_MOVE = 'move';
+
     const LINK_NEW = 'new';
 
     const BLOCK_START = [self::LINK_HOME, self::LINK_INDEX];
@@ -46,7 +49,7 @@ class WikiMenu extends Widget
 
     const BLOCK_REVISION_VIEW =  [self::LINK_REVERT, self::LINK_REVERT_GO_BACK];
 
-    const BLOCK_EDIT =  [self::LINK_EDIT_CANCEL, self::LINK_EDIT_DELETE];
+    const BLOCK_EDIT =  [self::LINK_EDIT_CANCEL, self::LINK_EDIT_DELETE, self::LINK_MOVE];
 
     const BLOCK_BOTTOM =  [self::LINK_NEW];
 
@@ -161,7 +164,7 @@ class WikiMenu extends Widget
             case static::LINK_HOME:
                 return ($this->home) ? Link::to(Yii::t('WikiModule.base', 'Home'), Url::toWiki($this->home))->icon('fa-home') : null;
             case static::LINK_INDEX:
-                return  Link::to(Yii::t('WikiModule.base', 'Index'), Url::toOverview($this->container))->icon('fa-list-alt');
+                return  Link::to(Yii::t('WikiModule.base', 'Index'), Url::toOverview($this->container))->icon('fa-list-alt')->id('wiki_index');
             case static::LINK_EDIT:
                 return ($this->canEdit) ? Link::to(Yii::t('WikiModule.base', 'Edit page'), Url::toWikiEdit($this->page))->icon('fa-pencil-square-o edit') : null;
             case static::LINK_HISTORY:
@@ -176,15 +179,17 @@ class WikiMenu extends Widget
             case static::LINK_REVERT_GO_BACK:
                 return Link::to(Yii::t('WikiModule.base', 'Go back'), Url::toWikiHistory($this->page))->icon('fa-reply');
             case static::LINK_NEW:
-                return ($this->canCreatePage()) ? Link::to(Yii::t('WikiModule.base', 'New page'), Url::toWikiCreate($this->container))->icon('fa-file-text-o new') : null;
+                return ($this->canCreatePage()) ? Link::to(Yii::t('WikiModule.base', 'New page'), Url::toWikiCreate($this->container))->icon('fa-plus new') : null;
             case static::LINK_EDIT_DELETE:
                 return (!$this->page->isNewRecord) ? Link::withAction(Yii::t('WikiModule.base', 'Delete'), 'wiki.delete', Url::toWikiDelete($this->page))
                     ->icon('fa-trash-o delete')->confirm() : null;
             case static::LINK_EDIT_CANCEL:
                 $url = $this->page->isNewRecord ? Url::toOverview($this->container) : Url::toWiki($this->page);
-                return Link::to(Yii::t('WikiModule.base', 'Cancel'), $url)->icon('fa-reply');
+                return Link::to(Yii::t('WikiModule.base', 'Cancel'), $url)->icon('fa-reply')->id('wiki_cancel');
             case static::LINK_BACK_TO_PAGE:
                 return Link::to(Yii::t('WikiModule.base', 'Back to page'), Url::toWiki($this->page))->icon('fa-reply');
+            case static::LINK_MOVE:
+                return (!$this->page->isNewRecord && $this->page->canMove()) ?  MoveContentLink::widget(['model' => $this->page]) : null;
         }
     }
 

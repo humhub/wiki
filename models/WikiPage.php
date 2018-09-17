@@ -2,6 +2,7 @@
 
 namespace humhub\modules\wiki\models;
 
+use humhub\modules\content\components\ActiveQueryContent;
 use humhub\modules\content\components\ContentActiveRecord;
 use humhub\modules\content\components\ContentContainerActiveRecord;
 use humhub\modules\search\interfaces\Searchable;
@@ -27,6 +28,8 @@ use yii\db\Expression;
 class WikiPage extends ContentActiveRecord implements Searchable
 {
 
+    public $moduleId = 'wiki';
+
     const SCENARIO_CREATE = 'create';
     const SCENARIO_ADMIN_EDIT = 'admin';
     const SCENARIO_EDIT = 'edit';
@@ -35,6 +38,8 @@ class WikiPage extends ContentActiveRecord implements Searchable
      * @inheritdoc
      */
     public $autoAddToWall = true;
+
+    public $canMove = true;
 
     /**
      * @inheritdoc
@@ -282,30 +287,23 @@ class WikiPage extends ContentActiveRecord implements Searchable
     }
 
     /**
-     * @return array
-     * @throws \yii\base\Exception
+     * @param ContentContainerActiveRecord $container
+     * @return ActiveQueryContent
      */
-    public function getCategoryList()
-    {
-        $categories = [];
-
-        $query = static::findCategories($this->content->container);
-
-        if (!$this->isNewRecord) {
-            $query->andWhere(['!=', 'wiki_page.id', $this->id]);
-        }
-
-        $categories[] = '';
-        foreach ($query->all() as $category) {
-            $categories[$category->id] = $category->title;
-        }
-
-        return $categories;
-    }
-
     public static function findCategories(ContentContainerActiveRecord $container)
     {
         return static::find()->contentContainer($container)->andWhere(['wiki_page.is_category' => 1])->orderBy('sort_order ASC, title ASC');
     }
 
+    public function afterMove(ContentContainerActiveRecord $container = null) {
+
+        if($this->is_category) {
+            foreach ($this->findChildren()->all() as $childPage) {
+                $childPage->updateAttributes(['parent_page_id' => new Expression('NULL')]);
+            }
+        }
+
+        $this->updateAttributes(['parent_page_id' => new Expression('NULL')]);
+        $this->updateAttributes(['is_home' => 0]);
+    }
 }

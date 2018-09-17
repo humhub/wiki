@@ -1,8 +1,10 @@
 <?php
 use humhub\libs\Html;
+use humhub\modules\topic\models\Topic;
 use humhub\widgets\Label;
 use humhub\widgets\Link;
 use humhub\widgets\TimeAgo;
+use humhub\modules\topic\widgets\TopicLabel;
 
 /* @var $this \humhub\components\View */
 /* @var $page \humhub\modules\wiki\models\WikiPage */
@@ -21,6 +23,9 @@ if($page->is_home) {
     <?php if($page->categoryPage) : ?>
         <?= Label::primary(Html::encode($page->categoryPage->title))->withLink(Link::to(null, $page->categoryPage->getUrl()))->right() ?>
     <?php endif; ?>
+    <?php foreach ($page->content->getTags(Topic::class)->all() as $topic) : ?>
+        <?= TopicLabel::forTopic($topic)->right()->style('margin-right:5px')?>
+    <?php endforeach; ?>
 </h1>
 
 <hr style="margin-bottom:4px">
@@ -33,5 +38,6 @@ if($page->is_home) {
                 <?= Html::encode($page->content->updatedBy->displayName)?>
             </a>
         </strong>
+
     </small>
 </div>

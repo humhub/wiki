@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.3.0
+1.3.0 (17 September, 2018)
 ------------------------
 - Chng: Major refactoring
 - Enh: Use of wiki anchors 
@@ -12,6 +12,9 @@ Changelog
 - Enh: Added drag/drop in wiki overview
 - Enh: Added edit link to wall-entry context menu
 - Enh: Added changed at information to page view
+- Enh: Added topic support
+- Enh: Added move content support
+- Chng: Min Version 1.3.2
 
 1.2.2  (23 August, 2018)
 ------------------------

@@ -2,6 +2,7 @@ humhub.module('wiki', function(module, require, $) {
     var Widget = require('ui.widget').Widget;
     var client = require('client');
     var modal = require('ui.modal');
+    var event = require('event');
 
     var CategoryListView = Widget.extend();
 
@@ -152,6 +153,12 @@ humhub.module('wiki', function(module, require, $) {
             return;
         }
 
+        event.off('humhub:content:afterMove.wiki').on('humhub:content:afterMove.wiki', function() {
+            if($('#wiki_index').length) {
+                $('#wiki_index').click();
+            }
+        });
+
         $('#wiki-page-richtext').on('afterInit', function() {
             $('.wiki-content').find('.markdown-render').fadeIn('slow');
 
@@ -220,6 +227,7 @@ humhub.module('wiki', function(module, require, $) {
 
     var unload = function() {
         $(window).off('scroll.wiki');
+        event.off('humhub:content:afterMove.wiki');
         offset = null;
     };
 

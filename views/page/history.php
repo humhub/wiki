@@ -52,6 +52,7 @@ humhub\modules\wiki\assets\Assets::register($this);
 
                             </div>
                         </li>
+                        <?php $first = false; ?>
                     <?php endforeach; ?>
 
                     <div class="text-center">
