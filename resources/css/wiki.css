@@ -32,6 +32,9 @@
 .layout-content-container .wiki-menu .wiki-menu-sub-section {
   padding-left: 10px;
 }
+.layout-content-container #wiki-page-edit .ProseMirror-menubar-wrapper {
+  z-index: 8;
+}
 .layout-content-container #wiki-page-edit .ProseMirror {
   min-height: 150px !important;
 }
