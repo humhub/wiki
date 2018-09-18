@@ -23,7 +23,6 @@ env:
     - HUMHUB_VERSION=master
     - HUMHUB_VERSION=v1.3.2
 
-
 cache:
   directories:
     - $HOME/.composer/cache
