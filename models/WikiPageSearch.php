@@ -38,7 +38,7 @@ class WikiPageSearch extends Model
     {
         return [
             'title' => Yii::t('WikiModule.base', 'Choose a Wiki Page'),
-            'anchor' => Yii::t('WikiModule.base', 'Anchor'),
+            'anchor' => Yii::t('WikiModule.base', 'Headline'),
             'label' => Yii::t('WikiModule.base', 'Label')
         ];
     }

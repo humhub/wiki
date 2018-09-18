@@ -10,6 +10,7 @@ namespace humhub\modules\wiki\helpers;
 use humhub\modules\content\components\ContentActiveRecord;
 use humhub\modules\content\components\ContentContainerActiveRecord;
 use humhub\modules\content\components\ContentContainerController;
+use humhub\modules\content\helpers\ContentContainerHelper;
 use humhub\modules\wiki\models\WikiPage;
 use humhub\modules\wiki\models\WikiPageRevision;
 use humhub\modules\wiki\tests\codeception\fixtures\WikiPageFixture;
@@ -27,6 +28,7 @@ class Url extends \yii\helpers\Url
     const ROUTE_WIKI_DELETE = '/wiki/page/delete';
     const ROUTE_WIKI_HISTORY = '/wiki/page/history';
     const ROUTE_WIKI_REVERT = '/wiki/page/revert';
+    const ROUTE_EXTRACT_TITLES = '/wiki/page/headlines';
 
     public static function toHome(ContentContainerActiveRecord $container)
     {
@@ -89,6 +91,11 @@ class Url extends \yii\helpers\Url
     {
         $rev = $revision ? $revision->revision : null;
         return static::to([static::ROUTE_WIKI_PAGE, 'title' => $title, 'revision' => $rev, 'container' => $container]);
+    }
+
+    public static function toExtractTitles()
+    {
+        return static::to([static::ROUTE_EXTRACT_TITLES, 'container' => ContentContainerHelper::getCurrent()]);
     }
 
 }

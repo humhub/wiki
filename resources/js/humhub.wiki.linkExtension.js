@@ -2,6 +2,7 @@ humhub.module('wiki.linkExtension', function (module, require, $) {
     var richtext = require('ui.richtext.prosemirror');
     var Widget = require('ui.widget').Widget;
     var modal = require('ui.modal');
+    var client = require('client');
 
     var wiki = require('wiki');
 
@@ -11,6 +12,11 @@ humhub.module('wiki.linkExtension', function (module, require, $) {
     var plugin = richtext.api.plugin;
     var NodeSelection = richtext.api.state.NodeSelection;
 
+    /**
+     * A wiki link is serialized as markdown [label](wiki:id "anchor")
+     *
+     * But returned as [label](wiki:id#anchor "title")
+     */
     var wikiLinkSchema = {
         nodes: {
             wiki: {
@@ -20,6 +26,7 @@ humhub.module('wiki.linkExtension', function (module, require, $) {
                 marks: "em strong strikethrough",
                 attrs: {
                     wikiId: {default: ''},
+                    anchor: {default: ''},
                     title: {default: ''},
                     label: {default: ''}
                 },
@@ -41,16 +48,26 @@ humhub.module('wiki.linkExtension', function (module, require, $) {
                 },
                 parseMarkdown: {
                     node: "wiki", getAttrs: function (tok) {
+                        var wikiId = tok.attrGet("wikiId");
+                        var anchor = '';
+
+                        if(wikiId.indexOf('#') >= 0) {
+                            var splitted = wikiId.split('#');
+                            wikiId = splitted[0];
+                            anchor = splitted[1];
+                        }
+
                         return ({
                             label: tok.attrGet("label"),
                             title: tok.attrGet("title"),
-                            wikiId: tok.attrGet("wikiId")
+                            wikiId: wikiId,
+                            anchor: anchor
                         });
                     }
                 },
                 toMarkdown: function (state, node) {
                     var link = 'wiki:' + node.attrs.wikiId;
-                    state.write("[" + state.esc(node.attrs.label) + "](" + state.esc(link) + ")");
+                    state.write("[" + state.esc(node.attrs.label) + "](" + state.esc(link) + ' "'+node.attrs.anchor+'")');
                 }
             }
         }
@@ -124,13 +141,57 @@ humhub.module('wiki.linkExtension', function (module, require, $) {
     };
 
     var openModal = function (context, state, dispatch, view, attrs) {
+
+        $('.field-wikipagesearch-anchor').hide();
+
+        $('#wikipagesearch-anchor').empty();
+
         var linkModal = modal.get('#wikiLinkModal');
+
+        $('#wikipagesearch-title').off('change.extract').on('change.extract', function() {
+            var id =  $('#wikipagesearch-title').val();
+
+            if(!id) {
+                return;
+            }
+
+            $('#wikipagesearch-label').val($('#wikipagesearch-title').select2('data')[0].text);
+
+            client.get(module.config.extractTitleUrl, {data: {id:  $('#wikipagesearch-title').val()}}).then(function(response) {
+                var slugs = {};
+
+                if(!response.response || !response.response.length) {
+                    $('.field-wikipagesearch-anchor').hide();
+                    return;
+                }
+
+                var $option = $('<option>').attr({value: ''}).text('');
+                $('#wikipagesearch-anchor').append($option);
+
+                response.response.forEach(function(title) {
+                    var slug = uniqueSlug(slugify(title), slugs);
+                    var $option = $('<option>').attr({value: slug}).text(title);
+                    $('#wikipagesearch-anchor').append($option);
+                });
+
+                if (attrs && attrs.anchor) {
+                    $('#wikipagesearch-anchor').val(attrs.anchor)
+                }
+
+                $('.field-wikipagesearch-anchor').show();
+            }).catch(function(e) {
+                module.log.error(e);
+            })
+
+        });
 
         if (attrs && attrs.wikiId) {
             $('#wikipagesearch-title').val(attrs.wikiId).trigger('change');
         } else {
             $('#wikipagesearch-title').val(1).trigger('change');
         }
+
+
 
         if (attrs && attrs.label) {
             $('#wikipagesearch-label').val(attrs.label);
@@ -145,6 +206,7 @@ humhub.module('wiki.linkExtension', function (module, require, $) {
             var newAttrs = {
                 title: $option.text(),
                 wikiId: $('#wikipagesearch-title').val(),
+                anchor: $('#wikipagesearch-anchor').val(),
                 label: $label.val()
             };
 
@@ -155,6 +217,20 @@ humhub.module('wiki.linkExtension', function (module, require, $) {
 
             view.focus();
         }).show();
+    };
+
+    var slugify = function (s) {
+        return encodeURIComponent(String(s).trim().toLowerCase().replace(/\s+/g, '-'))
+    };
+
+    var uniqueSlug = function (slug, slugs) {
+        var uniq = slug;
+        var i = 2;
+        while (Object.prototype.hasOwnProperty.call(slugs, uniq)) {
+            uniq = slug+'-'+i++;
+        };
+        slugs[uniq] = true;
+        return uniq
     };
 
     var wiki = {

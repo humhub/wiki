@@ -8,6 +8,7 @@
 
 namespace humhub\modules\wiki\assets;
 
+use humhub\modules\wiki\helpers\Url;
 use Yii;
 use humhub\modules\ui\view\components\View;
 use yii\web\AssetBundle;
@@ -15,7 +16,7 @@ use yii\web\AssetBundle;
 class Assets extends AssetBundle
 {
 
-    public $publishOptions = ['forceCopy' => true];
+    public $publishOptions = ['forceCopy' => false];
 
     public $sourcePath = '@wiki/resources';
 
@@ -43,7 +44,8 @@ class Assets extends AssetBundle
             'wiki.linkExtension' => [
                 'text' => [
                     'pageNotFound' => Yii::t('WikiModule.base', 'Page not found')
-                ]
+                ],
+                'extractTitleUrl' => Url::toExtractTitles()
             ]
         ]);
         return parent::register($view);

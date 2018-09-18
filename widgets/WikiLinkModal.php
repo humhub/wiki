@@ -20,7 +20,7 @@ class WikiLinkModal extends Modal
 
     public function init()
     {
-        $this->header = Yii::t('WikiModule.base', '<strong>Set</strong> wiki link');
+        $this->header = Yii::t('WikiModule.base', '<strong>Wiki</strong> link');
         $this->body = $this->render('wikiLinkModal', ['contentContainer' => $this->contentContainer]);
         $this->footer = Button::save()->action('wiki.linkExtension.setEditorLink')->loader(false).ModalButton::cancel();
         parent::init();

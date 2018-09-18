@@ -15,6 +15,7 @@ Changelog
 - Enh: Added topic support
 - Enh: Added move content support
 - Chng: Min Version 1.3.2
+- Enh: Added Wiki Anchor Link support
 
 1.2.2  (23 August, 2018)
 ------------------------

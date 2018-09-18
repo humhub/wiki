@@ -6,12 +6,14 @@ use humhub\modules\content\components\ContentContainerController;
 use humhub\modules\content\models\Content;
 use humhub\modules\file\models\File;
 use humhub\modules\space\models\Space;
+use humhub\modules\wiki\helpers\HeadlineExtractor;
 use humhub\modules\wiki\helpers\Url;
 use humhub\modules\wiki\models\forms\PageEditForm;
 use humhub\modules\wiki\models\forms\WikiPageItemDrop;
 use humhub\modules\wiki\models\WikiPage;
 use humhub\modules\wiki\models\WikiPageRevision;
 use humhub\widgets\MarkdownView;
+use Symfony\Component\CssSelector\XPath\Extension\HtmlExtension;
 use Yii;
 use yii\base\Exception;
 use yii\web\HttpException;
@@ -128,6 +130,22 @@ class PageController extends BaseController
             'canAdminister' => $this->canAdminister(),
             'hasCategories' => $this->hasCategoryPages()
         ]);
+    }
+
+    /**
+     * @param $id
+     * @return mixed
+     * @throws Exception
+     * @throws HttpException
+     */
+    public function actionHeadlines($id) {
+        $page = WikiPage::find()->contentContainer($this->contentContainer)->readable()->where(['wiki_page.id' => $id])->one();
+
+        if(!$page) {
+            throw new HttpException(404);
+        }
+
+        return $this->asJson(HeadlineExtractor::extract($page->latestRevision->content));
     }
 
     public function actionSort()

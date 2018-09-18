@@ -67,7 +67,7 @@
   width: inherit;
 }
 .layout-content-container .wiki-content [data-wiki-page] {
-  color: #4cc159;
+  color: #4cc159 !important;
 }
 .layout-content-container .wiki-content [data-wiki-page="#"] {
   color: #ec4332 !important;
@@ -220,3 +220,4 @@
 #markdownpreview {
   padding: 10px;
 }
+/*# sourceMappingURL=wiki.css.map */

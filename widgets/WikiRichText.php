@@ -48,7 +48,6 @@ class WikiRichText extends ProsemirrorRichText
                 }
             }
 
-
             return $match[0];
         }, $output);
     }
@@ -62,11 +61,11 @@ class WikiRichText extends ProsemirrorRichText
     {
         // $match[0]: markdown, $match[1]: name, $match[2]: extension(wiki) $match[3]: wikiId
         return static::replaceLinkExtension($text, 'wiki', function($match) {
-            return $this->toWikiLink($match[1],  WikiPage::findOne(['id' => $match[3]]));
+            return $this->toWikiLink($match[1],  WikiPage::findOne(['id' => $match[3]]), null, $match[4]);
         });
     }
 
-    public function toWikiLink($label, $page, $title = null)
+    public function toWikiLink($label, $page, $title = null, $anchor = null)
     {
         if(!$page) {
             // page not found format is [<label>](wiki:#)
@@ -76,6 +75,11 @@ class WikiRichText extends ProsemirrorRichText
         if($page instanceof WikiPage) {
             // In edit mode we use wiki:<wikiId> format in rendered richtext we use actual wiki url
             $url = $this->edit ? $page->id : Url::toWiki($page);
+
+            if($anchor) {
+                $url .= '#'.$anchor;
+            }
+
             return $this->toWikiLink($label, $url, $page->title);
         }
 

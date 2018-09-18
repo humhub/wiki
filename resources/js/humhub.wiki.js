@@ -4,6 +4,8 @@ humhub.module('wiki', function(module, require, $) {
     var modal = require('ui.modal');
     var event = require('event');
 
+    var view = require('ui.view');
+
     var CategoryListView = Widget.extend();
 
     CategoryListView.prototype.init = function() {
@@ -193,25 +195,28 @@ humhub.module('wiki', function(module, require, $) {
         var menuTop = $('.wiki-menu').offset().top;
         var scrollTop = $window.scrollTop() + getViewOffset();
 
-        if(scrollTop > menuTop) {
-            $('.wiki-menu-fixed').css({'margin-top' : (scrollTop - menuTop + 5)+'px'});
+        if($('#wiki-page-edit').length) {
+            var $richtext = $('#wiki-page-edit').find('.humhub-ui-richtext');
+            var $richtextMenuBar = $('#wiki-page-edit').find('.ProseMirror-menubar');
+            var richtextTop = $richtext.offset().top;
+            var max = $richtext.height() - $richtextMenuBar.outerHeight(true);
 
-            if($('#wiki-page-edit').length) {
-                var $richtext = $('#wiki-page-edit').find('.humhub-ui-richtext');
-                var $richtextMenuBar = $('#wiki-page-edit').find('.ProseMirror-menubar');
-                var richtextTop = $richtext.offset().top;
-                if(scrollTop > richtextTop) {
-                    $richtextMenuBar.css({'position':'absolute', 'top': (scrollTop - richtextTop+ 1)+'px'});
-                } else {
-                    $richtextMenuBar.css({'position':'relative', 'top': '0'});
-                }
-            }
-        } else {
-            $('.wiki-menu-fixed').css({'margin-top' : 0});
-            if($('#wiki-page-edit').length) {
-                var $richtextMenuBar = $('#wiki-page-edit').find('.ProseMirror-menubar');
+            if(scrollTop > richtextTop) {
+                var top = Math.min((scrollTop - richtextTop + 1), max);
+                $richtextMenuBar.css({'position':'absolute', 'top': top+'px'});
+            } else {
                 $richtextMenuBar.css({'position':'relative', 'top': '0'});
             }
+        }
+
+        if(view.isSmall()) {
+            return;
+        }
+
+        if(scrollTop > menuTop) {
+            $('.wiki-menu-fixed').css({'margin-top' : (scrollTop - menuTop + 5)+'px'});
+        } else {
+            $('.wiki-menu-fixed').css({'margin-top' : 0});
         }
     };
 
