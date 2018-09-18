@@ -6,6 +6,8 @@ namespace humhub\modules\wiki\models\forms;
 use humhub\modules\topic\models\Topic;
 use humhub\modules\wiki\models\WikiPageRevision;
 use humhub\modules\wiki\permissions\AdministerPages;
+use humhub\modules\wiki\widgets\WikiEditor;
+use humhub\modules\wiki\widgets\WikiRichText;
 use Yii;
 use yii\base\Model;
 use yii\web\HttpException;
@@ -92,6 +94,7 @@ class PageEditForm extends Model
 
     /**
      * @return bool
+     * @throws \Throwable
      */
     public function save()
     {
@@ -106,6 +109,7 @@ class PageEditForm extends Model
                 if ($this->revision->save()) {
                     $this->page->fileManager->attach(Yii::$app->request->post('fileList'));
                     Topic::attach($this->page->content, $this->topics);
+                    WikiRichText::postProcess($this->revision->content, $this->page);
                     return true;
                 }
             }

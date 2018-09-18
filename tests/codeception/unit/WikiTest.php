@@ -12,8 +12,4 @@ use tests\codeception\_support\HumHubDbTestCase;
 
 class WikiTest extends HumHubDbTestCase
 {
-    public function testResetTask()
-    {
-
-    }
 }
