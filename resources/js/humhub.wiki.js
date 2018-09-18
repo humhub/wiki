@@ -176,6 +176,11 @@ humhub.module('wiki', function(module, require, $) {
             });
         });
 
+        menuTop = null;
+        $richtext = null;
+        $richtextMenuBar = null;
+        $menuFixed = null;
+
         $(window).off('scroll.wiki').on('scroll.wiki', function () {
             checkScroll();
         });
@@ -183,21 +188,24 @@ humhub.module('wiki', function(module, require, $) {
     };
 
 
+    var menuTop = null;
+    var $richtext = null;
+    var $richtextMenuBar = null;
+    var $menuFixed = null;
+
     var checkScroll = function() {
         if(!$('.wiki-menu').length) {
             return;
         }
 
         var $window = $(window);
-        var windowHeight = $window.height();
-        var windowBottom = $window.scrollTop();
 
-        var menuTop = $('.wiki-menu').offset().top;
+        menuTop = menuTop || $('.wiki-menu').offset().top;
         var scrollTop = $window.scrollTop() + getViewOffset();
 
         if($('#wiki-page-edit').length) {
-            var $richtext = $('#wiki-page-edit').find('.humhub-ui-richtext');
-            var $richtextMenuBar = $('#wiki-page-edit').find('.ProseMirror-menubar');
+            $richtext = $richtext || $('#wiki-page-edit').find('.humhub-ui-richtext');
+            var $richtextMenuBar = $richtextMenuBar || $('#wiki-page-edit').find('.ProseMirror-menubar');
             var richtextTop = $richtext.offset().top;
             var max = $richtext.height() - $richtextMenuBar.outerHeight(true);
 
@@ -213,10 +221,12 @@ humhub.module('wiki', function(module, require, $) {
             return;
         }
 
+        $menuFixed = $menuFixed || $('.wiki-menu-fixed');
+
         if(scrollTop > menuTop) {
-            $('.wiki-menu-fixed').css({'margin-top' : (scrollTop - menuTop + 5)+'px'});
+            $menuFixed.css({'margin-top' : (scrollTop - menuTop + 5)+'px'});
         } else {
-            $('.wiki-menu-fixed').css({'margin-top' : 0});
+            $menuFixed.css({'margin-top' : 0});
         }
     };
 
