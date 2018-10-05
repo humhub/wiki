@@ -1,6 +1,10 @@
 Changelog
 =========
 
+1.3.1 (05 October, 2018)
+------------------------
+- Fix: IE11 compatibility issue
+
 1.3.0 (17 September, 2018)
 ------------------------
 - Chng: Major refactoring
