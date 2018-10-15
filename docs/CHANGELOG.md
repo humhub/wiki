@@ -1,6 +1,6 @@
 Changelog
 =========
-1.3.3 (15 October, 2018)
+1.3.2 (15 October, 2018)
 ------------------------
 - Fix: Mobile view drag/drop
 
