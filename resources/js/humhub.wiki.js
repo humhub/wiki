@@ -8,6 +8,8 @@ humhub.module('wiki', function(module, require, $) {
 
     var CategoryListView = Widget.extend();
 
+    var DELAY_DRAG_SMALL_DEVICES = 250;
+
     CategoryListView.prototype.init = function() {
         this.$.find('.fa-caret-square-o-down').on('click', function() {
             var $icon = $(this);
@@ -18,21 +20,35 @@ humhub.module('wiki', function(module, require, $) {
             });
         });
 
-        this.$.find('.page-title, .page-category-title').hover(function() {
-            $(this).find('.wiki-page-control').show();
-        }, function() {
-            $(this).find('.wiki-page-control').hide();
-        });
+        if(view.isSmall() || view.isMedium()) {
+            $('.wiki-page-control:not(.drag-icon)').show();
+        } else {
+            this.$.find('.page-title, .page-category-title').hover(function() {
+                $(this).find('.wiki-page-control').show();
+            }, function() {
+                $(this).find('.wiki-page-control').hide();
+            });
+        }
+
+
 
         this.$.sortable({
+            delay: (view.isSmall()) ? DELAY_DRAG_SMALL_DEVICES : null,
             handle: '.page-category-title',
             items: '.wiki-category-list-item[data-page-id]',
+            start: function(evt, ui) {
+                ui.helper.find('.drag-icon:first').show();
+            },
             helper: 'clone',
             update: $.proxy(this.dropItem, this)
             //placeholder: "task-list-state-highlight",
         });
 
         this.$.find('.wiki-page-list').sortable({
+            delay: (view.isSmall()) ? DELAY_DRAG_SMALL_DEVICES : null,
+            start: function(evt, ui) {
+                ui.helper.find('.drag-icon').show();
+            },
             handle: '.page-title',
             connectWith: '.wiki-page-list:not(#category_list_view)',
             helper: 'clone',

@@ -29,7 +29,7 @@ $canEditCategory = $category && $editUrl && $this->context->canEdit($category);
             <?= Button::asLink(null, Url::toWikiCreateForCategory($category))->icon('fa-plus')->
                 style('display:none')->cssClass('wiki-page-control tt')->right()->title(Yii::t('WikiModule.base', 'Add Page')) ?>
 
-            <?= Button::asLink()->icon('fa-arrows')->style('display:none')->cssClass('wiki-page-control') ?>
+            <?= Button::asLink()->icon('fa-arrows')->style('display:none')->cssClass('wiki-page-control drag-icon') ?>
         <?php endif; ?>
     </div>
     <ul class="wiki-page-list">
@@ -42,7 +42,7 @@ $canEditCategory = $category && $editUrl && $this->context->canEdit($category);
                         ->style('display:none')
                         ->cssClass('wiki-page-control tt')->visible($this->context->canEdit($page))->right()->title(Yii::t('base', 'Edit')) ?>
 
-                    <?= Button::asLink()->icon('fa-arrows')->style('display:none')->cssClass('wiki-page-control')->visible($this->context->canEdit($page)) ?>
+                    <?= Button::asLink()->icon('fa-arrows')->style('display:none')->cssClass('wiki-page-control drag-icon')->visible($this->context->canEdit($page)) ?>
                 </div>
             </li>
         <?php endforeach; ?>

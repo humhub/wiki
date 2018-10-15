@@ -40,8 +40,6 @@
     .wiki-menu-sub-section {
       padding-left:10px;
     }
-
-
   }
 
   #wiki-page-edit {
@@ -60,7 +58,7 @@
   }
 
   .wiki-page-content {
-    min-height: 320px;
+    min-height: 220px;
 
     .wiki-category-list-item {
       padding-bottom: 0 !important;
@@ -86,6 +84,10 @@
 
   .wiki-content {
     border-right: 1px solid #eeeeee;
+
+    .wiki-content-info {
+      margin-bottom:5px;
+    }
 
     h1 .fa {
       font-size: inherit;
@@ -160,7 +162,7 @@
     ul.wiki-page-history {
       list-style: none;
       margin-left: 22px;
-      padding-left: 0px;
+      padding-left: 0;
       border-left: 1px dashed #AEAEAE;
 
       li {
@@ -259,6 +261,9 @@
 }
 
 @media (max-width: 767px) {
+  .wiki-page-content {
+    min-height: 220px;
+  }
 
   .layout-content-container {
     .wiki-menu {
