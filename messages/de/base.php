@@ -26,7 +26,7 @@ return array (
   'Is category' => 'ist Kategorie',
   'Is homepage' => 'Als Startseite',
   'Label' => 'Label',
-  'Last updated ' => 'Letzte aktualisierung',
+  'Last updated ' => 'Letzte Aktualisierung ',
   'Let\'s go!' => 'Starten',
   'New page' => 'Neue Seite',
   'No pages created yet.  So it\'s on you.<br>Create the first page now.' => 'Noch keine Seiten erstellt. Es liegt also an dir. <br>Erstelle jetzt die erste Seite.',
