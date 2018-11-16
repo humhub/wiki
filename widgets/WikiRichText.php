@@ -32,6 +32,10 @@ class WikiRichText extends ProsemirrorRichText
         return preg_replace_callback(static::getLinkPattern(), function($match) {
             $url = $match[2];
 
+            if(empty($url)) {
+                return $match[0];
+            }
+
             if(strpos($url, "file-guid-") !== 0 && strpos($url, "file-guid:") !== 0 && $url[0] !== '.' && $url[0] !== '/' && strpos($url, ':') === false) {
                 $page = WikiPage::findOne(['title' => $match[2]]);
                 return $this->toWikiLink($match[1], $page);

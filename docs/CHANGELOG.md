@@ -1,5 +1,10 @@
 Changelog
 =========
+
+1.3.3 (16 November, 2018)
+------------------------
+- Fix: Empty link parsing throws error
+
 1.3.2 (15 October, 2018)
 ------------------------
 - Fix: Mobile view drag/drop
