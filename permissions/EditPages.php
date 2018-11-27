@@ -30,7 +30,8 @@ class EditPages extends \humhub\libs\BasePermission
      * @inheritdoc
      */
     protected $fixedGroups = [
-        Space::USERGROUP_USER
+        Space::USERGROUP_USER,
+        Space::USERGROUP_GUEST,
     ];
 
     /**

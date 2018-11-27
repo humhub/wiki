@@ -1,6 +1,10 @@
 Changelog
 =========
 
+1.3.4 (27 November, 2018)
+------------------------
+- Fix: Hide permissions for space guest role
+
 1.3.3 (16 November, 2018)
 ------------------------
 - Fix: Empty link parsing throws error
