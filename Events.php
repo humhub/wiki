@@ -14,7 +14,7 @@ class Events
 
     public static function onSpaceMenuInit($event)
     {
-        if ($event->sender->space !== null && $event->sender->space->isModuleEnabled('wiki') && $event->sender->space->isMember()) {
+        if ($event->sender->space !== null && $event->sender->space->isModuleEnabled('wiki')) {
             $event->sender->addItem([
                 'label' => Yii::t('WikiModule.base', 'Wiki'),
                 'group' => 'modules',
@@ -31,11 +31,10 @@ class Events
         if ($user->isModuleEnabled('wiki')) {
             $event->sender->addItem([
                 'label' => Yii::t('WikiModule.base', 'Wiki'),
-                'group' => 'modules',
                 'url' => $user->createUrl('//wiki/page'),
+                'icon' => '<i class="fa fa-book"></i>',
                 'isActive' => (Yii::$app->controller->module && Yii::$app->controller->module->id == 'wiki'),
             ]);
         }
     }
-
 }

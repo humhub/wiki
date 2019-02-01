@@ -9,6 +9,7 @@
 namespace humhub\modules\wiki\permissions;
 
 use humhub\modules\space\models\Space;
+use humhub\modules\user\models\User;
 
 /**
  * Page Administration Permission
@@ -23,6 +24,7 @@ class AdministerPages extends \humhub\libs\BasePermission
         Space::USERGROUP_OWNER,
         Space::USERGROUP_ADMIN,
         Space::USERGROUP_MODERATOR,
+        User::USERGROUP_SELF,
     ];
     
     /**
@@ -31,6 +33,9 @@ class AdministerPages extends \humhub\libs\BasePermission
     protected $fixedGroups = [
         Space::USERGROUP_USER,
         Space::USERGROUP_GUEST,
+        User::USERGROUP_FRIEND,
+        User::USERGROUP_GUEST,
+        User::USERGROUP_USER,
     ];
 
     /**

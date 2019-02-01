@@ -34,9 +34,6 @@ class PageController extends BaseController
     public function beforeAction($action)
     {
         if (parent::beforeAction($action)) {
-            if ($this->contentContainer instanceof Space && !$this->contentContainer->isMember()) {
-                throw new HttpException(403, Yii::t('WikiModule.base', 'You need to be member of the space "%space_name%" to access this wiki page!', ['%space_name%' => $this->contentContainer->name]));
-            }
             return true;
         }
 

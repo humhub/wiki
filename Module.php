@@ -25,6 +25,7 @@ class Module extends ContentContainerModule
     {
         return [
             Space::className(),
+            User::className(),
         ];
     }
 
@@ -69,16 +70,13 @@ class Module extends ContentContainerModule
      */
     public function getPermissions($contentContainer = null)
     {
-        if ($contentContainer instanceof \humhub\modules\space\models\Space) {
-            return [
-                new permissions\CreatePage(),
-                new permissions\EditPages(),
-                new permissions\AdministerPages(),
-                new permissions\ViewHistory(),
-            ];
-        }
-
-        return [];
+        return [
+            new permissions\CreatePage(),
+            new permissions\EditPages(),
+            new permissions\AdministerPages(),
+            new permissions\ViewHistory(),
+            new permissions\ViewPages(),
+        ];
     }
 
 }

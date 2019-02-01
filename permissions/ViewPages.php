@@ -12,9 +12,9 @@ use humhub\modules\space\models\Space;
 use humhub\modules\user\models\User;
 
 /**
- * CreatePage Permission
+ * Edit page Permission
  */
-class CreatePage extends \humhub\libs\BasePermission
+class ViewPages extends \humhub\libs\BasePermission
 {
 
     /**
@@ -25,29 +25,29 @@ class CreatePage extends \humhub\libs\BasePermission
         Space::USERGROUP_ADMIN,
         Space::USERGROUP_MODERATOR,
         Space::USERGROUP_MEMBER,
+        Space::USERGROUP_USER,
         User::USERGROUP_SELF,
+        User::USERGROUP_FRIEND,
+        User::USERGROUP_USER,
     ];
     
     /**
      * @inheritdoc
      */
     protected $fixedGroups = [
-        Space::USERGROUP_USER,
         Space::USERGROUP_GUEST,
-        User::USERGROUP_FRIEND,
         User::USERGROUP_GUEST,
-        User::USERGROUP_USER,
     ];
 
     /**
      * @inheritdoc
      */
-    protected $title = "Create pages";
+    protected $title = "View pages";
 
     /**
      * @inheritdoc
      */
-    protected $description = "Allows the user to create new pages";
+    protected $description = "Allows the user to view wiki pages";
 
     /**
      * @inheritdoc

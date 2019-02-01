@@ -9,6 +9,7 @@
 namespace wiki\acceptance;
 
 use humhub\modules\wiki\helpers\Url;
+use PHPUnit_Framework_Test;
 use wiki\AcceptanceTester;
 
 class WikiCest
@@ -18,7 +19,7 @@ class WikiCest
      * @param AcceptanceTester $I
      * @throws \Exception
      */
-    public function testInstallAndCreatEntry(AcceptanceTester $I)
+    public function testInstallSpaceEntry(AcceptanceTester $I)
     {
         $I->amAdmin();
         $I->enableModule(1, 'wiki');
@@ -26,6 +27,96 @@ class WikiCest
         $I->waitForText('No pages created yet.');
         $I->click('Let\'s go!');
 
+        $this->createWikiEntries($I);
+    }
+
+    /**
+     * @param AcceptanceTester $I
+     * @throws \Exception
+     */
+    public function testInstallProfileEntry(AcceptanceTester $I)
+    {
+        $I->amUser1();
+        $I->amOnRoute(['/user/account/edit-modules']);
+        $I->seeElement('.enable-module-wiki');
+        $I->click('.enable-module-wiki');
+        $I->waitForElement('.disable-module-wiki');
+
+        $I->amOnUser1Profile();
+        $I->click('Wiki', '.layout-nav-container');
+        $I->waitForText('No pages created yet.');
+        $I->click('Let\'s go!');
+
+        $this->createWikiEntries($I);
+    }
+
+    /**
+     * @param AcceptanceTester $I
+     * @throws \Exception
+     */
+    public function testGuestAccessToProfileWiki(AcceptanceTester $I)
+    {
+        $I->amAdmin();
+        $I->allowGuestAccess();
+
+        $I->amUser1(true);
+        $I->amOnRoute(['/user/account/edit-settings']);
+        $I->waitForElement('#accountsettings-visibility');
+        $I->selectOption('#accountsettings-visibility', 2);
+        $I->seeOptionIsSelected('#accountsettings-visibility', 'Visible for all (also unregistered users)');
+        $I->click('Save');
+        $I->wait(1);
+
+        $I->amOnRoute(['/user/account/edit-modules']);
+        $I->seeElement('.enable-module-wiki');
+        $I->click('.enable-module-wiki');
+        $I->waitForElement('.disable-module-wiki');
+
+        $I->amOnUser1Profile();
+        $I->click('Wiki', '.layout-nav-container');
+        $I->waitForText('No pages created yet.');
+        $I->click('Let\'s go!');
+
+        $this->createWikiPages($I, 'Profile');
+
+        $I->logout();
+
+        $I->amOnUser1Profile();
+        $I->click('Wiki', '.layout-nav-container');
+        $I->waitForText('Index', null, '.wiki-content');
+        $I->see('First Public Profile Wiki Page', '.wiki-page-list');
+        $I->dontSee('First Private Profile Wiki Page', '.wiki-page-list');
+    }
+
+    /**
+     * @param AcceptanceTester $I
+     * @throws \Exception
+     */
+    public function testGuestAccessToSpaceWiki(AcceptanceTester $I)
+    {
+        $I->amAdmin();
+        $I->allowGuestAccess();
+        $I->enableModule(1, 'wiki');
+        $I->click('Wiki', '.layout-nav-container');
+        $I->waitForText('No pages created yet.');
+        $I->click('Let\'s go!');
+
+        $this->createWikiPages($I, 'Space');
+
+        $I->logout();
+
+        $I->amOnSpace(1);
+        $I->click('Wiki', '.layout-nav-container');
+        $I->waitForText('Index', null, '.wiki-content');
+        $I->see('First Public Space Wiki Page', '.wiki-page-list');
+        $I->dontSee('First Private Space Wiki Page', '.wiki-page-list');
+    }
+
+    /**
+     * @param AcceptanceTester $I
+     */
+    private function createWikiEntries($I)
+    {
         /**
          * CREATE CATEGORY
          */
@@ -41,8 +132,7 @@ class WikiCest
         $I->wait(1);
         $I->see('My First Wiki Category!', 'h1');
 
-        $I->click('#wiki_index');
-        $I->waitForText('Index', null, '.wiki-content');
+        $this->toIndex($I);
         $I->see('First Test Wiki Category', '.wiki-page-list');
 
 
@@ -156,6 +246,50 @@ class WikiCest
         $I->click('Revert', '#globalModalConfirm');
 
         $I->waitForText('My Sub Page!');
+    }
+
+    /**
+     * @param AcceptanceTester $I
+     * @param $type
+     */
+    private function createWikiPages($I, $type)
+    {
+        /**
+         * CREATE PUBLIC PAGE
+         */
+        $I->amGoingTo("Create my public {$type} wiki page");
+        $I->waitForText('Create new page');
+        $I->fillField('#wikipage-title', "First Public {$type} Wiki Page");
+        $I->fillField('#wikipagerevision-content .humhub-ui-richtext', "# My First Wiki {$type} Public Page!");
+        $I->click('[for="wikipage-is_public"]');
+        $I->click('Save');
+
+        $I->waitForElementVisible('.wiki-page-content');
+        $I->see("First Public {$type} Wiki Page");
+        $I->wait(1);
+        $I->see("My First Wiki {$type} Public Page!", 'h1');
+        $I->see("Public", 'h1 .label-info');
+        $this->toIndex($I);
+        $I->see("First Public {$type} Wiki Page", '.wiki-page-list');
+
+        /**
+         * CREATE PRIVATE PAGE
+         */
+        $I->amGoingTo('Create my private wiki page');
+        $I->click('New page');
+        $I->waitForText('Create new page');
+        $I->fillField('#wikipage-title', "First Private {$type} Wiki Page");
+        $I->fillField('#wikipagerevision-content .humhub-ui-richtext', "# My First Wiki {$type} Private Page!");
+        $I->click('Save');
+
+        $I->waitForElementVisible('.wiki-page-content');
+        $I->see("First Private {$type} Wiki Page");
+        $I->wait(1);
+        $I->see("My First Wiki {$type} Private Page!", 'h1');
+        $I->dontSee("Public", 'h1 .label-info');
+        $this->toIndex($I);
+        $I->see("First Public {$type} Wiki Page", '.wiki-page-list');
+        $I->see("First Private {$type} Wiki Page", '.wiki-page-list');
     }
 
     /**

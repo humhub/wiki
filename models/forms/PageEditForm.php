@@ -3,6 +3,7 @@
 
 namespace humhub\modules\wiki\models\forms;
 
+use humhub\modules\content\models\Content;
 use humhub\modules\topic\models\Topic;
 use humhub\modules\wiki\models\WikiPageRevision;
 use humhub\modules\wiki\permissions\AdministerPages;
@@ -103,6 +104,7 @@ class PageEditForm extends Model
         }
 
         return WikiPage::getDb()->transaction(function($db) {
+            $this->page->content->visibility = $this->page->is_public ? Content::VISIBILITY_PUBLIC : Content::VISIBILITY_PRIVATE;
             if ($this->page->save()) {
                 $this->revision->wiki_page_id = $this->page->id;
 

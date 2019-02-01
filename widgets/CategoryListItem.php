@@ -11,6 +11,7 @@ namespace humhub\modules\wiki\widgets;
 
 use humhub\components\Widget;
 use humhub\modules\content\components\ContentContainerActiveRecord;
+use humhub\modules\user\models\User;
 use humhub\modules\wiki\models\WikiPage;
 use humhub\modules\wiki\permissions\AdministerPages;
 use humhub\modules\wiki\permissions\EditPages;
@@ -84,6 +85,10 @@ class CategoryListItem extends Widget
 
     public function canEdit(WikiPage $page)
     {
+        if(Yii::$app->user->isGuest || ($this->contentContainer instanceof User && !$this->contentContainer->isCurrentUser())) {
+            return false;
+        }
+
         if($this->contentContainer->can(AdministerPages::class)) {
             return true;
         }
