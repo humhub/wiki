@@ -24,8 +24,8 @@ class Module extends ContentContainerModule
     public function getContentContainerTypes()
     {
         return [
-            Space::className(),
-            User::className(),
+            Space::class,
+            User::class,
         ];
     }
 

@@ -44,12 +44,12 @@ class WikiPageRevision extends ActiveRecord
 
     public function getAuthor()
     {
-        return $this->hasOne(User::className(), ['id' => 'user_id']);
+        return $this->hasOne(User::class, ['id' => 'user_id']);
     }
 
     public function getPage()
     {
-        return $this->hasOne(User::className(), ['id' => 'wiki_page_id']);
+        return $this->hasOne(User::class, ['id' => 'wiki_page_id']);
     }
 
     /**
