@@ -71,6 +71,8 @@ class PageEditForm extends Model
         } else {
             $this->topics = $this->page->content->getTags(Topic::class)->all();
         }
+        
+        $this->page->is_public = $this->page->content->visibility;
 
         if ($this->canAdminister()) {
             $this->page->scenario = WikiPage::SCENARIO_ADMIN_EDIT ;

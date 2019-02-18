@@ -28,6 +28,11 @@ use yii\db\Expression;
 class WikiPage extends ContentActiveRecord implements Searchable
 {
 
+    /**
+     * @var integer Content visibility
+     */
+    public $is_public;
+
     public $moduleId = 'wiki';
 
     const SCENARIO_CREATE = 'create';
