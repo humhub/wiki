@@ -28,6 +28,7 @@ class WikiCest
         $I->click('Let\'s go!');
 
         $this->createWikiEntries($I);
+        $I->wait(30);
     }
 
     /**
@@ -38,9 +39,10 @@ class WikiCest
     {
         $I->amUser1();
         $I->amOnRoute(['/user/account/edit-modules']);
-        $I->seeElement('.enable-module-wiki');
-        $I->click('.enable-module-wiki');
-        $I->waitForElement('.disable-module-wiki');
+        $I->waitForText('Enable');
+        // Note: this is used prior to 1.4
+        $I->click('Enable');
+        $I->waitForText('Disable');
 
         $I->amOnUser1Profile();
         $I->click('Wiki', '.layout-nav-container');
@@ -68,9 +70,10 @@ class WikiCest
         $I->wait(1);
 
         $I->amOnRoute(['/user/account/edit-modules']);
-        $I->seeElement('.enable-module-wiki');
-        $I->click('.enable-module-wiki');
-        $I->waitForElement('.disable-module-wiki');
+        $I->waitForText('Enable');
+        // Note: this is used prior to 1.4
+        $I->click('Enable');
+        $I->waitForText('Disable');
 
         $I->amOnUser1Profile();
         $I->click('Wiki', '.layout-nav-container');
