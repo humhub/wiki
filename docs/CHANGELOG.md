@@ -1,6 +1,11 @@
 Changelog
 =========
 
+1.3.5 (19 February, 2019)
+------------------------
+- Enh: Allow wiki module usage on profile level
+- Enh: Added visibility settings on Wiki page level
+
 1.3.4 (27 November, 2018)
 ------------------------
 - Fix: Hide permissions for space guest role

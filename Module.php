@@ -2,12 +2,12 @@
 
 namespace humhub\modules\wiki;
 
-use Yii;
-use humhub\modules\wiki\models\WikiPage;
-use humhub\modules\space\models\Space;
-use humhub\modules\user\models\User;
 use humhub\modules\content\components\ContentContainerActiveRecord;
 use humhub\modules\content\components\ContentContainerModule;
+use humhub\modules\space\models\Space;
+use humhub\modules\user\models\User;
+use humhub\modules\wiki\models\WikiPage;
+use Yii;
 
 class Module extends ContentContainerModule
 {
@@ -70,13 +70,15 @@ class Module extends ContentContainerModule
      */
     public function getPermissions($contentContainer = null)
     {
-        return [
-            new permissions\CreatePage(),
-            new permissions\EditPages(),
-            new permissions\AdministerPages(),
-            new permissions\ViewHistory(),
-            new permissions\ViewPages(),
-        ];
+        if ($contentContainer !== null) {
+            return [
+                new permissions\CreatePage(),
+                new permissions\EditPages(),
+                new permissions\AdministerPages(),
+                new permissions\ViewHistory(),
+                new permissions\ViewPages(),
+            ];
+        }
     }
 
 }
