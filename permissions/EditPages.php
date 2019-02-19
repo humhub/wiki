@@ -9,6 +9,7 @@
 namespace humhub\modules\wiki\permissions;
 
 use humhub\modules\space\models\Space;
+use humhub\modules\user\models\User;
 
 /**
  * Edit page Permission
@@ -24,6 +25,7 @@ class EditPages extends \humhub\libs\BasePermission
         Space::USERGROUP_ADMIN,
         Space::USERGROUP_MODERATOR,
         Space::USERGROUP_MEMBER,
+        User::USERGROUP_SELF,
     ];
     
     /**
@@ -32,6 +34,9 @@ class EditPages extends \humhub\libs\BasePermission
     protected $fixedGroups = [
         Space::USERGROUP_USER,
         Space::USERGROUP_GUEST,
+        User::USERGROUP_FRIEND,
+        User::USERGROUP_GUEST,
+        User::USERGROUP_USER,
     ];
 
     /**

@@ -20,8 +20,11 @@ if($page->is_home) {
 <h1>
     <i class="fa <?= $icon?> "></i>
     <strong><?= Html::encode($page->title); ?></strong>
+    <?php if($page->content->isPublic()) : ?>
+        <?= Label::info(Yii::t('ContentModule.widgets_views_label', 'Public'))->icon('fa-globe')->right() ?>
+    <?php endif; ?>
     <?php if($page->categoryPage) : ?>
-        <?= Label::primary(Html::encode($page->categoryPage->title))->withLink(Link::to(null, $page->categoryPage->getUrl()))->right() ?>
+        <?= Label::primary(Html::encode($page->categoryPage->title))->withLink(Link::to(null, $page->categoryPage->getUrl()))->right()->style('margin-right:5px') ?>
     <?php endif; ?>
     <?php foreach ($page->content->getTags(Topic::class)->all() as $topic) : ?>
         <?= TopicLabel::forTopic($topic)->right()->style('margin-right:5px')?>

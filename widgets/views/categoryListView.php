@@ -10,7 +10,9 @@ use humhub\modules\wiki\widgets\CategoryListItem;
 <?= Html::beginTag('ul', $options) ?>
 
     <?php foreach ($categories as $category): ?>
-        <?= CategoryListItem::widget(['category' => $category, 'contentContainer' => $contentContainer])?>
+        <?php if($this->context->canView($category)) : ?>
+            <?= CategoryListItem::widget(['category' => $category, 'contentContainer' => $contentContainer])?>
+        <?php endif; ?>
     <?php endforeach; ?>
 
 

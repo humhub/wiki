@@ -36,6 +36,7 @@ humhub\modules\wiki\assets\Assets::register($this);
                         <?= $form->field($model->page, 'is_home')->checkbox(); ?>
                         <?= $form->field($model->page, 'admin_only')->checkbox(); ?>
                         <?= $form->field($model->page, 'is_category')->checkbox(); ?>
+                        <?= $form->field($model->page, 'is_public')->checkbox(); ?>
                         <?php if ($hasCategories): ?>
                             <?= $form->field($model->page, 'parent_page_id')->dropDownList($model->getCategoryList()); ?>
                         <?php endif; ?>

@@ -28,6 +28,11 @@ use yii\db\Expression;
 class WikiPage extends ContentActiveRecord implements Searchable
 {
 
+    /**
+     * @var integer Content visibility
+     */
+    public $is_public;
+
     public $moduleId = 'wiki';
 
     const SCENARIO_CREATE = 'create';
@@ -69,7 +74,7 @@ class WikiPage extends ContentActiveRecord implements Searchable
             ['title', 'string', 'max' => 255],
             ['title', 'validateTitle'],
             ['parent_page_id', 'validateParentPage'],
-            [['is_home', 'admin_only', 'is_category'], 'integer']
+            [['is_home', 'admin_only', 'is_category', 'is_public'], 'integer']
         ];
 
     }
@@ -78,7 +83,7 @@ class WikiPage extends ContentActiveRecord implements Searchable
     {
         $scenarios = parent::scenarios();
         $scenarios['create'] = ['title'];
-        $scenarios['admin'] = ['title', 'is_home', 'admin_only', 'is_category', 'parent_page_id'];
+        $scenarios['admin'] = ['title', 'is_home', 'admin_only', 'is_category', 'parent_page_id', 'is_public'];
         return $scenarios;
     }
 
@@ -105,7 +110,8 @@ class WikiPage extends ContentActiveRecord implements Searchable
             'is_home' => Yii::t('WikiModule.base', 'Is homepage'),
             'admin_only' => Yii::t('WikiModule.base', 'Protected'),
             'is_category' => Yii::t('WikiModule.base', 'Is category'),
-            'parent_page_id' => Yii::t('WikiModule.base', 'Category')
+            'parent_page_id' => Yii::t('WikiModule.base', 'Category'),
+            'is_public' => Yii::t('WikiModule.base', 'Is public')
         );
     }
 
@@ -266,7 +272,7 @@ class WikiPage extends ContentActiveRecord implements Searchable
      */
     public function findChildren()
     {
-        return static::find()->andWhere(['parent_page_id' => $this->id])->orderBy('sort_order ASC, title ASC');
+        return static::find()->andWhere(['parent_page_id' => $this->id])->readable()->orderBy('sort_order ASC, title ASC');
     }
 
     /**
@@ -278,7 +284,8 @@ class WikiPage extends ContentActiveRecord implements Searchable
     {
         return static::find()->contentContainer($contentContainer)
             ->andWhere(['IS', 'parent_page_id', new Expression('NULL')])
-            ->andWhere(['wiki_page.is_category' => 0])->orderBy('sort_order ASC, title ASC');
+            ->andWhere(['wiki_page.is_category' => 0])
+            ->readable()->orderBy('sort_order ASC, title ASC');
     }
 
     public function getCategoryPage()
