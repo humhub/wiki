@@ -28,7 +28,6 @@ class WikiCest
         $I->click('Let\'s go!');
 
         $this->createWikiEntries($I);
-        $I->wait(30);
     }
 
     /**
@@ -99,7 +98,9 @@ class WikiCest
     {
         $I->amAdmin();
         $I->allowGuestAccess();
-        $I->enableModule(1, 'wiki');
+
+        $I->amUser1(true);
+        $I->enableModule(2, 'wiki');
         $I->click('Wiki', '.layout-nav-container');
         $I->waitForText('No pages created yet.');
         $I->click('Let\'s go!');
@@ -108,7 +109,7 @@ class WikiCest
 
         $I->logout();
 
-        $I->amOnSpace(1);
+        $I->amOnSpace(2);
         $I->click('Wiki', '.layout-nav-container');
         $I->waitForText('Index', null, '.wiki-content');
         $I->see('First Public Space Wiki Page', '.wiki-page-list');

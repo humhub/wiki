@@ -13,11 +13,9 @@ modules:
   enabled:
     - WebDriver:
         url: 'http://localhost:8080/'
-        window_size: false # disabled in ChromeDriver
-        port: 9515
         browser: chrome
-        capabilities:
-          chromeOptions:
-            args: ['--headless', '--disable-gpu', '--no-sandbox']
+        window_size: maximize
+        port: 4444
+        restart: true
     - tests\codeception\_support\WebHelper
     - tests\codeception\_support\DynamicFixtureHelper
