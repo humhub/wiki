@@ -28,11 +28,11 @@ humhub\modules\wiki\assets\Assets::register($this);
         <div class="row">
             <?php WikiContent::begin(['cssClass' => 'wiki-page-content']) ?>
 
-            <?= $this->render('_view_header', ['page' => $page]) ?>
+                <?= $this->render('_view_header', ['page' => $page]) ?>
 
-            <?= $this->render('_view_content', ['page' => $page, 'canEdit' => $canEdit, 'content' => $content]) ?>
+                <?= $this->render('_view_content', ['page' => $page, 'canEdit' => $canEdit, 'content' => $content]) ?>
 
-            <?= $this->render('_view_category_index', ['page' => $page]) ?>
+                <?= $this->render('_view_category_index', ['page' => $page]) ?>
 
             <div class="social-controls">
                 <?= LikeLink::widget(['object' => $page]); ?>

@@ -13,6 +13,7 @@ use humhub\modules\user\models\User;
 
 /**
  * Edit page Permission
+ * @deprecated since v1.3.5 replaced with public/private visibility
  */
 class ViewPages extends \humhub\libs\BasePermission
 {

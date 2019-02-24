@@ -10,10 +10,11 @@ use humhub\modules\topic\widgets\TopicPicker;
 
 /* @var $this \humhub\components\View */
 /* @var $model \humhub\modules\wiki\models\forms\PageEditForm */
-/* @var $hasCategories boolean */
 /* @var $contentContainer \humhub\modules\content\components\ContentContainerActiveRecord */
 
 humhub\modules\wiki\assets\Assets::register($this);
+
+$canAdminister = $model->canAdminister();
 
 ?>
 <div class="panel panel-default">
@@ -24,25 +25,41 @@ humhub\modules\wiki\assets\Assets::register($this);
 
                 <?php $form = ActiveForm::begin(['enableClientValidation' => false]); ?>
 
-                    <?php if ($model->canAdminister() || $model->isNewPage()): ?>
-                        <?= $form->field($model->page, 'title')->textInput(['placeholder' => Yii::t('WikiModule.views_page_edit', 'New page title')])->label(false); ?>
-                    <?php else: ?>
-                        <?= $form->field($model->page, 'title')->hiddenInput()->label(false); ?>
-                    <?php endif; ?>
+                    <?= $form->field($model->page, 'title')
+                        ->textInput([
+                            'placeholder' => Yii::t('WikiModule.views_page_edit', 'New page title'),
+                            'disabled' => $model->isDisabledField('title')
+                        ])->label(false); ?>
 
                     <?= $form->field($model->revision, 'content')->widget(WikiEditor::class)->label(false) ?>
 
-                    <?php if ($model->canAdminister()): ?>
-                        <?= $form->field($model->page, 'is_home')->checkbox(); ?>
-                        <?= $form->field($model->page, 'admin_only')->checkbox(); ?>
-                        <?= $form->field($model->page, 'is_category')->checkbox(); ?>
-                        <?= $form->field($model->page, 'is_public')->checkbox(); ?>
-                        <?php if ($hasCategories): ?>
-                            <?= $form->field($model->page, 'parent_page_id')->dropDownList($model->getCategoryList()); ?>
-                        <?php endif; ?>
+                    <?= $form->field($model->page, 'is_home')->checkbox([
+                             'title' => Yii::t('WikiModule.base', 'Overwrite the wiki index start page?'),
+                            'disabled' => $model->isDisabledField('is_home')]); ?>
+                    <?= $form->field($model->page, 'admin_only')->checkbox([
+                            'title' => Yii::t('WikiModule.base', 'Disable edit access for non wiki administrators?'),
+                            'disabled' => $model->isDisabledField('admin_only')]); ?>
+                    <?= $form->field($model->page, 'is_category')->checkbox(['disabled' => $model->isDisabledField('is_category')]); ?>
+                    <?= $form->field($model, 'isPublic')->checkbox([
+                            'title' => Yii::t('WikiModule.base', 'Enable read access for non space members?'),
+                            'disabled' => $model->isDisabledField('isPublic')]); ?>
+
+                    <?php if(!$model->isDisabledField('is_category') || $model->page->parent_page_id) :?>
+                        <?= $form->field($model->page, 'parent_page_id')
+                            ->dropDownList($model->getCategoryList(), ['disabled' => $model->isDisabledField('parent_page_id')]); ?>
                     <?php endif; ?>
 
-                    <?= $form->field($model, 'topics')->widget(TopicPicker::class)->label(false) ?>
+
+
+
+                    <?= $form->field($model, 'topics')->widget(TopicPicker::class, ['options' => ['disabled' =>  $model->isDisabledField('topics')]])->label(false) ?>
+
+                    <?php if(!$canAdminister) : ?>
+                        <div class="alert alert-warning">
+                            <?= Yii::t('WikiModule.base',
+                                'In order to edit all fields, you need the permission to administer wiki pages.'); ?>
+                        </div>
+                    <?php endif; ?>
 
                     <hr>
 
@@ -61,6 +78,22 @@ humhub\modules\wiki\assets\Assets::register($this);
 <?= WikiLinkModal::widget(['contentContainer' => $contentContainer]) ?>
 
 <script>
+
+    $(document).one('humhub:ready', function() {
+        var $checkboxes = $('.regular-checkbox-container');
+        $checkboxes.each(function() {
+            var $this = $(this);
+            $checkbox = $this.find('[type="checkbox"][title]');
+            if($checkbox.length) {
+                $this.find('label').addClass('tt').attr('title', $checkbox.attr('title'));
+            }
+
+            humhub.require('ui.additions').apply($this, 'tooltip');
+        })
+    });
+
+
+
     $('#wikipage-is_category').click(function () {
         <?php if ($model->page->is_category): ?>
         if ($(this).is(":not(:checked)")) {

@@ -44,6 +44,7 @@ class WikiCest
         $I->waitForText('Disable');
 
         $I->amOnUser1Profile();
+
         $I->click('Wiki', '.layout-nav-container');
         $I->waitForText('No pages created yet.');
         $I->click('Let\'s go!');
@@ -190,7 +191,7 @@ class WikiCest
 
         $I->waitForText('Home', null, '.wiki-menu');
         $this->toIndex($I);
-        $I->see('Home', '.wiki-menu');
+
         $I->click('Wiki', '.layout-nav-container');
 
         $I->waitForText('My Sub Page', null,'.wiki-content');
@@ -255,6 +256,7 @@ class WikiCest
     /**
      * @param AcceptanceTester $I
      * @param $type
+     * @throws \Exception
      */
     private function createWikiPages($I, $type)
     {
@@ -265,14 +267,15 @@ class WikiCest
         $I->waitForText('Create new page');
         $I->fillField('#wikipage-title', "First Public {$type} Wiki Page");
         $I->fillField('#wikipagerevision-content .humhub-ui-richtext', "# My First Wiki {$type} Public Page!");
-        $I->click('[for="wikipage-is_public"]');
+        $I->click('[for="pageeditform-ispublic"]');
         $I->click('Save');
 
         $I->waitForElementVisible('.wiki-page-content');
         $I->see("First Public {$type} Wiki Page");
         $I->wait(1);
         $I->see("My First Wiki {$type} Public Page!", 'h1');
-        $I->see("Public", 'h1 .label-info');
+
+        $I->seeElement('.fa-globe');
         $this->toIndex($I);
         $I->see("First Public {$type} Wiki Page", '.wiki-page-list');
 

@@ -20,40 +20,29 @@ humhub.module('wiki', function(module, require, $) {
             });
         });
 
-        if(view.isSmall() || view.isMedium()) {
-            $('.wiki-page-control:not(.drag-icon)').show();
-        } else {
-            this.$.find('.page-title, .page-category-title').hover(function() {
-                $(this).find('.wiki-page-control').show();
-            }, function() {
-                $(this).find('.wiki-page-control').hide();
-            });
-        }
-
-
-
         this.$.sortable({
             delay: (view.isSmall()) ? DELAY_DRAG_SMALL_DEVICES : null,
-            handle: '.page-category-title',
+            handle: '.drag-icon',
             items: '.wiki-category-list-item[data-page-id]',
-            start: function(evt, ui) {
-                ui.helper.find('.drag-icon:first').show();
-            },
             helper: 'clone',
             update: $.proxy(this.dropItem, this)
-            //placeholder: "task-list-state-highlight",
         });
 
         this.$.find('.wiki-page-list').sortable({
             delay: (view.isSmall()) ? DELAY_DRAG_SMALL_DEVICES : null,
-            start: function(evt, ui) {
-                ui.helper.find('.drag-icon').show();
-            },
-            handle: '.page-title',
+            handle: '.drag-icon',
             connectWith: '.wiki-page-list:not(#category_list_view)',
             helper: 'clone',
             update: $.proxy(this.dropItem, this)
         });
+
+        if(view.isNormal()) {
+            this.$.find('.page-title, .page-category-title').hover(function() {
+                $(this).find('.wiki-page-control:not(.drag-icon)').show();
+            }, function() {
+                $(this).find('.wiki-page-control:not(.drag-icon)').hide();
+            });
+        }
     };
 
     CategoryListView.prototype.dropItem = function (event, ui) {
@@ -69,12 +58,12 @@ humhub.module('wiki', function(module, require, $) {
         };
 
         var that = this;
-        client.post(this.options.dropUrl, {data: data}).then(function(response) {
+        client.post(this.options.dropUrl, {data: data}).then(function (response) {
             if (!response.success) {
                 $item.closest('.category_list_view, .wiki-page-list').sortable('cancel');
                 module.log.error('', true);
             }
-        }).catch(function(e) {
+        }).catch(function (e) {
             module.log.error(e, true);
             $item.closest('.category_list_view, .wiki-page-list').sortable('cancel');
         });
@@ -247,8 +236,11 @@ humhub.module('wiki', function(module, require, $) {
     };
 
     var revertRevision = function(evt) {
-        client.post(evt).then(function(evt) {
-            //client.pjax.redirect
+        client.post(evt).then(function(response) {
+            client.pjax.redirect(response.redirect);
+            module.log.success('saved');
+        }).catch(function(e) {
+            module.log.error(e, true);
         });
     };
 

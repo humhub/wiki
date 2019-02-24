@@ -22,6 +22,12 @@ env:
   matrix:
     - HUMHUB_VERSION=master
     - HUMHUB_VERSION=v1.3.2
+    - HUMHUB_VERSION=develop
+
+matrix:
+  allow_failures:
+  - env: HUMHUB_VERSION=develop
+  fast_finish: true
 
 cache:
   directories:

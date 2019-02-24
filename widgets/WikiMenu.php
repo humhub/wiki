@@ -84,6 +84,11 @@ class WikiMenu extends Widget
     private $canEdit = false;
 
     /**
+     * @var bool
+     */
+    private $canDelete = false;
+
+    /**
      * @var bool edit page view
      */
     public $edit = false;
@@ -111,6 +116,7 @@ class WikiMenu extends Widget
 
         if($this->page) {
             $this->canEdit = $this->page->content->canEdit();
+            $this->canDelete = !$this->page->isNewRecord && $this->container->can(AdministerPages::class);
         }
 
         parent::init();
@@ -127,7 +133,6 @@ class WikiMenu extends Widget
         } else {
             $this->blocks = [static::BLOCK_START, static::BLOCK_BOTTOM];
         }
-
     }
 
     public function run()
@@ -172,17 +177,24 @@ class WikiMenu extends Widget
             case static::LINK_PERMA:
                 return PermaLink::widget(['content' => $this->page->content]);
             case static::LINK_REVERT:
-                return ($this->canAdminister()) ? Link::withAction(Yii::t('WikiModule.base', 'Revert this'), 'client.post', Url::toWikiRevertRevision($this->page, $this->revision))->icon('fa-history history')->confirm(
-                    Yii::t('WikiModule.base', '<strong>Confirm</strong> page reverting'),
-                    Yii::t('WikiModule.base', 'Do you really want to revert this page?'),
-                    Yii::t('WikiModule.base', 'Revert')) : null;
+                return ($this->canEdit) ?
+                    Link::withAction(Yii::t('WikiModule.base', 'Revert this'), 'wiki.revertRevision', Url::toWikiRevertRevision($this->page, $this->revision))
+                        ->icon('fa-history history')->confirm(
+                            Yii::t('WikiModule.base', '<strong>Confirm</strong> page reverting'),
+                            Yii::t('WikiModule.base', 'Do you really want to revert this page?'),
+                            Yii::t('WikiModule.base', 'Revert')) : null;
             case static::LINK_REVERT_GO_BACK:
                 return Link::to(Yii::t('WikiModule.base', 'Go back'), Url::toWikiHistory($this->page))->icon('fa-reply');
             case static::LINK_NEW:
-                return ($this->canCreatePage()) ? Link::to(Yii::t('WikiModule.base', 'New page'), Url::toWikiCreate($this->container))->icon('fa-plus new') : null;
+                $url = ($this->page && $this->page->is_category)
+                    ? Url::toWikiCreate($this->container, $this->page->id)
+                    : Url::toWikiCreate($this->container);
+                return ($this->canCreatePage()) ? Link::to(Yii::t('WikiModule.base', 'New page'),$url)->icon('fa-plus new') : null;
             case static::LINK_EDIT_DELETE:
-                return (!$this->page->isNewRecord) ? Link::withAction(Yii::t('WikiModule.base', 'Delete'), 'wiki.delete', Url::toWikiDelete($this->page))
-                    ->icon('fa-trash-o delete')->confirm() : null;
+                return $this->canDelete
+                    ? Link::withAction(Yii::t('WikiModule.base', 'Delete'), 'wiki.delete', Url::toWikiDelete($this->page))
+                        ->icon('fa-trash-o delete')
+                        ->confirm() : null;
             case static::LINK_EDIT_CANCEL:
                 $url = $this->page->isNewRecord ? Url::toOverview($this->container) : Url::toWiki($this->page);
                 return Link::to(Yii::t('WikiModule.base', 'Cancel'), $url)->icon('fa-reply')->id('wiki_cancel');

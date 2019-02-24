@@ -8,6 +8,7 @@ use humhub\modules\content\components\ContentContainerActiveRecord;
 use humhub\modules\search\interfaces\Searchable;
 use humhub\modules\wiki\helpers\Url;
 use humhub\modules\wiki\permissions\AdministerPages;
+use humhub\modules\wiki\permissions\EditPages;
 use Yii;
 use yii\db\Expression;
 
@@ -27,16 +28,10 @@ use yii\db\Expression;
  */
 class WikiPage extends ContentActiveRecord implements Searchable
 {
-
-    /**
-     * @var integer Content visibility
-     */
-    public $is_public;
-
     public $moduleId = 'wiki';
 
     const SCENARIO_CREATE = 'create';
-    const SCENARIO_ADMIN_EDIT = 'admin';
+    const SCENARIO_ADMINISTER = 'admin';
     const SCENARIO_EDIT = 'edit';
 
     /**
@@ -74,16 +69,20 @@ class WikiPage extends ContentActiveRecord implements Searchable
             ['title', 'string', 'max' => 255],
             ['title', 'validateTitle'],
             ['parent_page_id', 'validateParentPage'],
-            [['is_home', 'admin_only', 'is_category', 'is_public'], 'integer']
+            [['is_home', 'admin_only', 'is_category'], 'integer']
         ];
 
     }
 
+    /**
+     * @inheritdoc
+     */
     public function scenarios()
     {
         $scenarios = parent::scenarios();
-        $scenarios['create'] = ['title'];
-        $scenarios['admin'] = ['title', 'is_home', 'admin_only', 'is_category', 'parent_page_id', 'is_public'];
+        $scenarios[static::SCENARIO_CREATE] = ['title', 'parent_page_id'];
+        $scenarios[static::SCENARIO_EDIT] = ($this->isOwner()) ? ['title', 'parent_page_id'] : [];
+        $scenarios[static::SCENARIO_ADMINISTER] = ['title', 'is_home', 'admin_only', 'is_category', 'parent_page_id'];
         return $scenarios;
     }
 
@@ -104,15 +103,14 @@ class WikiPage extends ContentActiveRecord implements Searchable
      */
     public function attributeLabels()
     {
-        return array(
+        return [
             'id' => 'ID',
             'title' => 'Title',
             'is_home' => Yii::t('WikiModule.base', 'Is homepage'),
             'admin_only' => Yii::t('WikiModule.base', 'Protected'),
             'is_category' => Yii::t('WikiModule.base', 'Is category'),
             'parent_page_id' => Yii::t('WikiModule.base', 'Category'),
-            'is_public' => Yii::t('WikiModule.base', 'Is public')
-        );
+        ];
     }
 
 
@@ -147,10 +145,14 @@ class WikiPage extends ContentActiveRecord implements Searchable
         return parent::afterSave($insert, $changedAttributes);
     }
 
+    /**
+     * Additional canEdit see [[Content::canEdit()]].
+     * Note this function is not called directly but called by Content::canEdit() with additional checks
+     * @return bool
+     */
     public function canEdit()
     {
-        // Note this function is not called directly but called by Content::canEdit() with additional checks
-        return !$this->admin_only || $this->content->container->can(AdministerPages::class);
+        return !$this->admin_only ? $this->content->container->can(EditPages::class) : false;
     }
 
     /**
@@ -190,6 +192,7 @@ class WikiPage extends ContentActiveRecord implements Searchable
      *
      * @param string $attribute
      * @param array $params
+     * @throws \yii\base\Exception
      */
     public function validateTitle($attribute, $params)
     {
@@ -296,6 +299,7 @@ class WikiPage extends ContentActiveRecord implements Searchable
     /**
      * @param ContentContainerActiveRecord $container
      * @return ActiveQueryContent
+     * @throws \yii\base\Exception
      */
     public static function findCategories(ContentContainerActiveRecord $container)
     {

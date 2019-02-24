@@ -52,7 +52,7 @@ class OverviewController extends BaseController
         return $this->render('list-categories', [
             'homePage' => $this->getHomePage(),
             'contentContainer' => $this->contentContainer,
-            'canCreate' => $this->canCreatePage()
+            'canCreate' => $this->canCreatePage(),
         ]);
 
     }

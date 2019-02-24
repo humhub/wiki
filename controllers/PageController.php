@@ -2,21 +2,20 @@
 
 namespace humhub\modules\wiki\controllers;
 
-use humhub\modules\content\components\ContentContainerController;
-use humhub\modules\content\models\Content;
-use humhub\modules\file\models\File;
-use humhub\modules\space\models\Space;
+use Yii;
+use yii\base\Exception;
+use yii\web\HttpException;
+use humhub\components\access\ControllerAccess;
 use humhub\modules\wiki\helpers\HeadlineExtractor;
 use humhub\modules\wiki\helpers\Url;
 use humhub\modules\wiki\models\forms\PageEditForm;
 use humhub\modules\wiki\models\forms\WikiPageItemDrop;
 use humhub\modules\wiki\models\WikiPage;
 use humhub\modules\wiki\models\WikiPageRevision;
-use humhub\widgets\MarkdownView;
-use Symfony\Component\CssSelector\XPath\Extension\HtmlExtension;
-use Yii;
-use yii\base\Exception;
-use yii\web\HttpException;
+use humhub\modules\wiki\permissions\AdministerPages;
+use humhub\modules\wiki\permissions\CreatePage;
+use humhub\modules\wiki\permissions\EditPages;
+use humhub\modules\wiki\permissions\ViewHistory;
 
 /**
  * PageController
@@ -25,23 +24,20 @@ use yii\web\HttpException;
  */
 class PageController extends BaseController
 {
-
-    /**
-     * @param $action
-     * @return bool
-     * @throws HttpException
-     */
-    public function beforeAction($action)
+    public function getAccessRules()
     {
-        if (parent::beforeAction($action)) {
-            return true;
-        }
-
-        return false;
+        return [
+            [ControllerAccess::RULE_POST => ['sort', 'delete', 'revert']],
+            [ControllerAccess::RULE_PERMISSION => [AdministerPages::class], 'actions' => ['sort', 'delete']],
+            [ControllerAccess::RULE_PERMISSION => [CreatePage::class, EditPages::class, AdministerPages::class], 'actions' => ['edit']],
+            [ControllerAccess::RULE_PERMISSION => [EditPages::class, AdministerPages::class], 'actions' => ['revert']],
+            [ControllerAccess::RULE_PERMISSION => [ViewHistory::class], 'actions' => ['history']],
+            [ControllerAccess::RULE_PERMISSION => [ViewHistory::class], 'actions' => ['history']],
+        ];
     }
 
     /**
-     * @return $this|void|\yii\web\Response
+     * @return $this|\yii\web\Response
      * @throws \yii\base\Exception
      */
     public function actionIndex()
@@ -59,51 +55,69 @@ class PageController extends BaseController
     }
 
     /**
-     * @return $this|string|void|\yii\web\Response
+     * @return string|\yii\web\Response
      * @throws \yii\base\Exception
      * @throws \yii\base\InvalidConfigException
      * @throws \yii\db\StaleObjectException
+     * @throws \Throwable
      */
-    public function actionView()
+    public function actionView($title = null, $revisionId = null)
     {
-        $title = Yii::$app->request->get('title');
-        $revisionId = Yii::$app->request->get('revision', 0);
+        $page = WikiPage::find()->contentContainer($this->contentContainer)->readable()->where(['title' => $title])->one();
 
-        $page = WikiPage::find()->contentContainer($this->contentContainer)->where(['title' => $title])->one();
-        if ($page !== null) {
-
-            $revision = null;
-            if ($revisionId != 0) {
-                $revision = WikiPageRevision::findOne(['wiki_page_id' => $page->id, 'revision' => $revisionId]);
-            }
-            if ($revision == null) {
-                $revision = $page->latestRevision;
-
-                // There is no revision for this page.
-                if ($revision == null) {
-
-                    // Delete page without revision
-                    $page->delete();
-
-                    // Forward to edit
-                    return $this->redirect($this->contentContainer->createUrl('edit', array('title' => $page->title)));
-                }
-            }
-
-            return $this->render('view', [
-                'page' => $page,
-                'revision' => $revision,
-                'homePage' => $this->getHomePage(),
-                'contentContainer' => $this->contentContainer,
-                'content' => $revision->content,
-                'canViewHistory' => $this->canViewHistory(),
-                'canEdit' => $this->canEdit($page),
-                'canAdminister' => $this->canAdminister(),
-                'canCreatePage' => $this->canCreatePage()
-            ]);
-        } else {
-            return $this->redirect($this->contentContainer->createUrl('edit', array('title' => $title)));
+        if(!$page && $this->canCreatePage()) {
+            return $this->redirect(Url::toWikiCreateByTitle($this->contentContainer, $title));
         }
+
+        if(!$page) {
+            throw new HttpException(404, 'Wiki page not found!');
+        }
+
+        $revision = $this->getRevision($page, $revisionId);
+
+        // There is no revision for this page.
+        if (!$revision && $this->canCreatePage()) {
+            $page->delete();
+            return $this->redirect(Url::toWikiCreateByTitle($this->contentContainer, $title));
+        }
+
+        if(!$revision) {
+            $page->delete();
+            throw new HttpException(404, 'Wiki page revision not found!');
+        }
+
+        return $this->render('view', [
+            'page' => $page,
+            'revision' => $revision,
+            'homePage' => $this->getHomePage(),
+            'contentContainer' => $this->contentContainer,
+            'content' => $revision->content,
+            'canViewHistory' => $this->canViewHistory(),
+            'canEdit' => $this->canEdit($page),
+            'canAdminister' => $this->canAdminister(),
+            'canCreatePage' => $this->canCreatePage()
+        ]);
+    }
+
+    /**
+     * Returns a revision for the given page, either by a given revisionid or the latest.
+     *
+     * @param $page
+     * @param $revisionId
+     * @return WikiPageRevision|null
+     */
+    private function getRevision($page, $revisionId = null)
+    {
+        $revision = null;
+        if ($revisionId != null) {
+            $revision = WikiPageRevision::findOne(['wiki_page_id' => $page->id, 'revision' => $revisionId]);
+        }
+
+        if (!$revision) {
+            $revision = $page->latestRevision;
+        }
+
+        return $revision;
     }
 
     /**
@@ -111,6 +125,7 @@ class PageController extends BaseController
      * @throws HttpException
      * @throws \yii\base\Exception
      * @throws \yii\base\InvalidConfigException
+     * @throws \Throwable
      */
     public function actionEdit($id = null, $title = null, $categoryId = null)
     {
@@ -124,8 +139,7 @@ class PageController extends BaseController
             'model' => $form,
             'homePage' => $this->getHomePage(),
             'contentContainer' => $this->contentContainer,
-            'canAdminister' => $this->canAdminister(),
-            'hasCategories' => $this->hasCategoryPages()
+            'canAdminister' => $this->canAdminister()
         ]);
     }
 
@@ -196,24 +210,19 @@ class PageController extends BaseController
     }
 
     /**
-     * @return $this|void|\yii\web\Response
+     * @return $this|\yii\web\Response
      * @throws HttpException
      * @throws \yii\base\Exception
      * @throws \yii\base\InvalidConfigException
      * @throws \yii\db\StaleObjectException
+     * @throws \Throwable
      */
     public function actionDelete($id)
     {
-        $this->forcePostRequest();
-
         $page = WikiPage::find()->contentContainer($this->contentContainer)->where(['wiki_page.id' => $id])->one();
 
         if (!$page) {
             throw new HttpException(404, Yii::t('WikiModule.base', 'Page not found.'));
-        }
-
-        if (!$this->canAdminister()) {
-            throw new HttpException(403, Yii::t('WikiModule.base', 'Permission denied. You have no administration rights.'));
         }
 
         $page->delete();
@@ -222,32 +231,33 @@ class PageController extends BaseController
     }
 
     /**
-     * @return $this|void|\yii\web\Response
+     * @param int $id
+     * @param int $toRevision
+     * @return $this|\yii\web\Response
+     * @throws Exception
      * @throws HttpException
-     * @throws \yii\base\Exception
      * @throws \yii\base\InvalidConfigException
      */
-    public function actionRevert()
+    public function actionRevert($id, $toRevision)
     {
-        $this->forcePostRequest();
-
-        $id = (int)Yii::$app->request->get('id');
-        $toRevision = (int)Yii::$app->request->get('toRevision');
-
         $page = WikiPage::find()->contentContainer($this->contentContainer)->readable()->where(['wiki_page.id' => $id])->one();
 
-        if ($page === null) {
+        if (!$page) {
             throw new HttpException(404, Yii::t('WikiModule.base', 'Page not found.'));
         }
 
-        if (!$this->canEdit($page)) {
+        if (!$page->content->canEdit()) {
             throw new HttpException(403, Yii::t('WikiModule.base', 'Page not editable!'));
         }
 
-        $revision = WikiPageRevision::findOne(array(
+        $revision = WikiPageRevision::findOne([
             'revision' => $toRevision,
             'wiki_page_id' => $page->id
-        ));
+        ]);
+
+        if(!$revision) {
+            throw new HttpException(404, 'Revision not found!');
+        }
 
         if ($revision->is_latest) {
             throw new HttpException(404, Yii::t('WikiModule.base', 'Revert not possible. Already latest revision!'));
@@ -257,23 +267,10 @@ class PageController extends BaseController
         $revertedRevision->content = $revision->content;
         $revertedRevision->save();
 
-        return $this->redirect(Url::toWiki($page));
-
-        return ['success' => true, 'redirect' => Url::toWiki($page)];
-    }
-
-    /**
-     * Markdown preview action for MarkdownViewWidget
-     * We require an own preview action here to also handle internal wiki links.
-     * @throws HttpException
-     * @throws \Exception
-     */
-    public function actionPreviewMarkdown()
-    {
-        $this->forcePostRequest();
-        $content = MarkdownView::widget(['markdown' => Yii::$app->request->post('markdown'), 'parserClass' => 'humhub\modules\wiki\Markdown']);
-
-        return $this->renderAjaxContent($content);
+        return $this->asJson([
+            'success' => 1,
+            'redirect' => Url::toWiki($page)
+        ]);
     }
 
     /**
@@ -285,17 +282,4 @@ class PageController extends BaseController
     {
         return $page->content->canEdit();
     }
-
-    public function actionSearch($term = null) {
-        return $this->asJson([
-            ['label' => 'Test1', 'value' => 1],
-            ['label' => 'Test2', 'value' => 2],
-            ['label' => 'Test3', 'value' => 3],
-            ['label' => 'Test4', 'value' => 4],
-        ]);
-    }
-
-
-
-
 }

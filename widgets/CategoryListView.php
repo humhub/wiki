@@ -12,8 +12,7 @@ namespace humhub\modules\wiki\widgets;
 use humhub\modules\content\components\ContentContainerActiveRecord;
 use humhub\modules\wiki\models\WikiPage;
 use humhub\modules\wiki\permissions\AdministerPages;
-use humhub\modules\wiki\permissions\EditPages;
-use humhub\modules\wiki\permissions\ViewPages;
+use humhub\modules\wiki\permissions\CreatePage;
 use humhub\widgets\JsWidget;
 use Yii;
 use yii\db\Expression;
@@ -51,14 +50,16 @@ class CategoryListView extends JsWidget
 
         $unsortedPages = WikiPage::findUnsorted($this->contentContainer)->all();
 
-        $canEdit = $this->contentContainer->can([AdministerPages::class, EditPages::class]);
+        $canAdminister = $this->contentContainer->can(AdministerPages::class);
+        $canCreate = $this->contentContainer->can(CreatePage::class);
 
         return $this->render('categoryListView', [
             'options' => $this->getOptions(),
             'categories' => $categories,
             'unsortedPages' => $unsortedPages,
             'contentContainer' => $this->contentContainer,
-            'canEdit' => $canEdit
+            'canAdminister' => $canAdminister,
+            'canCreate' => $canCreate
         ]);
     }
 
@@ -77,23 +78,6 @@ class CategoryListView extends JsWidget
         return [
             'drop-url' => $this->contentContainer->createUrl('/wiki/page/sort')
         ];
-    }
-
-    public function canView(WikiPage $category)
-    {
-        if(Yii::$app->user->isGuest && $category->findChildren()->count()) {
-            return true;
-        }
-
-        if(!Yii::$app->user->isGuest && $category->content->created_by === Yii::$app->user->id) {
-            return true;
-        }
-
-        if($this->contentContainer->can(ViewPages::class)) {
-            return true;
-        }
-
-        return false;
     }
 
 }

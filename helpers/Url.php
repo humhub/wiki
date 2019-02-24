@@ -45,10 +45,13 @@ class Url extends \yii\helpers\Url
         return static::to([static::ROUTE_WIKI_HISTORY, 'id' => $page->id, 'container' => $page->content->container]);
     }
 
-    public static function toWikiRevertRevision(WikiPage $page, WikiPageRevision $revision)
+    public static function toWikiRevertRevision(WikiPage $page, $revision)
     {
+        if($revision instanceof  WikiPageRevision) {
+            $revision = $revision->revision;
+        }
 
-        return static::to([static::ROUTE_WIKI_REVERT, 'id' => $page->id, 'toRevision' => $revision->revision, 'container' => $page->content->container]);
+        return static::to([static::ROUTE_WIKI_REVERT, 'id' => $page->id, 'toRevision' => $revision, 'container' => $page->content->container]);
     }
 
     public static function toWikiCreateForCategory(WikiPage $page)
@@ -66,6 +69,11 @@ class Url extends \yii\helpers\Url
         return static::wikiEdit($page->content->container, $page->id);
     }
 
+    public static function toWikiCreateByTitle(ContentContainerActiveRecord $container, $title = null, $categoryId = null)
+    {
+        return static::to([static::ROUTE_WIKI_EDIT, 'title' => $title, 'container' => $container, 'categoryId' => $categoryId]);
+    }
+
     private static function wikiEdit(ContentContainerActiveRecord $container, $id = null, $categoryId = null)
     {
         return static::to([static::ROUTE_WIKI_EDIT, 'id' => $id, 'container' => $container, 'categoryId' => $categoryId]);
@@ -79,7 +87,7 @@ class Url extends \yii\helpers\Url
     public static function toWiki(WikiPage $page, WikiPageRevision $revision = null)
     {
         $rev = $revision ? $revision->revision : null;
-        return static::to([static::ROUTE_WIKI_PAGE, 'title' => $page->title, 'revision' => $rev, 'container' => $page->content->container]);
+        return static::to([static::ROUTE_WIKI_PAGE, 'title' => $page->title, 'revisionId' => $rev, 'container' => $page->content->container]);
     }
 
     public static function toWikiDelete(WikiPage $page)

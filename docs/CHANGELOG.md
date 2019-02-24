@@ -1,5 +1,13 @@
 Changelog
 =========
+1.3.6 (19 February, 2019)
+------------------------
+- Fix: no-pages view for user without edit permission show empty nav + create text
+- Fix: Revert links not visible
+- Fix: Faulty edit permission behaviour
+- Chng: Removed ViewPages permission, in favor of new public/private settings
+- Enh: Added edit wiki checkbox tooltips
+- Enh: Smaller UI enhancements
 
 1.3.5 (19 February, 2019)
 ------------------------

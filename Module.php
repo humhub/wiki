@@ -76,7 +76,6 @@ class Module extends ContentContainerModule
                 new permissions\EditPages(),
                 new permissions\AdministerPages(),
                 new permissions\ViewHistory(),
-                new permissions\ViewPages(),
             ];
         }
     }

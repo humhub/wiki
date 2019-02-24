@@ -1,5 +1,6 @@
 <?php
 use humhub\libs\Html;
+use humhub\libs\Helpers;
 use humhub\modules\topic\models\Topic;
 use humhub\widgets\Label;
 use humhub\widgets\Link;
@@ -17,14 +18,22 @@ if($page->is_home) {
 
 ?>
 
-<h1>
+<h1 class="wiki-headline">
     <i class="fa <?= $icon?> "></i>
     <strong><?= Html::encode($page->title); ?></strong>
-    <?php if($page->content->isPublic()) : ?>
-        <?= Label::info(Yii::t('ContentModule.widgets_views_label', 'Public'))->icon('fa-globe')->right() ?>
+    <?php if($page->is_home) : ?>
+        <?= Label::success()->icon('fa-home')->tooltip(Yii::t('ContentModule.widgets_views_label', 'Home'))->right() ?>
     <?php endif; ?>
+    <?php if($page->content->isPublic()) : ?>
+        <?= Label::info()->tooltip(Yii::t('ContentModule.widgets_views_label', 'Public'))->icon('fa-globe')->right() ?>
+    <?php endif; ?>
+    <?php if($page->admin_only) : ?>
+        <?= Label::defaultType()->icon('fa-lock')->tooltip(Yii::t('ContentModule.widgets_views_label', 'Protected'))->right() ?>
+    <?php endif; ?>
+
     <?php if($page->categoryPage) : ?>
-        <?= Label::primary(Html::encode($page->categoryPage->title))->withLink(Link::to(null, $page->categoryPage->getUrl()))->right()->style('margin-right:5px') ?>
+        <?= Label::primary(Helpers::truncateText(Html::encode($page->categoryPage->title), 30))
+            ->withLink(Link::to(null, $page->categoryPage->getUrl()))->right() ?>
     <?php endif; ?>
     <?php foreach ($page->content->getTags(Topic::class)->all() as $topic) : ?>
         <?= TopicLabel::forTopic($topic)->right()->style('margin-right:5px')?>

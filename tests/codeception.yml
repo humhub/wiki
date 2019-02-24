@@ -11,6 +11,14 @@ settings:
     # This value controls whether PHPUnit attempts to backup global variables
     # See https://phpunit.de/manual/current/en/appendixes.annotations.html#appendixes.annotations.backupGlobals
     backup_globals: true
+coverage:
+    enabled: true
+    include:
+    - ../controllers/*
+    - ../helpers/*
+    - ../models/*
+    - ../views/*
+    - ../widgets/*
 paths:
     tests: codeception
     log: codeception/_output
