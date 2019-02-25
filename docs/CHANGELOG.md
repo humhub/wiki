@@ -1,6 +1,6 @@
 Changelog
 =========
-1.3.6 (19 February, 2019)
+1.3.6 (25 February, 2019)
 ------------------------
 - Fix: no-pages view for user without edit permission show empty nav + create text
 - Fix: Revert links not visible
