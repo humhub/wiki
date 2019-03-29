@@ -1,5 +1,13 @@
 Changelog
 =========
+
+
+1.3.7 (29 March, 2019)
+------------------------
+- Fix: Better handle deleted users
+- Enh: Updated translations
+
+
 1.3.6 (25 February, 2019)
 ------------------------
 - Fix: no-pages view for user without edit permission show empty nav + create text
