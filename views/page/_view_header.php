@@ -48,7 +48,7 @@ if ($page->is_home) {
         <?= Yii::t('WikiModule.base', 'Last updated ') . TimeAgo::widget(['timestamp' => $page->content->updated_at]) ?>
 
         <?php if ($page->content->updatedBy !== null): ?>
-            by
+            <?= Yii::t('WikiModule.base', 'by') ?>
             <strong>
                 <a href="<?= $page->content->updatedBy->getUrl() ?>" style="color:<?= $this->theme->variable('info') ?>"
                    data-contentcontainer-id="<?= $page->content->updatedBy->contentcontainer_id ?>">
