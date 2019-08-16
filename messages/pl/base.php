@@ -29,7 +29,7 @@ return array (
   'Is category' => 'Jest kategorią',
   'Is homepage' => 'Ustaw jako stronę główną',
   'Label' => 'Etykieta',
-  'Last updated ' => 'Ostatnio zaktualizowane',
+  'Last updated ' => 'Ostatnio zaktualizowane ',
   'Let\'s go!' => 'Jedziemy!',
   'New page' => 'Nowa strona',
   'No pages created yet.' => 'Nie utworzono jeszcze żadnej strony.',
