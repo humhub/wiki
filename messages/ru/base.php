@@ -37,7 +37,7 @@ return array (
   'None' => '',
   'Overwrite the wiki index start page?' => '',
   'Page History' => 'История страницы',
-  'Page content' => '',
+  'Page content' => 'Содержание страницы',
   'Page index' => '',
   'Page not editable!' => '',
   'Page not found' => '',
