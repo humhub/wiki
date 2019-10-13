@@ -30,6 +30,8 @@ class WikiPageItemDrop extends ItemDrop
 
     /**
      * @return ActiveQuery
+     * @throws HttpException
+     * @throws \yii\base\Exception
      */
     protected function getSortItemsQuery()
     {

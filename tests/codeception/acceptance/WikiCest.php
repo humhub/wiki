@@ -11,6 +11,7 @@ namespace wiki\acceptance;
 use humhub\modules\wiki\helpers\Url;
 use PHPUnit_Framework_Test;
 use wiki\AcceptanceTester;
+use Yii;
 
 class WikiCest
 {
@@ -24,7 +25,7 @@ class WikiCest
         $I->amAdmin();
         $I->enableModule(1, 'wiki');
         $I->click('Wiki', '.layout-nav-container');
-        $I->waitForText('No pages created yet.');
+        $I->waitForText('No pages created yet.', 15);
         $I->click('Let\'s go!');
 
         $this->createWikiEntries($I);
@@ -37,19 +38,31 @@ class WikiCest
     public function testInstallProfileEntry(AcceptanceTester $I)
     {
         $I->amUser1();
-        $I->amOnRoute(['/user/account/edit-modules']);
-        $I->waitForText('Enable');
-        // Note: this is used prior to 1.4
-        $I->click('Enable');
-        $I->waitForText('Disable');
+
+        $this->enableWikiOnProfile($I);
 
         $I->amOnUser1Profile();
 
         $I->click('Wiki', '.layout-nav-container');
-        $I->waitForText('No pages created yet.');
+        $I->waitForText('No pages created yet.', 15);
         $I->click('Let\'s go!');
 
         $this->createWikiEntries($I);
+    }
+
+    private function enableWikiOnProfile(AcceptanceTester $I)
+    {
+        $I->amOnRoute(['/user/account/edit-modules']);
+        $I->waitForText('Enable');
+
+        if(version_compare( Yii::$app->version  ,'1.4-dev', '<')) {
+            // Note: this only works if no other profile module is installed
+            $I->click('Enable');
+        } else {
+            $I->click('.enable-module-wiki');
+        }
+
+        $I->waitForText('Disable');
     }
 
     /**
@@ -69,15 +82,11 @@ class WikiCest
         $I->click('Save');
         $I->wait(1);
 
-        $I->amOnRoute(['/user/account/edit-modules']);
-        $I->waitForText('Enable');
-        // Note: this is used prior to 1.4
-        $I->click('Enable');
-        $I->waitForText('Disable');
+        $this->enableWikiOnProfile($I);
 
         $I->amOnUser1Profile();
         $I->click('Wiki', '.layout-nav-container');
-        $I->waitForText('No pages created yet.');
+        $I->waitForText('No pages created yet.', 15);
         $I->click('Let\'s go!');
 
         $this->createWikiPages($I, 'Profile');
@@ -103,7 +112,7 @@ class WikiCest
         $I->amUser1(true);
         $I->enableModule(2, 'wiki');
         $I->click('Wiki', '.layout-nav-container');
-        $I->waitForText('No pages created yet.');
+        $I->waitForText('No pages created yet.', 15);
         $I->click('Let\'s go!');
 
         $this->createWikiPages($I, 'Space');
@@ -119,6 +128,7 @@ class WikiCest
 
     /**
      * @param AcceptanceTester $I
+     * @throws \Exception
      */
     private function createWikiEntries($I)
     {
@@ -126,7 +136,7 @@ class WikiCest
          * CREATE CATEGORY
          */
         $I->amGoingTo('Create my first wiki category page');
-        $I->waitForText('Create new page');
+        $I->waitForText('Create new page', 30);
         $I->fillField('#wikipage-title', 'First Test Wiki Category');
         $I->fillField('#wikipagerevision-content .humhub-ui-richtext', '# My First Wiki Category!');
         $I->click('[for="wikipage-is_category"]');
@@ -146,7 +156,7 @@ class WikiCest
          */
         $I->amGoingTo('Create my first sub page');
         $I->jsClick('[data-original-title="Add Page"]');
-        $I->waitForText('Create new page');
+        $I->waitForText('Create new page', 30);
 
         $I->fillField('#wikipage-title', 'First Sub Page');
         $I->fillField('#wikipagerevision-content .humhub-ui-richtext', '# My Sub Page!');
@@ -167,7 +177,7 @@ class WikiCest
 
         $I->amGoingTo('Create my second sub page');
         $I->jsClick('[data-original-title="Add Page"]');
-        $I->waitForText('Create new page');
+        $I->waitForText('Create new page', 30);
 
         $I->fillField('#wikipage-title', 'Second Page');
         $I->fillField('#wikipagerevision-content .humhub-ui-richtext', '# My Second Page!');
@@ -264,7 +274,7 @@ class WikiCest
          * CREATE PUBLIC PAGE
          */
         $I->amGoingTo("Create my public {$type} wiki page");
-        $I->waitForText('Create new page');
+        $I->waitForText('Create new page', 30);
         $I->fillField('#wikipage-title', "First Public {$type} Wiki Page");
         $I->fillField('#wikipagerevision-content .humhub-ui-richtext', "# My First Wiki {$type} Public Page!");
         $I->click('[for="pageeditform-ispublic"]');
@@ -284,7 +294,7 @@ class WikiCest
          */
         $I->amGoingTo('Create my private wiki page');
         $I->click('New page');
-        $I->waitForText('Create new page');
+        $I->waitForText('Create new page', 30);
         $I->fillField('#wikipage-title', "First Private {$type} Wiki Page");
         $I->fillField('#wikipagerevision-content .humhub-ui-richtext', "# My First Wiki {$type} Private Page!");
         $I->click('Save');

@@ -1,7 +1,5 @@
 <?php
 
-use humhub\modules\wiki\Module;
-use humhub\modules\wiki\Events;
 use humhub\modules\space\widgets\Menu;
 use humhub\modules\user\widgets\ProfileMenu;
 
