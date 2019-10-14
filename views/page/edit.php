@@ -1,5 +1,6 @@
 <?php
 
+use humhub\libs\Html;
 use humhub\modules\wiki\widgets\WikiEditor;
 use yii\bootstrap\ActiveForm;
 use humhub\modules\wiki\widgets\WikiLinkModal;
@@ -77,7 +78,7 @@ $canAdminister = $model->canAdminister();
 
 <?= WikiLinkModal::widget(['contentContainer' => $contentContainer]) ?>
 
-<script>
+<?= Html::beginTag('script')?>
 
     $(document).one('humhub:ready', function() {
         var $checkboxes = $('.regular-checkbox-container');
@@ -114,4 +115,4 @@ $canAdminister = $model->canAdminister();
             $('.field-wikipage-parent_page_id').hide();
         }
     }
-</script>
+<?= Html::endTag('script') ?>
