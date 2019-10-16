@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.3.9
+1.3.9 - October 16, 2019
 ------------------------
 - Fix: Removed legacy content usage
 - Enh: Added 1.4 security nonce support
