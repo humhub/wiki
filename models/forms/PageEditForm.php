@@ -5,6 +5,7 @@ namespace humhub\modules\wiki\models\forms;
 
 use humhub\modules\content\models\Content;
 use humhub\modules\topic\models\Topic;
+use humhub\modules\topic\permissions\AddTopic;
 use humhub\modules\wiki\models\WikiPageRevision;
 use humhub\modules\wiki\permissions\AdministerPages;
 use humhub\modules\wiki\widgets\WikiEditor;
@@ -153,7 +154,12 @@ class PageEditForm extends Model
 
                 if ($this->revision->save()) {
                     $this->page->fileManager->attach(Yii::$app->request->post('fileList'));
-                    Topic::attach($this->page->content, $this->topics);
+
+                    // This check is required because of a bug prior to HumHub v1.3.18 (https://github.com/humhub/humhub-modules-wiki/issues/103)
+                    if($this->page->content->container->can(AddTopic::class)) {
+                        Topic::attach($this->page->content, $this->topics);
+                    }
+
                     WikiRichText::postProcess($this->revision->content, $this->page);
                     return true;
                 }

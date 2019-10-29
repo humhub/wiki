@@ -1,7 +1,11 @@
 Changelog
 =========
 
-1.3.9
+1.3.10 - October 16, 2019
+------------------------
+- Fix #103: Error when editing wiki for users without add topic permission
+
+1.3.9 - October 16, 2019
 ------------------------
 - Fix: Removed legacy content usage
 - Enh: Added 1.4 security nonce support
