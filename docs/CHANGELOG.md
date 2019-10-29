@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.3.10 - October 16, 2019
+1.3.10
 ------------------------
 - Fix #103: Error when editing wiki for users without add topic permission
 
