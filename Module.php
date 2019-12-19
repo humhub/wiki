@@ -32,6 +32,14 @@ class Module extends ContentContainerModule
     /**
      * @inheritdoc
      */
+    public function getContentContainerConfigUrl(ContentContainerActiveRecord $container)
+    {
+        return $container->createUrl('/wiki/container-config');
+    }
+
+    /**
+     * @inheritdoc
+     */
     public function disable()
     {
         foreach (WikiPage::find()->all() as $page) {

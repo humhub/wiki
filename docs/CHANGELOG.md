@@ -1,6 +1,10 @@
 Changelog
 =========
 
+1.3.11 - December 18, 2019
+------------------------
+- Enh: Added module label configuration - gives possibility to have a module name different for each space (FunkycraM)
+
 1.3.10 - October 29, 2019
 ------------------------
 - Fix #103: Error when editing wiki for users without add topic permission
