@@ -17,6 +17,7 @@ namespace humhub\modules\wiki\controllers;
 
 use Yii;
 use humhub\modules\admin\permissions\ManageSpaces;
+use humhub\modules\calendar\permissions\ManageEntry;
 use humhub\modules\content\components\ContentContainerController;
 use yii\data\ActiveDataProvider;
 use yii\helpers\Url;
