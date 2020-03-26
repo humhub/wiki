@@ -4,7 +4,7 @@ Changelog
 1.3.11 - (Unreleased)
 ------------------------
 - Chng: Updated HumHub min version to 1.3.11
-- Fix: Calendar permissions displayed on container without calendar module installed (https://github.com/humhub/humhub/issues/3828)
+- Fix: Calendar permissions displayed on container without wiki module installed (https://github.com/humhub/humhub/issues/3828)
 
 1.3.10 - October 29, 2019
 ------------------------
