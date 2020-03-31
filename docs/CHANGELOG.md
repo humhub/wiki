@@ -1,10 +1,11 @@
 Changelog
 =========
 
-1.3.11 - (Unreleased)
+1.3.11 - March 31, 2020
 ------------------------
-- Chng: Updated HumHub min version to 1.3.11
+- Chg: Updated HumHub min version to 1.3.12
 - Fix: Calendar permissions displayed on container without wiki module installed (https://github.com/humhub/humhub/issues/3828)
+- Enh: Improved event handler exception handling
 
 1.3.10 - October 29, 2019
 ------------------------
