@@ -4,3 +4,5 @@ nbproject
 .gitmodules
 /composer.lock
 
+tests/codeception/_support/_generated/*
+
