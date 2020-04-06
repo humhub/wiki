@@ -76,16 +76,14 @@ class Module extends ContentContainerModule
     /**
      * @inheritdoc
      */
-    public function getPermissions($contentContainer = null)
+    public function getContainerPermissions($contentContainer = null)
     {
-        if ($contentContainer !== null) {
-            return [
-                new permissions\CreatePage(),
-                new permissions\EditPages(),
-                new permissions\AdministerPages(),
-                new permissions\ViewHistory(),
-            ];
-        }
+        return [
+            new permissions\CreatePage(),
+            new permissions\EditPages(),
+            new permissions\AdministerPages(),
+            new permissions\ViewHistory(),
+        ];
     }
 
 }
