@@ -1,3 +1,6 @@
+[![Build Status](https://travis-ci.org/humhub/humhub-modules-wiki.svg?branch=master)](https://travis-ci.org/humhub/humhub-modules-wiki)
+
+
 # Wiki
 
 Collect and share information with your very own Wiki. 

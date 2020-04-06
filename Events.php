@@ -39,7 +39,7 @@ class Events
             if ($user->isModuleEnabled('wiki')) {
                 $settings = new DefaultSettings(['contentContainer' => $user]);
                 $event->sender->addItem([
-                    'label' => $settings->module_label,
+                    'label' => substr(Html::encode($settings->module_label), 0, 20),
                     'url' => $user->createUrl('//wiki/page'),
                     'icon' => '<i class="fa fa-book"></i>',
                     'isActive' => (Yii::$app->controller->module && Yii::$app->controller->module->id == 'wiki'),
