@@ -4,6 +4,7 @@ Changelog
 1.3.12 - (April, 06, 2020)
 ------------------------
 - Enh: Added module label configuration - gives possibility to have a module name different for each space (FunkycraM)
+- Chg: Added 1.5 defer compatibility
 
 1.3.11 - March 31, 2020
 ------------------------

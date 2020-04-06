@@ -41,10 +41,18 @@ class DefaultSettings extends Model
     public function init()
     {
         $this->module = Yii::$app->getModule('wiki');
-        $this->module_label = $this->module->settings->space()->get(
+        $this->module_label = $this->getSettings()->get(
             self::SETTING_MODULE_LABEL,
             Yii::t('WikiModule.base', 'Wiki')
         );
+    }
+
+    /**
+     * @return SettingsManager
+     */
+    private function getSettings()
+    {
+        return $this->module->settings->contentContainer($this->contentContainer);
     }
 
     /**
@@ -66,7 +74,7 @@ class DefaultSettings extends Model
 
     public function save()
     {
-        $this->module->settings->space()->set(
+        $this->getSettings()->set(
             self::SETTING_MODULE_LABEL,
             $this->module_label
         );
