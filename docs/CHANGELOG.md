@@ -1,6 +1,10 @@
 Changelog
 =========
 
+1.3.12 - (April, 06, 2020)
+------------------------
+- Enh: Added module label configuration - gives possibility to have a module name different for each space (FunkycraM)
+
 1.3.11 - March 31, 2020
 ------------------------
 - Chg: Updated HumHub min version to 1.3.12

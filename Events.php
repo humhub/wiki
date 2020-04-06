@@ -3,6 +3,7 @@
 namespace humhub\modules\wiki;
 
 use Yii;
+use humhub\modules\wiki\models\DefaultSettings;
 
 /**
  * Description of WikiEvents
@@ -17,7 +18,7 @@ class Events
         try {
             if ($event->sender->space !== null && $event->sender->space->isModuleEnabled('wiki')) {
                 $event->sender->addItem([
-                    'label' => Yii::t('WikiModule.base', 'Wiki'),
+                    'label' => $label,
                     'group' => 'modules',
                     'url' => $event->sender->space->createUrl('//wiki/page'),
                     'icon' => '<i class="fa fa-book"></i>',
