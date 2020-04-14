@@ -1,10 +1,17 @@
 Changelog
 =========
 
-1.3.12 - (April, 06, 2020)
-------------------------
+1.3.13 - (April 14, 2020)
+--------------------------
+- Fix: Wrong message category name (@funkycram)
+- Fix: Incorrect Permission class usage (@funkycram)
+
+
+1.3.12 - (April 06, 2020)
+--------------------------
 - Enh: Added module label configuration - gives possibility to have a module name different for each space (FunkycraM)
 - Chg: Added 1.5 defer compatibility
+
 
 1.3.11 - March 31, 2020
 ------------------------
@@ -12,14 +19,17 @@ Changelog
 - Fix: Calendar permissions displayed on container without wiki module installed (https://github.com/humhub/humhub/issues/3828)
 - Enh: Improved event handler exception handling
 
+
 1.3.10 - October 29, 2019
 ------------------------
 - Fix #103: Error when editing wiki for users without add topic permission
+
 
 1.3.9 - October 16, 2019
 ------------------------
 - Fix: Removed legacy content usage
 - Enh: Added 1.4 security nonce support
+
 
 1.3.8 - June 27, 2019
 ------------------------
