@@ -17,7 +17,7 @@ namespace humhub\modules\wiki\controllers;
 
 use Yii;
 use humhub\modules\admin\permissions\ManageSpaces;
-use humhub\modules\calendar\permissions\ManageEntry;
+use humhub\modules\wiki\permissions\AdministerPages;
 use humhub\modules\content\components\ContentContainerController;
 use yii\data\ActiveDataProvider;
 use yii\helpers\Url;
@@ -40,7 +40,7 @@ class ContainerConfigController extends ContentContainerController
     public function getAccessRules()
     {
         return [
-          ['permission' => [ManageSpaces::class, ManageEntry::class]]
+          ['permission' => [ManageSpaces::class, AdministerPages::class]]
         ];
     }
 
