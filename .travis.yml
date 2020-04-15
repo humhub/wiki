@@ -46,3 +46,6 @@ script:
   - cd tests
   - php ${HUMHUB_PATH}/protected/vendor/bin/codecept build
   - php ${HUMHUB_PATH}/protected/vendor/bin/codecept run --env travis
+
+after_failure:
+  - .travis/upload-failure.sh
