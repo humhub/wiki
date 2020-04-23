@@ -29,7 +29,7 @@ return array (
   'Is category' => 'Est une catégorie',
   'Is homepage' => 'Page de garde',
   'Label' => 'Étiquette',
-  'Last updated ' => 'Dernière mise à jour',
+  'Last updated ' => 'Dernière mise à jour ',
   'Let\'s go!' => 'Allons-y !',
   'New page' => 'Nouvelle page',
   'No pages created yet.' => 'Aucune page créée pour l\'instant.',
