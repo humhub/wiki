@@ -153,6 +153,18 @@ humhub.module('wiki', function(module, require, $) {
         }
     };
 
+    var checkIfScrollNeeded = function() {
+        var thirtyPercentOfAScreen = ($(window).height() * 13) / 100;
+        var eightyFivePercentOfAScreen = ($(window).height() * 85) / 100;
+        var wikiMenu = $('.wiki-menu-fixed');
+        if(wikiMenu.height() > ($(window).height() - thirtyPercentOfAScreen )) {
+            wikiMenu.height(eightyFivePercentOfAScreen);
+            wikiMenu.css({'overflowY': 'auto', 'maxHeight': eightyFivePercentOfAScreen + 'px'});
+        } else {
+            wikiMenu.css({'overflowY': 'auto', 'maxHeight': eightyFivePercentOfAScreen + 'px'});
+        }
+    };
+
     module.initOnPjaxLoad = true;
 
     var init = function(pjax) {
@@ -172,7 +184,8 @@ humhub.module('wiki', function(module, require, $) {
             if($('.wiki-page-content').length) {
                 buildIndex();
                 checkAnchor();
-                checkScroll();
+                // checkScroll();
+                checkIfScrollNeeded();
             }
 
             $('.wiki-content').find('.header-anchor').on('click', function(evt) {
@@ -187,7 +200,7 @@ humhub.module('wiki', function(module, require, $) {
         $menuFixed = null;
 
         $(window).off('scroll.wiki').on('scroll.wiki', function () {
-            checkScroll();
+            // checkScroll();
         });
 
     };
@@ -198,42 +211,11 @@ humhub.module('wiki', function(module, require, $) {
     var $richtextMenuBar = null;
     var $menuFixed = null;
 
-    var checkScroll = function() {
-        if(!$('.wiki-menu').length) {
-            return;
-        }
-
-        var $window = $(window);
-
-        menuTop = menuTop || $('.wiki-menu').offset().top;
-        var scrollTop = $window.scrollTop() + getViewOffset();
-
-        if($('#wiki-page-edit').length) {
-            $richtext = $richtext || $('#wiki-page-edit').find('.humhub-ui-richtext');
-            var $richtextMenuBar = $richtextMenuBar || $('#wiki-page-edit').find('.ProseMirror-menubar');
-            var richtextTop = $richtext.offset().top;
-            var max = $richtext.height() - $richtextMenuBar.outerHeight(true);
-
-            if(scrollTop > richtextTop) {
-                var top = Math.min((scrollTop - richtextTop + 1), max);
-                $richtextMenuBar.css({'position':'absolute', 'top': top+'px'});
-            } else {
-                $richtextMenuBar.css({'position':'relative', 'top': '0'});
-            }
-        }
-
-        if(view.isSmall()) {
-            return;
-        }
-
-        $menuFixed = $menuFixed || $('.wiki-menu-fixed');
-
-        if(scrollTop > menuTop) {
-            $menuFixed.css({'margin-top' : (scrollTop - menuTop + 5)+'px'});
-        } else {
-            $menuFixed.css({'margin-top' : 0});
-        }
-    };
+    // var checkScroll = function() {
+    //     if(!$('.wiki-menu').length) {
+    //         return;
+    //     }
+    // };
 
     var revertRevision = function(evt) {
         client.post(evt).then(function(response) {
