@@ -81,13 +81,13 @@ class WikiRichText extends ProsemirrorRichText
             $url = $this->edit ? $page->id : Url::toWiki($page);
 
             if($anchor) {
-                $url .= '#'.$anchor;
+                $url .= '#'. urlencode($anchor);
             }
 
             return $this->toWikiLink($label, $url, $page->title);
         }
 
-        return '['.$label.'](wiki:'.$page.' "'.$title.'")';
+        return '['.$label.'](wiki:'. $page.' "'.$title.'")';
     }
 
 }
