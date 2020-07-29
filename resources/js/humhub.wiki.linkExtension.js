@@ -105,7 +105,7 @@ humhub.module('wiki.linkExtension', function (module, require, $) {
                 group: 'marks',
                 item: menuItem(context)
             }
-        ]
+        ];
     };
 
     var menuItem = function (context) {
@@ -245,7 +245,7 @@ humhub.module('wiki.linkExtension', function (module, require, $) {
         extend: 'document',
         callback: function (addToPreset) {
             // Note the order here is important since the new plugin kind of overrules the em in some situations.
-            addToPreset('wiki', 'wiki', {before: 'link'})
+            addToPreset('wiki', 'wiki', {before: 'link'});
         }
     });
 
@@ -262,5 +262,5 @@ humhub.module('wiki.linkExtension', function (module, require, $) {
     module.export({
         SearchInput: SearchInput,
         setEditorLink: setEditorLink
-    })
+    });
 });

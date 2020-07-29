@@ -71,7 +71,7 @@ humhub.module('wiki', function(module, require, $) {
 
     var checkAnchor = function() {
         if(window.location.hash) {
-            toAnchor(window.location.hash)
+            toAnchor(window.location.hash);
         }
     };
 
