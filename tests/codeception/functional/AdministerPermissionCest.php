@@ -108,7 +108,6 @@ class AdministerPermissionCest extends FunctionalPermissionTest
 
         $I->seeElement('#wikipage-title');
         $I->seeElement('#wikipage-parent_page_id'); // functional tests see display:none elements..
-        $I->seeElement('#pageeditform-topics');
         $I->seeElement('#wikipage-is_home');
         $I->seeElement('#wikipage-admin_only');
         $I->seeElement('#wikipage-is_category');

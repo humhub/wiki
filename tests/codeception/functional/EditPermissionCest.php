@@ -49,7 +49,6 @@ class EditPermissionCest extends FunctionalPermissionTest
 
         $I->seeElement('#wikipage-title:disabled');
         $I->dontSee('#wikipage-parent_page_id');
-        $I->seeElement('#pageeditform-topics');
         $I->seeElement('#wikipage-is_home:disabled');
         $I->seeElement('#wikipage-admin_only:disabled');
         $I->seeElement('#wikipage-is_category:disabled');
