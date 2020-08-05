@@ -47,7 +47,7 @@ class WikiRichText extends ProsemirrorRichText
                     $guid = str_replace('file-guid-', '', $url);
                     $file = File::findOne(['guid' => $guid]);
                     if ($file !== null) {
-                        return '['.$match[1].']('.$file->getUrl([], false).')';
+                        return '['.$match[1].']('.$file->getUrl([], true).')';
                     }
                 }
             }

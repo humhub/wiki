@@ -1,6 +1,10 @@
 Changelog
 =========
 
+1.3.14 - (August 05, 2020)
+--------------------------
+- Fix #135: Legacy `file-guid` urls not working
+
 1.3.13 - (April 14, 2020)
 --------------------------
 - Fix: Wrong message category name (@funkycram)
