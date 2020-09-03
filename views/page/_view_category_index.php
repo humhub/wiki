@@ -2,7 +2,7 @@
 
 use humhub\modules\wiki\widgets\CategoryListItem;
 
-/* @var $this \humhub\components\View */
+/* @var $this \humhub\modules\ui\view\components\View */
 /* @var $page \humhub\modules\wiki\models\WikiPage */
 
 $icon = $page->is_category ? 'fa-file-word-o' : 'fa-file-text-o';

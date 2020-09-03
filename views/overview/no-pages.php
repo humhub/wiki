@@ -10,7 +10,7 @@ use humhub\modules\wiki\widgets\WikiMenu;
 use humhub\modules\wiki\helpers\Url;
 use humhub\widgets\Button;
 
-/* @var $this \humhub\components\View */
+/* @var $this \humhub\modules\ui\view\components\View */
 /* @var $contentContainer \humhub\modules\content\components\ContentContainerActiveRecord */
 /* @var $canCreatePage boolean */
 

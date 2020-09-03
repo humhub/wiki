@@ -8,7 +8,7 @@ use humhub\widgets\Label;
 use humhub\widgets\Link;
 use humhub\widgets\TimeAgo;
 
-/* @var $this \humhub\components\View */
+/* @var $this \humhub\modules\ui\view\components\View */
 /* @var $page \humhub\modules\wiki\models\WikiPage */
 
 $icon = $page->is_category ? 'fa-file-word-o' : 'fa-file-text-o';

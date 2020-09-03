@@ -4,7 +4,7 @@ use humhub\modules\wiki\models\WikiPageSearch;
 use humhub\modules\wiki\widgets\WikiSearchInput;
 use yii\widgets\ActiveForm;
 
-/* @var $this \humhub\components\View */
+/* @var $this \humhub\modules\ui\view\components\View */
 /* @var $contentContainer \humhub\modules\content\components\ContentActiveRecord */
 
 $model = new WikiPageSearch();

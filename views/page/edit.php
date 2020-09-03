@@ -9,7 +9,7 @@ use humhub\modules\wiki\widgets\WikiContent;
 use humhub\widgets\Button;
 use humhub\modules\topic\widgets\TopicPicker;
 
-/* @var $this \humhub\components\View */
+/* @var $this \humhub\modules\ui\view\components\View */
 /* @var $model \humhub\modules\wiki\models\forms\PageEditForm */
 /* @var $contentContainer \humhub\modules\content\components\ContentContainerActiveRecord */
 

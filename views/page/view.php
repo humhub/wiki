@@ -7,7 +7,7 @@ use humhub\modules\wiki\widgets\WikiMenu;
 use humhub\modules\wiki\widgets\WikiContent;
 
 
-/* @var $this \humhub\components\View */
+/* @var $this \humhub\modules\ui\view\components\View */
 /* @var $page \humhub\modules\wiki\models\WikiPage */
 /* @var $revision \humhub\modules\wiki\models\WikiPageRevision */
 /* @var $homePage string */

@@ -10,7 +10,7 @@ use humhub\modules\wiki\widgets\WikiContent;
 use humhub\widgets\Button;
 use humhub\modules\wiki\helpers\Url;
 
-/* @var $this \humhub\components\View */
+/* @var $this \humhub\modules\ui\view\components\View */
 /* @var $homePage boolean */
 /* @var $contentContainer \humhub\modules\content\components\ContentContainerActiveRecord */
 /* @var $canCreate bool */

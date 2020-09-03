@@ -3,7 +3,7 @@ use humhub\modules\wiki\widgets\WikiRichText;
 use humhub\widgets\Button;
 use humhub\modules\wiki\helpers\Url;
 
-/* @var $this \humhub\components\View */
+/* @var $this \humhub\modules\ui\view\components\View */
 /* @var $page \humhub\modules\wiki\models\WikiPage */
 /* @var $canEdit bool */
 
