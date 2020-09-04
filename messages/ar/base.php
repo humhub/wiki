@@ -34,7 +34,7 @@ return array (
   'New page' => 'صفحة جديدة',
   'No pages created yet.' => '',
   'No pages created yet.  So it\'s on you.<br>Create the first page now.' => 'لا توجد صفحات بعدـ الأمر منوط بك. <br> إبدأ بكتابة أول صفحة الآن.',
-  'None' => '',
+  'None' => 'لا يوجد',
   'Overwrite the wiki index start page?' => '',
   'Page History' => 'تاريخ التعديلات',
   'Page content' => 'محتويات الصفحة',
