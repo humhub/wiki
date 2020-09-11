@@ -48,7 +48,7 @@ return array (
   'Permission denied. You have no rights to view the history.' => 'Permiso denegado. No tiene derechos para ver el historial.',
   'Protected' => 'Protegido',
   'Revert' => 'Revertir',
-  'Revert not possible. Already latest revision!' => 'Revertir no es posible. Ya es la última revisión!',
+  'Revert not possible. Already latest revision!' => 'No es posible revertir. Ya es la última revisión!',
   'Revert this' => 'Revertir esto',
   'Search for Wiki Title' => 'Buscar título de Wiki',
   'There are no pages in this category' => 'No hay páginas en esta categoría.',
