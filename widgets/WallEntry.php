@@ -8,12 +8,13 @@
 
 namespace humhub\modules\wiki\widgets;
 
+use humhub\modules\content\widgets\stream\WallStreamModuleEntryWidget;
 use humhub\modules\wiki\helpers\Url;
 
 /**
  * @inheritdoc
  */
-class WallEntry extends \humhub\modules\content\widgets\WallEntry
+class WallEntry extends WallStreamModuleEntryWidget
 {
 
     /**
@@ -25,20 +26,27 @@ class WallEntry extends \humhub\modules\content\widgets\WallEntry
 
     public function getEditUrl()
     {
-        return Url::toWikiEdit($this->contentObject);
+        return Url::toWikiEdit($this->model);
     }
 
     /**
      * @inheritdoc
      */
-    public function run()
+    public function renderContent()
     {
-        $revision = $this->contentObject->latestRevision;
+        $revision = $this->model->latestRevision;
         if ($revision === null) {
-            return "";
+            return '';
         }
-        
-        return $this->render('wallEntry', ['wiki' => $this->contentObject, 'content' => $revision->content, 'justEdited' => $this->justEdited]);
+
+        return $this->render('wallEntry', ['wiki' => $this->model, 'content' => $revision->content, 'justEdited' => $this->renderOptions->isJustEdited()]);
     }
 
+    /**
+     * @return string a non encoded plain text title (no html allowed) used in the header of the widget
+     */
+    protected function getTitle()
+    {
+        return $this->model->title;
+    }
 }

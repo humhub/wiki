@@ -1,6 +1,10 @@
 Changelog
 =========
 
+1.3.15 (Unreleased)
+---------------------
+- Enh #139: Wall Stream Layout Migration
+
 1.3.14 - (August 05, 2020)
 --------------------------
 - Fix #135: Legacy `file-guid` urls not working
