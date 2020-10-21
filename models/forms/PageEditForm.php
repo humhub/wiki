@@ -56,6 +56,16 @@ class PageEditForm extends Model
     }
 
     /**
+     * @return array customized attribute labels (name=>label)
+     */
+    public function attributeLabels()
+    {
+        return [
+            'isPublic' => Yii::t('WikiModule.base', 'Is Public'),
+        ];
+    }
+
+    /**
      * @return array
      */
     public function scenarios()
