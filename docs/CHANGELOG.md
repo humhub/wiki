@@ -1,8 +1,10 @@
 Changelog
 =========
-1.3.15 (TBA)
---------------------------
-- Fix: #132
+
+1.3.15 (Unreleased)
+-------------------
+- Fix #132: "Is public" option is not translatable
+
 
 1.3.14 - (August 05, 2020)
 --------------------------
