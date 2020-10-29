@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.3.15 (Unreleased)
+1.4.0 (Unreleased)
 ---------------------
 - Enh #139: Wall Stream Layout Migration
 
