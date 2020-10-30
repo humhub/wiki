@@ -26,6 +26,7 @@ return array (
   'Index' => 'Indeks',
   'Invalid category!' => 'Ugyldig kategori',
   'Invalid character in page title!' => 'Ugyldig tegn i sidetittel!',
+  'Is Public' => 'Er offentlig',
   'Is category' => 'Er kategori',
   'Is homepage' => 'Er hovedside',
   'Label' => 'Merkelapp',

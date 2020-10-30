@@ -26,6 +26,7 @@ return array (
   'Index' => 'Index',
   'Invalid category!' => 'Érvénytelen kategória!',
   'Invalid character in page title!' => 'Érvénytelen karakter az oldal címében!',
+  'Is Public' => 'Nyilvános',
   'Is category' => 'ez legyen egy kategória',
   'Is homepage' => 'Ez legyen a kezdőoldal',
   'Label' => 'Címke',

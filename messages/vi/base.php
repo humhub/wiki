@@ -26,6 +26,7 @@ return array (
   'Index' => '',
   'Invalid category!' => '',
   'Invalid character in page title!' => 'Ký tự không hợp lệ ở tiêu đề trang!',
+  'Is Public' => 'Công cộng',
   'Is category' => '',
   'Is homepage' => 'Là trang chủ',
   'Label' => 'Nhãn',

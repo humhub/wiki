@@ -26,6 +26,7 @@ return array (
   'Index' => 'Index',
   'Invalid category!' => 'Catégorie non valide.',
   'Invalid character in page title!' => 'Caractère invalide dans le titre de la page.',
+  'Is Public' => 'est public',
   'Is category' => 'Est une catégorie',
   'Is homepage' => 'Page de garde',
   'Label' => 'Étiquette',

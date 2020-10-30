@@ -26,6 +26,7 @@ return array (
   'Index' => 'Sivut',
   'Invalid category!' => 'Verheellinen kategoriat!',
   'Invalid character in page title!' => 'Virheellinen merkki sivun otsikossa!',
+  'Is Public' => 'Julkinen',
   'Is category' => 'Kategoriat',
   'Is homepage' => 'Etusivu',
   'Label' => 'Otsikko',

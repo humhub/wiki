@@ -26,6 +26,7 @@ return array (
   'Index' => '',
   'Invalid category!' => '',
   'Invalid character in page title!' => '',
+  'Is Public' => 'Είναι δημόσιο',
   'Is category' => '',
   'Is homepage' => '',
   'Label' => 'Επιγραφή',

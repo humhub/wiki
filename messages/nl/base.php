@@ -26,6 +26,7 @@ return array (
   'Index' => 'Inhoudsopgave',
   'Invalid category!' => 'Ongeldige categorie!',
   'Invalid character in page title!' => 'Ongeldig teken in paginatitel!',
+  'Is Public' => 'Is openbaar',
   'Is category' => 'Is categorie',
   'Is homepage' => 'Is startpagina',
   'Label' => 'Label',

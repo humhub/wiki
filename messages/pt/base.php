@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'Delete' => 'Apagar',
     '<strong>Confirm</strong> page reverting' => '',
     '<strong>Index</strong>' => '',
     '<strong>Page</strong> history' => '',
@@ -26,6 +27,7 @@ return [
     'Index' => '',
     'Invalid category!' => '',
     'Invalid character in page title!' => '',
+    'Is Public' => '',
     'Is category' => '',
     'Is homepage' => '',
     'Label' => '',
@@ -56,5 +58,4 @@ return [
     'View' => '',
     'Wiki' => '',
     'by' => '',
-    'Delete' => 'Apagar',
 ];
