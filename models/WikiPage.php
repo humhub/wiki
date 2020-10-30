@@ -146,18 +146,18 @@ class WikiPage extends ContentActiveRecord implements Searchable
     }
 
     /**
-     * Additional canEdit see [[Content::canEdit()]].
-     * Note this function is not called directly but called by Content::canEdit() with additional checks
+     * Internal edit logic for wiki pages.
+     *
      * @return bool
-
-    public function canEdit()
-    {
-        return !$this->admin_only ? $this->content->container->can(EditPages::class) : false;
-    } */
-
+     * @throws \Throwable
+     * @throws \yii\base\Exception
+     * @throws \yii\base\InvalidConfigException
+     * @throws \yii\db\IntegrityException
+     */
     public function canEditWikiPage()
     {
-        return $this->content->container->can(EditPages::class);
+        // Can edit
+        return $this->content->canEdit() || (!$this->admin_only &&  $this->content->container->can(EditPages::class));
     }
 
     /**
