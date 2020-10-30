@@ -18,6 +18,7 @@ use humhub\modules\wiki\models\WikiPage;
 use humhub\modules\wiki\models\WikiPageRevision;
 use humhub\modules\wiki\permissions\AdministerPages;
 use humhub\modules\wiki\permissions\CreatePage;
+use humhub\modules\wiki\permissions\EditPages;
 use humhub\modules\wiki\permissions\ViewHistory;
 use humhub\widgets\Link;
 use Yii;
@@ -115,7 +116,7 @@ class WikiMenu extends Widget
         }
 
         if($this->page) {
-            $this->canEdit = $this->page->content->canEdit();
+            $this->canEdit = $this->page->canEditWikiPage();
             $this->canDelete = !$this->page->isNewRecord && $this->container->can(AdministerPages::class);
         }
 

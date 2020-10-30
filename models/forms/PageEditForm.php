@@ -85,6 +85,7 @@ class PageEditForm extends Model
      * @throws HttpException
      * @throws \yii\base\Exception
      * @throws \yii\base\InvalidConfigException
+     * @throws \Throwable
      */
     public function forPage($id = null, $title = null, $categoryId = null)
     {
@@ -94,7 +95,7 @@ class PageEditForm extends Model
             throw new HttpException(403);
         }
 
-        if($this->page && !$this->page->content->canEdit()) {
+        if($this->page && !$this->page->canEditWikiPage()) {
             throw new HttpException(403);
         }
 

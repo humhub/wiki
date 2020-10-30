@@ -4,6 +4,7 @@ Changelog
 1.3.15 (Unreleased)
 -------------------
 - Fix #132: "Is public" option is not translatable
+- Fix: EditPages permission allows user to delete wiki in stream
 
 
 1.3.14 - (August 05, 2020)
