@@ -26,6 +26,7 @@ return array (
   'Index' => 'Index',
   'Invalid category!' => 'Felaktig kategori!',
   'Invalid character in page title!' => 'Felaktigt tecken i sidnamn!',
+  'Is Public' => 'Är publik',
   'Is category' => 'Är kategori',
   'Is homepage' => 'Är hemsida',
   'Label' => 'Etikett',

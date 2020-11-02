@@ -1,9 +1,17 @@
 Changelog
 =========
 
-1.4.0 (Unreleased)
----------------------
-- Enh #139: Wall Stream Layout Migration
+
+1.4.0 (November 2, 2020)
+------------------------
+- Enh #139: Wall Stream Layout Migration for HumHub 1.7+
+
+
+1.3.15 (Octrober, 30, 2020)
+--------------------------
+- Fix #132: "Is public" option is not translatable
+- Fix: EditPages permission allows user to delete wiki in stream
+
 
 1.3.14 - (August 05, 2020)
 --------------------------

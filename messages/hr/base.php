@@ -26,6 +26,7 @@ return array (
   'Index' => '',
   'Invalid category!' => '',
   'Invalid character in page title!' => 'Nevažeći simbol u naslovu stranice!',
+  'Is Public' => 'Javno',
   'Is category' => '',
   'Is homepage' => 'Početna stranica',
   'Label' => '',

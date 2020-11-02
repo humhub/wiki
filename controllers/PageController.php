@@ -148,6 +148,7 @@ class PageController extends BaseController
      * @return mixed
      * @throws Exception
      * @throws HttpException
+     * @throws \Throwable
      */
     public function actionHeadlines($id) {
         $page = WikiPage::find()->contentContainer($this->contentContainer)->readable()->where(['wiki_page.id' => $id])->one();
@@ -246,7 +247,7 @@ class PageController extends BaseController
             throw new HttpException(404, Yii::t('WikiModule.base', 'Page not found.'));
         }
 
-        if (!$page->content->canEdit()) {
+        if (!$page->canEditWikiPage()) {
             throw new HttpException(403, Yii::t('WikiModule.base', 'Page not editable!'));
         }
 
@@ -280,6 +281,6 @@ class PageController extends BaseController
      */
     public function canEdit($page)
     {
-        return $page->content->canEdit();
+        return $page->canEditWikiPage();
     }
 }

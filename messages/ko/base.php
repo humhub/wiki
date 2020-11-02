@@ -27,6 +27,7 @@ return [
     'Index' => '',
     'Invalid category!' => '',
     'Invalid character in page title!' => '',
+    'Is Public' => '',
     'Is category' => '',
     'Is homepage' => '',
     'Label' => '',
