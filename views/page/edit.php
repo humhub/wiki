@@ -24,7 +24,7 @@ $canAdminister = $model->canAdminister();
 
             <?php WikiContent::begin(['title' => $model->getTitle(), 'id' => 'wiki-page-edit']) ?>
 
-                <?php $form = ActiveForm::begin(['enableClientValidation' => false]); ?>
+                <?php $form = ActiveForm::begin(['enableClientValidation' => false, 'options' => ['data-ui-widget' => 'wiki.Form', 'data-ui-init' => '1']]); ?>
 
                     <?= $form->field($model->page, 'title')
                         ->textInput([
@@ -49,9 +49,6 @@ $canAdminister = $model->canAdminister();
                         <?= $form->field($model->page, 'parent_page_id')
                             ->dropDownList($model->getCategoryList(), ['disabled' => $model->isDisabledField('parent_page_id')]); ?>
                     <?php endif; ?>
-
-
-
 
                     <?= $form->field($model, 'topics')->widget(TopicPicker::class, ['options' => ['disabled' =>  $model->isDisabledField('topics')]])->label(false) ?>
 

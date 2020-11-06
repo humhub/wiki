@@ -20,11 +20,16 @@ use humhub\modules\wiki\permissions\AdministerPages;
 use humhub\modules\wiki\permissions\CreatePage;
 use humhub\modules\wiki\permissions\EditPages;
 use humhub\modules\wiki\permissions\ViewHistory;
+use humhub\widgets\JsWidget;
 use humhub\widgets\Link;
 use Yii;
 
-class WikiMenu extends Widget
+class WikiMenu extends JsWidget
 {
+    public $jsWidget = 'wiki.Menu';
+
+    public $init = true;
+
     const LINK_HOME = 'home';
     const LINK_INDEX = 'index';
 
@@ -139,9 +144,18 @@ class WikiMenu extends Widget
     public function run()
     {
         return $this->render('menu', [
+            'options' => $this->getOptions(),
             'blocks' => $this->blocks,
             'cols' => $this->cols
         ]);
+    }
+
+    public function getAttributes()
+    {
+        $cols = $this->cols;
+        return [
+            'class' => "col-lg-$cols col-md-$cols col-sm-$cols wiki-menu ",
+        ];
     }
 
     /**

@@ -3,9 +3,11 @@
 /* @var $blocks [][] */
 /* @var $context \humhub\modules\wiki\widgets\WikiMenu */
 /* @var $cols int */
-?>
+/* @var $options array */
 
-<div class="col-lg-<?= $cols ?> col-md-<?= $cols ?> col-sm-<?= $cols ?> wiki-menu">
+use humhub\libs\Html; ?>
+
+<?= Html::beginTag('div', $options)?>
     <div class="wiki-menu-fixed">
         <ul class="nav nav-pills nav-stacked" data-action-component="content.Content">
             <?= $firstBlockRendered = false ?>
@@ -26,4 +28,4 @@
             <?php endforeach; ?>
         </ul>
     </div>
-</div>
+<?= Html::endTag('div')?>

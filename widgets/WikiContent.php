@@ -19,12 +19,15 @@ use humhub\modules\wiki\models\WikiPageRevision;
 use humhub\modules\wiki\permissions\AdministerPages;
 use humhub\modules\wiki\permissions\CreatePage;
 use humhub\modules\wiki\permissions\ViewHistory;
+use humhub\widgets\JsWidget;
 use humhub\widgets\Link;
 use Yii;
 
-class WikiContent extends Widget
+class WikiContent extends JsWidget
 {
-    public $id;
+    public $jsWidget = 'wiki.Content';
+    public $init = true;
+
     public $cssClass;
     public $title;
     public $titleIcon;
@@ -43,9 +46,18 @@ class WikiContent extends Widget
     public function run()
     {
         $body = ob_get_clean();
+
+        return Html::tag('div', $this->renderTitle().$body, $this->getOptions());
+    }
+
+    public function getAttributes()
+    {
         $cssClass = 'col-lg-'.$this->cols.' col-md-'.$this->cols.' col-sm-'.$this->cols.' wiki-content';
         $cssClass .= ($this->cssClass) ? ' '.$this->cssClass : '';
-        return Html::tag('div', $this->renderTitle().$body, ['class' => $cssClass, 'id' => $this->getId()]);
+
+        return [
+            'class' => $cssClass
+        ];
     }
 
     protected function renderTitle()
@@ -53,14 +65,5 @@ class WikiContent extends Widget
         $icon = $this->titleIcon ? Html::tag('i', '', ['class' => 'fa '.$this->titleIcon]) : '';
 
         return empty($this->title) ? '' : Html::tag('h1', (empty($icon)) ? $this->title : $icon.' '.$this->title).'<hr>';
-    }
-
-    public function getId($autoGenerate = true)
-    {
-        if ($this->id) {
-            return $this->id;
-        }
-
-        return $this->id = parent::getId($autoGenerate);
     }
 }

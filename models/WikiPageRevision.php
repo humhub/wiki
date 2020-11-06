@@ -82,7 +82,12 @@ class WikiPageRevision extends ActiveRecord
     public function afterSave($insert, $changedAttributes)
     {
         WikiPageRevision::updateAll(['is_latest' => 0], 'wiki_page_id=:wikiPageId AND id!=:selfId', [':wikiPageId' => $this->wiki_page_id, ':selfId' => $this->id]);
-        Yii::$app->search->update(WikiPage::findOne(['id' => $this->wiki_page_id]));
+
+        try {
+            Yii::$app->search->update(WikiPage::findOne(['id' => $this->wiki_page_id]));
+        } catch (\Throwable $e) {
+            Yii::error($e);
+        }
 
         return parent::afterSave($insert, $changedAttributes);
     }

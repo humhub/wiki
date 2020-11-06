@@ -1,6 +1,14 @@
 Changelog
 =========
 
+1.4.1 (Unreleased)
+------------------------
+- Fix #134: Wiki fixed menu cut if menu higher than window
+- Fix: Double escaping of anchors
+- Chng: Split js modules into multiple files
+- Chng: Added grunt build
+- Enh: Use of minified assets
+- Fix: Search index update may throw error
 
 1.4.0 (November 2, 2020)
 ------------------------

@@ -1,0 +1,26 @@
+{
+  "name": "humhub-modules-wiki",
+  "version": "0.6.5",
+  "description": "HumHub wiki module",
+  "directories": {
+    "doc": "docs",
+    "test": "tests"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/humhub/humhub-modules-wiki.git"
+  },
+  "author": "Julian Harrer",
+  "license": "AGPL-3.0",
+  "bugs": {
+    "url": "https://github.com/humhub/humhub-modules-wiki/issues"
+  },
+  "homepage": "https://github.com/humhub/humhub-modules-wiki#readme",
+  "devDependencies": {
+    "grunt": "^1.1.0",
+    "grunt-contrib-concat": "^1.0.1",
+    "grunt-contrib-uglify": "^4.0.1",
+    "grunt-contrib-cssmin": "^3.0.0",
+    "grunt-contrib-less": "^2.0.0"
+  }
+}

@@ -13,3 +13,5 @@ Collect and share information with your very own Wiki.
 - Keep track on changes with a build in page history 
 - Include pictures and format them on-the-fly
 - Move content between Spaces
+
+### Build

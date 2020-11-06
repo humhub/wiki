@@ -11,7 +11,7 @@ use humhub\modules\wiki\helpers\Url;
 ?>
 
 <?php if (!empty($content)) : ?>
-    <div class="markdown-render" style="display:none">
+    <div class="markdown-render" data-ui-widget="wiki.Page"  data-ui-init="1" style="display:none">
         <?= WikiRichText::output($content, ['id' => 'wiki-page-richtext']) ?>
     </div>
 <?php else: ?>

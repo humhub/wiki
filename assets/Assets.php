@@ -11,7 +11,7 @@ namespace humhub\modules\wiki\assets;
 use humhub\modules\wiki\helpers\Url;
 use Yii;
 use humhub\modules\ui\view\components\View;
-use yii\web\AssetBundle;
+use humhub\components\assets\AssetBundle;
 
 class Assets extends AssetBundle
 {
@@ -26,14 +26,15 @@ class Assets extends AssetBundle
 
     public $sourcePath = '@wiki/resources';
 
+    public $forceCopy = true;
+
     public $css = [
-        'css/wiki.css'
+        'css/humhub.wiki.min.css'
     ];
 
     public $js = [
-        'js/humhub.wiki.js',
-        'js/humhub.wiki.linkExtension.js',
-        'js/jquery.ui.touch-punch.js'
+        'js/humhub.wiki.bundle.min.js',
+        //'js/jquery.ui.touch-punch.js'
     ];
 
     /**

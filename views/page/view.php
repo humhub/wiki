@@ -34,12 +34,11 @@ humhub\modules\wiki\assets\Assets::register($this);
 
                 <?= $this->render('_view_category_index', ['page' => $page]) ?>
 
-            <div class="social-controls">
-                <?= LikeLink::widget(['object' => $page]); ?>
-                &middot; <?= CommentLink::widget(['object' => $page]); ?>
-            </div>
+                <div class="social-controls">
+                    <?= LikeLink::widget(['object' => $page]) ?> &middot; <?= CommentLink::widget(['object' => $page]) ?>
+                </div>
 
-            <?= Comments::widget(['object' => $page]); ?>
+                <?= Comments::widget(['object' => $page]); ?>
 
             <?php WikiContent::end() ?>
 

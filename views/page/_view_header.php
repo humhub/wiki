@@ -4,6 +4,7 @@ use humhub\libs\Helpers;
 use humhub\libs\Html;
 use humhub\modules\topic\models\Topic;
 use humhub\modules\topic\widgets\TopicLabel;
+use humhub\modules\ui\icon\widgets\Icon;
 use humhub\widgets\Label;
 use humhub\widgets\Link;
 use humhub\widgets\TimeAgo;
@@ -11,23 +12,25 @@ use humhub\widgets\TimeAgo;
 /* @var $this \humhub\modules\ui\view\components\View */
 /* @var $page \humhub\modules\wiki\models\WikiPage */
 
-$icon = $page->is_category ? 'fa-file-word-o' : 'fa-file-text-o';
+$icon = $page->is_category ? 'file-word-o' : 'file-text-o';
 
 if ($page->is_home) {
-    $icon = 'fa-home';
+    $icon = 'home';
 }
-
 ?>
 
 <h1 class="wiki-headline">
-    <i class="fa <?= $icon ?> "></i>
-    <strong><?= Html::encode($page->title); ?></strong>
+    <?= Icon::get($icon) ?>
+    <strong><?= Html::encode($page->title) ?></strong>
+
     <?php if ($page->is_home) : ?>
         <?= Label::success()->icon('fa-home')->tooltip(Yii::t('ContentModule.widgets_views_label', 'Home'))->right() ?>
     <?php endif; ?>
+
     <?php if ($page->content->isPublic()) : ?>
         <?= Label::info()->tooltip(Yii::t('ContentModule.widgets_views_label', 'Public'))->icon('fa-globe')->right() ?>
     <?php endif; ?>
+
     <?php if ($page->admin_only) : ?>
         <?= Label::defaultType()->icon('fa-lock')->tooltip(Yii::t('ContentModule.widgets_views_label', 'Protected'))->right() ?>
     <?php endif; ?>
@@ -36,6 +39,7 @@ if ($page->is_home) {
         <?= Label::primary(Helpers::truncateText(Html::encode($page->categoryPage->title), 30))
             ->withLink(Link::to(null, $page->categoryPage->getUrl()))->right() ?>
     <?php endif; ?>
+
     <?php foreach ($page->content->getTags(Topic::class)->all() as $topic) : ?>
         <?= TopicLabel::forTopic($topic)->right()->style('margin-right:5px') ?>
     <?php endforeach; ?>
