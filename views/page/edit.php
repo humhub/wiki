@@ -1,6 +1,9 @@
 <?php
 
 use humhub\libs\Html;
+use humhub\modules\content\components\ContentContainerActiveRecord;
+use humhub\modules\ui\view\components\View;
+use humhub\modules\wiki\models\forms\PageEditForm;
 use humhub\modules\wiki\widgets\WikiEditor;
 use yii\bootstrap\ActiveForm;
 use humhub\modules\wiki\widgets\WikiLinkModal;
@@ -9,9 +12,9 @@ use humhub\modules\wiki\widgets\WikiContent;
 use humhub\widgets\Button;
 use humhub\modules\topic\widgets\TopicPicker;
 
-/* @var $this \humhub\modules\ui\view\components\View */
-/* @var $model \humhub\modules\wiki\models\forms\PageEditForm */
-/* @var $contentContainer \humhub\modules\content\components\ContentContainerActiveRecord */
+/* @var $this View */
+/* @var $model PageEditForm */
+/* @var $contentContainer ContentContainerActiveRecord */
 
 humhub\modules\wiki\assets\Assets::register($this);
 

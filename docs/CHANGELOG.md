@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.4.1 (Unreleased)
+1.4.1 (November 6, 2020)
 ------------------------
 - Fix #134: Wiki fixed menu cut if menu higher than window
 - Fix: Double escaping of anchors
