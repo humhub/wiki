@@ -24,7 +24,11 @@ $canAdminister = $model->canAdminister();
 
             <?php WikiContent::begin(['title' => $model->getTitle(), 'id' => 'wiki-page-edit']) ?>
 
-                <?php $form = ActiveForm::begin(['enableClientValidation' => false, 'options' => ['data-ui-widget' => 'wiki.Form', 'data-ui-init' => '1']]); ?>
+                <?php $form = ActiveForm::begin(['enableClientValidation' => false, 'options' => [
+                        'data-ui-widget' => 'wiki.Form',
+                        'data-change-category-confirm' => Yii::t('WikiModule.base', 'Are you really sure? All existing category page assignments will be removed!'),
+                        'data-is-category' => $model->page->is_category,
+                        'data-ui-init' => '1']]); ?>
 
                     <?= $form->field($model->page, 'title')
                         ->textInput([
@@ -74,42 +78,3 @@ $canAdminister = $model->canAdminister();
 </div>
 
 <?= WikiLinkModal::widget(['contentContainer' => $contentContainer]) ?>
-
-<?= Html::beginTag('script')?>
-
-    $(document).one('humhub:ready', function() {
-        var $checkboxes = $('.regular-checkbox-container');
-        $checkboxes.each(function() {
-            var $this = $(this);
-            $checkbox = $this.find('[type="checkbox"][title]');
-            if($checkbox.length) {
-                $this.find('label').addClass('tt').attr('title', $checkbox.attr('title'));
-            }
-
-            humhub.require('ui.additions').apply($this, 'tooltip');
-        })
-    });
-
-
-
-    $('#wikipage-is_category').click(function () {
-        <?php if ($model->page->is_category): ?>
-        if ($(this).is(":not(:checked)")) {
-            if (!confirm('<?= Yii::t('WikiModule.base', 'Are you really sure? All existing category page assignments will be removed!'); ?>')) {
-                $(this).prop('checked', true);
-            }
-        }
-        <?php endif; ?>
-        hideCategorySelect();
-    });
-
-    hideCategorySelect();
-
-    function hideCategorySelect() {
-        if ($('#wikipage-is_category').is(":not(:checked)")) {
-            $('.field-wikipage-parent_page_id').show();
-        } else {
-            $('.field-wikipage-parent_page_id').hide();
-        }
-    }
-<?= Html::endTag('script') ?>
