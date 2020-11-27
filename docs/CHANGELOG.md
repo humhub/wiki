@@ -1,6 +1,10 @@
 Changelog
 =========
 
+1.4.2 (Unreleased)
+------------------------
+- Fix: Richtext overflow issue in wall entry
+
 1.4.1 (November 6, 2020)
 ------------------------
 - Fix #134: Wiki fixed menu cut if menu higher than window

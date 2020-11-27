@@ -13,12 +13,10 @@ use humhub\widgets\Link;
 $wikiUrl = Url::toWiki($wiki);
 
 ?>
-<div class="media meeting">
-    <div class="media-body">
-        <div class="markdown-render">
-            <?= WikiRichText::output($content, ['maxLength' => 500, 'exclude' => ['anchor']]) ?>
-        </div>
-        <br>
-        <?= Button::defaultType(Yii::t('WikiModule.widgets_views_wallentry', 'Open wiki page...'))->link($wikiUrl)->sm() ?>
+<div>
+    <div>
+        <?= WikiRichText::output($content, ['maxLength' => 500, 'exclude' => ['anchor']]) ?>
     </div>
+    <br>
+    <?= Button::defaultType(Yii::t('WikiModule.widgets_views_wallentry', 'Open wiki page...'))->link($wikiUrl)->sm() ?>
 </div>
