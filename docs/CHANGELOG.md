@@ -1,9 +1,10 @@
 Changelog
 =========
 
-1.4.2 (Unreleased)
+1.4.2 (December 8, 2020)
 ------------------------
 - Fix: Richtext overflow issue in wall entry
+
 
 1.4.1 (November 6, 2020)
 ------------------------
