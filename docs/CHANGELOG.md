@@ -1,6 +1,10 @@
 Changelog
 =========
 
+1.5.0 - Unreleased
+------------------------
+- Enh #4751: Hide separator between content links
+
 1.4.2 (December 8, 2020)
 ------------------------
 - Fix: Richtext overflow issue in wall entry
