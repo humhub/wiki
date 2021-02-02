@@ -1,6 +1,11 @@
 Changelog
 =========
 
+1.4.3 (February 2, 2021)
+------------------------
+- Enh #153: Confirm on leave unsaved form
+
+
 1.4.2 (December 8, 2020)
 ------------------------
 - Fix: Richtext overflow issue in wall entry
