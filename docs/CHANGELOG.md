@@ -1,6 +1,11 @@
 Changelog
 =========
 
+1.5.0 (February 4, 2021)
+------------------------
+- Chg: Migrated to 1.8 Richtext API
+- Chg: Changed HumHub min version to 1.8
+
 1.4.3 (February 2, 2021)
 ------------------------
 - Enh #153: Confirm on leave unsaved form
@@ -15,8 +20,8 @@ Changelog
 ------------------------
 - Fix #134: Wiki fixed menu cut if menu higher than window
 - Fix: Double escaping of anchors
-- Chng: Split js modules into multiple files
-- Chng: Added grunt build
+- Chg: Split js modules into multiple files
+- Chg: Added grunt build
 - Enh: Use of minified assets
 - Fix: Search index update may throw error
 

@@ -1,6 +1,7 @@
 <?php
 
 use humhub\libs\Html;
+use humhub\modules\wiki\assets\Assets;
 use humhub\modules\wiki\helpers\Url;
 use humhub\modules\wiki\widgets\WikiRichText;
 use humhub\widgets\Button;
@@ -8,7 +9,7 @@ use humhub\widgets\Link;
 
 /* @var $wiki \humhub\modules\wiki\models\WikiPage */
 
-\humhub\modules\wiki\assets\Assets::register($this);
+Assets::register($this);
 
 $wikiUrl = Url::toWiki($wiki);
 
