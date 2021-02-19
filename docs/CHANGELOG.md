@@ -1,6 +1,10 @@
 Changelog
 =========
 
+1.5.1 (Unreleased)
+------------------------
+- Fix #157: Alignment for many topics
+
 1.5.0 (February 4, 2021)
 ------------------------
 - Chg: Migrated to 1.8 Richtext API

@@ -39,16 +39,10 @@ if ($page->is_home) {
         <?= Label::primary(Helpers::truncateText(Html::encode($page->categoryPage->title), 30))
             ->withLink(Link::to(null, $page->categoryPage->getUrl()))->right() ?>
     <?php endif; ?>
-
-    <?php foreach ($page->content->getTags(Topic::class)->all() as $topic) : ?>
-        <?= TopicLabel::forTopic($topic)->right()->style('margin-right:5px') ?>
-    <?php endforeach; ?>
 </h1>
 
-<hr style="margin-bottom:4px">
-
 <div class="wiki-content-info clearfix">
-    <small class="pull-right">
+    <small>
         <?= Yii::t('WikiModule.base', 'Last updated ') . TimeAgo::widget(['timestamp' => $page->content->updated_at]) ?>
 
         <?php if ($page->content->updatedBy !== null): ?>
@@ -63,3 +57,9 @@ if ($page->is_home) {
 
     </small>
 </div>
+
+<hr style="margin-bottom:4px">
+
+<?php foreach ($page->content->getTags(Topic::class)->all() as $topic) : ?>
+    <?= TopicLabel::forTopic($topic)->style('margin:0 5px 2px 0') ?>
+<?php endforeach; ?>
