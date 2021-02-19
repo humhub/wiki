@@ -16,7 +16,7 @@ use humhub\widgets\Button; ?>
     </div>
     <div class="wiki-menu-fixed">
 
-        <ul class="nav wiki-menu-main nav-pills nav-stacked" data-action-component="content.Content">
+        <ul class="nav wiki-menu-main nav-pills nav-stacked">
             <?= $firstBlockRendered = false ?>
             <?php foreach ($blocks as $blockIndex => $block) : ?>
                <?= $firstLinkRendered = false ?>

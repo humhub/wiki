@@ -28,6 +28,7 @@ $canAdminister = $model->canAdminister();
 
                 <?php $form = ActiveForm::begin(
                     ['enableClientValidation' => false, 'options' => [
+                            'id' => 'wiki-edit-form',
                         'data-ui-widget' => 'wiki.Form',
                         'data-change-category-confirm' => Yii::t('WikiModule.base', 'Are you really sure? All existing category page assignments will be removed!'),
                         'data-is-category' => $model->page->is_category,

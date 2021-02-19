@@ -35,6 +35,12 @@ humhub.module('wiki.Menu', function(module, require, $) {
         }
     };
 
+    Menu.prototype.save = function() {
+        let $submit = $('#wiki-edit-form').find('[type="submit"]');
+        $submit.trigger('click');
+        $submit[0].scrollIntoView();
+    }
+
     Menu.prototype.toggleMenu = function() {
         let $fixed = this.$.find('.wiki-menu-fixed');
         let $collapseMenu = this.$.find('.wiki-collapse-menu');

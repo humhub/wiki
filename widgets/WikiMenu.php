@@ -13,6 +13,7 @@ use humhub\components\Widget;
 use humhub\modules\content\components\ContentContainerActiveRecord;
 use humhub\modules\content\widgets\MoveContentLink;
 use humhub\modules\content\widgets\PermaLink;
+use humhub\modules\ui\icon\widgets\Icon;
 use humhub\modules\wiki\helpers\Url;
 use humhub\modules\wiki\models\WikiPage;
 use humhub\modules\wiki\models\WikiPageRevision;
@@ -47,6 +48,8 @@ class WikiMenu extends JsWidget
 
     const LINK_MOVE = 'move';
 
+    const LINK_SAVE = 'save';
+
     const LINK_NEW = 'new';
 
     const BLOCK_START = [self::LINK_HOME, self::LINK_INDEX];
@@ -55,7 +58,7 @@ class WikiMenu extends JsWidget
 
     const BLOCK_REVISION_VIEW =  [self::LINK_REVERT, self::LINK_REVERT_GO_BACK];
 
-    const BLOCK_EDIT =  [self::LINK_EDIT_CANCEL, self::LINK_EDIT_DELETE, self::LINK_MOVE];
+    const BLOCK_EDIT =  [self::LINK_EDIT_CANCEL, self::LINK_EDIT_DELETE, self::LINK_MOVE, self::LINK_SAVE];
 
     const BLOCK_BOTTOM =  [self::LINK_NEW];
 
@@ -217,6 +220,9 @@ class WikiMenu extends JsWidget
                 return Link::to(Yii::t('WikiModule.base', 'Back to page'), Url::toWiki($this->page))->icon('fa-reply');
             case static::LINK_MOVE:
                 return (!$this->page->isNewRecord && $this->page->canMove()) ?  MoveContentLink::widget(['model' => $this->page]) : null;
+            case static::LINK_SAVE:
+                return Link::withAction(Yii::t('base','Save'),'save', null)
+                    ->icon(Icon::get('check', ['htmlOptions' => ['class' => 'colorSuccess']]))->loader(false);
         }
     }
 
