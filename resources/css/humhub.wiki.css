@@ -1,5 +1,5 @@
 .layout-content-container .wiki-welcome {
-  padding: 80px 0 0px 0;
+  padding: 80px 0 0 0;
 }
 .layout-content-container .wiki-welcome h1 {
   font-size: 37px;
@@ -45,8 +45,20 @@
 .layout-content-container .wiki-page-content {
   min-height: 220px;
 }
+.layout-content-container .wiki-page-content .topic-label-list {
+  margin-bottom: 10px;
+}
+.layout-content-container .wiki-page-content .wiki-headline {
+  margin-bottom: 3px;
+}
 .layout-content-container .wiki-page-content .wiki-headline .label {
   margin-left: 2px;
+}
+.layout-content-container .wiki-page-content .wiki-headline .wiki-page-title {
+  font-weight: 500;
+}
+.layout-content-container .wiki-page-content hr.wiki-headline-seperator {
+  margin: 10px 0 10px;
 }
 .layout-content-container .wiki-page-content .wiki-category-list-item {
   padding-bottom: 0 !important;
@@ -169,7 +181,7 @@
 }
 .layout-content-container .wiki-content ul.wiki-page-history li .alert {
   padding: 10px;
-  margin-bottom: 0px;
+  margin-bottom: 0;
 }
 .layout-content-container .wiki-content ul.wiki-page-history li .alert .horizontal-line {
   top: 24px;
@@ -180,8 +192,7 @@
 .layout-content-container .wiki-page-history-title .fa {
   font-size: 14px;
 }
-.layout-content-container .wiki-menu .fa,
-.layout-content-container .wiki-content .fa {
+.layout-content-container .wiki-menu .fa {
   width: 16px;
   font-size: 14px;
 }
