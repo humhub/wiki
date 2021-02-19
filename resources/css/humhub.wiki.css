@@ -241,6 +241,11 @@
     background-color: #5d5d5d;
   }
 }
-#markdownpreview {
+.wiki-preview {
+  border: 1px solid #ededed;
+  border-radius: 4px;
   padding: 10px;
+}
+.wiki-preview .wiki-preview-content {
+  margin-bottom: 10px;
 }
