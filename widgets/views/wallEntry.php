@@ -20,10 +20,11 @@ $wikiUrl = Url::toWiki($wiki);
     <div class="wiki-preview">
         <div class="wiki-preview-content">
             <?php if(!empty($content)) : ?>
+                <?php /* In 1.8 final we can switch to 'nl2br' option of RichTextToShortTextConverter*/ ?>
                 <?= nl2br(RichTextToShortTextConverter::process($content, [
                     'preserveNewlines' => true,
                     'maxLength' => 500,
-                ])) ?>
+                ]), false) ?>
             <?php else: ?>
                 <?= Yii::t('WikiModule.base', 'This page is empty.') ?>
             <?php endif; ?>
