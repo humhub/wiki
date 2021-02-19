@@ -19,10 +19,14 @@ $wikiUrl = Url::toWiki($wiki);
 <div>
     <div class="wiki-preview">
         <div class="wiki-preview-content">
-            <?= nl2br(RichTextToShortTextConverter::process($content, [
-                'preserveNewlines' => true,
-                'maxLength' => 500,
-            ])) ?>
+            <?php if(!empty($content)) : ?>
+                <?= nl2br(RichTextToShortTextConverter::process($content, [
+                    'preserveNewlines' => true,
+                    'maxLength' => 500,
+                ])) ?>
+            <?php else: ?>
+                <?= Yii::t('WikiModule.base', 'This page is empty.') ?>
+            <?php endif; ?>
         </div>
 
         <?= Button::asLink(Yii::t('UiModule.base', 'Read more'), $wikiUrl) ?>
