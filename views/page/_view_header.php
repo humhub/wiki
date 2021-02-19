@@ -17,6 +17,8 @@ $icon = $page->is_category ? 'file-word-o' : 'file-text-o';
 if ($page->is_home) {
     $icon = 'home';
 }
+
+$topics = $page->content->getTags(Topic::class)->all();
 ?>
 
 <h1 class="wiki-headline">
@@ -41,7 +43,7 @@ if ($page->is_home) {
     <?php endif; ?>
 </h1>
 
-<div class="wiki-content-info clearfix">
+<div class="wiki-content-info">
     <small>
         <?= Yii::t('WikiModule.base', 'Last updated ') . TimeAgo::widget(['timestamp' => $page->content->updated_at]) ?>
 
@@ -60,6 +62,10 @@ if ($page->is_home) {
 
 <hr style="margin-bottom:4px">
 
-<?php foreach ($page->content->getTags(Topic::class)->all() as $topic) : ?>
-    <?= TopicLabel::forTopic($topic)->style('margin:0 5px 2px 0') ?>
-<?php endforeach; ?>
+<?php if (count($topics)) : ?>
+    <div class="wiki-content-info">
+    <?php foreach ($topics as $topic) : ?>
+        <?= TopicLabel::forTopic($topic)->style('margin:0 5px 2px 0') ?>
+    <?php endforeach; ?>
+    </div>
+<?php endif; ?>
