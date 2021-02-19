@@ -1,7 +1,7 @@
 .layout-content-container {
   .wiki-welcome {
 
-    padding: 80px 0 0px 0;
+    padding: 80px 0 0 0;
 
     h1 {
       font-size: 37px;
@@ -60,8 +60,25 @@
   .wiki-page-content {
     min-height: 220px;
 
-    .wiki-headline .label {
-      margin-left:2px;
+    .topic-label-list {
+      // Required for compatibility < HumHub 1.9
+      margin-bottom:10px;
+    }
+
+    .wiki-headline {
+      margin-bottom:3px;
+
+      .label {
+        margin-left:2px;
+      }
+
+      .wiki-page-title {
+        font-weight: 500;
+      }
+    }
+
+    hr.wiki-headline-seperator {
+      margin: 10px 0 10px;
     }
 
     .wiki-category-list-item {
@@ -206,7 +223,7 @@
 
         .alert {
           padding: 10px;
-          margin-bottom: 0px;
+          margin-bottom: 0;
 
           .horizontal-line {
             top: 24px;
@@ -223,13 +240,14 @@
     }
   }
 
-
-
-  .wiki-menu, .wiki-content {
+  .wiki-menu {
     .fa {
       width: 16px;
       font-size: 14px;
     }
+  }
+
+  .wiki-menu, .wiki-content {
 
     .new {
       color: #4cc159;
@@ -292,11 +310,14 @@
       }
     }
   }
-
-
 }
 
-
-#markdownpreview {
+.wiki-preview {
+  border: 1px solid lighten(#bababa, 20%);
+  border-radius: 4px;
   padding: 10px;
+
+  .wiki-preview-content {
+    margin-bottom:10px;
+  }
 }

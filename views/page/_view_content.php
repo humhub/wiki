@@ -1,4 +1,7 @@
 <?php
+
+use humhub\modules\topic\models\Topic;
+use humhub\modules\topic\widgets\TopicLabel;
 use humhub\modules\wiki\widgets\WikiRichText;
 use humhub\widgets\Button;
 use humhub\modules\wiki\helpers\Url;
@@ -9,6 +12,12 @@ use humhub\modules\wiki\helpers\Url;
 
 
 ?>
+
+<div class="topic-label-list">
+<?php foreach ($page->content->getTags(Topic::class)->all() as $topic) : ?>
+    <?= TopicLabel::forTopic($topic) ?>
+<?php endforeach; ?>
+</div>
 
 <?php if (!empty($content)) : ?>
     <div class="markdown-render" data-ui-widget="wiki.Page"  data-ui-init="1" style="display:none">
