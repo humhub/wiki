@@ -1,10 +1,17 @@
 Changelog
 =========
 
+
+1.5.1 (Unreleased)
+------------------------
+- Fix #157: Misaligned display with many topic
+
+
 1.5.0 (February 4, 2021)
 ------------------------
 - Chg: Migrated to 1.8 Richtext API
 - Chg: Changed HumHub min version to 1.8
+
 
 1.4.3 (February 2, 2021)
 ------------------------
