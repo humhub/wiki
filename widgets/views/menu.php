@@ -5,11 +5,18 @@
 /* @var $cols int */
 /* @var $options array */
 
-use humhub\libs\Html; ?>
+use humhub\libs\Html;
+use humhub\widgets\Button; ?>
 
 <?= Html::beginTag('div', $options)?>
+    <div class="wiki-collapse-menu clearfix visible-lg visible-md">
+        <?= Button::defaultType()->icon('bars')->id('wikiMenuToggle')
+        ->action('toggleMenu')
+        ->right()->xs()->loader(false) ?>
+    </div>
     <div class="wiki-menu-fixed">
-        <ul class="nav nav-pills nav-stacked" data-action-component="content.Content">
+
+        <ul class="nav wiki-menu-main nav-pills nav-stacked" data-action-component="content.Content">
             <?= $firstBlockRendered = false ?>
             <?php foreach ($blocks as $blockIndex => $block) : ?>
                <?= $firstLinkRendered = false ?>

@@ -196,6 +196,15 @@
   width: 16px;
   font-size: 14px;
 }
+.layout-content-container .wiki-menu .wiki-collapse-menu.collapsed {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  flex-direction: column;
+}
+.layout-content-container .wiki-menu .wiki-collapse-menu.collapsed .btn {
+  margin: 5px;
+}
 .layout-content-container .wiki-menu .new,
 .layout-content-container .wiki-content .new {
   color: #4cc159;

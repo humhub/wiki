@@ -95,6 +95,7 @@ humhub.module('wiki.Menu', function(module, require, $) {
     var wikiView = require('wiki');
     var event = require('event');
     var view = require('ui.view');
+    var additions = require('ui.additions');
 
     /**
      * This widget represents the wiki menu
@@ -120,7 +121,75 @@ humhub.module('wiki.Menu', function(module, require, $) {
                 that.$.find('#wiki_index').click();
             }
         });
+
+        if(localStorage.getItem("wiki-menu-state") === 'collapsed') {
+            this.toggleMenu();
+        }
     };
+
+    Menu.prototype.toggleMenu = function() {
+        let $fixed = this.$.find('.wiki-menu-fixed');
+        let $collapseMenu = this.$.find('.wiki-collapse-menu');
+        let $page = $('.wiki-page-content');
+
+        let pageClasses = [
+            'col-lg-9 col-md-9 col-sm-9',
+            'col-lg-11 col-md-11 col-sm-11'
+        ];
+
+        let collapseMenuClasses = [
+            'clearfix',
+            'collapsed'
+        ];
+
+        let menuClasses = [
+            'col-lg-3 col-md-3 col-sm-3',
+            'col-lg-1 col-md-1 col-sm-1'
+        ];
+
+        let buttonClasses = [
+            'pull-right',
+            ''
+        ];
+
+        let wasCollapsed = !$fixed.is(':visible');
+
+        $fixed.toggle();
+
+        $page.removeClass(pageClasses[+wasCollapsed])
+            .addClass(pageClasses[+!wasCollapsed]);
+
+        this.$.removeClass(menuClasses[+wasCollapsed])
+            .addClass(menuClasses[+!wasCollapsed]);
+
+        this.$.find('#wikiMenuToggle').removeClass(buttonClasses[+wasCollapsed])
+            .addClass(buttonClasses[+!wasCollapsed]);
+
+        $collapseMenu.removeClass(collapseMenuClasses[+wasCollapsed])
+            .addClass(collapseMenuClasses[+!wasCollapsed]);
+
+        if(!wasCollapsed) {
+            this.$.find('.collapse-button').show();
+        } else {
+            this.$.find('.collapse-button').hide();
+        }
+
+        if (!this.$.data('build')) {
+            this.$.find('.wiki-menu-main').find('a').each(function () {
+                let $copy = $(this).clone();
+                let text = $copy.text().trim();
+                $copy.addClass('tt btn btn-default btn-xs collapse-button')
+                    .attr('title', text)
+                    .attr('data-placement', 'left')
+                    .html($copy.find('i'));
+                $collapseMenu.append($copy);
+            });
+            additions.applyTo($collapseMenu);
+            this.$.data('build', true);
+        }
+
+        localStorage.setItem("wiki-menu-state", !wasCollapsed ? 'collapsed' : '');
+    }
 
     Menu.prototype.initAnchor = function() {
         if(window.location.hash) {
@@ -134,7 +203,7 @@ humhub.module('wiki.Menu', function(module, require, $) {
     };
 
     Menu.prototype.buildIndex = function() {
-        var $list = $('<ul class="nav nav-pills nav-stacked">');
+        var $list = $('<ul class="nav wiki-menu-index nav-pills nav-stacked">');
 
         var $listHeader = $('<li><a href="#"><i class="fa fa-list-ol"></i> '+wikiView.text('pageindex')+'</li></a>').on('click', function(evt) {
             evt.preventDefault();
