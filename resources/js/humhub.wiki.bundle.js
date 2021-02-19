@@ -130,7 +130,7 @@ humhub.module('wiki.Menu', function(module, require, $) {
     Menu.prototype.toggleMenu = function() {
         let $fixed = this.$.find('.wiki-menu-fixed');
         let $collapseMenu = this.$.find('.wiki-collapse-menu');
-        let $page = $('.wiki-page-content');
+        let $page = $('.wiki-content');
 
         let pageClasses = [
             'col-lg-9 col-md-9 col-sm-9',
