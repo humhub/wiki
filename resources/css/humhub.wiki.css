@@ -197,13 +197,17 @@
   font-size: 14px;
 }
 .layout-content-container .wiki-menu .wiki-collapse-menu.collapsed {
-  display: flex;
+  display: flex !important;
   flex-wrap: wrap;
   justify-content: center;
   flex-direction: column;
 }
+.layout-content-container .wiki-menu .wiki-collapse-menu.collapsed button:first-child {
+  margin-top: 0;
+}
 .layout-content-container .wiki-menu .wiki-collapse-menu.collapsed .btn {
   margin: 5px;
+  width: 30px;
 }
 .layout-content-container .wiki-menu .new,
 .layout-content-container .wiki-content .new {
@@ -220,7 +224,6 @@
 .layout-content-container .wiki-menu .fa-link,
 .layout-content-container .wiki-content .fa-link {
   color: #7880dd;
-  margin-right: 4px;
 }
 .layout-content-container .wiki-menu .edit,
 .layout-content-container .wiki-content .edit {

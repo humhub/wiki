@@ -185,44 +185,52 @@ class WikiMenu extends JsWidget
     private function getLink($link) {
         switch ($link) {
             case static::LINK_HOME:
-                return ($this->home) ? Link::to(Yii::t('WikiModule.base', 'Home'), Url::toWiki($this->home))->icon('fa-home') : null;
+                return ($this->home) ? Link::to(Yii::t('WikiModule.base', 'Home'), Url::toWiki($this->home))
+                    ->icon(Icon::get('home')->fixedWith()) : null;
             case static::LINK_INDEX:
-                return  Link::to(Yii::t('WikiModule.base', 'Index'), Url::toOverview($this->container))->icon('fa-list-alt')->id('wiki_index');
+                return  Link::to(Yii::t('WikiModule.base', 'Index'), Url::toOverview($this->container))
+                    ->icon(Icon::get('list-alt')->fixedWith())->id('wiki_index');
             case static::LINK_EDIT:
-                return ($this->canEdit) ? Link::to(Yii::t('WikiModule.base', 'Edit page'), Url::toWikiEdit($this->page))->icon('fa-pencil-square-o edit') : null;
+                return ($this->canEdit) ? Link::to(Yii::t('WikiModule.base', 'Edit page'), Url::toWikiEdit($this->page))
+                    ->icon(Icon::get('pencil-square-o', ['htmlOptions' => ['class' => 'edit']])->fixedWith()) : null;
             case static::LINK_HISTORY:
-                return ($this->canViewHistory()) ? Link::to(Yii::t('WikiModule.base', 'Page History'), Url::toWikiHistory($this->page))->icon('fa-clock-o history') : null;
+                return ($this->canViewHistory()) ? Link::to(Yii::t('WikiModule.base', 'Page History'), Url::toWikiHistory($this->page))
+                    ->icon(Icon::get('clock-o', ['htmlOptions' => ['class' => 'history']])->fixedWith()) : null;
             case static::LINK_PERMA:
                 return PermaLink::widget(['content' => $this->page->content]);
             case static::LINK_REVERT:
                 return ($this->canEdit) ?
                     Link::withAction(Yii::t('WikiModule.base', 'Revert this'), 'wiki.revertRevision', Url::toWikiRevertRevision($this->page, $this->revision))
-                        ->icon('fa-history history')->confirm(
+                        ->icon(Icon::get('history', ['htmlOptions' => ['class' => 'history']])->fixedWith())->confirm(
                             Yii::t('WikiModule.base', '<strong>Confirm</strong> page reverting'),
                             Yii::t('WikiModule.base', 'Do you really want to revert this page?'),
                             Yii::t('WikiModule.base', 'Revert')) : null;
             case static::LINK_REVERT_GO_BACK:
-                return Link::to(Yii::t('WikiModule.base', 'Go back'), Url::toWikiHistory($this->page))->icon('fa-reply');
+                return Link::to(Yii::t('WikiModule.base', 'Go back'), Url::toWikiHistory($this->page))
+                    ->icon(Icon::get('reply')->fixedWith());
             case static::LINK_NEW:
                 $url = ($this->page && $this->page->is_category)
                     ? Url::toWikiCreate($this->container, $this->page->id)
                     : Url::toWikiCreate($this->container);
-                return ($this->canCreatePage()) ? Link::to(Yii::t('WikiModule.base', 'New page'),$url)->icon('fa-plus new') : null;
+                return ($this->canCreatePage()) ? Link::to(Yii::t('WikiModule.base', 'New page'),$url)
+                    ->icon(Icon::get('plus',  ['htmlOptions' => ['class' => 'new']])->fixedWith()) : null;
             case static::LINK_EDIT_DELETE:
                 return $this->canDelete
                     ? Link::withAction(Yii::t('WikiModule.base', 'Delete'), 'wiki.delete', Url::toWikiDelete($this->page))
-                        ->icon('fa-trash-o delete')
+                        ->icon(Icon::get('delete',  ['htmlOptions' => ['class' => 'delete']])->fixedWith())
                         ->confirm() : null;
             case static::LINK_EDIT_CANCEL:
                 $url = $this->page->isNewRecord ? Url::toOverview($this->container) : Url::toWiki($this->page);
-                return Link::to(Yii::t('WikiModule.base', 'Cancel'), $url)->icon('fa-reply')->id('wiki_cancel');
+                return Link::to(Yii::t('WikiModule.base', 'Cancel'), $url)
+                    ->icon(Icon::get('reply')->fixedWith())->id('wiki_cancel');
             case static::LINK_BACK_TO_PAGE:
-                return Link::to(Yii::t('WikiModule.base', 'Back to page'), Url::toWiki($this->page))->icon('fa-reply');
+                return Link::to(Yii::t('WikiModule.base', 'Back to page'), Url::toWiki($this->page))
+                    ->icon(Icon::get('reply')->fixedWith());
             case static::LINK_MOVE:
                 return (!$this->page->isNewRecord && $this->page->canMove()) ?  MoveContentLink::widget(['model' => $this->page]) : null;
             case static::LINK_SAVE:
                 return Link::withAction(Yii::t('base','Save'),'save', null)
-                    ->icon(Icon::get('check', ['htmlOptions' => ['class' => 'colorSuccess']]))->loader(false);
+                    ->icon(Icon::get('check', ['htmlOptions' => ['class' => 'colorSuccess']])->fixedWith())->loader(false);
         }
     }
 

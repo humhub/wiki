@@ -23,7 +23,7 @@ humhub.module('wiki', function(module, require, $) {
                 if(!sticky) {
                     setting.$node.css({'position':'relative', 'top': '0'});
                 } else {
-                    setting.$node.css({'position': 'sticky', 'top': view.getContentTop()+'px'});
+                    setting.$node.css({'position': 'sticky', 'top': (view.getContentTop() + 10)+'px'});
                 }
             });
         });
