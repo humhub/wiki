@@ -39,7 +39,7 @@ humhub.module('wiki.Menu', function(module, require, $) {
         let $submit = $('#wiki-edit-form').find('[type="submit"]');
         $submit.trigger('click');
         $submit[0].scrollIntoView();
-    }
+    };
 
     Menu.prototype.toggleMenu = function() {
         let $fixed = this.$.find('.wiki-menu-fixed');
@@ -103,7 +103,7 @@ humhub.module('wiki.Menu', function(module, require, $) {
         }
 
         localStorage.setItem("wiki-menu-state", !wasCollapsed ? 'collapsed' : '');
-    }
+    };
 
     Menu.prototype.initAnchor = function() {
         if(window.location.hash) {
