@@ -1,6 +1,7 @@
 <?php
 
 use humhub\libs\Html;
+use humhub\modules\content\widgets\richtext\converter\RichTextToShortTextConverter;
 use humhub\modules\wiki\assets\Assets;
 use humhub\modules\wiki\helpers\Url;
 use humhub\modules\wiki\widgets\WikiRichText;
@@ -8,6 +9,7 @@ use humhub\widgets\Button;
 use humhub\widgets\Link;
 
 /* @var $wiki \humhub\modules\wiki\models\WikiPage */
+/* @var $content string */
 
 Assets::register($this);
 
@@ -15,9 +17,20 @@ $wikiUrl = Url::toWiki($wiki);
 
 ?>
 <div>
-    <div>
-        <?= WikiRichText::output($content, ['maxLength' => 500, 'exclude' => ['anchor']]) ?>
+    <div class="wiki-preview">
+        <div class="wiki-preview-content">
+            <?php if(!empty($content)) : ?>
+                <?php /* In 1.8 final we can switch to 'nl2br' option of RichTextToShortTextConverter*/ ?>
+                <?= nl2br(RichTextToShortTextConverter::process($content, [
+                    'preserveNewlines' => true,
+                    'maxLength' => 500,
+                ]), false) ?>
+            <?php else: ?>
+                <?= Yii::t('WikiModule.base', 'This page is empty.') ?>
+            <?php endif; ?>
+        </div>
+
+        <?= Button::asLink(Yii::t('UiModule.base', 'Read more'), $wikiUrl) ?>
     </div>
-    <br>
-    <?= Button::defaultType(Yii::t('WikiModule.widgets_views_wallentry', 'Open wiki page...'))->link($wikiUrl)->sm() ?>
+
 </div>
