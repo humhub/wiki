@@ -6,6 +6,7 @@ Changelog
 ------------------------
 - Fix #157: Misaligned display with many topic
 - Enh #157: Improved wiki page styles
+- Enh: Support RESTful API module
 
 
 1.5.0 (February 4, 2021)
