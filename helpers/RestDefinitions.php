@@ -7,6 +7,8 @@
 
 namespace humhub\modules\wiki\helpers;
 
+use humhub\modules\rest\definitions\ContentDefinitions;
+use humhub\modules\rest\definitions\UserDefinitions;
 use humhub\modules\wiki\models\WikiPage;
 use humhub\modules\wiki\models\WikiPageRevision;
 use yii\helpers\Url;

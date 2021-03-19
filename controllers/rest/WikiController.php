@@ -100,7 +100,7 @@ class WikiController extends BaseContentController
         if (! $page) {
             return $this->returnError(404, 'Page not found!');
         }
-        if (!$page->canEdit()) {
+        if (!$page->canEditWikiPage()) {
             return $this->returnError(403, 'You cannot edit the page!');
         }
         $requestParams = Yii::$app->request->getBodyParams();
@@ -111,7 +111,7 @@ class WikiController extends BaseContentController
         if (! $targetPage || ! $targetPage->is_category) {
             return $this->returnError(400, 'Wrong target category.');
         }
-        if (!$targetPage->canEdit()) {
+        if (!$targetPage->canEditWikiPage()) {
             return $this->returnError(403, 'You cannot edit the target page!');
         }
         $formParams = [
@@ -137,7 +137,7 @@ class WikiController extends BaseContentController
         if (! $page->content) {
             return $this->returnError(404, 'Page content not found!');
         }
-        if (!$page->canEdit()) {
+        if (!$page->canEditWikiPage()) {
             return $this->returnError(403, 'You cannot move the page!');
         }
 

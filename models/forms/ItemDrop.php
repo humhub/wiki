@@ -94,6 +94,7 @@ abstract class ItemDrop extends Model
             $newIndex = $this->validateIndex($newIndex, $itemsToSort);
 
             if($this->getSortOrder($model) === $newIndex) {
+                $transaction->rollBack();
                 return true;
             }
 
