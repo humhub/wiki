@@ -45,7 +45,7 @@ return array (
   'Page not found.' => 'Página não encontrada.',
   'Page title already in use!' => 'Título já existente!',
   'Pages in this category' => 'Páginas nesta categoria',
-  'Pages without category' => 'Páginas sem categoria =P',
+  'Pages without category' => 'Páginas sem categoria',
   'Permission denied. You have no rights to view the history.' => 'Permissão negada. Não tens o direito de aceder à história.',
   'Protected' => 'Protegida',
   'Revert' => 'Reverter',
