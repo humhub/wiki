@@ -1,9 +1,25 @@
 Changelog
 =========
 
-1.5.0 - Unreleased
-------------------------
+
+1.5.1 (April 1, 2021)
+---------------------
+- Fix #157: Misaligned display with many topic
+- Enh #157: Improved wiki page styles
+- Enh: Support RESTful API module
 - Enh #4751: Hide separator between content links
+
+
+1.5.0 (February 4, 2021)
+------------------------
+- Chg: Migrated to 1.8 Richtext API
+- Chg: Changed HumHub min version to 1.8
+
+
+1.4.3 (February 2, 2021)
+------------------------
+- Enh #153: Confirm on leave unsaved form
+
 
 1.4.2 (December 8, 2020)
 ------------------------
@@ -14,8 +30,8 @@ Changelog
 ------------------------
 - Fix #134: Wiki fixed menu cut if menu higher than window
 - Fix: Double escaping of anchors
-- Chng: Split js modules into multiple files
-- Chng: Added grunt build
+- Chg: Split js modules into multiple files
+- Chg: Added grunt build
 - Enh: Use of minified assets
 - Fix: Search index update may throw error
 

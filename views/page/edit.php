@@ -1,11 +1,10 @@
 <?php
 
-use humhub\libs\Html;
 use humhub\modules\content\components\ContentContainerActiveRecord;
 use humhub\modules\ui\view\components\View;
 use humhub\modules\wiki\models\forms\PageEditForm;
 use humhub\modules\wiki\widgets\WikiEditor;
-use yii\bootstrap\ActiveForm;
+use humhub\modules\ui\form\widgets\ActiveForm;
 use humhub\modules\wiki\widgets\WikiLinkModal;
 use humhub\modules\wiki\widgets\WikiMenu;
 use humhub\modules\wiki\widgets\WikiContent;
@@ -27,11 +26,15 @@ $canAdminister = $model->canAdminister();
 
             <?php WikiContent::begin(['title' => $model->getTitle(), 'id' => 'wiki-page-edit']) ?>
 
-                <?php $form = ActiveForm::begin(['enableClientValidation' => false, 'options' => [
+                <?php $form = ActiveForm::begin(
+                    ['enableClientValidation' => false, 'options' => [
                         'data-ui-widget' => 'wiki.Form',
                         'data-change-category-confirm' => Yii::t('WikiModule.base', 'Are you really sure? All existing category page assignments will be removed!'),
                         'data-is-category' => $model->page->is_category,
-                        'data-ui-init' => '1']]); ?>
+                        'data-ui-init' => '1'],
+                        'acknowledge' => true
+                    ]
+                ); ?>
 
                     <?= $form->field($model->page, 'title')
                         ->textInput([

@@ -1,5 +1,4 @@
-[![Build Status](https://travis-ci.org/humhub/humhub-modules-wiki.svg?branch=master)](https://travis-ci.org/humhub/humhub-modules-wiki)
-
+[![Test Status](https://github.com/humhub/humhub-modules-wiki/workflows/PHP%20Codeception%20Tests/badge.svg)](https://github.com/humhub/humhub-modules-wiki/actions)
 
 # Wiki
 
