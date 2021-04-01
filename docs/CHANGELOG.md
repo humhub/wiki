@@ -2,11 +2,12 @@ Changelog
 =========
 
 
-1.5.1 (Unreleased)
-------------------------
+1.5.1 (April 1, 2021)
+---------------------
 - Fix #157: Misaligned display with many topic
 - Enh #157: Improved wiki page styles
 - Enh: Support RESTful API module
+- Enh #4751: Hide separator between content links
 
 
 1.5.0 (February 4, 2021)

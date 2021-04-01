@@ -1,8 +1,7 @@
 <?php
 
-use humhub\modules\comment\widgets\CommentLink;
 use humhub\modules\comment\widgets\Comments;
-use humhub\modules\like\widgets\LikeLink;
+use humhub\modules\content\widgets\ContentObjectLinks;
 use humhub\modules\wiki\widgets\WikiMenu;
 use humhub\modules\wiki\widgets\WikiContent;
 
@@ -35,7 +34,10 @@ humhub\modules\wiki\assets\Assets::register($this);
                 <?= $this->render('_view_category_index', ['page' => $page]) ?>
 
                 <div class="social-controls">
-                    <?= LikeLink::widget(['object' => $page]) ?> &middot; <?= CommentLink::widget(['object' => $page]) ?>
+                    <?= ContentObjectLinks::widget([
+                        'object' => $page,
+                        'seperator' => '&middot;',
+                    ]); ?>
                 </div>
 
                 <?= Comments::widget(['object' => $page]); ?>
