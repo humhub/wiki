@@ -26,11 +26,11 @@ jobs:
                     - ubuntu-latest
 
                 php-version:
-                    - "7.4"
+#                    - "7.4"
                     - "8.0"
 
                 humhub-ref:
-                  - "develop"
+#                  - "develop"
                   - "master"
 
                 mysql-version:
@@ -116,6 +116,15 @@ jobs:
 
             - name: Run installer
               run: php protected/humhub/tests/codeception/bin/yii installer/auto
+
+            - name: Checkout REST Module
+              uses: actions/checkout@v2
+              with:
+                  repository: 'humhub/humhub-modules-rest'
+                  path: 'protected/modules/rest'
+                  
+            - name: Activate REST Module
+              run: php protected/humhub/tests/codeception/bin/yii module/enable rest
 
             - name: Rebuild search index
               run: php protected/humhub/tests/codeception/bin/yii search/rebuild
