@@ -15,7 +15,7 @@ jobs:
         name: PHP ${{ matrix.php-version }}-mysql-${{ matrix.mysql-version }}-humhub-${{ matrix.humhub-ref }}
         env:
             module-id: wiki
-            extensions: curl, intl, pdo, pdo_mysql, zip, exif, fileinfo, mbstring, gd
+            extensions: curl, intl, pdo, pdo_mysql, zip, exif, fileinfo, mbstring, gd, ldap
             key: cache-v1
 
         runs-on: ${{ matrix.os }}
@@ -26,9 +26,8 @@ jobs:
                     - ubuntu-latest
 
                 php-version:
-                    - "7.2"
-                    - "7.3"
                     - "7.4"
+                    - "8.0"
 
                 humhub-ref:
                   - "develop"
