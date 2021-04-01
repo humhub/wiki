@@ -3,7 +3,6 @@
 namespace humhub\modules\wiki;
 
 use humhub\libs\Html;
-use humhub\modules\rest\Module as RestModule;
 use Yii;
 use humhub\modules\wiki\models\DefaultSettings;
 
@@ -53,7 +52,7 @@ class Events
 
     public static function onRestApiAddRules()
     {
-        /* @var RestModule $restModule */
+        /* @var \humhub\modules\rest\Module $restModule */
         $restModule = Yii::$app->getModule('rest');
         $restModule->addRules([
 
