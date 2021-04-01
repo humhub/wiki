@@ -49,7 +49,7 @@ class WikiPageRevision extends ActiveRecord
 
     public function getPage()
     {
-        return $this->hasOne(User::class, ['id' => 'wiki_page_id']);
+        return $this->hasOne(WikiPage::class, ['id' => 'wiki_page_id']);
     }
 
     /**
