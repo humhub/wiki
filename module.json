@@ -7,7 +7,7 @@
     "humhub": {
         "minVersion": "1.8"
     },
-    "homepage": "https://github.com/humhub/humhub-modules-wiki",
+    "homepage": "https://github.com/humhub/wiki",
     "authors": [
         {
             "name": "Andreas Strobel"
