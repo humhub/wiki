@@ -121,6 +121,7 @@ jobs:
               uses: actions/checkout@v2
               with:
                   repository: 'humhub/humhub-modules-rest'
+                  ref: 'enh/33-move-external-module'
                   path: 'protected/modules/rest'
                   
             - name: Activate REST Module
