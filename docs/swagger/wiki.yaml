@@ -23,8 +23,8 @@ paths:
         - application/json
         - application/xml
       parameters:
-        - $ref: 'https://raw.githubusercontent.com/humhub/humhub-modules-rest/master/docs/swagger/common.yaml#/components/parameters/pageParam'
-        - $ref: 'https://raw.githubusercontent.com/humhub/humhub-modules-rest/master/docs/swagger/common.yaml#/components/parameters/limitParam'
+        - $ref: 'https://raw.githubusercontent.com/humhub/rest/master/docs/swagger/common.yaml#/components/parameters/pageParam'
+        - $ref: 'https://raw.githubusercontent.com/humhub/rest/master/docs/swagger/common.yaml#/components/parameters/limitParam'
       responses:
         '200':
           description: Success
@@ -32,9 +32,9 @@ paths:
             type: object
             properties:
               total:
-                $ref: 'https://raw.githubusercontent.com/humhub/humhub-modules-rest/master/docs/swagger/common.yaml#/components/properties/totalProperty'
+                $ref: 'https://raw.githubusercontent.com/humhub/rest/master/docs/swagger/common.yaml#/components/properties/totalProperty'
               page:
-                $ref: 'https://raw.githubusercontent.com/humhub/humhub-modules-rest/master/docs/swagger/common.yaml#/components/properties/pageProperty'
+                $ref: 'https://raw.githubusercontent.com/humhub/rest/master/docs/swagger/common.yaml#/components/properties/pageProperty'
               results:
                 type: array
                 items:
@@ -55,9 +55,9 @@ paths:
           description: ID of content container
           required: true
           type: integer
-        - $ref: 'https://raw.githubusercontent.com/humhub/humhub-modules-rest/master/docs/swagger/content.yaml#/components/parameters/topicsParam'
-        - $ref: 'https://raw.githubusercontent.com/humhub/humhub-modules-rest/master/docs/swagger/common.yaml#/components/parameters/pageParam'
-        - $ref: 'https://raw.githubusercontent.com/humhub/humhub-modules-rest/master/docs/swagger/common.yaml#/components/parameters/limitParam'
+        - $ref: 'https://raw.githubusercontent.com/humhub/rest/master/docs/swagger/content.yaml#/components/parameters/topicsParam'
+        - $ref: 'https://raw.githubusercontent.com/humhub/rest/master/docs/swagger/common.yaml#/components/parameters/pageParam'
+        - $ref: 'https://raw.githubusercontent.com/humhub/rest/master/docs/swagger/common.yaml#/components/parameters/limitParam'
       responses:
         200:
           description: Success
@@ -65,9 +65,9 @@ paths:
             type: object
             properties:
               total:
-                $ref: 'https://raw.githubusercontent.com/humhub/humhub-modules-rest/master/docs/swagger/common.yaml#/components/properties/totalProperty'
+                $ref: 'https://raw.githubusercontent.com/humhub/rest/master/docs/swagger/common.yaml#/components/properties/totalProperty'
               page:
-                $ref: 'https://raw.githubusercontent.com/humhub/humhub-modules-rest/master/docs/swagger/common.yaml#/components/properties/pageProperty'
+                $ref: 'https://raw.githubusercontent.com/humhub/rest/master/docs/swagger/common.yaml#/components/properties/pageProperty'
               results:
                 type: array
                 items:
@@ -440,8 +440,8 @@ paths:
           description: ID of wiki page
           required: true
           type: integer
-        - $ref: 'https://raw.githubusercontent.com/humhub/humhub-modules-rest/master/docs/swagger/common.yaml#/components/parameters/pageParam'
-        - $ref: 'https://raw.githubusercontent.com/humhub/humhub-modules-rest/master/docs/swagger/common.yaml#/components/parameters/limitParam'
+        - $ref: 'https://raw.githubusercontent.com/humhub/rest/master/docs/swagger/common.yaml#/components/parameters/pageParam'
+        - $ref: 'https://raw.githubusercontent.com/humhub/rest/master/docs/swagger/common.yaml#/components/parameters/limitParam'
       responses:
         200:
           description: Success
@@ -449,13 +449,13 @@ paths:
             type: object
             properties:
               total:
-                $ref: 'https://raw.githubusercontent.com/humhub/humhub-modules-rest/master/docs/swagger/common.yaml#/components/properties/totalProperty'
+                $ref: 'https://raw.githubusercontent.com/humhub/rest/master/docs/swagger/common.yaml#/components/properties/totalProperty'
               page:
-                $ref: 'https://raw.githubusercontent.com/humhub/humhub-modules-rest/master/docs/swagger/common.yaml#/components/properties/pageProperty'
+                $ref: 'https://raw.githubusercontent.com/humhub/rest/master/docs/swagger/common.yaml#/components/properties/pageProperty'
               pages:
-                $ref: 'https://raw.githubusercontent.com/humhub/humhub-modules-rest/master/docs/swagger/common.yaml#/components/properties/pagesProperty'
+                $ref: 'https://raw.githubusercontent.com/humhub/rest/master/docs/swagger/common.yaml#/components/properties/pagesProperty'
               links:
-                $ref: 'https://raw.githubusercontent.com/humhub/humhub-modules-rest/master/docs/swagger/common.yaml#/components/properties/linksProperty'
+                $ref: 'https://raw.githubusercontent.com/humhub/rest/master/docs/swagger/common.yaml#/components/properties/linksProperty'
               results:
                 type: array
                 items:
@@ -575,7 +575,7 @@ paths:
 
 
 securityDefinitions:
-  $ref: "https://raw.githubusercontent.com/humhub/humhub-modules-rest/master/docs/swagger/common.yaml#/securityDefinitions"
+  $ref: "https://raw.githubusercontent.com/humhub/rest/master/docs/swagger/common.yaml#/securityDefinitions"
 
 definitions:
   WikiPage:
@@ -612,7 +612,7 @@ definitions:
         readOnly: true
         $ref: "#/definitions/WikiPageRevision"
       content:
-        $ref: "https://raw.githubusercontent.com/humhub/humhub-modules-rest/master/docs/swagger/content.yaml#/definitions/Content"
+        $ref: "https://raw.githubusercontent.com/humhub/rest/master/docs/swagger/content.yaml#/definitions/Content"
 
   WikiPageRevision:
     type: object
@@ -639,7 +639,7 @@ definitions:
         example: 201
       created_by:
         readOnly: true
-        $ref: "https://raw.githubusercontent.com/humhub/humhub-modules-rest/master/docs/swagger/user.yaml#/definitions/UserShort"
+        $ref: "https://raw.githubusercontent.com/humhub/rest/master/docs/swagger/user.yaml#/definitions/UserShort"
       message:
         type: string
         example: "The wiki page content in markdown."
