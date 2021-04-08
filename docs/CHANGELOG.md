@@ -1,6 +1,10 @@
 Changelog
 =========
 
+1.5.2  (April 8, 2021)
+----------------------
+- Fix #221: Fix call of console commands when REST API module doesn't exist
+
 
 1.5.1 (April 1, 2021)
 ---------------------
