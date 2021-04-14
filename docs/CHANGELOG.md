@@ -1,6 +1,11 @@
 Changelog
 =========
 
+1.5.3  (Unreleased)
+----------------------
+- Fix #171: Fix wiki stream entry markup
+
+
 1.5.2  (April 8, 2021)
 ----------------------
 - Fix #221: Fix call of console commands when REST API module doesn't exist
