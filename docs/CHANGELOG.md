@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.5.3  (Unreleased)
+1.5.3  (April 16, 2021)
 ----------------------
 - Fix #171: Fix wiki stream entry markup
 
