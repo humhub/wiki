@@ -1,6 +1,11 @@
 Changelog
 =========
 
+1.5.4  (Unreleased)
+-------------------
+- Fix #177: CLI error when no REST module is installed
+
+
 1.5.3  (April 16, 2021)
 ----------------------
 - Fix #171: Fix wiki stream entry markup
