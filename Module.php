@@ -2,6 +2,7 @@
 
 namespace humhub\modules\wiki;
 
+use humhub\components\console\Application as ConsoleApplication;
 use humhub\modules\content\components\ContentContainerActiveRecord;
 use humhub\modules\content\components\ContentContainerModule;
 use humhub\modules\space\models\Space;
@@ -17,6 +18,19 @@ class Module extends ContentContainerModule
     public $pageSize = 30;
 
     public $resourcesPath = 'resources';
+
+    /**
+     * @inheritdoc
+     */
+    public function init()
+    {
+        parent::init();
+
+        if (Yii::$app instanceof ConsoleApplication) {
+            // Prevents the Yii HelpCommand from crawling all web controllers and possibly throwing errors at REST endpoints if the REST module is not available.
+            $this->controllerNamespace = 'wiki/commands';
+        }
+    }
 
     /**
      * @inheritdoc
