@@ -322,4 +322,17 @@ class WikiPage extends ContentActiveRecord implements Searchable
         $this->updateAttributes(['parent_page_id' => new Expression('NULL')]);
         $this->updateAttributes(['is_home' => 0]);
     }
+
+    public function isFolded(): bool
+    {
+        if (!$this->is_category) {
+            return false;
+        }
+
+        if (Yii::$app->user->isGuest) {
+            return false;
+        }
+
+        return (bool)Yii::$app->user->getIdentity()->getSettings()->get('wiki.foldedCategory.' . $this->id);
+    }
 }

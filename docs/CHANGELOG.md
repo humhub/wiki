@@ -4,6 +4,7 @@ Changelog
 1.5.4  (Unreleased)
 -------------------
 - Fix #177: CLI error when no REST module is installed
+- Enh #148: Store folding state for categories per user
 
 
 1.5.3  (April 16, 2021)

@@ -56,4 +56,24 @@ class OverviewController extends BaseController
         ]);
 
     }
+
+    public function actionUpdateFoldingState(int $categoryId)
+    {
+        if (Yii::$app->user->isGuest) {
+            return;
+        }
+
+        if (empty($categoryId)) {
+            return;
+        }
+
+        $userSettings = Yii::$app->user->getIdentity()->getSettings();
+        $foldingStateParamName = 'wiki.foldedCategory.' . $categoryId;
+
+        if (Yii::$app->request->get('state')) {
+            $userSettings->set($foldingStateParamName, true);
+        } else {
+            $userSettings->delete($foldingStateParamName);
+        }
+    }
 }
