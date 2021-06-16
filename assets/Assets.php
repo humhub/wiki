@@ -54,7 +54,10 @@ class Assets extends AssetBundle
                     'pageNotFound' => Yii::t('WikiModule.base', 'Page not found')
                 ],
                 'extractTitleUrl' => Url::toExtractTitles()
-            ]
+            ],
+            'humhub.wiki.CategoryListView' => [
+                'updateFoldingStateUrl' => Url::toUpdateFoldingState(),
+            ],
         ]);
         return parent::register($view);
     }

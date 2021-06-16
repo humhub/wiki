@@ -51,6 +51,7 @@ class CategoryListItem extends Widget
     public $hideTitle = false;
 
     public $icon = 'fa-caret-square-o-down';
+    public $iconFolded = 'fa-caret-square-o-right';
 
     public $showAddPage;
 
@@ -80,7 +81,7 @@ class CategoryListItem extends Widget
         }
 
         return $this->render('categoryListItem', [
-            'icon' => $this->icon,
+            'icon' => ($this->category && $this->category->isFolded() ? $this->iconFolded : $this->icon),
             'title' => $this->title,
             'url' => $this->url,
             'pages' => $this->pages,

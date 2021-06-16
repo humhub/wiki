@@ -30,7 +30,7 @@ use humhub\modules\wiki\helpers\Url;
         <?php endif; ?>
 
     </div>
-    <ul class="wiki-page-list">
+    <ul class="wiki-page-list"<?php if ($category && $category->isFolded()) : ?> style="display:none"<?php endif; ?>>
         <?php foreach ($pages as $page): ?>
             <li data-page-id="<?= $page->id ?>">
                 <div class="page-title">

@@ -23,6 +23,7 @@ class Url extends \yii\helpers\Url
 {
     const ROUTE_HOME = '/wiki/overview/index';
     const ROUTE_OVERVIEW = '/wiki/overview/list-categories';
+    const ROUTE_UPDATE_FOLDING_STATE = '/wiki/overview/update-folding-state';
     const ROUTE_WIKI_PAGE = '/wiki/page/view';
     const ROUTE_WIKI_EDIT = '/wiki/page/edit';
     const ROUTE_WIKI_DELETE = '/wiki/page/delete';
@@ -104,6 +105,11 @@ class Url extends \yii\helpers\Url
     public static function toExtractTitles()
     {
         return static::to([static::ROUTE_EXTRACT_TITLES, 'container' => ContentContainerHelper::getCurrent()]);
+    }
+
+    public static function toUpdateFoldingState()
+    {
+        return static::to([static::ROUTE_UPDATE_FOLDING_STATE, 'container' => ContentContainerHelper::getCurrent()]);
     }
 
 }
