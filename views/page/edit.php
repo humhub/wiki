@@ -73,9 +73,10 @@ $canAdminister = $model->canAdminister();
                 'title' => Yii::t('WikiModule.base', 'Disable edit access for non wiki administrators?'),
                 'disabled' => $model->isDisabledField('admin_only')]); ?>
 
+            <?= $form->endCollapsibleFields(); ?>
+
             <?= $form->field($model, 'topics')->widget(TopicPicker::class, ['options' => ['disabled' => $model->isDisabledField('topics')]])->label(false) ?>
 
-            <?= $form->endCollapsibleFields(); ?>
 
             <hr>
 
