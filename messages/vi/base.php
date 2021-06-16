@@ -1,6 +1,8 @@
 <?php
 return array (
   '<strong>Confirm</strong> page reverting' => '<strong>Xác nhận</strong> hoàn trả lại trang',
+  '<strong>Create</strong> new page' => '<strong>Tạo</strong> trang mới',
+  '<strong>Edit</strong> page' => '<strong>Chỉnh sửa</strong> trang',
   '<strong>Index</strong>' => '',
   '<strong>Page</strong> history' => 'Lịch sử <strong>Trang</strong>',
   '<strong>Wiki</strong> Module' => 'Module <strong>Kiến thức</strong>',
@@ -13,6 +15,7 @@ return array (
   'Cancel' => 'Hủy',
   'Category' => 'Nhóm link',
   'Choose a Wiki Page' => '',
+  'Default wiki settings' => '',
   'Delete' => 'Xóa',
   'Disable edit access for non wiki administrators?' => '',
   'Do you really want to revert this page?' => 'Bạn thực sự muốn hoàn trả lại trang này?',
@@ -21,6 +24,7 @@ return array (
   'Enable read access for non space members?' => '',
   'Go back' => 'Quay lại',
   'Headline' => '',
+  'Here you can configure default settings the wiki module.' => '',
   'Home' => '',
   'In order to edit all fields, you need the permission to administer wiki pages.' => '',
   'Index' => '',
@@ -32,7 +36,9 @@ return array (
   'Label' => 'Nhãn',
   'Last updated ' => '',
   'Let\'s go!' => 'Triển khai thôi!',
+  'Module name' => '',
   'New page' => 'Trang mới',
+  'New page title' => 'Tiêu đề trang mới',
   'No pages created yet.' => '',
   'No pages created yet.  So it\'s on you.<br>Create the first page now.' => 'Chưa có trang nào được tạo. Hãy <br>Là người tạo trang đầu tiên.
 ',
@@ -57,5 +63,6 @@ return array (
   'This page is empty.' => '',
   'View' => 'Xem',
   'Wiki' => 'Kiến thức',
+  'Wiki page' => 'Trang Kiến thức',
   'by' => 'bởi',
 );

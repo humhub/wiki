@@ -1,6 +1,8 @@
 <?php
 return array (
   '<strong>Confirm</strong> page reverting' => '<strong>Bekräfta</strong> sidåterställning',
+  '<strong>Create</strong> new page' => '<strong>Skapa</strong> ny sida',
+  '<strong>Edit</strong> page' => '<strong>Ändra</strong> sida',
   '<strong>Index</strong>' => '<strong>Index</strong>',
   '<strong>Page</strong> history' => '<strong>Sidhistorik</strong>',
   '<strong>Wiki</strong> Module' => '<strong>Wiki</strong>modul',
@@ -13,6 +15,7 @@ return array (
   'Cancel' => 'Avbryt',
   'Category' => 'Kategori',
   'Choose a Wiki Page' => 'Välj wikisida',
+  'Default wiki settings' => 'Standardinställningar för wiki',
   'Delete' => 'Ta bort',
   'Disable edit access for non wiki administrators?' => 'Stänga av redigeringsåtkomst för de som inte är wiki-administratörer?',
   'Do you really want to revert this page?' => 'Vill du verkligen återställa denna sida?',
@@ -21,6 +24,7 @@ return array (
   'Enable read access for non space members?' => 'Aktivera läsrättighet för de som inte är nätverksmedlemmar?',
   'Go back' => 'Tillbaka',
   'Headline' => 'Rubrik',
+  'Here you can configure default settings the wiki module.' => 'Här kan du konfigurera de förvalda inställningarna för wikimodulen.',
   'Home' => 'Hem',
   'In order to edit all fields, you need the permission to administer wiki pages.' => 'För att kunna ändra alla fält så behöver du ha rätt att administrera wikisidorna.',
   'Index' => 'Index',
@@ -32,7 +36,9 @@ return array (
   'Label' => 'Etikett',
   'Last updated ' => 'Senast uppdaterad',
   'Let\'s go!' => 'Nu kör vi!',
+  'Module name' => 'Modulnamn',
   'New page' => 'Ny sida',
+  'New page title' => 'Ny sidrubrik',
   'No pages created yet.' => 'Inga sidor skapade än.',
   'No pages created yet.  So it\'s on you.<br>Create the first page now.' => 'Inga sidor har skapats än, så nu är det upp till dig!<br>Skapa en första sida nu.',
   'None' => 'Inga',
@@ -56,5 +62,6 @@ return array (
   'This page is empty.' => 'Sidan är tom.',
   'View' => 'Visa',
   'Wiki' => 'Wiki',
+  'Wiki page' => 'Wikisida',
   'by' => 'av',
 );

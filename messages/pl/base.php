@@ -1,6 +1,8 @@
 <?php
 return array (
   '<strong>Confirm</strong> page reverting' => '<strong>Potwierdź</strong> przywrócenie strony',
+  '<strong>Create</strong> new page' => '<strong>Utwórz</strong> nową stronę',
+  '<strong>Edit</strong> page' => '<strong>Edytuj</strong> stronę',
   '<strong>Index</strong>' => '<strong>Indeks</strong>',
   '<strong>Page</strong> history' => 'Historia <strong>strony</strong>',
   '<strong>Wiki</strong> Module' => 'Moduł <strong>Wiki</strong>',
@@ -13,6 +15,7 @@ return array (
   'Cancel' => 'Anuluj',
   'Category' => 'Kategoria',
   'Choose a Wiki Page' => 'Wybierz stronę Wiki',
+  'Default wiki settings' => 'Domyślne ustawienia wiki',
   'Delete' => 'Usuń',
   'Disable edit access for non wiki administrators?' => 'Wyłączyć możliwość edytowania dla innych niż administratorzy wiki?',
   'Do you really want to revert this page?' => 'Czy na pewno przywrócić stronę?',
@@ -21,6 +24,7 @@ return array (
   'Enable read access for non space members?' => 'Zezwolić możliwość odczytu dla innych niż członkowie strefy?',
   'Go back' => 'Powrót',
   'Headline' => 'Nagłówek',
+  'Here you can configure default settings the wiki module.' => 'Tutaj możesz zmienić domyślne ustawienia modułu wiki.',
   'Home' => 'Strona główna',
   'In order to edit all fields, you need the permission to administer wiki pages.' => 'W celu edycji wszystkich pól, potrzebujesz uprawnienia administracyjne stron wiki.',
   'Index' => 'Indeks',
@@ -32,7 +36,9 @@ return array (
   'Label' => 'Etykieta',
   'Last updated ' => 'Ostatnio zaktualizowane ',
   'Let\'s go!' => 'Jedziemy!',
+  'Module name' => 'Nazwa modułu',
   'New page' => 'Nowa strona',
+  'New page title' => 'Nowy tytuł strony',
   'No pages created yet.' => 'Nie utworzono jeszcze żadnej strony.',
   'No pages created yet.  So it\'s on you.<br>Create the first page now.' => 'Brak utworzonych stron. Wszystko zależy od Ciebie.<br />Utwórz nową stronę teraz.',
   'None' => 'Brak',
@@ -56,5 +62,6 @@ return array (
   'This page is empty.' => 'Ta strona jest pusta.',
   'View' => 'Widok',
   'Wiki' => 'Wiki',
+  'Wiki page' => 'Strona Wiki',
   'by' => 'przez',
 );

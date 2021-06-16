@@ -1,6 +1,8 @@
 <?php
 return array (
   '<strong>Confirm</strong> page reverting' => '<strong>ยืนยัน</strong> การเปลี่ยนหน้า',
+  '<strong>Create</strong> new page' => '<strong>สร้าง</strong> หน้าใหม่',
+  '<strong>Edit</strong> page' => '<strong>แก้ไข</strong> หน้า',
   '<strong>Index</strong>' => '<strong>ดัชนี</strong>',
   '<strong>Page</strong> history' => '<strong>หน้า</strong> ประวัติ',
   '<strong>Wiki</strong> Module' => '<strong>วิกิ</strong> โมดูล',
@@ -13,6 +15,7 @@ return array (
   'Cancel' => 'ยกเลิก',
   'Category' => 'ประเภท',
   'Choose a Wiki Page' => 'เลือกหน้า Wiki',
+  'Default wiki settings' => 'การตั้งค่าวิกิเริ่มต้น',
   'Delete' => 'ลบ',
   'Disable edit access for non wiki administrators?' => 'ปิดการใช้งานการแก้ไขสำหรับผู้ดูแลระบบที่ไม่ใช่ wiki?',
   'Do you really want to revert this page?' => 'คุณต้องการเปลี่ยนกลับหน้านี้จริงหรือ',
@@ -21,6 +24,7 @@ return array (
   'Enable read access for non space members?' => 'เปิดใช้งานการเข้าถึงแบบอ่านสำหรับสมาชิกที่ไม่ใช่ Space?',
   'Go back' => 'ย้อนกลับ',
   'Headline' => 'หัวข้อข่าว',
+  'Here you can configure default settings the wiki module.' => 'คุณสามารถกำหนดการตั้งค่าเริ่มต้นของโมดูลวิกิได้ที่นี่',
   'Home' => 'บ้าน',
   'In order to edit all fields, you need the permission to administer wiki pages.' => 'ในการแก้ไขฟิลด์ทั้งหมด คุณต้องได้รับอนุญาตในการจัดการหน้าวิกิ',
   'Index' => 'ดัชนี',
@@ -32,7 +36,9 @@ return array (
   'Label' => 'ฉลาก',
   'Last updated ' => 'อัพเดทล่าสุด',
   'Let\'s go!' => 'ไปกันเถอะ!',
+  'Module name' => 'ชื่อโมดูล',
   'New page' => 'หน้าใหม่',
+  'New page title' => 'ชื่อหน้าใหม่',
   'No pages created yet.' => 'ยังไม่มีการสร้างเพจ',
   'No pages created yet.  So it\'s on you.<br>Create the first page now.' => 'ยังไม่มีการสร้างเพจ อยู่ที่คุณ<br>สร้างหน้าแรกตอนนี้เลย',
   'None' => 'ไม่มี',
@@ -56,5 +62,6 @@ return array (
   'This page is empty.' => 'หน้านี้ว่างเปล่า',
   'View' => 'ดู',
   'Wiki' => 'Wiki',
+  'Wiki page' => 'หน้าวิกิ',
   'by' => 'โดย',
 );

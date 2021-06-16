@@ -1,6 +1,8 @@
 <?php
 return array (
   '<strong>Confirm</strong> page reverting' => '<strong>Bevestig</strong> het terugzetten van de pagina',
+  '<strong>Create</strong> new page' => '<strong>Maak</strong> nieuwe pagina',
+  '<strong>Edit</strong> page' => '<strong>Bewerk</strong> pagina',
   '<strong>Index</strong>' => '<strong>Inhoudsopgave</strong>',
   '<strong>Page</strong> history' => '<strong>Pagina</strong> geschiedenis',
   '<strong>Wiki</strong> Module' => '<strong>Wiki</strong> Module',
@@ -13,6 +15,7 @@ return array (
   'Cancel' => 'Annuleren',
   'Category' => 'Categorie',
   'Choose a Wiki Page' => 'Kies een wiki-pagina',
+  'Default wiki settings' => 'Standaard wiki-instellingen',
   'Delete' => 'Verwijder',
   'Disable edit access for non wiki administrators?' => 'Schakel bewerkingsrechten voor niet wiki-beheerders uit?',
   'Do you really want to revert this page?' => 'Wilt u deze pagina echt terugzetten?',
@@ -21,6 +24,7 @@ return array (
   'Enable read access for non space members?' => 'Leestoegang inschakelen voor niet-ruimte-leden?',
   'Go back' => 'Ga terug',
   'Headline' => 'Kop',
+  'Here you can configure default settings the wiki module.' => 'Hier stelt u de standaardinstellingen van de wiki-module in.',
   'Home' => 'Startpagina',
   'In order to edit all fields, you need the permission to administer wiki pages.' => 'Om alle velden te kunnen bewerken, hebt u de toestemming nodig om wikipagina\'s te beheren.',
   'Index' => 'Inhoudsopgave',
@@ -32,7 +36,9 @@ return array (
   'Label' => 'Label',
   'Last updated ' => 'Laatst bijgewerkt',
   'Let\'s go!' => 'Aan de slag!',
+  'Module name' => 'Module naam',
   'New page' => 'Nieuwe pagina',
+  'New page title' => 'Nieuwe paginakop',
   'No pages created yet.' => 'Er zijn nog geen pagina\'s gemaakt.',
   'No pages created yet.  So it\'s on you.<br>Create the first page now.' => 'Er zijn momenteel nog geen pagina\'s.',
   'None' => 'Geen',
@@ -56,5 +62,6 @@ return array (
   'This page is empty.' => 'Deze pagina is leeg.',
   'View' => 'Toon',
   'Wiki' => 'Wiki',
+  'Wiki page' => 'Wikipagina',
   'by' => 'door',
 );

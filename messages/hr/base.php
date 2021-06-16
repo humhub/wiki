@@ -1,6 +1,8 @@
 <?php
 return array (
   '<strong>Confirm</strong> page reverting' => '<strong>Potvrdi</strong> vraćanje stranice',
+  '<strong>Create</strong> new page' => '<strong>Kreiraj</strong> novu stranicu',
+  '<strong>Edit</strong> page' => '<strong>Uredi</strong> stranicu',
   '<strong>Index</strong>' => '<strong>Index</strong>',
   '<strong>Page</strong> history' => '<strong>Povijest</strong> stranice',
   '<strong>Wiki</strong> Module' => '<strong>Wiki</strong> modul',
@@ -13,6 +15,7 @@ return array (
   'Cancel' => 'Poništi.',
   'Category' => 'Kategorija',
   'Choose a Wiki Page' => 'Odaberite Wiki stranicu',
+  'Default wiki settings' => 'Zadane postavke wikija',
   'Delete' => 'Obriši.',
   'Disable edit access for non wiki administrators?' => 'Onemogućiti pristup uređivanju koji nisu wiki administratori?',
   'Do you really want to revert this page?' => 'Želite li stvarno vratiti ovu stranicu?',
@@ -21,6 +24,7 @@ return array (
   'Enable read access for non space members?' => 'Omogućiti pristup čitanju za članove koji nisu članovi prostora?',
   'Go back' => 'Idi natrag',
   'Headline' => 'Naslov',
+  'Here you can configure default settings the wiki module.' => 'Ovdje možete konfigurirati zadane postavke wiki modula.',
   'Home' => 'Naslovna',
   'In order to edit all fields, you need the permission to administer wiki pages.' => 'Da biste uredili sva polja, trebate dopuštenje za upravljanje wiki stranicama.',
   'Index' => 'Index',
@@ -32,7 +36,9 @@ return array (
   'Label' => 'Label',
   'Last updated ' => 'Posljednje ažuriranje',
   'Let\'s go!' => 'Idemo!',
+  'Module name' => 'Naziv modula',
   'New page' => 'Nova stranica',
+  'New page title' => 'Novi naziv stranice',
   'No pages created yet.' => 'Još nije stvorena nijedna stranica.',
   'No pages created yet.  So it\'s on you.<br>Create the first page now.' => 'Nijedna stranica još nije izrađena. Stoga je na vama. <br> Napravite prvu stranicu sada.',
   'None' => 'Nijedan',
@@ -56,5 +62,6 @@ return array (
   'This page is empty.' => 'Ova je stranica prazna.',
   'View' => 'Vidi',
   'Wiki' => 'Wiki',
+  'Wiki page' => 'Wiki stranica',
   'by' => 'od',
 );

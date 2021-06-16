@@ -1,6 +1,8 @@
 <?php
 return array (
   '<strong>Confirm</strong> page reverting' => '<strong>Confirmer</strong> le retour à une version précédente',
+  '<strong>Create</strong> new page' => '<strong>Créer</strong> une nouvelle page',
+  '<strong>Edit</strong> page' => '<strong>Editer</strong> la page',
   '<strong>Index</strong>' => '<strong>Index</strong>',
   '<strong>Page</strong> history' => '<strong>Historique</strong> de la page',
   '<strong>Wiki</strong> Module' => 'Module <strong>Wiki</strong>',
@@ -13,6 +15,7 @@ return array (
   'Cancel' => 'Annuler',
   'Category' => 'Catégory',
   'Choose a Wiki Page' => 'Choisir une page Wiki',
+  'Default wiki settings' => 'Paramètres par défaut du Wiki',
   'Delete' => 'Supprimer',
   'Disable edit access for non wiki administrators?' => 'Désactiver les droits de modification pour ceux qui ne sont pas administrateur des wiki ?',
   'Do you really want to revert this page?' => 'Souhaitez-vous vraiment restaurer cette page ?',
@@ -21,6 +24,7 @@ return array (
   'Enable read access for non space members?' => 'Activer les accès en lecture pour ceux qui ne sont pas membre de l\'espace ?',
   'Go back' => 'Retour',
   'Headline' => 'Gros titre',
+  'Here you can configure default settings the wiki module.' => 'Ici, vous pouvez configurer les paramètres par défaut du module Wiki',
   'Home' => 'Accueil',
   'In order to edit all fields, you need the permission to administer wiki pages.' => 'Pour pouvoir modifier tous les champs, vous devez avoir l\'autorisation d\'administrer les pages wiki.',
   'Index' => 'Index',
@@ -32,7 +36,9 @@ return array (
   'Label' => 'Étiquette',
   'Last updated ' => 'Dernière mise à jour ',
   'Let\'s go!' => 'Allons-y !',
+  'Module name' => 'Nom du module',
   'New page' => 'Nouvelle page',
+  'New page title' => 'Titre de la page',
   'No pages created yet.' => 'Aucune page créée pour l\'instant.',
   'No pages created yet.  So it\'s on you.<br>Create the first page now.' => 'Aucune page pour l\'instant.<br />Créez la première page maintenant.',
   'None' => 'Aucune',
@@ -56,5 +62,6 @@ return array (
   'This page is empty.' => 'Cette page est vide.',
   'View' => 'Voir',
   'Wiki' => 'Wiki',
+  'Wiki page' => 'Page Wiki',
   'by' => 'par',
 );

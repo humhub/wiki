@@ -1,6 +1,8 @@
 <?php
 return array (
   '<strong>Confirm</strong> page reverting' => '<strong>Confirme</strong> reverter a página',
+  '<strong>Create</strong> new page' => '<strong>Criar</strong> nova página',
+  '<strong>Edit</strong> page' => '<strong>Editar</strong> página',
   '<strong>Index</strong>' => '<strong>Index</strong>',
   '<strong>Page</strong> history' => 'Histórico da Página',
   '<strong>Wiki</strong> Module' => 'Módulo <strong>Wiki</strong>',
@@ -13,6 +15,7 @@ return array (
   'Cancel' => 'Cancelar',
   'Category' => 'Categoria',
   'Choose a Wiki Page' => 'Escolha uma página da Wiki',
+  'Default wiki settings' => '',
   'Delete' => 'Apagar',
   'Disable edit access for non wiki administrators?' => 'Desativar acesso de edição para administradores não wiki?',
   'Do you really want to revert this page?' => 'Você realmente quer reverter esta página?',
@@ -21,6 +24,7 @@ return array (
   'Enable read access for non space members?' => 'Ativar acesso de leitura para não membros do espaço?',
   'Go back' => 'Voltar',
   'Headline' => 'Título',
+  'Here you can configure default settings the wiki module.' => '',
   'Home' => 'Página Inicial',
   'In order to edit all fields, you need the permission to administer wiki pages.' => 'Para editar todos os campos, você precisa da permissão para administrar as páginas da wiki.',
   'Index' => 'Índice',
@@ -32,7 +36,9 @@ return array (
   'Label' => 'Rótulo',
   'Last updated ' => 'Última atualização',
   'Let\'s go!' => 'Vamos lá!',
+  'Module name' => '',
   'New page' => 'Nova página',
+  'New page title' => 'Título da nova página',
   'No pages created yet.' => 'Nenhuma página criada ainda.',
   'No pages created yet.  So it\'s on you.<br>Create the first page now.' => 'Não existem páginas criadas ainda. Então é com você.<br /> Crie a primeira página agora.',
   'None' => 'Nenhum',
@@ -56,5 +62,6 @@ return array (
   'This page is empty.' => 'Esta página está vazia.',
   'View' => 'Visualizar',
   'Wiki' => 'Wiki',
+  'Wiki page' => 'Página Wiki',
   'by' => 'por',
 );

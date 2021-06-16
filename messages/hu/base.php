@@ -1,6 +1,8 @@
 <?php
 return array (
   '<strong>Confirm</strong> page reverting' => 'Biztosan <strong>visszaállítod</strong> az oldalt?',
+  '<strong>Create</strong> new page' => '<strong>Új oldal</strong> létrehozása',
+  '<strong>Edit</strong> page' => 'Oldal <strong>szerkesztése</strong>',
   '<strong>Index</strong>' => '<strong>Index</strong>',
   '<strong>Page</strong> history' => '<strong>Korábbi</strong> változatok',
   '<strong>Wiki</strong> Module' => '<strong>Wiki</strong> oldalak',
@@ -13,6 +15,7 @@ return array (
   'Cancel' => 'Mégsem',
   'Category' => 'Kategória',
   'Choose a Wiki Page' => 'Válassz ki egy wiki oldalt',
+  'Default wiki settings' => 'Alapértelmezett wiki beállítások',
   'Delete' => 'Törlés',
   'Disable edit access for non wiki administrators?' => 'Szerkesztés kikapcsolása a nem wiki adminisztrátoroknak?',
   'Do you really want to revert this page?' => 'Biztos, hogy vissza szeretnéd állítani ezt az oldalt?',
@@ -21,6 +24,7 @@ return array (
   'Enable read access for non space members?' => 'Olvasási hozzáférés bekapcsolása a nem Space tagoknak?',
   'Go back' => 'Vissza',
   'Headline' => 'Fejléc',
+  'Here you can configure default settings the wiki module.' => 'Itt konfigurálhatja a wiki modul alapértelmezett beállításait.',
   'Home' => 'Kezdőlap',
   'In order to edit all fields, you need the permission to administer wiki pages.' => 'Az összes mező szerkesztéséhez, a wiki oldalak adminisztrálásához engedélyre van szüksége',
   'Index' => 'Index',
@@ -32,7 +36,9 @@ return array (
   'Label' => 'Címke',
   'Last updated ' => 'Utoljára frissítve',
   'Let\'s go!' => 'Gyerünk!',
+  'Module name' => 'Modul neve',
   'New page' => 'Új oldal',
+  'New page title' => 'Oldal új címe',
   'No pages created yet.' => 'Még nem lettek oldalak létrehozva.',
   'No pages created yet.  So it\'s on you.<br>Create the first page now.' => 'Még nem hoztak létre egy oldalt sem, úgyhogy rajtad a sor.<br />Hozd létre az elsőt!',
   'None' => 'Nincs',
@@ -56,5 +62,6 @@ return array (
   'This page is empty.' => 'Ez az oldal üres.',
   'View' => 'Megtekintés',
   'Wiki' => 'Wiki',
+  'Wiki page' => 'Wiki oldal',
   'by' => 'általa:',
 );

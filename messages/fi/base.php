@@ -1,6 +1,8 @@
 <?php
 return array (
   '<strong>Confirm</strong> page reverting' => '<strong>Vahvista</strong> sivun palautus',
+  '<strong>Create</strong> new page' => '<strong>Luo</strong> uusi sivu',
+  '<strong>Edit</strong> page' => '<strong>Muokkaa</strong> sivua',
   '<strong>Index</strong>' => '<strong>Sivut</strong>',
   '<strong>Page</strong> history' => '<strong>Sivun</strong> historia',
   '<strong>Wiki</strong> Module' => '<strong>Wiki</strong>',
@@ -13,6 +15,7 @@ return array (
   'Cancel' => 'Peruuta',
   'Category' => 'Kategoria',
   'Choose a Wiki Page' => 'Valitse wiki sivu',
+  'Default wiki settings' => '',
   'Delete' => 'Poista',
   'Disable edit access for non wiki administrators?' => 'Poista muokkaus oikeudet ei blogin ylläpitäjiltä?',
   'Do you really want to revert this page?' => 'Halutako todella palauttaa tämän sivun?',
@@ -21,6 +24,7 @@ return array (
   'Enable read access for non space members?' => 'Mahdollista blogin lukeminen myös ei tämän sivun jäsenille?',
   'Go back' => 'Takaisin',
   'Headline' => 'Otsikko',
+  'Here you can configure default settings the wiki module.' => '',
   'Home' => 'Koti',
   'In order to edit all fields, you need the permission to administer wiki pages.' => 'Jotta voit muokata kaikkia kenttiä, tarvitset luvan hallita wiki sivuja.',
   'Index' => 'Sivut',
@@ -32,7 +36,9 @@ return array (
   'Label' => 'Otsikko',
   'Last updated ' => 'Päivitety',
   'Let\'s go!' => 'Aloita tästä!',
+  'Module name' => '',
   'New page' => 'Uusi sivu',
+  'New page title' => 'Uusi sivun nimi',
   'No pages created yet.' => 'Ei yhtään sivua vielä.',
   'No pages created yet.  So it\'s on you.<br>Create the first page now.' => 'Yhtään sivua ei ole vielä luotu. <br />Luo ensimmäinen sivu nyt.',
   'None' => 'Ei mitään',
@@ -56,5 +62,6 @@ return array (
   'This page is empty.' => 'Tämä sivu on tyhjä.',
   'View' => 'Näkymä',
   'Wiki' => 'Wiki',
+  'Wiki page' => 'Blogi',
   'by' => 'luonut',
 );

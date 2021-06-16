@@ -1,6 +1,8 @@
 <?php
 return array (
   '<strong>Confirm</strong> page reverting' => '<strong>Bekreft</strong> tilbakestilling av side',
+  '<strong>Create</strong> new page' => '<strong>Opprett</strong> side',
+  '<strong>Edit</strong> page' => '<strong>Rediger</strong> side',
   '<strong>Index</strong>' => '<strong>Indeks</strong>',
   '<strong>Page</strong> history' => '<strong>Sidehistorikk</strong>',
   '<strong>Wiki</strong> Module' => '<strong>Wiki-modul</strong>',
@@ -13,6 +15,7 @@ return array (
   'Cancel' => 'Avbryt',
   'Category' => 'Kategori',
   'Choose a Wiki Page' => 'Velg en wikside',
+  'Default wiki settings' => '',
   'Delete' => 'Slett',
   'Disable edit access for non wiki administrators?' => 'Skru av redigeringstilgang for ikke-wiki-administratorer?',
   'Do you really want to revert this page?' => 'Vil du virkelig tilbakestille denne siden?',
@@ -21,6 +24,7 @@ return array (
   'Enable read access for non space members?' => 'Tillat lesetilgang for ikkemedlemmer?',
   'Go back' => 'Gå tilbake',
   'Headline' => 'Overskrift',
+  'Here you can configure default settings the wiki module.' => '',
   'Home' => 'Hjem',
   'In order to edit all fields, you need the permission to administer wiki pages.' => 'For å redigere alle feltene, trenger du tillatelse til å administrere wiki-sider.',
   'Index' => 'Indeks',
@@ -32,7 +36,9 @@ return array (
   'Label' => 'Merkelapp',
   'Last updated ' => 'Oppdatert sist',
   'Let\'s go!' => 'Kom igjen!',
+  'Module name' => '',
   'New page' => 'Ny side',
+  'New page title' => 'Ny sidetittel',
   'No pages created yet.' => 'Ingen sider opprettet ennå.',
   'No pages created yet.  So it\'s on you.<br>Create the first page now.' => 'Ingen sider opprettet enda. Lag den første siden nå!',
   'None' => 'Ingen',
@@ -56,5 +62,6 @@ return array (
   'This page is empty.' => 'Denne siden er tom.',
   'View' => 'Visning',
   'Wiki' => 'Wiki',
+  'Wiki page' => 'Wikiside',
   'by' => 'av',
 );

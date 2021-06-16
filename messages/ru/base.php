@@ -1,6 +1,8 @@
 <?php
 return array (
   '<strong>Confirm</strong> page reverting' => '<strong>Подтвердите</strong> восстановление страницы',
+  '<strong>Create</strong> new page' => '<strong>Создать</strong> новую страницу',
+  '<strong>Edit</strong> page' => '<strong>Редактировать</strong> страницу',
   '<strong>Index</strong>' => '',
   '<strong>Page</strong> history' => '<strong>История</strong> страницы',
   '<strong>Wiki</strong> Module' => '<strong>Модуль</strong> Wiki',
@@ -13,6 +15,7 @@ return array (
   'Cancel' => 'Отменить',
   'Category' => 'Категория',
   'Choose a Wiki Page' => '',
+  'Default wiki settings' => '',
   'Delete' => 'Удалить',
   'Disable edit access for non wiki administrators?' => '',
   'Do you really want to revert this page?' => 'Вы действительно хотите восстановить эту страницу?',
@@ -21,6 +24,7 @@ return array (
   'Enable read access for non space members?' => '',
   'Go back' => 'Вернуться',
   'Headline' => '',
+  'Here you can configure default settings the wiki module.' => '',
   'Home' => '',
   'In order to edit all fields, you need the permission to administer wiki pages.' => '',
   'Index' => '',
@@ -32,7 +36,9 @@ return array (
   'Label' => '',
   'Last updated ' => '',
   'Let\'s go!' => 'Вперед!',
+  'Module name' => '',
   'New page' => 'Новая страница',
+  'New page title' => 'Название новой страницы',
   'No pages created yet.' => '',
   'No pages created yet.  So it\'s on you.<br>Create the first page now.' => 'Созданных страниц пока нет.  <br />Создайте первую страницу сейчас.',
   'None' => 'Ничего',
@@ -56,5 +62,6 @@ return array (
   'This page is empty.' => 'Пустая страница',
   'View' => 'Просмотр',
   'Wiki' => 'Wiki',
+  'Wiki page' => 'Страница Wiki',
   'by' => 'от',
 );

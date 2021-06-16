@@ -1,6 +1,8 @@
 <?php
 return array (
   '<strong>Confirm</strong> page reverting' => 'Seite rückgängig machen <strong>bestätigen</strong>',
+  '<strong>Create</strong> new page' => 'Neue Seite <strong>erstellen</strong>',
+  '<strong>Edit</strong> page' => 'Seite <strong>bearbeiten</strong> ',
   '<strong>Index</strong>' => '<strong>Index</strong>',
   '<strong>Page</strong> history' => '<strong>Seiten</strong>verlauf',
   '<strong>Wiki</strong> Module' => '<strong>Wiki</strong>-Modul',
@@ -13,6 +15,7 @@ return array (
   'Cancel' => 'Abbrechen',
   'Category' => 'Kategorie',
   'Choose a Wiki Page' => 'Wiki-Seite auswählen',
+  'Default wiki settings' => 'Standard Wiki-Einstellungen',
   'Delete' => 'Löschen',
   'Disable edit access for non wiki administrators?' => 'Bearbeitungszugriff für Nicht-Wiki-Administratoren deaktivieren?',
   'Do you really want to revert this page?' => 'Willst du diese Seite wirklich rückgängig machen?',
@@ -21,6 +24,7 @@ return array (
   'Enable read access for non space members?' => 'Lesezugriff für Nicht-Space-Member aktivieren?',
   'Go back' => 'Zurück',
   'Headline' => 'Überschrift',
+  'Here you can configure default settings the wiki module.' => 'Hier kannst du die Standard-Einstellungen für das Wiki-Modul bearbeiten.',
   'Home' => 'Startseite',
   'In order to edit all fields, you need the permission to administer wiki pages.' => 'Um alle Felder bearbeiten zu können, benötigst Du die Berechtigung, Wiki-Seiten zu verwalten.',
   'Index' => 'Index',
@@ -32,7 +36,9 @@ return array (
   'Label' => 'Label',
   'Last updated ' => 'Letzte Aktualisierung',
   'Let\'s go!' => 'Los geht\'s!',
+  'Module name' => 'Modul-Name',
   'New page' => 'Neue Seite',
+  'New page title' => 'Neuer Seitentitel',
   'No pages created yet.' => 'Aktuell wurden noch keine Seiten erstellt.',
   'No pages created yet.  So it\'s on you.<br>Create the first page now.' => 'Noch keine Seiten erstellt. Es liegt also an dir. <br />Erstelle jetzt die erste Seite.',
   'None' => 'Keine',
@@ -56,5 +62,6 @@ return array (
   'This page is empty.' => 'Diese Seite ist leer.',
   'View' => 'Ansicht',
   'Wiki' => 'Wiki',
+  'Wiki page' => 'Wiki Seite',
   'by' => 'von',
 );

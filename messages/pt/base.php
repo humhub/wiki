@@ -1,6 +1,8 @@
 <?php
 return array (
   '<strong>Confirm</strong> page reverting' => '<strong>Confirmar</strong> reversão da página',
+  '<strong>Create</strong> new page' => '<strong>Criar</strong> nova página',
+  '<strong>Edit</strong> page' => '<strong>Editar</strong> página',
   '<strong>Index</strong>' => '<strong>Índice</strong>',
   '<strong>Page</strong> history' => '<strong>Histórico</strong> da página',
   '<strong>Wiki</strong> Module' => '<strong>Módulo</strong> wiki',
@@ -13,6 +15,7 @@ return array (
   'Cancel' => 'Cancelar',
   'Category' => 'Categoria',
   'Choose a Wiki Page' => 'Escolhe uma página wiki',
+  'Default wiki settings' => 'Definições padrão de wikis',
   'Delete' => 'Apagar',
   'Disable edit access for non wiki administrators?' => 'Proibir a edição da wiki por pessoas não administradoras de wikis?',
   'Do you really want to revert this page?' => 'Queres mesmo reverter esta página?',
@@ -21,6 +24,7 @@ return array (
   'Enable read access for non space members?' => 'Permitir a visualização da wiki por pessoas não participantes neste espaço?',
   'Go back' => 'Voltar atrás',
   'Headline' => 'Cabeçalho',
+  'Here you can configure default settings the wiki module.' => 'Podes configurar aqui as definições padrão do módulo wiki.',
   'Home' => 'Página de entrada',
   'In order to edit all fields, you need the permission to administer wiki pages.' => 'Para poderes editar todas as opções, é necessário teres permissão para administrar páginas wiki.',
   'Index' => 'Índice',
@@ -32,7 +36,9 @@ return array (
   'Label' => 'Etiqueta',
   'Last updated ' => 'Última actualização',
   'Let\'s go!' => '\'Bora!',
+  'Module name' => 'Nome do módulo',
   'New page' => 'Nova página',
+  'New page title' => 'Título da nova página',
   'No pages created yet.' => 'Ainda não foram criadas páginas.',
   'No pages created yet.  So it\'s on you.<br>Create the first page now.' => 'Ainda não foi criada nenhuma página. Agora é contigo:<br>Cria já a primeira página!',
   'None' => 'Nenhuma',
@@ -56,5 +62,6 @@ return array (
   'This page is empty.' => 'Esta página está vazia.',
   'View' => 'Ver',
   'Wiki' => 'Wiki',
+  'Wiki page' => 'Página wiki',
   'by' => 'por',
 );
