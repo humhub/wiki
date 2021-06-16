@@ -206,8 +206,8 @@ class PageEditForm extends Model
     public function getTitle()
     {
         return ($this->isNewPage())
-            ? Yii::t('WikiModule.views_page_edit', '<strong>Create</strong> new page')
-            : Yii::t('WikiModule.views_page_edit', '<strong>Edit</strong> page');
+            ? Yii::t('WikiModule.base', '<strong>Create</strong> new page')
+            : Yii::t('WikiModule.base', '<strong>Edit</strong> page');
     }
 
     public function isNewPage()

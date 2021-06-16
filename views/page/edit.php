@@ -26,54 +26,62 @@ $canAdminister = $model->canAdminister();
 
             <?php WikiContent::begin(['title' => $model->getTitle(), 'id' => 'wiki-page-edit']) ?>
 
-                <?php $form = ActiveForm::begin(
-                    ['enableClientValidation' => false, 'options' => [
-                        'data-ui-widget' => 'wiki.Form',
-                        'data-change-category-confirm' => Yii::t('WikiModule.base', 'Are you really sure? All existing category page assignments will be removed!'),
-                        'data-is-category' => $model->page->is_category,
-                        'data-ui-init' => '1'],
-                        'acknowledge' => true
-                    ]
-                ); ?>
+            <?php $form = ActiveForm::begin(
+                ['enableClientValidation' => false, 'options' => [
+                    'data-ui-widget' => 'wiki.Form',
+                    'data-change-category-confirm' => Yii::t('WikiModule.base', 'Are you really sure? All existing category page assignments will be removed!'),
+                    'data-is-category' => $model->page->is_category,
+                    'data-ui-init' => '1'],
+                    'acknowledge' => true
+                ]
+            ); ?>
 
-                    <?= $form->field($model->page, 'title')
-                        ->textInput([
-                            'placeholder' => Yii::t('WikiModule.views_page_edit', 'New page title'),
-                            'disabled' => $model->isDisabledField('title')
-                        ])->label(false); ?>
+            <?= $form->field($model->page, 'title')
+                ->textInput([
+                    'placeholder' => Yii::t('WikiModule.base', 'New page title'),
+                    'disabled' => $model->isDisabledField('title')
+                ])->label(false); ?>
 
-                    <?= $form->field($model->revision, 'content')->widget(WikiEditor::class)->label(false) ?>
+            <?= $form->field($model->revision, 'content')->widget(WikiEditor::class)->label(false) ?>
 
-                    <?= $form->field($model->page, 'is_home')->checkbox([
-                             'title' => Yii::t('WikiModule.base', 'Overwrite the wiki index start page?'),
-                            'disabled' => $model->isDisabledField('is_home')]); ?>
-                    <?= $form->field($model->page, 'admin_only')->checkbox([
-                            'title' => Yii::t('WikiModule.base', 'Disable edit access for non wiki administrators?'),
-                            'disabled' => $model->isDisabledField('admin_only')]); ?>
-                    <?= $form->field($model->page, 'is_category')->checkbox(['disabled' => $model->isDisabledField('is_category')]); ?>
-                    <?= $form->field($model, 'isPublic')->checkbox([
-                            'title' => Yii::t('WikiModule.base', 'Enable read access for non space members?'),
-                            'disabled' => $model->isDisabledField('isPublic')]); ?>
 
-                    <?php if(!$model->isDisabledField('is_category') || $model->page->parent_page_id) :?>
-                        <?= $form->field($model->page, 'parent_page_id')
-                            ->dropDownList($model->getCategoryList(), ['disabled' => $model->isDisabledField('parent_page_id')]); ?>
-                    <?php endif; ?>
+            <?= $form->beginCollapsibleFields('Advanced settings'); ?>
 
-                    <?= $form->field($model, 'topics')->widget(TopicPicker::class, ['options' => ['disabled' =>  $model->isDisabledField('topics')]])->label(false) ?>
+            <?php if ($canAdminister) : ?>
+                <div class="alert alert-info">
+                    <?= Yii::t('WikiModule.base',
+                        'In order to edit all fields, you need the permission to administer wiki pages.'); ?>
+                </div>
+            <?php endif; ?>
 
-                    <?php if(!$canAdminister) : ?>
-                        <div class="alert alert-warning">
-                            <?= Yii::t('WikiModule.base',
-                                'In order to edit all fields, you need the permission to administer wiki pages.'); ?>
-                        </div>
-                    <?php endif; ?>
+            <?= $form->field($model->page, 'is_home')->checkbox([
+                'title' => Yii::t('WikiModule.base', 'Overwrite the wiki index start page?'),
+                'disabled' => $model->isDisabledField('is_home')]); ?>
 
-                    <hr>
+            <?= $form->field($model->page, 'is_category')->checkbox(['disabled' => $model->isDisabledField('is_category')]); ?>
 
-                    <?= Button::save()->submit() ?>
+            <?php if (!$model->isDisabledField('is_category') || $model->page->parent_page_id) : ?>
+                <?= $form->field($model->page, 'parent_page_id')
+                    ->dropDownList($model->getCategoryList(), ['disabled' => $model->isDisabledField('parent_page_id')]); ?>
+            <?php endif; ?>
 
-                <?php ActiveForm::end(); ?>
+            <?= $form->field($model, 'isPublic')->checkbox([
+                'title' => Yii::t('WikiModule.base', 'Enable read access for non space members?'),
+                'disabled' => $model->isDisabledField('isPublic')]); ?>
+
+            <?= $form->field($model->page, 'admin_only')->checkbox([
+                'title' => Yii::t('WikiModule.base', 'Disable edit access for non wiki administrators?'),
+                'disabled' => $model->isDisabledField('admin_only')]); ?>
+
+            <?= $form->field($model, 'topics')->widget(TopicPicker::class, ['options' => ['disabled' => $model->isDisabledField('topics')]])->label(false) ?>
+
+            <?= $form->endCollapsibleFields(); ?>
+
+            <hr>
+
+            <?= Button::save()->submit() ?>
+
+            <?php ActiveForm::end(); ?>
 
             <?php WikiContent::end() ?>
 

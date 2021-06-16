@@ -18,12 +18,12 @@ use \yii\helpers\Html;
 
 <div class="panel panel-default">
 
-    <div class="panel-heading"><?= Yii::t('WikiModule.config', 'Default wiki settings'); ?></div>
+    <div class="panel-heading"><?= Yii::t('WikiModule.base', 'Default wiki settings'); ?></div>
 
     <div class="panel-body" data-ui-widget="calendar.Form">
         <?php $form = ActiveForm::begin(['action' => $model->getSubmitUrl()]); ?>
             <div class="help-block">
-                <?= Yii::t('WikiModule.config', 'Here you can configure default settings the wiki module.') ?>
+                <?= Yii::t('WikiModule.base', 'Here you can configure default settings the wiki module.') ?>
             </div>
 
             <hr>

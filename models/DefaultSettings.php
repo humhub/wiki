@@ -68,7 +68,7 @@ class DefaultSettings extends Model
     public function attributeLabels()
     {
         return [
-            'module_label' => Yii::t('WikiModule.config', 'Module name'),
+            'module_label' => Yii::t('WikiModule.base', 'Module name'),
         ];
     }
 

@@ -238,7 +238,7 @@ class WikiPage extends ContentActiveRecord implements Searchable
 
     public function getContentName()
     {
-        return Yii::t('WikiModule.models_WikiPage', "Wiki page");
+        return Yii::t('WikiModule.base', "Wiki page");
     }
 
     public function getContentDescription()
