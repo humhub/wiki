@@ -5,12 +5,18 @@ Changelog
 ----------------------
 - Enh: Moved advanced page options into extra section
 - Enh: Compiled multiple translation messages into single `base` file
+- Fix #177: CLI error when no REST module is installed
 
+
+1.5.3  (April 16, 2021)
+----------------------
+- Fix #171: Fix wiki stream entry markup
 
 
 1.5.2  (April 8, 2021)
 ----------------------
 - Fix #221: Fix call of console commands when REST API module doesn't exist
+
 
 1.5.1 (April 1, 2021)
 ---------------------
