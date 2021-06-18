@@ -22,6 +22,8 @@ use yii\db\Expression;
  * @property integer $admin_only
  * @property integer $is_category
  * @property integer $parent_page_id
+ * @property integer $sort_order
+ * @property integer $is_space_menu
  *
  * @property-read WikiPage|null $categoryPage
  *
@@ -69,7 +71,7 @@ class WikiPage extends ContentActiveRecord implements Searchable
             ['title', 'string', 'max' => 255],
             ['title', 'validateTitle'],
             ['parent_page_id', 'validateParentPage'],
-            [['is_home', 'admin_only', 'is_category'], 'integer']
+            [['is_home', 'admin_only', 'is_category', 'is_space_menu'], 'integer']
         ];
 
     }
@@ -82,7 +84,7 @@ class WikiPage extends ContentActiveRecord implements Searchable
         $scenarios = parent::scenarios();
         $scenarios[static::SCENARIO_CREATE] = ['title', 'parent_page_id'];
         $scenarios[static::SCENARIO_EDIT] = ($this->isOwner()) ? ['title', 'parent_page_id'] : [];
-        $scenarios[static::SCENARIO_ADMINISTER] = ['title', 'is_home', 'admin_only', 'is_category', 'parent_page_id'];
+        $scenarios[static::SCENARIO_ADMINISTER] = ['title', 'is_home', 'admin_only', 'is_category', 'parent_page_id', 'is_space_menu'];
         return $scenarios;
     }
 
@@ -110,6 +112,7 @@ class WikiPage extends ContentActiveRecord implements Searchable
             'admin_only' => Yii::t('WikiModule.base', 'Protected'),
             'is_category' => Yii::t('WikiModule.base', 'Is category'),
             'parent_page_id' => Yii::t('WikiModule.base', 'Category'),
+            'is_space_menu' => Yii::t('WikiModule.base', 'Is Space menu'),
         ];
     }
 

@@ -69,6 +69,10 @@ $canAdminister = $model->canAdminister();
                 'title' => Yii::t('WikiModule.base', 'Enable read access for non space members?'),
                 'disabled' => $model->isDisabledField('isPublic')]); ?>
 
+            <?= $form->field($model->page, 'is_space_menu')->checkbox([
+                'title' => Yii::t('WikiModule.base', 'Overwrite the wiki index start page?'),
+                'disabled' => $model->isDisabledField('is_space_menu')]); ?>
+
             <?= $form->field($model->page, 'admin_only')->checkbox([
                 'title' => Yii::t('WikiModule.base', 'Disable edit access for non wiki administrators?'),
                 'disabled' => $model->isDisabledField('admin_only')]); ?>

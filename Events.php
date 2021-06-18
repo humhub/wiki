@@ -3,6 +3,9 @@
 namespace humhub\modules\wiki;
 
 use humhub\libs\Html;
+use humhub\modules\space\widgets\Menu;
+use humhub\modules\ui\menu\MenuLink;
+use humhub\modules\wiki\models\WikiPage;
 use Yii;
 use humhub\modules\wiki\models\DefaultSettings;
 
@@ -17,15 +20,33 @@ class Events
     public static function onSpaceMenuInit($event)
     {
         try {
-            if ($event->sender->space !== null && $event->sender->space->isModuleEnabled('wiki')) {
-                $settings = new DefaultSettings(['contentContainer' => $event->sender->space]);
-                $event->sender->addItem([
+            /* @var Menu $spaceMenu */
+            $spaceMenu = $event->sender;
+            if ($spaceMenu->space !== null && $spaceMenu->space->isModuleEnabled('wiki')) {
+                $settings = new DefaultSettings(['contentContainer' => $spaceMenu->space]);
+                $spaceMenu->addEntry(new MenuLink([
                     'label' => Html::encode($settings->module_label),
-                    'group' => 'modules',
-                    'url' => $event->sender->space->createUrl('//wiki/page'),
-                    'icon' => '<i class="fa fa-book"></i>',
-                    'isActive' => (Yii::$app->controller->module && Yii::$app->controller->module->id == 'wiki'),
-                ]);
+                    'url' => $event->sender->space->createUrl('/wiki/page'),
+                    'icon' => 'book',
+                    'isActive' => MenuLink::isActiveState('wiki'),
+                ]));
+
+                // Display Wiki pages with option "Is Space menu"
+                $spaceMenuWikiPages = WikiPage::find()
+                    ->contentContainer($spaceMenu->space)
+                    ->readable()
+                    ->where(['is_space_menu' => 1])
+                    ->orderBy(['sort_order' => SORT_ASC, 'title' => SORT_ASC])
+                    ->all();
+                foreach ($spaceMenuWikiPages as $spaceMenuWikiPage) {
+                    /* @var WikiPage $spaceMenuWikiPage */
+                    $spaceMenu->addEntry(new MenuLink([
+                        'label' => Html::encode($spaceMenuWikiPage->title),
+                        'url' => $spaceMenuWikiPage->getUrl(),
+                        'icon' => 'file-text-o',
+                        'isActive' => MenuLink::isActiveState('wiki', 'page', 'view') && Yii::$app->request->get('title') == $spaceMenuWikiPage->title,
+                    ]));
+                }
             }
         } catch (\Throwable $e) {
             Yii::error($e);
