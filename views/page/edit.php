@@ -47,7 +47,7 @@ $canAdminister = $model->canAdminister();
 
             <?= $form->beginCollapsibleFields('Advanced settings'); ?>
 
-            <?php if ($canAdminister) : ?>
+            <?php if (!$canAdminister) : ?>
                 <div class="alert alert-info">
                     <?= Yii::t('WikiModule.base',
                         'In order to edit all fields, you need the permission to administer wiki pages.'); ?>
