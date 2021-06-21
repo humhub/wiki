@@ -8,8 +8,6 @@
 
 namespace wiki\acceptance;
 
-use humhub\modules\wiki\helpers\Url;
-use PHPUnit_Framework_Test;
 use wiki\AcceptanceTester;
 use Yii;
 
@@ -139,6 +137,7 @@ class WikiCest
         $I->waitForText('Create new page', 30);
         $I->fillField('#wikipage-title', 'First Test Wiki Category');
         $I->fillField('#wikipagerevision-content .humhub-ui-richtext', '# My First Wiki Category!');
+        $I->jsShow('.form-collapsible-fields.closed fieldset');
         $I->click('[for="wikipage-is_category"]');
         $I->click('Save');
 
@@ -160,6 +159,7 @@ class WikiCest
 
         $I->fillField('#wikipage-title', 'First Sub Page');
         $I->fillField('#wikipagerevision-content .humhub-ui-richtext', '# My Sub Page!');
+        $I->jsShow('.form-collapsible-fields.closed fieldset');
         $I->seeOptionIsSelected('#wikipage-parent_page_id', 'First Test Wiki Category');
         $I->click('Save');
 
@@ -181,6 +181,7 @@ class WikiCest
 
         $I->fillField('#wikipage-title', 'Second Page');
         $I->fillField('#wikipagerevision-content .humhub-ui-richtext', '# My Second Page!');
+        $I->jsShow('.form-collapsible-fields.closed fieldset');
         $I->seeOptionIsSelected('#wikipage-parent_page_id', 'First Test Wiki Category');
         $I->click('Save');
 
@@ -196,6 +197,7 @@ class WikiCest
         $I->waitForText('My Sub Page', null,'.wiki-content');
         $I->click('Edit page');
         $I->waitForElementVisible('#wiki-page-edit');
+        $I->jsShow('.form-collapsible-fields.closed fieldset');
         $I->click('[for="wikipage-is_home"]');
         $I->click('Save');
 
@@ -277,6 +279,7 @@ class WikiCest
         $I->waitForText('Create new page', 30);
         $I->fillField('#wikipage-title', "First Public {$type} Wiki Page");
         $I->fillField('#wikipagerevision-content .humhub-ui-richtext', "# My First Wiki {$type} Public Page!");
+        $I->jsShow('.form-collapsible-fields.closed fieldset');
         $I->click('[for="pageeditform-ispublic"]');
         $I->click('Save');
 
