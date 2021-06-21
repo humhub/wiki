@@ -3,11 +3,14 @@
 namespace humhub\modules\wiki;
 
 use humhub\libs\Html;
+use humhub\modules\content\components\ContentContainerActiveRecord;
 use humhub\modules\space\widgets\Menu;
 use humhub\modules\ui\menu\MenuLink;
+use humhub\modules\ui\menu\widgets\LeftNavigation;
+use humhub\modules\user\widgets\ProfileMenu;
+use humhub\modules\wiki\models\DefaultSettings;
 use humhub\modules\wiki\models\WikiPage;
 use Yii;
-use humhub\modules\wiki\models\DefaultSettings;
 
 /**
  * Description of WikiEvents
@@ -17,37 +20,50 @@ use humhub\modules\wiki\models\DefaultSettings;
 class Events
 {
 
+    /**
+     * Initialize Space/Profile menu items
+     *
+     * @param ContentContainerActiveRecord $container
+     * @param LeftNavigation $menu
+     */
+    public static function InitContainerMenus(ContentContainerActiveRecord $container, LeftNavigation $menu)
+    {
+        if (empty($container) || !$container->isModuleEnabled('wiki')) {
+            return;
+        }
+
+        $settings = new DefaultSettings(['contentContainer' => $container]);
+        $menu->addEntry(new MenuLink([
+            'label' => Html::encode($settings->module_label),
+            'url' => $container->createUrl('/wiki/page'),
+            'icon' => 'book',
+            'isActive' => MenuLink::isActiveState('wiki'),
+        ]));
+
+        // Display Wiki pages with option "Show in Space/Profile menu"
+        $containerMenuWikiPages = WikiPage::find()
+            ->contentContainer($container)
+            ->readable()
+            ->where(['is_container_menu' => 1])
+            ->all();
+        foreach ($containerMenuWikiPages as $containerMenuWikiPage) {
+            /* @var WikiPage $containerMenuWikiPage */
+            $menu->addEntry(new MenuLink([
+                'label' => Html::encode($containerMenuWikiPage->title),
+                'url' => $containerMenuWikiPage->getUrl(),
+                'icon' => 'file-text-o',
+                'isActive' => MenuLink::isActiveState('wiki', 'page', 'view') && Yii::$app->request->get('title') == $containerMenuWikiPage->title,
+                'sortOrder' => $containerMenuWikiPage->container_menu_order,
+            ]));
+        }
+    }
+
     public static function onSpaceMenuInit($event)
     {
         try {
             /* @var Menu $spaceMenu */
             $spaceMenu = $event->sender;
-            if ($spaceMenu->space !== null && $spaceMenu->space->isModuleEnabled('wiki')) {
-                $settings = new DefaultSettings(['contentContainer' => $spaceMenu->space]);
-                $spaceMenu->addEntry(new MenuLink([
-                    'label' => Html::encode($settings->module_label),
-                    'url' => $event->sender->space->createUrl('/wiki/page'),
-                    'icon' => 'book',
-                    'isActive' => MenuLink::isActiveState('wiki'),
-                ]));
-
-                // Display Wiki pages with option "Is Space menu"
-                $spaceMenuWikiPages = WikiPage::find()
-                    ->contentContainer($spaceMenu->space)
-                    ->readable()
-                    ->where(['is_space_menu' => 1])
-                    ->orderBy(['sort_order' => SORT_ASC, 'title' => SORT_ASC])
-                    ->all();
-                foreach ($spaceMenuWikiPages as $spaceMenuWikiPage) {
-                    /* @var WikiPage $spaceMenuWikiPage */
-                    $spaceMenu->addEntry(new MenuLink([
-                        'label' => Html::encode($spaceMenuWikiPage->title),
-                        'url' => $spaceMenuWikiPage->getUrl(),
-                        'icon' => 'file-text-o',
-                        'isActive' => MenuLink::isActiveState('wiki', 'page', 'view') && Yii::$app->request->get('title') == $spaceMenuWikiPage->title,
-                    ]));
-                }
-            }
+            self::InitContainerMenus($spaceMenu->space, $spaceMenu);
         } catch (\Throwable $e) {
             Yii::error($e);
         }
@@ -56,16 +72,9 @@ class Events
     public static function onProfileMenuInit($event)
     {
         try {
-            $user = $event->sender->user;
-            if ($user->isModuleEnabled('wiki')) {
-                $settings = new DefaultSettings(['contentContainer' => $user]);
-                $event->sender->addItem([
-                    'label' => substr(Html::encode($settings->module_label), 0, 20),
-                    'url' => $user->createUrl('//wiki/page'),
-                    'icon' => '<i class="fa fa-book"></i>',
-                    'isActive' => (Yii::$app->controller->module && Yii::$app->controller->module->id == 'wiki'),
-                ]);
-            }
+            /* @var ProfileMenu $profileMenu */
+            $profileMenu = $event->sender;
+            self::InitContainerMenus($profileMenu->user, $profileMenu);
         } catch (\Throwable $e) {
             Yii::error($e);
         }
