@@ -1,5 +1,6 @@
 <?php
 
+use humhub\libs\Html;
 use humhub\modules\content\components\ContentContainerActiveRecord;
 use humhub\modules\ui\view\components\View;
 use humhub\modules\wiki\models\forms\PageEditForm;
@@ -73,6 +74,13 @@ $canAdminister = $model->canAdminister();
                 'title' => Yii::t('WikiModule.base', 'Disable edit access for non wiki administrators?'),
                 'disabled' => $model->isDisabledField('admin_only')]); ?>
 
+            <?= $form->field($model->page, 'is_container_menu')->checkbox([
+                'disabled' => $model->isDisabledField('is_container_menu')]); ?>
+            <div id="container_menu_order_field"<?php if (!$model->page->is_container_menu) : ?> style="display: none"<?php endif; ?>>
+            <?= $form->field($model->page, 'container_menu_order')->textInput([
+                'disabled' => $model->isDisabledField('container_menu_order')]); ?>
+            </div>
+
             <?= $form->endCollapsibleFields(); ?>
 
             <?= $form->field($model, 'topics')->widget(TopicPicker::class, ['options' => ['disabled' => $model->isDisabledField('topics')]])->label(false) ?>
@@ -93,3 +101,9 @@ $canAdminister = $model->canAdminister();
 </div>
 
 <?= WikiLinkModal::widget(['contentContainer' => $contentContainer]) ?>
+
+<script <?= Html::nonce()?>>
+$('input[name="WikiPage[is_container_menu]"]').click(function (){
+    $('#container_menu_order_field').toggle($(this).prop('checked'));
+})
+</script>

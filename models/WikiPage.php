@@ -6,6 +6,7 @@ use humhub\modules\content\components\ActiveQueryContent;
 use humhub\modules\content\components\ContentActiveRecord;
 use humhub\modules\content\components\ContentContainerActiveRecord;
 use humhub\modules\search\interfaces\Searchable;
+use humhub\modules\space\models\Space;
 use humhub\modules\wiki\helpers\Url;
 use humhub\modules\wiki\permissions\AdministerPages;
 use humhub\modules\wiki\permissions\EditPages;
@@ -22,6 +23,9 @@ use yii\db\Expression;
  * @property integer $admin_only
  * @property integer $is_category
  * @property integer $parent_page_id
+ * @property integer $sort_order
+ * @property integer $is_container_menu
+ * @property integer $container_menu_order
  *
  * @property-read WikiPage|null $categoryPage
  *
@@ -69,7 +73,7 @@ class WikiPage extends ContentActiveRecord implements Searchable
             ['title', 'string', 'max' => 255],
             ['title', 'validateTitle'],
             ['parent_page_id', 'validateParentPage'],
-            [['is_home', 'admin_only', 'is_category'], 'integer']
+            [['is_home', 'admin_only', 'is_category', 'is_container_menu', 'container_menu_order'], 'integer']
         ];
 
     }
@@ -82,7 +86,7 @@ class WikiPage extends ContentActiveRecord implements Searchable
         $scenarios = parent::scenarios();
         $scenarios[static::SCENARIO_CREATE] = ['title', 'parent_page_id'];
         $scenarios[static::SCENARIO_EDIT] = ($this->isOwner()) ? ['title', 'parent_page_id'] : [];
-        $scenarios[static::SCENARIO_ADMINISTER] = ['title', 'is_home', 'admin_only', 'is_category', 'parent_page_id'];
+        $scenarios[static::SCENARIO_ADMINISTER] = ['title', 'is_home', 'admin_only', 'is_category', 'parent_page_id', 'is_container_menu', 'container_menu_order'];
         return $scenarios;
     }
 
@@ -103,6 +107,8 @@ class WikiPage extends ContentActiveRecord implements Searchable
      */
     public function attributeLabels()
     {
+        $isSpaceContainer = (isset($this->content->contentContainer->class) && $this->content->contentContainer->class == Space::class);
+
         return [
             'id' => 'ID',
             'title' => 'Title',
@@ -110,6 +116,12 @@ class WikiPage extends ContentActiveRecord implements Searchable
             'admin_only' => Yii::t('WikiModule.base', 'Protected'),
             'is_category' => Yii::t('WikiModule.base', 'Is category'),
             'parent_page_id' => Yii::t('WikiModule.base', 'Category'),
+            'is_container_menu' => $isSpaceContainer
+                ? Yii::t('WikiModule.base', 'Show in Space menu')
+                : Yii::t('WikiModule.base', 'Show in Profile menu'),
+            'container_menu_order' => $isSpaceContainer
+                ? Yii::t('WikiModule.base', 'Sort order in Space menu')
+                : Yii::t('WikiModule.base', 'Sort order in Profile menu'),
         ];
     }
 
