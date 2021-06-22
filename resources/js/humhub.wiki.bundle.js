@@ -88,6 +88,10 @@ humhub.module('wiki.Page', function(module, require, $) {
         });
     };
 
+    Page.print = function() {
+        window.print();
+    }
+
     module.export = Page;
 });
 humhub.module('wiki.Menu', function(module, require, $) {

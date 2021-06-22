@@ -321,3 +321,16 @@
     margin-bottom:10px;
   }
 }
+
+.wiki-icon-print {
+  float: right;
+  cursor: pointer;
+}
+@media print {
+  .wiki-icon-print, .wiki-menu, .wiki-content-info, .comment_create {
+    display: none;
+  }
+  .layout-content-container .wiki-content {
+    border: none;
+  }
+}
