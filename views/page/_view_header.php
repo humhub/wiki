@@ -39,6 +39,12 @@ if ($page->is_home) {
         <?= Label::primary(Helpers::truncateText(Html::encode($page->categoryPage->title), 30))
             ->withLink(Link::to(null, $page->categoryPage->getUrl()))->right() ?>
     <?php endif; ?>
+
+    <?= Icon::get('print', ['htmlOptions' => [
+            'title' => Yii::t('WikiModule.base', 'Print this wiki page'),
+            'data-action-click' => 'wiki.Page.print',
+            'class' => 'wiki-icon-print'
+        ]]) ?>
 </h1>
 
 <div class="wiki-content-info clearfix">

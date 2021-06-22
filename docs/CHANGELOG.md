@@ -8,6 +8,7 @@ Changelog
 - Fix #177: CLI error when no REST module is installed
 - Enh #148: Store folding state for categories per user
 - Enh #180: Option to add wiki pages to Space menu
+- Enh #62: Add print version
 
 
 1.5.3  (April 16, 2021)
