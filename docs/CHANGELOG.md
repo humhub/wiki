@@ -9,6 +9,7 @@ Changelog
 - Enh #148: Store folding state for categories per user
 - Enh #180: Option to add wiki pages to Space menu
 - Enh #62: Add print version
+- Enh #138: Add "Save" action to sidebar navigation
 
 
 1.5.3  (April 16, 2021)
