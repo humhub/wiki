@@ -1,19 +1,31 @@
 <?php
 
-use yii\helpers\Html;
+use humhub\modules\content\components\ContentContainerActiveRecord;
+use humhub\modules\ui\view\components\View;
 use humhub\modules\wiki\helpers\Url;
 use humhub\modules\wiki\widgets\WikiContent;
 use humhub\modules\user\widgets\Image;
+use humhub\widgets\Button;
 use humhub\widgets\LinkPager;
 use humhub\modules\wiki\widgets\WikiMenu;
+use yii\helpers\Html;
 
-humhub\modules\wiki\assets\Assets::register($this);
-
+/* @var $this View */
 /* @var $page \humhub\modules\wiki\models\WikiPage */
 /* @var $pagination \yii\data\Pagination */
 /* @var $revisions \humhub\modules\wiki\models\WikiPageRevision[] */
+/* @var $contentContainer ContentContainerActiveRecord */
+/* @var $isEnabledDiffTool bool */
 
+humhub\modules\wiki\assets\Assets::register($this);
 
+if ($isEnabledDiffTool) {
+    $this->registerJsConfig([
+        'wiki.History' => [
+            'wikiDiffUrl' => Url::toWikiDiff($page),
+        ],
+    ]);
+}
 ?>
 <div class="panel panel-default">
     <div class="panel-body">
@@ -23,12 +35,12 @@ humhub\modules\wiki\assets\Assets::register($this);
 
                 <h1 class="wiki-page-history-title"><i class="fa fa-file-text-o"></i> <?= Html::encode($page->title); ?></h1>
 
-                <ul class="wiki-page-history">
+                <ul class="wiki-page-history<?php if ($isEnabledDiffTool) : ?> wiki-page-history-with-diff<?php endif; ?>" data-ui-widget="wiki.History" data-ui-init>
                     <?php $first = true; ?>
                     <?php foreach ($revisions as $revision): ?>
                         <li>
                             <div class="media <?= ($first && $pagination->page == 0) ? 'alert alert-warning' : '' ?>">
-                                <div class="horizontal-line">---</div>
+                                <div class="horizontal-line">---<?= $isEnabledDiffTool ? Html::input('radio', 'revision_' . $revision->revision, $revision->revision) : ''; ?></div>
 
                                 <?= Image::widget(['user' => $revision->author, 'showTooltip' => true, 'width' => 36, 'htmlOptions' => ['class' => 'pull-left'] ]) ?>
 
@@ -59,6 +71,11 @@ humhub\modules\wiki\assets\Assets::register($this);
                         <?= LinkPager::widget(['pagination' => $pagination]); ?>
                     </div>
                 </ul>
+
+                <?php if ($isEnabledDiffTool) : ?>
+                    <?= Button::primary('Compare')->sm()->cssClass('wiki-page-history-btn-compare')->action('wiki.History.compare') ?>
+                <?php endif; ?>
+
             <?php WikiContent::end() ?>
 
             <?= WikiMenu::widget(['page' => $page, 'blocks' => [[WikiMenu::LINK_BACK_TO_PAGE], WikiMenu::BLOCK_START]])?>

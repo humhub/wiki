@@ -28,6 +28,7 @@ class Url extends \yii\helpers\Url
     const ROUTE_WIKI_EDIT = '/wiki/page/edit';
     const ROUTE_WIKI_DELETE = '/wiki/page/delete';
     const ROUTE_WIKI_HISTORY = '/wiki/page/history';
+    const ROUTE_WIKI_DIFF = '/wiki/page/diff';
     const ROUTE_WIKI_REVERT = '/wiki/page/revert';
     const ROUTE_EXTRACT_TITLES = '/wiki/page/headlines';
 
@@ -44,6 +45,13 @@ class Url extends \yii\helpers\Url
     public static function toWikiHistory(WikiPage $page)
     {
         return static::to([static::ROUTE_WIKI_HISTORY, 'id' => $page->id, 'container' => $page->content->container]);
+    }
+
+    public static function toWikiDiff(WikiPage $page, WikiPageRevision $revision1 = null, WikiPageRevision $revision2 = null)
+    {
+        $rev1 = $revision1 ? $revision1->revision : null;
+        $rev2 = $revision2 ? $revision2->revision : null;
+        return static::to([static::ROUTE_WIKI_DIFF, 'title' => $page->title, 'revision1' => $rev1, 'revision2' => $rev2, 'container' => $page->content->container]);
     }
 
     public static function toWikiRevertRevision(WikiPage $page, $revision)

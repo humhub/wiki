@@ -150,6 +150,9 @@
   padding-left: 0;
   border-left: 1px dashed #AEAEAE;
 }
+.layout-content-container .wiki-content ul.wiki-page-history.wiki-page-history-with-diff li {
+  padding-left: 38px;
+}
 .layout-content-container .wiki-content ul.wiki-page-history li {
   padding: 7px 18px;
   position: relative;
@@ -168,6 +171,9 @@
   letter-spacing: 1px;
   color: #AEAEAE;
 }
+.layout-content-container .wiki-content ul.wiki-page-history li .horizontal-line label {
+  margin-bottom: -5px;
+}
 .layout-content-container .wiki-content ul.wiki-page-history li .wiki-author-link {
   color: #AEAEAE;
   text-decoration: underline;
@@ -185,6 +191,9 @@
 }
 .layout-content-container .wiki-content ul.wiki-page-history li .alert .horizontal-line {
   top: 24px;
+}
+.layout-content-container .wiki-content button.wiki-page-history-btn-compare {
+  margin-left: 15px;
 }
 .layout-content-container .wiki-page-history-title {
   padding-left: 15px;
