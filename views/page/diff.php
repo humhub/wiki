@@ -18,7 +18,7 @@ humhub\modules\wiki\assets\Assets::register($this);
 <div class="panel panel-default">
     <div class="panel-body">
         <div class="row">
-            <?php WikiContent::begin(['cssClass' => 'wiki-page-content']) ?>
+            <?php WikiContent::begin(['cssClass' => 'wiki-page-content wiki-page-diff']) ?>
 
             <?= $this->render('_view_header', ['page' => $page]) ?>
 
@@ -45,12 +45,12 @@ humhub\modules\wiki\assets\Assets::register($this);
 
             <div class="row">
                 <div class="col-xs-6 wiki-page-revision1">
-                    <div class="markdown-render" data-ui-widget="wiki.Page"  data-ui-init="1" style="display:none">
+                    <div id="wiki-page-revision1" class="markdown-render" data-ui-widget="wiki.Page" data-ui-init="1" style="display:none">
                         <?= WikiRichText::output($revision1->content, ['id' => 'wiki-page-richtext']) ?>
                     </div>
                 </div>
                 <div class="col-xs-6 wiki-page-revision2">
-                    <div class="markdown-render" data-ui-widget="wiki.Page"  data-ui-init="1" style="display:none">
+                    <div class="markdown-render" data-ui-widget="wiki.Page" data-ui-init="1" data-diff="#wiki-page-revision1" style="display:none">
                         <?= WikiRichText::output($revision2->content, ['id' => 'wiki-page-richtext']) ?>
                     </div>
                 </div>

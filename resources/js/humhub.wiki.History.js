@@ -41,15 +41,15 @@ humhub.module('wiki.History', function(module, require, $) {
 
     History.compare = function () {
         var diffUrl = module.config.wikiDiffUrl;
-        var revisionNum = 1;
+        var revisionNum = 2;
 
         $(revisionsSelector + ':checked').each(function() {
-            if (revisionNum > 2) {
+            if (!revisionNum) {
                 return;
             }
             diffUrl += diffUrl.indexOf('?') > -1 ? '&' : '?';
             diffUrl += 'revision' + revisionNum + '=' + $(this).val();
-            revisionNum++;
+            revisionNum--;
         });
 
         client.pjax.redirect(diffUrl);

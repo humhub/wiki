@@ -9,12 +9,34 @@ humhub.module('wiki.Page', function(module, require, $) {
     Page.prototype.init = function() {
         var that = this;
         this.$.find('#wiki-page-richtext').on('afterInit', function() {
-            that.$.fadeIn('slow');
+            $(this).data('inited-richtext', true);
+            if (that.$.data('diff')) {
+                compareBlocks($(that.$.data('diff')).find('#wiki-page-richtext'), $(this));
+            } else {
+                that.$.fadeIn('slow');
+            }
         });
     };
 
     Page.print = function() {
         window.print();
+    }
+
+    /**
+     * Compare HTML content of two blocks
+     */
+    var compareBlocks = function(oldBlock, newBlock) {
+        var interval = setInterval(function() {
+            if (!oldBlock.length || oldBlock.data('inited-richtext')) {
+                var oldHtml = oldBlock.length ? oldBlock.html() : '';
+                var newHtml = newBlock.length ? newBlock.html() : '';
+
+                newBlock.html(htmldiff(oldHtml, newHtml));
+                newBlock.parent().fadeIn('slow');
+
+                clearInterval(interval);
+            }
+        }, 100);
     }
 
     module.export = Page;

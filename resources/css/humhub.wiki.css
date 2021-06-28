@@ -195,6 +195,15 @@
 .layout-content-container .wiki-content button.wiki-page-history-btn-compare {
   margin-left: 15px;
 }
+.layout-content-container .wiki-content.wiki-page-diff ins {
+  text-decoration: none;
+  background-color: #d4fcbc;
+}
+.layout-content-container .wiki-content.wiki-page-diff del {
+  text-decoration: line-through;
+  background-color: #fbb6c2;
+  color: #555;
+}
 .layout-content-container .wiki-page-history-title {
   padding-left: 15px;
 }
