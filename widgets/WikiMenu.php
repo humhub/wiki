@@ -56,7 +56,7 @@ class WikiMenu extends JsWidget
 
     const BLOCK_REVISION_VIEW =  [self::LINK_REVERT, self::LINK_REVERT_GO_BACK];
 
-    const BLOCK_EDIT =  [self::LINK_EDIT_CANCEL, self::LINK_EDIT_SAVE, self::LINK_EDIT_DELETE, self::LINK_MOVE];
+    const BLOCK_EDIT =  [self::LINK_EDIT_SAVE, self::LINK_EDIT_CANCEL, self::LINK_EDIT_DELETE, self::LINK_MOVE];
 
     const BLOCK_BOTTOM =  [self::LINK_NEW];
 
