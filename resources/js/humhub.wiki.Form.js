@@ -72,5 +72,9 @@ humhub.module('wiki.Form', function(module, require, $) {
         return this.$richtext;
     };
 
+    Form.submit = function () {
+        $('form[data-ui-widget="wiki.Form"]').submit();
+    };
+
     module.export = Form;
 });

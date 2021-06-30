@@ -38,6 +38,7 @@ class WikiMenu extends JsWidget
     const LINK_PERMA = 'perma';
 
     const LINK_EDIT_CANCEL = 'edit_cancel';
+    const LINK_EDIT_SAVE = 'edit_save';
     const LINK_EDIT_DELETE = 'edit_delete';
 
     const LINK_BACK_TO_PAGE = 'back_to_page';
@@ -55,7 +56,7 @@ class WikiMenu extends JsWidget
 
     const BLOCK_REVISION_VIEW =  [self::LINK_REVERT, self::LINK_REVERT_GO_BACK];
 
-    const BLOCK_EDIT =  [self::LINK_EDIT_CANCEL, self::LINK_EDIT_DELETE, self::LINK_MOVE];
+    const BLOCK_EDIT =  [self::LINK_EDIT_SAVE, self::LINK_EDIT_CANCEL, self::LINK_EDIT_DELETE, self::LINK_MOVE];
 
     const BLOCK_BOTTOM =  [self::LINK_NEW];
 
@@ -213,6 +214,8 @@ class WikiMenu extends JsWidget
             case static::LINK_EDIT_CANCEL:
                 $url = $this->page->isNewRecord ? Url::toOverview($this->container) : Url::toWiki($this->page);
                 return Link::to(Yii::t('WikiModule.base', 'Cancel'), $url)->icon('fa-reply')->id('wiki_cancel');
+            case static::LINK_EDIT_SAVE:
+                return Link::withAction(Yii::t('WikiModule.base', 'Save'), 'wiki.Form.submit')->icon('fa-save')->cssClass('btn btn-primary');
             case static::LINK_BACK_TO_PAGE:
                 return Link::to(Yii::t('WikiModule.base', 'Back to page'), Url::toWiki($this->page))->icon('fa-reply');
             case static::LINK_MOVE:
