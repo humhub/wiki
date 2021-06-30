@@ -20,6 +20,12 @@
 .layout-content-container .wiki-menu .nav > li > a {
   padding: 6px 15px;
 }
+.layout-content-container .wiki-menu .nav > li > a.btn {
+  text-align: left;
+}
+.layout-content-container .wiki-menu .nav > li > a.btn:hover {
+  color: #000 !important;
+}
 .layout-content-container .wiki-menu .wiki-menu-section,
 .layout-content-container .wiki-menu .wiki-menu-sub-section {
   white-space: nowrap;

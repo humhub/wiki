@@ -7,6 +7,7 @@ use humhub\modules\content\components\ContentActiveRecord;
 use humhub\modules\content\components\ContentContainerActiveRecord;
 use humhub\modules\search\interfaces\Searchable;
 use humhub\modules\space\models\Space;
+use humhub\modules\wiki\activities\WikiPageEditedActivity;
 use humhub\modules\wiki\helpers\Url;
 use humhub\modules\wiki\permissions\AdministerPages;
 use humhub\modules\wiki\permissions\EditPages;
@@ -154,7 +155,11 @@ class WikiPage extends ContentActiveRecord implements Searchable
             }
         }
 
-        return parent::afterSave($insert, $changedAttributes);
+        if (!$insert) {
+            WikiPageEditedActivity::instance()->from(Yii::$app->user->getIdentity())->about($this)->create();
+        }
+
+        parent::afterSave($insert, $changedAttributes);
     }
 
     /**
