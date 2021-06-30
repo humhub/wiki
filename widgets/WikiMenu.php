@@ -215,7 +215,7 @@ class WikiMenu extends JsWidget
                 $url = $this->page->isNewRecord ? Url::toOverview($this->container) : Url::toWiki($this->page);
                 return Link::to(Yii::t('WikiModule.base', 'Cancel'), $url)->icon('fa-reply')->id('wiki_cancel');
             case static::LINK_EDIT_SAVE:
-                return Link::withAction(Yii::t('WikiModule.base', 'Save'), 'wiki.Form.submit')->icon('fa-save');;
+                return Link::withAction(Yii::t('WikiModule.base', 'Save'), 'wiki.Form.submit')->icon('fa-save')->cssClass('btn btn-primary');
             case static::LINK_BACK_TO_PAGE:
                 return Link::to(Yii::t('WikiModule.base', 'Back to page'), Url::toWiki($this->page))->icon('fa-reply');
             case static::LINK_MOVE:
