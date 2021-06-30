@@ -263,7 +263,8 @@
   .wiki-icon-print,
   .wiki-menu,
   .wiki-content-info,
-  .comment_create {
+  .social-controls,
+  .comment-container {
     display: none;
   }
   .layout-content-container .wiki-content {
