@@ -103,8 +103,9 @@ humhub.module('wiki.Page', function(module, require, $) {
     var compareBlocks = function(oldBlock, newBlock) {
         var interval = setInterval(function() {
             if (!oldBlock.length || oldBlock.data('inited-richtext')) {
-                var oldHtml = oldBlock.length ? oldBlock.html() : '';
-                var newHtml = newBlock.length ? newBlock.html() : '';
+                var fixImgRegExp = new RegExp('(<img .+?)data-ui-gallery=".+?"(.+?>)', 'g');
+                var oldHtml = oldBlock.length ? oldBlock.html().replace(fixImgRegExp, '$1$2') : '';
+                var newHtml = newBlock.length ? newBlock.html().replace(fixImgRegExp, '$1$2') : '';
 
                 newBlock.html(htmldiff(oldHtml, newHtml));
                 newBlock.parent().fadeIn('slow');
