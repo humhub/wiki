@@ -9,6 +9,7 @@ Changelog
 - Enh #148: Store folding state for categories per user
 - Enh #180: Option to add wiki pages to Space menu
 - Enh #62: Add print version
+- Enh #22: Diff view for Wiki page changes
 - Enh #138: Add "Save" action to sidebar navigation
 - Enh #9: Add activities for edited Wiki pages
 

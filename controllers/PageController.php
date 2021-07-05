@@ -99,6 +99,46 @@ class PageController extends BaseController
         ]);
     }
 
+
+    /**
+     * Compare two revisions of a Wiki page
+     *
+     * @param string $title Wiki page title
+     * @param int $revision1 Id of revision 1
+     * @param int $revision2 Id of revision 2
+     * @return string
+     * @throws Exception
+     * @throws HttpException
+     * @throws \Throwable
+     * @throws \yii\base\InvalidConfigException
+     * @throws \yii\db\StaleObjectException
+     */
+    public function actionDiff(string $title, int $revision1, int $revision2)
+    {
+        $page = WikiPage::find()->contentContainer($this->contentContainer)->readable()->where(['title' => $title])->one();
+        if(!$page) {
+            throw new HttpException(404, 'Wiki page not found!');
+        }
+
+        $revision1 = $this->getRevision($page, $revision1);
+        if(!$revision1) {
+            $page->delete();
+            throw new HttpException(404, 'Wiki page revision 1 not found!');
+        }
+
+        $revision2 = $this->getRevision($page, $revision2);
+        if(!$revision2) {
+            $page->delete();
+            throw new HttpException(404, 'Wiki page revision 2 not found!');
+        }
+
+        return $this->render('diff', [
+            'page' => $page,
+            'revision1' => $revision1,
+            'revision2' => $revision2,
+        ]);
+    }
+
     /**
      * Returns a revision for the given page, either by a given revisionid or the latest.
      *
@@ -200,14 +240,16 @@ class PageController extends BaseController
         $pagination = new \yii\data\Pagination(['totalCount' => $countQuery->count(), 'pageSize' => "20"]);
         $query->offset($pagination->offset)->limit($pagination->limit);
 
+        $revisions = $query->all();
 
         return $this->render('history', [
-                'page' => $page,
-                'revisions' => $query->all(),
-                'pagination' => $pagination,
-                'homePage' => $this->getHomePage(),
-                'contentContainer' => $this->contentContainer]
-        );
+            'page' => $page,
+            'revisions' => $revisions,
+            'pagination' => $pagination,
+            'homePage' => $this->getHomePage(),
+            'contentContainer' => $this->contentContainer,
+            'isEnabledDiffTool' => count($revisions) > 1,
+        ]);
     }
 
     /**
