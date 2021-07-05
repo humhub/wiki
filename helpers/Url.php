@@ -24,7 +24,7 @@ class Url extends \yii\helpers\Url
     const ROUTE_HOME = '/wiki/overview/index';
     const ROUTE_OVERVIEW = '/wiki/overview/list-categories';
     const ROUTE_UPDATE_FOLDING_STATE = '/wiki/overview/update-folding-state';
-    const ROUTE_WIKI_PAGE = '/wiki/';
+    const ROUTE_WIKI_PAGE = '/wiki/page/view';
     const ROUTE_WIKI_EDIT = '/wiki/page/edit';
     const ROUTE_WIKI_DELETE = '/wiki/page/delete';
     const ROUTE_WIKI_HISTORY = '/wiki/page/history';
@@ -88,7 +88,7 @@ class Url extends \yii\helpers\Url
     public static function toWiki(WikiPage $page, WikiPageRevision $revision = null)
     {
         $rev = $revision ? $revision->revision : null;
-        return static::to([static::ROUTE_WIKI_PAGE . urlencode($page->title), 'revisionId' => $rev, 'container' => $page->content->container]);
+        return static::to([static::ROUTE_WIKI_PAGE, 'title' => $page->title, 'revisionId' => $rev, 'container' => $page->content->container]);
     }
 
     public static function toWikiDelete(WikiPage $page)
@@ -99,7 +99,7 @@ class Url extends \yii\helpers\Url
     public static function toWikiByTitle($title, ContentContainerActiveRecord $container, WikiPageRevision  $revision = null)
     {
         $rev = $revision ? $revision->revision : null;
-        return static::to([static::ROUTE_WIKI_PAGE . urlencode($title), 'revision' => $rev, 'container' => $container]);
+        return static::to([static::ROUTE_WIKI_PAGE, 'title' => $title, 'revision' => $rev, 'container' => $container]);
     }
 
     public static function toExtractTitles()

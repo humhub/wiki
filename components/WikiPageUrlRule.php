@@ -51,6 +51,24 @@ class WikiPageUrlRule extends Component implements UrlRuleInterface, ContentCont
     /**
      * @inheritdoc
      */
+    public function createContentContainerUrl(UrlManager $manager, string $containerUrlPath, string $route, array $params)
+    {
+        if ($route === 'wiki/page/view' && isset($params['title'])) {
+            $url = $containerUrlPath . '/wiki/' . urlencode($params['title']);
+            unset($params['title']);
+
+            if (!empty($params) && ($query = http_build_query($params)) !== '') {
+                $url .= '?' . $query;
+            }
+            return $url;
+        }
+
+        return false;
+    }
+
+    /**
+     * @inheritdoc
+     */
     public function createUrl($manager, $route, $params)
     {
         return false;
