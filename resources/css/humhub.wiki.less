@@ -26,6 +26,12 @@
   .wiki-menu {
     .nav > li > a {
       padding: 6px 15px;
+      &.btn {
+        text-align: left;
+        &:hover {
+          color: #000 !important;
+        }
+      }
     }
 
     .wiki-menu-section, .wiki-menu-sub-section {
@@ -297,13 +303,6 @@
       color: #555555;
     }
   }
-
-  .wiki-menu {
-    .nav-pills {
-
-    }
-  }
-
 }
 
 @media (max-width: 767px) {
@@ -350,7 +349,7 @@
   cursor: pointer;
 }
 @media print {
-  .wiki-icon-print, .wiki-menu, .wiki-content-info, .comment_create {
+  .wiki-icon-print, .wiki-menu, .wiki-content-info, .social-controls, .comment-container {
     display: none;
   }
   .layout-content-container .wiki-content {
