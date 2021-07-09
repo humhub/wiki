@@ -11,10 +11,7 @@ namespace humhub\modules\wiki\widgets;
 
 use humhub\modules\content\components\ContentContainerActiveRecord;
 use humhub\modules\wiki\models\WikiPage;
-use humhub\modules\wiki\permissions\AdministerPages;
-use humhub\modules\wiki\permissions\CreatePage;
 use humhub\widgets\JsWidget;
-use Yii;
 use yii\db\Expression;
 
 class CategoryListView extends JsWidget
@@ -40,26 +37,48 @@ class CategoryListView extends JsWidget
     public $contentContainer;
 
     /**
+     * @var int|null
+     */
+    public $parentCategoryId = null;
+
+    /**
+     * @var bool
+     */
+    public $showAddPage;
+
+    /**
+     * @var bool
+     */
+    public $showDrag;
+
+    /**
      * @return string
      * @throws \yii\base\Exception
      */
     public function run()
     {
-        // Get created categories
-        $categories = WikiPage::findCategories($this->contentContainer)->all();
+        if ($this->parentCategoryId) {
+            // Get pages of the requested category
+            $categories = WikiPage::findByCategoryId($this->contentContainer, $this->parentCategoryId)->all();
+            $unsortedPages = [];
+        } else {
+            // Get root categories and pages without category
+            $categories = WikiPage::findCategories($this->contentContainer)
+                ->andWhere(['IS', 'wiki_page.parent_page_id', new Expression('NULL')])->all();
+            $unsortedPages = WikiPage::findUnsorted($this->contentContainer)->all();
+        }
 
-        $unsortedPages = WikiPage::findUnsorted($this->contentContainer)->all();
-
-        $canAdminister = $this->contentContainer->can(AdministerPages::class);
-        $canCreate = $this->contentContainer->can(CreatePage::class);
+        if (empty($categories) && empty($unsortedPages)) {
+            return '';
+        }
 
         return $this->render('categoryListView', [
             'options' => $this->getOptions(),
             'categories' => $categories,
             'unsortedPages' => $unsortedPages,
             'contentContainer' => $this->contentContainer,
-            'canAdminister' => $canAdminister,
-            'canCreate' => $canCreate
+            'showAddPage' => $this->showAddPage,
+            'showDrag' => $this->showDrag,
         ]);
     }
 

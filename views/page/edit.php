@@ -61,10 +61,9 @@ $canAdminister = $model->canAdminister();
 
             <?= $form->field($model->page, 'is_category')->checkbox(['disabled' => $model->isDisabledField('is_category')]); ?>
 
-            <?php if (!$model->isDisabledField('is_category') || $model->page->parent_page_id) : ?>
-                <?= $form->field($model->page, 'parent_page_id')
-                    ->dropDownList($model->getCategoryList(), ['disabled' => $model->isDisabledField('parent_page_id')]); ?>
-            <?php endif; ?>
+            <?= $form->field($model->page, 'parent_page_id')
+                ->dropDownList($model->getCategoryList())
+                ->label($model->page->is_category ? Yii::t('WikiModule.base', 'Parent category') : null); ?>
 
             <?= $form->field($model, 'isPublic')->checkbox([
                 'title' => Yii::t('WikiModule.base', 'Enable read access for non space members?'),

@@ -33,7 +33,7 @@ class CategoryListItem extends Widget
     /**
      * @var string
      */
-    public $url;
+    public $icon;
 
     /**
      * @var WikiPage[]
@@ -50,15 +50,24 @@ class CategoryListItem extends Widget
      */
     public $hideTitle = false;
 
-    public $icon = 'fa-caret-square-o-down';
-    public $iconFolded = 'fa-caret-square-o-right';
-
+    /**
+     * @var bool
+     */
     public $showAddPage;
 
+    /**
+     * @var bool
+     */
     public $showDrag;
 
+    /**
+     * @var bool|null
+     */
     private static $canAdminister = null;
 
+    /**
+     * @var bool|null
+     */
     public static $canCreate = null;
 
     /**
@@ -76,21 +85,18 @@ class CategoryListItem extends Widget
 
         if ($this->category) {
             $this->title = $this->category->title;
-            $this->url = $this->category->getUrl();
             $this->pages = $this->category->findChildren()->all();
         }
 
         return $this->render('categoryListItem', [
-            'icon' => ($this->category && $this->category->isFolded() ? $this->iconFolded : $this->icon),
+            'icon' => $this->icon,
             'title' => $this->title,
-            'url' => $this->url,
             'pages' => $this->pages,
             'hideTitle' => $this->hideTitle,
             'showAddPage' => $this->showAddPage,
             'showDrag' => $this->showDrag,
             'contentContainer' => $this->contentContainer,
             'category' => $this->category,
-
         ]);
     }
 
@@ -138,6 +144,5 @@ class CategoryListItem extends Widget
 
         return false;
     }
-
 
 }
