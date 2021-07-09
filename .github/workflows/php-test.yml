@@ -22,9 +22,9 @@ jobs:
 
         strategy:
             matrix:
+                fail-fast: false
                 os:
                     - ubuntu-latest
-
                 php-version:
                     - "7.4"
                     - "8.0"
