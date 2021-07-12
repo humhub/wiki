@@ -136,6 +136,11 @@ jobs:
                 php ../../vendor/bin/codecept build
 
             - name: Run test server
+              if: ${{ matrix.humhub-ref == 'develop' }}
+              run: php --server 127.0.0.1:8080 index-test.php &>/tmp/phpserver.log &
+
+            - name: Run test server
+              if: ${{ matrix.humhub-ref == 'master' }}
               run: php --server 127.0.0.1:8080 &>/tmp/phpserver.log &
 
             - name: Setup chromedriver
