@@ -38,6 +38,9 @@
 .layout-content-container .wiki-menu .wiki-menu-sub-section {
   padding-left: 10px;
 }
+.layout-content-container .wiki-menu-top {
+  float: right;
+}
 .layout-content-container #wiki-page-edit .ProseMirror-menubar-wrapper {
   z-index: 8;
 }
@@ -263,6 +266,16 @@
   }
   .layout-content-container .wiki-menu .nav-pills a:hover {
     background-color: #5d5d5d;
+  }
+  .layout-content-container .wiki-menu-top {
+    float: none;
+    margin-bottom: 15px;
+  }
+  .layout-content-container .wiki-menu-top ul.nav-pills {
+    margin-top: 0;
+  }
+  .layout-content-container .wiki-menu-top ul li.nav-divider:last-child {
+    display: none;
   }
 }
 .wiki-preview {
