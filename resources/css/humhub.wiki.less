@@ -48,6 +48,11 @@
     }
   }
 
+  .wiki-menu-top {
+    float: right;
+  }
+
+
   #wiki-page-edit {
     .ProseMirror-menubar-wrapper {
       z-index: 8;
@@ -328,6 +333,19 @@
 
         a:hover {
           background-color: #5d5d5d;
+        }
+      }
+    }
+
+    .wiki-menu-top {
+      float: none;
+      margin-bottom: 15px;
+      ul {
+        &.nav-pills {
+          margin-top: 0;
+        }
+        li.nav-divider:last-child {
+          display: none;
         }
       }
     }

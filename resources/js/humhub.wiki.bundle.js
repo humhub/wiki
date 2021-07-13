@@ -210,7 +210,8 @@ humhub.module('wiki.Menu', function(module, require, $) {
 
         if(hasHeadLine) {
             $list.append('<li class="nav-divider"></li>');
-            $('.wiki-menu-fixed').prepend($list);
+            $('.wiki-page-content').before($list);
+            $list.wrap('<div class="col-lg-3 col-md-3 col-sm-3 wiki-menu wiki-menu-top"></div>')
         }
     };
 
