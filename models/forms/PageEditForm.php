@@ -12,6 +12,7 @@ use humhub\modules\wiki\widgets\WikiEditor;
 use humhub\modules\wiki\widgets\WikiRichText;
 use Yii;
 use yii\base\Model;
+use yii\db\Expression;
 use yii\web\HttpException;
 use humhub\modules\content\components\ContentContainerActiveRecord;
 use humhub\modules\wiki\models\WikiPage;
@@ -181,23 +182,38 @@ class PageEditForm extends Model
     }
 
     /**
+     * @param int|null $parentCategoryId Id of the parent category
+     * @param int $level
      * @return array
      * @throws \yii\base\Exception
      */
-    public function getCategoryList()
+    public function getCategoryList(int $parentCategoryId = null, int $level = 0)
     {
         $categories = [];
 
         $query = WikiPage::findCategories($this->container);
 
+        if ($parentCategoryId) {
+            $query->andWhere(['wiki_page.parent_page_id' => $parentCategoryId]);
+        } else {
+            $query->andWhere(['IS', 'wiki_page.parent_page_id', new Expression('NULL')]);
+        }
+
         if (!$this->isNewPage()) {
             $query->andWhere(['!=', 'wiki_page.id', $this->page->id]);
         }
 
-        $categories[] = Yii::t('WikiModule.base', 'None');
+        if (!$parentCategoryId) {
+            $categories[] = Yii::t('WikiModule.base', 'None');
+        }
 
         foreach ($query->all() as $category) {
-            $categories[$category->id] = $category->title;
+            /* @var WikiPage $category */
+            $categories[$category->id] = str_repeat('-', $level) . ' ' . $category->title;
+            if ($subCategories = $this->getCategoryList($category->id, ++$level)) {
+                $categories = array_merge($categories, $subCategories);
+                $level--;
+            }
         }
 
         return $categories;

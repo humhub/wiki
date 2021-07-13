@@ -40,20 +40,9 @@ humhub.module('wiki.Form', function(module, require, $) {
                             }
                         });
                     }
-                    that.hideCategorySelect();
                 });
             }
-
-            that.hideCategorySelect();
         });
-    };
-
-    Form.prototype.hideCategorySelect = function() {
-        if ($('#wikipage-is_category').is(":not(:checked)")) {
-            $('.field-wikipage-parent_page_id').show();
-        } else {
-            $('.field-wikipage-parent_page_id').hide();
-        }
     };
 
     Form.prototype.getRichtextMenu = function() {

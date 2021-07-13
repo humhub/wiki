@@ -1,47 +1,51 @@
 <?php
 
-use humhub\libs\Html;
-use humhub\widgets\Button;
-use humhub\modules\wiki\helpers\Url;
+use humhub\modules\content\components\ContentContainerActiveRecord;
+use humhub\modules\wiki\models\WikiPage;
+use humhub\modules\wiki\widgets\CategoryListView;
+use humhub\modules\wiki\widgets\PageListItemTitle;
 
-/* @var $contentContainer \humhub\modules\content\components\ContentContainerActiveRecord */
-/* @var $pages \humhub\modules\wiki\models\WikiPage[] */
+/* @var $contentContainer ContentContainerActiveRecord */
+/* @var $pages WikiPage[] */
 /* @var $title string */
 /* @var $icon string */
-/* @var $category \humhub\modules\wiki\models\WikiPage|null */
-/* @var $url string */
+/* @var $category WikiPage|null */
 /* @var $hideTitle bool */
 /* @var $showAddPage bool */
 /* @var $showDrag bool */
-/* @var $options [] */
-/* @var $context \humhub\modules\wiki\widgets\CategoryListItem */
-
 ?>
 
 <li class="wiki-category-list-item" <?= ($category) ? 'data-page-id="' . $category->id . '"' : '' ?>>
-    <div class="page-category-title" <?= ($hideTitle) ? 'style="display:none"' : '' ?>>
-        <?= Button::asLink()->icon('fa-bars')->cssClass('wiki-page-control drag-icon')->visible($category && $showDrag) ?>
-        <i class="fa <?= $icon ?>"></i> <?= Html::a(Html::encode($title), $url) ?>
-
-        <?php if($category) : ?>
-            <?= Button::asLink(null, Url::toWikiCreateForCategory($category))->icon('fa-plus')
-                ->cssClass('wiki-page-control tt wiki-category-add')->style('display:none')
-                ->title(Yii::t('WikiModule.base', 'Add Page'))->visible($showAddPage) ?>
-        <?php endif; ?>
-
-    </div>
+    <?php if (!$hideTitle) : ?>
+        <?= PageListItemTitle::widget([
+            'page' => $category,
+            'showDrag' => $showDrag,
+            'showAddPage' => $showAddPage,
+            'title' => $title,
+            'icon' => $icon,
+        ]) ?>
+    <?php endif; ?>
+    <?php if (!empty($pages)) : ?>
     <ul class="wiki-page-list"<?php if ($category && $category->isFolded()) : ?> style="display:none"<?php endif; ?>>
         <?php foreach ($pages as $page): ?>
             <li data-page-id="<?= $page->id ?>">
-                <div class="page-title">
-                    <?= Button::asLink()->icon('fa-bars')
-                        ->cssClass('wiki-page-control drag-icon')
-                        ->visible($showDrag) ?>
-                    <i class="fa fa-file-text-o"></i> <?= Html::a(Html::encode($page->title), $page->getUrl()); ?>
-                </div>
+                <?= PageListItemTitle::widget([
+                    'page' => $page,
+                    'showDrag' => $showDrag,
+                    'showAddPage' => $showAddPage,
+                ]) ?>
+                <?php if ($page->is_category) : ?>
+                    <?= CategoryListView::widget([
+                        'contentContainer' => $contentContainer,
+                        'parentCategoryId' => $page->id,
+                        'showDrag' => $showDrag,
+                        'showAddPage' => $showAddPage,
+                    ]) ?>
+                <?php endif; ?>
             </li>
         <?php endforeach; ?>
     </ul>
+    <?php endif; ?>
 </li>
 
 

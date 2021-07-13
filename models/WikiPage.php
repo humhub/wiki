@@ -129,7 +129,7 @@ class WikiPage extends ContentActiveRecord implements Searchable
 
     public function beforeSave($insert)
     {
-        if ($this->is_category || empty($this->parent_page_id)) {
+        if (empty($this->parent_page_id)) {
             $this->parent_page_id = null;
         }
 
@@ -326,6 +326,20 @@ class WikiPage extends ContentActiveRecord implements Searchable
     public static function findCategories(ContentContainerActiveRecord $container)
     {
         return static::find()->contentContainer($container)->andWhere(['wiki_page.is_category' => 1])->orderBy('sort_order ASC, title ASC');
+    }
+
+    /**
+     * @param ContentContainerActiveRecord $container
+     * @param int $categoryId
+     * @return ActiveQueryContent
+     * @throws \yii\base\Exception
+     */
+    public static function findByCategoryId(ContentContainerActiveRecord $container, int $categoryId)
+    {
+        return static::find()
+            ->contentContainer($container)
+            ->andWhere(['wiki_page.parent_page_id' => $categoryId])
+            ->orderBy('sort_order ASC, title ASC');
     }
 
     public function afterMove(ContentContainerActiveRecord $container = null) {
