@@ -37,6 +37,14 @@ $canAdminister = $model->canAdminister();
                 ]
             ); ?>
 
+            <?= $form->field($model, 'latestRevisionNumber')->hiddenInput()->label(false); ?>
+            <?php if ($model->hasErrors('confirmOverwriting')) : ?>
+                <div class="alert alert-danger"><?= Yii::t('WikiModule.base', 'You are updating a not the latest version, please confirm you want to overwrite that.'); ?></div>
+                <?= $form->field($model, 'confirmOverwriting')->checkbox()->label(); ?>
+            <?php else : ?>
+                <?= $form->field($model, 'confirmOverwriting')->hiddenInput()->label(false); ?>
+            <?php endif; ?>
+
             <?= $form->field($model->page, 'title')
                 ->textInput([
                     'placeholder' => Yii::t('WikiModule.base', 'New page title'),

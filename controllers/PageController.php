@@ -172,6 +172,7 @@ class PageController extends BaseController
         $form = (new PageEditForm(['container' => $this->contentContainer]))->forPage($id,$title,$categoryId);
 
         if($form->load(Yii::$app->request->post()) && $form->save()) {
+            $this->view->saved();
             return $this->redirect(Url::toWiki($form->page));
         }
 
