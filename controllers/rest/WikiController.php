@@ -79,8 +79,16 @@ class WikiController extends BaseContentController
 
         $wikiForm = (new PageEditForm(['container' => $page->content->container]))->forPage($page->id, $page->title, $page->parent_page_id);
 
-        if ($wikiForm->load(Yii::$app->request->getBodyParams()) && $wikiForm->save()) {
-            return RestDefinitions::getWikiPage($wikiForm->page);
+        $bodyParams = Yii::$app->request->getBodyParams();
+
+        if (!isset($bodyParams['PageEditForm']['latestRevisionNumber'])) {
+            // Don't check latest revision on update from API by default
+            $bodyParams['PageEditForm']['latestRevisionNumber'] = $wikiForm->latestRevisionNumber;
+            $bodyParams['PageEditForm']['confirmOverwriting'] = 1;
+        }
+
+        if ($wikiForm->load($bodyParams) && $wikiForm->save()) {
+            return RestDefinitions::getWikiPage(WikiPage::findOne(['id' => $wikiForm->page->id]));
         }
 
         if ($wikiForm->hasErrors() || $wikiForm->page->hasErrors()) {

@@ -8,7 +8,6 @@ use humhub\modules\topic\models\Topic;
 use humhub\modules\topic\permissions\AddTopic;
 use humhub\modules\wiki\models\WikiPageRevision;
 use humhub\modules\wiki\permissions\AdministerPages;
-use humhub\modules\wiki\widgets\WikiEditor;
 use humhub\modules\wiki\widgets\WikiRichText;
 use Yii;
 use yii\base\Model;
@@ -36,6 +35,16 @@ class PageEditForm extends Model
     public $revision;
 
     /**
+     * @var int
+     */
+    public $latestRevisionNumber;
+
+    /**
+     * @var bool
+     */
+    public $confirmOverwriting = 1;
+
+    /**
      * @var bool
      */
     public $isPublic;
@@ -52,8 +61,32 @@ class PageEditForm extends Model
     {
         return [
             ['topics', 'safe'],
-            ['isPublic', 'integer']
+            [['isPublic', 'confirmOverwriting'], 'integer'],
+            ['latestRevisionNumber', 'validateLatestRevisionNumber']
         ];
+    }
+
+    /**
+     * Validate wiki page before saving in order to don't overwrite the latest revision by mistake
+     *
+     * @param string $attribute
+     */
+    public function validateLatestRevisionNumber($attribute)
+    {
+        if ($this->isNewPage()) {
+            return;
+        }
+
+        if ($this->confirmOverwriting && $this->$attribute == $this->getLatestRevisionNumber()) {
+            return;
+        }
+
+        // Mark the confirmation checkbox with red style and display it on edit form
+        $this->addError('confirmOverwriting', '');
+        // Update the flag of the latest revision to know we are confirming only this revision at the moment
+        $this->$attribute = $this->getLatestRevisionNumber();
+        // Unselect the checkbox in order to user check it manually
+        $this->confirmOverwriting = 0;
     }
 
     /**
@@ -61,9 +94,18 @@ class PageEditForm extends Model
      */
     public function attributeLabels()
     {
-        return [
+        $labels = [
             'isPublic' => Yii::t('WikiModule.base', 'Is Public'),
         ];
+
+        if (!$this->isNewPage()) {
+            $labels['confirmOverwriting'] = Yii::t('WikiModule.base', 'I confirm to overwrite the latest changes edited at :dateTime by :userName.', [
+                ':dateTime' => Yii::$app->formatter->asDate($this->page->content->updated_at, 'medium') . ' - ' . Yii::$app->formatter->asTime($this->page->content->updated_at, 'short'),
+                ':userName' => $this->page->content->updatedBy ? $this->page->content->updatedBy->displayName : ''
+            ]);
+        }
+
+        return $labels;
     }
 
     /**
@@ -73,8 +115,8 @@ class PageEditForm extends Model
     {
         $scenarios = parent::scenarios();
         $scenarios[WikiPage::SCENARIO_CREATE] = ['topics'];
-        $scenarios[WikiPage::SCENARIO_EDIT] =  $this->page->isOwner() ? ['topics'] : [];
-        $scenarios[WikiPage::SCENARIO_ADMINISTER] = ['topics', 'isPublic'];
+        $scenarios[WikiPage::SCENARIO_EDIT] =  $this->page->isOwner() ? ['topics', 'latestRevisionNumber', 'confirmOverwriting'] : ['latestRevisionNumber', 'confirmOverwriting'];
+        $scenarios[WikiPage::SCENARIO_ADMINISTER] = ['topics', 'isPublic', 'latestRevisionNumber', 'confirmOverwriting'];
         return $scenarios;
     }
 
@@ -122,8 +164,16 @@ class PageEditForm extends Model
 
         $this->isPublic = $this->getPageVisibility($category);
         $this->revision = $this->page->createRevision();
+        $this->latestRevisionNumber = $this->getLatestRevisionNumber();
 
         return $this;
+    }
+
+    private function getLatestRevisionNumber(): int
+    {
+        /* @var $latestRevision WikiPageRevision */
+        $latestRevision = $this->page->latestRevision;
+        return $latestRevision instanceof WikiPageRevision ? $latestRevision->revision : 0;
     }
 
     private function getPageVisibility($category = null)

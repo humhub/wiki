@@ -2,6 +2,7 @@
 
 namespace wiki\api;
 
+use Codeception\Util\HttpCode;
 use wiki\ApiTester;
 use tests\codeception\_support\HumHubApiTestCest;
 
@@ -52,6 +53,34 @@ class PageCest extends HumHubApiTestCest
         $I->sendPut('wiki/page/1', [
             'WikiPage' => ['title' => 'Updated title'],
             'WikiPageRevision' => ['content' => 'Updated content.'],
+        ]);
+        $I->seeWikiPageDefinitionById(1);
+    }
+
+    public function testUpdateWikiPageWithCheckingLatestRevision(ApiTester $I)
+    {
+        if (!$this->isRestModuleEnabled()) {
+            return;
+        }
+
+        $I->wantTo('update wiki page with checking latest revision');
+        $I->amAdmin();
+
+        $I->amGoingTo('update with wrong latest revision');
+        $I->createSampleWikiPage();
+        $I->sendPut('wiki/page/1', [
+            'WikiPage' => ['title' => 'Updated title'],
+            'WikiPageRevision' => ['content' => 'Updated content.'],
+            'PageEditForm' => ['latestRevisionNumber' => '1234567890', 'confirmOverwriting' => 1],
+        ]);
+        $I->seeCodeResponseContainsJson(HttpCode::UNPROCESSABLE_ENTITY, ['wikiForm' => ['confirmOverwriting' => ['']]]);
+
+        $I->amGoingTo('update with correct latest revision');
+        $wikiPageDefinition = $I->getWikiPageDefinitionById(1);
+        $I->sendPut('wiki/page/1', [
+            'WikiPage' => ['title' => 'Updated title'],
+            'WikiPageRevision' => ['content' => 'Updated content.'],
+            'PageEditForm' => ['latestRevisionNumber' => $wikiPageDefinition['latest_revision']['revision'], 'confirmOverwriting' => 1],
         ]);
         $I->seeWikiPageDefinitionById(1);
     }
