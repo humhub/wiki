@@ -176,12 +176,28 @@ class PageController extends BaseController
             return $this->redirect(Url::toWiki($form->page));
         }
 
-        return $this->render('edit', [
+        $params = [
             'model' => $form,
             'homePage' => $this->getHomePage(),
             'contentContainer' => $this->contentContainer,
-            'canAdminister' => $this->canAdminister()
-        ]);
+            'canAdminister' => $this->canAdminister(),
+            'requireConfirmation' => $form->hasErrors('confirmOverwriting'),
+        ];
+
+        if ($params['requireConfirmation']) {
+            $originalPage = WikiPage::findOne(['id' => $form->page->id]);
+            $submittedRevision = WikiPageRevision::findOne(['revision' => $form->latestRevisionNumber]);
+
+            $params = array_merge($params, [
+                'diffUrl' => Url::toWikiDiff($originalPage, $submittedRevision, $form->page->latestRevision),
+                'diffText' => ($submittedRevision ? Yii::$app->formatter->asDateTime($submittedRevision->revision) : Yii::t('WikiModule.base', 'Unknown revision'))
+                    . ' - ' . Yii::$app->formatter->asDateTime($form->page->latestRevision->revision),
+                'backUrl' => Url::toWikiEdit($originalPage),
+                'discardChangesUrl' => $originalPage->getUrl(),
+            ]);
+        }
+
+        return $this->render('edit', $params);
     }
 
     /**

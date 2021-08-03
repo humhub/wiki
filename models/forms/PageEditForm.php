@@ -42,7 +42,7 @@ class PageEditForm extends Model
     /**
      * @var bool
      */
-    public $confirmOverwriting = 1;
+    public $confirmOverwriting = 0;
 
     /**
      * @var bool
@@ -77,16 +77,12 @@ class PageEditForm extends Model
             return;
         }
 
-        if ($this->confirmOverwriting && $this->$attribute == $this->getLatestRevisionNumber()) {
+        if ($this->confirmOverwriting || $this->$attribute == $this->getLatestRevisionNumber()) {
             return;
         }
 
         // Mark the confirmation checkbox with red style and display it on edit form
         $this->addError('confirmOverwriting', '');
-        // Update the flag of the latest revision to know we are confirming only this revision at the moment
-        $this->$attribute = $this->getLatestRevisionNumber();
-        // Unselect the checkbox in order to user check it manually
-        $this->confirmOverwriting = 0;
     }
 
     /**
@@ -99,7 +95,7 @@ class PageEditForm extends Model
         ];
 
         if (!$this->isNewPage()) {
-            $labels['confirmOverwriting'] = Yii::t('WikiModule.base', 'I confirm to overwrite the latest changes edited at :dateTime by :userName.', [
+            $labels['confirmOverwriting'] = Yii::t('WikiModule.base', 'Overwrite all changes made by :userName on :dateTime.', [
                 ':dateTime' => Yii::$app->formatter->asDate($this->page->content->updated_at, 'medium') . ' - ' . Yii::$app->formatter->asTime($this->page->content->updated_at, 'short'),
                 ':userName' => $this->page->content->updatedBy ? $this->page->content->updatedBy->displayName : ''
             ]);

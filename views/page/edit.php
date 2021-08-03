@@ -15,6 +15,11 @@ use humhub\modules\topic\widgets\TopicPicker;
 /* @var $this View */
 /* @var $model PageEditForm */
 /* @var $contentContainer ContentContainerActiveRecord */
+/* @var $requireConfirmation bool */
+/* @var $diffUrl string */
+/* @var $diffText string */
+/* @var $backUrl string */
+/* @var $discardChangesUrl string */
 
 humhub\modules\wiki\assets\Assets::register($this);
 
@@ -25,7 +30,11 @@ $canAdminister = $model->canAdminister();
     <div class="panel-body">
         <div class="row <?= $model->page->is_category ? 'wiki-category-page-edit' : '' ?>">
 
-            <?php WikiContent::begin(['title' => $model->getTitle(), 'id' => 'wiki-page-edit']) ?>
+            <?php WikiContent::begin([
+                'title' => $model->getTitle(),
+                'id' => 'wiki-page-edit',
+                'cols' => $requireConfirmation ? 12 : 9,
+            ]) ?>
 
             <?php $form = ActiveForm::begin(
                 ['enableClientValidation' => false, 'options' => [
@@ -38,12 +47,17 @@ $canAdminister = $model->canAdminister();
             ); ?>
 
             <?= $form->field($model, 'latestRevisionNumber')->hiddenInput()->label(false); ?>
-            <?php if ($model->hasErrors('confirmOverwriting')) : ?>
-                <div class="alert alert-danger"><?= Yii::t('WikiModule.base', 'You\'re about to edit an outdated version, please confirm that you want to overwrite the changes made in the meantime since you started to edit the page.'); ?></div>
+            <?php if ($requireConfirmation) : ?>
+                <div class="alert alert-danger"><?= Yii::t('WikiModule.base',
+                    'Another user has updated this page since you have started editing it. Please confirm that you want to overwrite those changes. Compare versions: :linkToCompare', [
+                    ':linkToCompare' => Html::a($diffText, $diffUrl, ['target' => '_blank'])
+                ]); ?></div>
                 <?= $form->field($model, 'confirmOverwriting')->checkbox()->label(); ?>
             <?php else : ?>
                 <?= $form->field($model, 'confirmOverwriting')->hiddenInput()->label(false); ?>
             <?php endif; ?>
+
+            <div<?php if ($requireConfirmation) : ?> style="display:none"<?php endif; ?>>
 
             <?= $form->field($model->page, 'title')
                 ->textInput([
@@ -95,13 +109,23 @@ $canAdminister = $model->canAdminister();
 
             <hr>
 
-            <?= Button::save()->submit() ?>
+            </div>
+
+            <?php if ($requireConfirmation) : ?>
+                <?= Button::save(Yii::t('WikiModule.base', 'Overwrite'))->submit() ?>
+                <?= Button::defaultType(Yii::t('WikiModule.base', 'Back'))->link($backUrl)->icon('back')->loader(true); ?>
+                <?= Button::danger(Yii::t('WikiModule.base', 'Discard my changes'))->link($discardChangesUrl)->icon('close')->loader(true); ?>
+            <?php else : ?>
+                <?= Button::save()->submit() ?>
+            <?php endif; ?>
 
             <?php ActiveForm::end(); ?>
 
             <?php WikiContent::end() ?>
 
-            <?= WikiMenu::widget(['page' => $model->page, 'edit' => true]) ?>
+            <?php if (!$requireConfirmation) : ?>
+                <?= WikiMenu::widget(['page' => $model->page, 'edit' => true]) ?>
+            <?php endif; ?>
 
         </div>
     </div>
