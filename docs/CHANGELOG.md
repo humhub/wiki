@@ -13,7 +13,8 @@ Changelog
 - Enh #138: Add "Save" action to sidebar navigation
 - Enh #9: Add activities for edited Wiki pages
 - Enh #140: Expand category hierarchy
-- Enh #113: Overwrite warning in case of parallel editing 
+- Enh #113: Overwrite warning in case of parallel editing
+- Enh #113: Improve parallel editing
 
 1.5.3  (April 16, 2021)
 ----------------------

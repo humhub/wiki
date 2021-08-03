@@ -71,16 +71,15 @@ class PageCest extends HumHubApiTestCest
         $I->sendPut('wiki/page/1', [
             'WikiPage' => ['title' => 'Updated title'],
             'WikiPageRevision' => ['content' => 'Updated content.'],
-            'PageEditForm' => ['latestRevisionNumber' => '1234567890', 'confirmOverwriting' => 1],
+            'PageEditForm' => ['latestRevisionNumber' => '1234567890'],
         ]);
         $I->seeCodeResponseContainsJson(HttpCode::UNPROCESSABLE_ENTITY, ['wikiForm' => ['confirmOverwriting' => ['']]]);
 
         $I->amGoingTo('update with correct latest revision');
-        $wikiPageDefinition = $I->getWikiPageDefinitionById(1);
         $I->sendPut('wiki/page/1', [
             'WikiPage' => ['title' => 'Updated title'],
             'WikiPageRevision' => ['content' => 'Updated content.'],
-            'PageEditForm' => ['latestRevisionNumber' => $wikiPageDefinition['latest_revision']['revision'], 'confirmOverwriting' => 1],
+            'PageEditForm' => ['confirmOverwriting' => 1],
         ]);
         $I->seeWikiPageDefinitionById(1);
     }
