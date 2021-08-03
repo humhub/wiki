@@ -50,7 +50,7 @@ $canAdminister = $model->canAdminister();
             <?php if ($requireConfirmation) : ?>
                 <div class="alert alert-danger">
                     <?= Yii::t('WikiModule.base',
-                        'Another user has updated this page since you have started editing it. Please confirm that you want to overwrite those changes. :linkToCompare', [
+                        '<strong>Warning!</strong><br><br>Another user has updated this page since you have started editing it. Please confirm that you want to overwrite those changes.<br>:linkToCompare', [
                             ':linkToCompare' => Html::a('<i class="fa fa-arrow-right"></i>&nbsp;' . Yii::t('WikiModule.base', 'Compare changes'), $diffUrl, ['target' => '_blank', 'class' => 'colorDanger'])
                         ]); ?>
                 </div>
