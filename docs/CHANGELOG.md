@@ -1,6 +1,10 @@
 Changelog
 =========
 
+1.7.0  (Unreleased)
+----------------------
+- Enh #163: Allow to create new page from wiki link
+
 1.6.0  (Unreleased)
 ----------------------
 - Enh: Moved advanced page options into extra section

@@ -3,9 +3,9 @@
     "name": "Wiki",
     "description": "Collect and share information with your very own Wiki.",
     "keywords": ["wiki"],
-    "version": "1.6.0",
+    "version": "1.7.0",
     "humhub": {
-        "minVersion": "1.8"
+        "minVersion": "1.10"
     },
     "homepage": "https://github.com/humhub/wiki",
     "authors": [
