@@ -15,6 +15,7 @@ Changelog
 - Enh #140: Expand category hierarchy
 - Enh #113: Overwrite warning in case of parallel editing
 - Enh #113: Improve parallel editing
+- Enh #5274: Deprecate CompatModuleManager
 
 1.5.3  (April 16, 2021)
 ----------------------
