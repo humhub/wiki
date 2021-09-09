@@ -33,7 +33,7 @@ humhub\modules\wiki\assets\Assets::register($this);
 
                 <?= $this->render('_view_category_index', ['page' => $page]) ?>
 
-                <div class="social-controls">
+                <div class="wall-entry-controls social-controls">
                     <?= ContentObjectLinks::widget([
                         'object' => $page,
                         'seperator' => '&middot;',
