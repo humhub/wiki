@@ -1,6 +1,10 @@
 Changelog
 =========
 
+1.7.0 (Unreleased)
+---------------------
+- Enh #140: Use widget ContentVisibiltySelect
+
 1.6.0  (Unreleased)
 ----------------------
 - Enh: Moved advanced page options into extra section

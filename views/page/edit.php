@@ -2,6 +2,7 @@
 
 use humhub\libs\Html;
 use humhub\modules\content\components\ContentContainerActiveRecord;
+use humhub\modules\ui\form\widgets\ContentVisibilitySelect;
 use humhub\modules\ui\view\components\View;
 use humhub\modules\wiki\models\forms\PageEditForm;
 use humhub\modules\wiki\widgets\WikiEditor;
@@ -89,9 +90,8 @@ $canAdminister = $model->canAdminister();
                     ->dropDownList($model->getCategoryList())
                     ->label($model->page->is_category ? Yii::t('WikiModule.base', 'Parent category') : null); ?>
 
-                <?= $form->field($model, 'isPublic')->checkbox([
-                    'title' => Yii::t('WikiModule.base', 'Enable read access for non space members?'),
-                    'disabled' => $model->isDisabledField('isPublic')]); ?>
+                <?= $form->field($model, 'isPublic')->widget(ContentVisibilitySelect::class, [
+                    'readonly' => $model->isDisabledField('isPublic')]); ?>
 
                 <?= $form->field($model->page, 'admin_only')->checkbox([
                     'title' => Yii::t('WikiModule.base', 'Disable edit access for non wiki administrators?'),
