@@ -18,7 +18,6 @@ use humhub\modules\topic\widgets\TopicPicker;
 /* @var $requireConfirmation bool */
 /* @var $diffUrl string */
 /* @var $diffText string */
-/* @var $backUrl string */
 /* @var $discardChangesUrl string */
 
 humhub\modules\wiki\assets\Assets::register($this);

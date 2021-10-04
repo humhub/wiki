@@ -192,7 +192,6 @@ class PageController extends BaseController
                 'diffUrl' => Url::toWikiDiff($originalPage, $submittedRevision, $form->page->latestRevision),
                 'diffText' => ($submittedRevision ? Yii::$app->formatter->asDateTime($submittedRevision->revision) : Yii::t('WikiModule.base', 'Unknown revision'))
                     . ' - ' . Yii::$app->formatter->asDateTime($form->page->latestRevision->revision),
-                'backUrl' => Url::toWikiEdit($originalPage),
                 'discardChangesUrl' => $originalPage->getUrl(),
             ]);
         }
