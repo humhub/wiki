@@ -26,7 +26,7 @@ humhub\modules\wiki\assets\Assets::register($this);
                 <div class="col-xs-6">
                     <strong>
                         <?php if ($revision1->isCurrentlyEditing) : ?>
-                            <?= Yii::t('WikiModule.base', 'Your currently editing version'); ?>
+                            <?= Yii::t('WikiModule.base', 'Your current version'); ?>
                         <?php else : ?>
                             <?= Yii::t('WikiModule.base', 'Edited at'); ?>
                             <?= Yii::$app->formatter->asDateTime($revision1->revision); ?>
@@ -38,7 +38,7 @@ humhub\modules\wiki\assets\Assets::register($this);
                 <div class="col-xs-6">
                     <strong>
                         <?php if ($revision2->isCurrentlyEditing) : ?>
-                            <?= Yii::t('WikiModule.base', 'Your currently editing version'); ?>
+                            <?= Yii::t('WikiModule.base', 'Your current version'); ?>
                         <?php else : ?>
                             <?= Yii::t('WikiModule.base', 'Edited at'); ?>
                             <?= Yii::$app->formatter->asDateTime($revision2->revision); ?>
