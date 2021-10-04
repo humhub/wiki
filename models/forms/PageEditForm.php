@@ -12,6 +12,7 @@ use humhub\modules\wiki\widgets\WikiRichText;
 use Yii;
 use yii\base\Model;
 use yii\db\Expression;
+use yii\helpers\ArrayHelper;
 use yii\web\HttpException;
 use humhub\modules\content\components\ContentContainerActiveRecord;
 use humhub\modules\wiki\models\WikiPage;
@@ -257,7 +258,7 @@ class PageEditForm extends Model
             /* @var WikiPage $category */
             $categories[$category->id] = str_repeat('-', $level) . ' ' . $category->title;
             if ($subCategories = $this->getCategoryList($category->id, ++$level)) {
-                $categories = array_merge($categories, $subCategories);
+                $categories = ArrayHelper::merge($categories, $subCategories);
                 $level--;
             }
         }
