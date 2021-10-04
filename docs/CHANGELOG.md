@@ -17,6 +17,7 @@ Changelog
 - Enh #113: Improve parallel editing
 - Enh #5274: Deprecate CompatModuleManager
 - Fix #201: Link color for "Comment" & "Like" from custom theme
+- Fix #204: Fix comparing of currently editing wiki page
 
 1.5.3  (April 16, 2021)
 ----------------------
