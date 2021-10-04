@@ -213,7 +213,7 @@ class PageController extends BaseController
         $form = (new PageEditForm(['container' => $this->contentContainer]))->forPage($id);
 
         if (!$form->load(Yii::$app->request->post())) {
-            throw new HttpException(404, 'Currently editing wiki page revision not found!');
+            throw new HttpException(404);
         }
 
         $submittedRevision = new WikiPageRevision();
