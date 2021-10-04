@@ -17,6 +17,7 @@ Changelog
 - Enh #113: Improve parallel editing
 - Enh #5274: Deprecate CompatModuleManager
 - Fix #201: Link color for "Comment" & "Like" from custom theme
+- Fix #206: Fix back to edit page after not confirmed overwrite
 - Fix #205: Fix category selector
 
 1.5.3  (April 16, 2021)

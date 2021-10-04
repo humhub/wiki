@@ -48,6 +48,11 @@ class PageEditForm extends Model
     /**
      * @var bool
      */
+    public $backOverwriting = 0;
+
+    /**
+     * @var bool
+     */
     public $isPublic;
 
     /**
@@ -62,7 +67,7 @@ class PageEditForm extends Model
     {
         return [
             ['topics', 'safe'],
-            [['isPublic', 'confirmOverwriting'], 'integer'],
+            [['isPublic', 'confirmOverwriting', 'backOverwriting'], 'integer'],
             ['latestRevisionNumber', 'validateLatestRevisionNumber']
         ];
     }
@@ -79,6 +84,12 @@ class PageEditForm extends Model
         }
 
         if ($this->confirmOverwriting || $this->$attribute == $this->getLatestRevisionNumber()) {
+            return;
+        }
+
+        if ($this->backOverwriting) {
+            // Revert back to edit form with not saved page content after not confirmed overwrite
+            $this->addError('backOverwriting', '');
             return;
         }
 
@@ -112,8 +123,8 @@ class PageEditForm extends Model
     {
         $scenarios = parent::scenarios();
         $scenarios[WikiPage::SCENARIO_CREATE] = ['topics'];
-        $scenarios[WikiPage::SCENARIO_EDIT] =  $this->page->isOwner() ? ['topics', 'latestRevisionNumber', 'confirmOverwriting'] : ['latestRevisionNumber', 'confirmOverwriting'];
-        $scenarios[WikiPage::SCENARIO_ADMINISTER] = ['topics', 'isPublic', 'latestRevisionNumber', 'confirmOverwriting'];
+        $scenarios[WikiPage::SCENARIO_EDIT] =  $this->page->isOwner() ? ['topics', 'latestRevisionNumber', 'confirmOverwriting', 'backOverwriting'] : ['latestRevisionNumber', 'confirmOverwriting', 'backOverwriting'];
+        $scenarios[WikiPage::SCENARIO_ADMINISTER] = ['topics', 'isPublic', 'latestRevisionNumber', 'confirmOverwriting', 'backOverwriting'];
         return $scenarios;
     }
 
