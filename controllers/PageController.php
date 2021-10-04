@@ -186,18 +186,47 @@ class PageController extends BaseController
 
         if ($params['requireConfirmation']) {
             $originalPage = WikiPage::findOne(['id' => $form->page->id]);
-            $submittedRevision = WikiPageRevision::findOne(['revision' => $form->latestRevisionNumber]);
 
             $params = array_merge($params, [
-                'diffUrl' => Url::toWikiDiff($originalPage, $submittedRevision, $form->page->latestRevision),
-                'diffText' => ($submittedRevision ? Yii::$app->formatter->asDateTime($submittedRevision->revision) : Yii::t('WikiModule.base', 'Unknown revision'))
-                    . ' - ' . Yii::$app->formatter->asDateTime($form->page->latestRevision->revision),
+                'diffUrl' => Url::toWikiDiffEditing($originalPage),
                 'backUrl' => Url::toWikiEdit($originalPage),
                 'discardChangesUrl' => $originalPage->getUrl(),
             ]);
         }
 
         return $this->render('edit', $params);
+    }
+
+    /**
+     * Compare the latest and the editing revisions of a Wiki page
+     *
+     * @param int $id Wiki page ID
+     * @return string
+     */
+    public function actionDiffEditing(int $id)
+    {
+        /* @var WikiPage $page */
+        $page = WikiPage::find()->contentContainer($this->contentContainer)->readable()->where(['wiki_page.id' => $id])->one();
+        if (!$page) {
+            throw new HttpException(404, 'Wiki page not found!');
+        }
+
+        $form = (new PageEditForm(['container' => $this->contentContainer]))->forPage($id);
+
+        if (!$form->load(Yii::$app->request->post())) {
+            throw new HttpException(404, 'Currently editing wiki page revision not found!');
+        }
+
+        $submittedRevision = new WikiPageRevision();
+        $submittedRevision->revision = time();
+        $submittedRevision->content = $form->revision->content;
+        $submittedRevision->isCurrentlyEditing = true;
+
+        return $this->render('diff', [
+            'page' => $page,
+            'revision1' => $page->latestRevision,
+            'revision2' => $submittedRevision,
+        ]);
     }
 
     /**

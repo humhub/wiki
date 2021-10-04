@@ -25,18 +25,26 @@ humhub\modules\wiki\assets\Assets::register($this);
             <div class="row">
                 <div class="col-xs-6">
                     <strong>
-                        <?= Yii::t('WikiModule.base', 'Edited at'); ?>
-                        <?= Yii::$app->formatter->asDateTime($revision1->revision); ?>
-                        <?= Yii::t('WikiModule.base', 'by'); ?>
-                        <?= Html::a(Html::encode($revision1->author->displayName), $revision1->author->getUrl(), ['class' => 'wiki-author-link']); ?>
+                        <?php if ($revision1->isCurrentlyEditing) : ?>
+                            <?= Yii::t('WikiModule.base', 'Your currently editing version'); ?>
+                        <?php else : ?>
+                            <?= Yii::t('WikiModule.base', 'Edited at'); ?>
+                            <?= Yii::$app->formatter->asDateTime($revision1->revision); ?>
+                            <?= Yii::t('WikiModule.base', 'by'); ?>
+                            <?= Html::a(Html::encode($revision1->author->displayName), $revision1->author->getUrl(), ['class' => 'wiki-author-link']); ?>
+                        <?php endif; ?>
                     </strong>
                 </div>
                 <div class="col-xs-6">
                     <strong>
-                        <?= Yii::t('WikiModule.base', 'Edited at'); ?>
-                        <?= Yii::$app->formatter->asDateTime($revision2->revision); ?>
-                        <?= Yii::t('WikiModule.base', 'by'); ?>
-                        <?= Html::a(Html::encode($revision2->author->displayName), $revision2->author->getUrl(), ['class' => 'wiki-author-link']); ?>
+                        <?php if ($revision2->isCurrentlyEditing) : ?>
+                            <?= Yii::t('WikiModule.base', 'Your currently editing version'); ?>
+                        <?php else : ?>
+                            <?= Yii::t('WikiModule.base', 'Edited at'); ?>
+                            <?= Yii::$app->formatter->asDateTime($revision2->revision); ?>
+                            <?= Yii::t('WikiModule.base', 'by'); ?>
+                            <?= Html::a(Html::encode($revision2->author->displayName), $revision2->author->getUrl(), ['class' => 'wiki-author-link']); ?>
+                        <?php endif; ?>
                     </strong>
                 </div>
             </div>
