@@ -61,6 +61,11 @@ humhub.module('wiki.Form', function(module, require, $) {
         return this.$richtext;
     };
 
+    Form.prototype.backOverwriting = function () {
+        $('input[type=hidden][name="PageEditForm[backOverwriting]"]').val(1);
+        $('form[data-ui-widget="wiki.Form"]').submit();
+    };
+  
     Form.prototype.compareOverwriting = function(evt) {
         var form = this.$;
         var origFormAction = form.attr('action');

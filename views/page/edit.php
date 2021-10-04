@@ -17,7 +17,6 @@ use humhub\modules\topic\widgets\TopicPicker;
 /* @var $contentContainer ContentContainerActiveRecord */
 /* @var $requireConfirmation bool */
 /* @var $diffUrl string */
-/* @var $backUrl string */
 /* @var $discardChangesUrl string */
 
 humhub\modules\wiki\assets\Assets::register($this);
@@ -53,7 +52,16 @@ $canAdminister = $model->canAdminister();
                             ':linkToCompare' => Button::asLink('<i class="fa fa-arrow-right"></i>&nbsp;' . Yii::t('WikiModule.base', 'Compare changes'))->action('compareOverwriting', $diffUrl)->cssClass('colorDanger')
                         ]); ?>
                 </div>
+                <?= $form->field($model, 'backOverwriting')->hiddenInput()->label(false); ?>
                 <?= $form->field($model, 'confirmOverwriting')->checkbox()->label(); ?>
+
+                <?= Button::save(Yii::t('WikiModule.base', 'Overwrite'))->submit() ?>
+
+                <?= Button::defaultType(Yii::t('WikiModule.base', 'Back'))->action('backOverwriting')->icon('back')->loader(false); ?>
+
+                <div class="pull-right">
+                    <?= Button::danger(Yii::t('WikiModule.base', 'Discard my changes'))->link($discardChangesUrl)->icon('close')->loader(true); ?>
+                </div>
             <?php else : ?>
                 <?= $form->field($model, 'confirmOverwriting')->hiddenInput()->label(false); ?>
             <?php endif; ?>
@@ -107,23 +115,10 @@ $canAdminister = $model->canAdminister();
 
                 <?= $form->field($model, 'topics')->widget(TopicPicker::class, ['options' => ['disabled' => $model->isDisabledField('topics')]])->label(false) ?>
 
-
                 <hr>
 
-            </div>
-
-            <?php if ($requireConfirmation) : ?>
-                <?= Button::save(Yii::t('WikiModule.base', 'Overwrite'))->submit() ?>
-                &nbsp;
-                <?= Button::defaultType(Yii::t('WikiModule.base', 'Back'))->link($backUrl)->icon('back')->loader(true); ?>
-
-                <div class="pull-right">
-                    <?= Button::danger(Yii::t('WikiModule.base', 'Discard my changes'))->link($discardChangesUrl)->icon('close')->loader(true); ?>
-                </div>
-
-            <?php else : ?>
                 <?= Button::save()->submit() ?>
-            <?php endif; ?>
+            </div>
 
             <?php ActiveForm::end(); ?>
 

@@ -189,7 +189,6 @@ class PageController extends BaseController
 
             $params = array_merge($params, [
                 'diffUrl' => Url::toWikiDiffEditing($originalPage),
-                'backUrl' => Url::toWikiEdit($originalPage),
                 'discardChangesUrl' => $originalPage->getUrl(),
             ]);
         }
