@@ -19,6 +19,7 @@ Changelog
 - Fix #201: Link color for "Comment" & "Like" from custom theme
 - Fix #206: Fix back to edit page after not confirmed overwrite
 - Fix #205: Fix category selector
+- Fix #204: Fix comparing of currently editing wiki page
 
 1.5.3  (April 16, 2021)
 ----------------------

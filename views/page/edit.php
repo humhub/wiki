@@ -17,7 +17,6 @@ use humhub\modules\topic\widgets\TopicPicker;
 /* @var $contentContainer ContentContainerActiveRecord */
 /* @var $requireConfirmation bool */
 /* @var $diffUrl string */
-/* @var $diffText string */
 /* @var $discardChangesUrl string */
 
 humhub\modules\wiki\assets\Assets::register($this);
@@ -50,7 +49,7 @@ $canAdminister = $model->canAdminister();
                 <div class="alert alert-danger">
                     <?= Yii::t('WikiModule.base',
                         '<strong>Warning!</strong><br><br>Another user has updated this page since you have started editing it. Please confirm that you want to overwrite those changes.<br>:linkToCompare', [
-                            ':linkToCompare' => Html::a('<i class="fa fa-arrow-right"></i>&nbsp;' . Yii::t('WikiModule.base', 'Compare changes'), $diffUrl, ['target' => '_blank', 'class' => 'colorDanger'])
+                            ':linkToCompare' => Button::asLink('<i class="fa fa-arrow-right"></i>&nbsp;' . Yii::t('WikiModule.base', 'Compare changes'))->action('compareOverwriting', $diffUrl)->cssClass('colorDanger')
                         ]); ?>
                 </div>
                 <?= $form->field($model, 'backOverwriting')->hiddenInput()->label(false); ?>
