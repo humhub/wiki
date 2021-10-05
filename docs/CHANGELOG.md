@@ -1,8 +1,8 @@
 Changelog
 =========
 
-1.6.0  (Unreleased)
-----------------------
+1.6.0  (October 5, 2021)
+------------------------
 - Enh: Moved advanced page options into extra section
 - Enh: Compiled multiple translation messages into single `base` file
 - Fix #177: CLI error when no REST module is installed
@@ -20,6 +20,7 @@ Changelog
 - Fix #206: Fix back to edit page after not confirmed overwrite
 - Fix #205: Fix category selector
 - Fix #204: Fix comparing of currently editing wiki page
+
 
 1.5.3  (April 16, 2021)
 ----------------------
