@@ -1,6 +1,11 @@
 Changelog
 =========
 
+1.6.1  (Unreleased)
+------------------------
+- Enh #207: Hide footer from print version
+
+
 1.6.0  (October 5, 2021)
 ------------------------
 - Enh: Moved advanced page options into extra section
