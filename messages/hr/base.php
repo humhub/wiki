@@ -78,6 +78,6 @@ return [
     'Show in Space menu' => '',
     'Sort order in Profile menu' => '',
     'Sort order in Space menu' => '',
-    'Unknown revision' => '',
+    'Your current version' => '',
     '{userName} edited the Wiki page "{wikiPageTitle}".' => '',
 ];

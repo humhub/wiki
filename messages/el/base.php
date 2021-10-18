@@ -75,9 +75,9 @@ return [
     'Sort order in Space menu' => '',
     'There are no pages in this category' => '',
     'This page is empty.' => '',
-    'Unknown revision' => '',
     'Wiki' => '',
     'Wiki page' => '',
+    'Your current version' => '',
     'by' => '',
     '{userName} edited the Wiki page "{wikiPageTitle}".' => '',
 ];
