@@ -1,9 +1,10 @@
 Changelog
 =========
 
-1.6.1  (Unreleased)
-------------------------
+1.6.1  (October 27, 2021)
+-------------------------
 - Enh #207: Hide footer from print version
+- Fix #215: Fix category hierarchy selector
 
 
 1.6.0  (October 5, 2021)

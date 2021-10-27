@@ -270,8 +270,8 @@ class PageEditForm extends Model
             $categories[$category->id] = str_repeat('-', $level) . ' ' . $category->title;
             if ($subCategories = $this->getCategoryList($category->id, ++$level)) {
                 $categories = ArrayHelper::merge($categories, $subCategories);
-                $level--;
             }
+            $level--;
         }
 
         return $categories;
