@@ -36,7 +36,7 @@ if ($page->is_home) {
     <?php endif; ?>
 
     <?php if ($page->categoryPage) : ?>
-        <?= Label::primary(Helpers::truncateText(Html::encode($page->categoryPage->title), 30))
+        <?= Label::primary(Helpers::truncateText($page->categoryPage->title, 30))
             ->withLink(Link::to(null, $page->categoryPage->getUrl()))->right() ?>
     <?php endif; ?>
 
