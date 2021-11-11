@@ -5,6 +5,7 @@ Changelog
 -------------------------
 - Enh #207: Hide footer from print version
 - Fix #215: Fix category hierarchy selector
+- Fix #218: Category Label being double-html-encoded 
 
 
 1.6.0  (October 5, 2021)
