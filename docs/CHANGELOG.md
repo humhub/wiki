@@ -1,12 +1,15 @@
 Changelog
 =========
 
+1.6.2  (Unreleased)
+-------------------------
+- Fix #220: Force a space between 'last updated' and date on wiki header 
+- Fix #218: Category Label being double-html-encoded
+
 1.6.1  (October 27, 2021)
 -------------------------
 - Enh #207: Hide footer from print version
 - Fix #215: Fix category hierarchy selector
-- Fix #218: Category Label being double-html-encoded 
-
 
 1.6.0  (October 5, 2021)
 ------------------------
