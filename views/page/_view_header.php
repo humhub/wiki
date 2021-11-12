@@ -49,7 +49,7 @@ if ($page->is_home) {
 
 <div class="wiki-content-info clearfix">
     <small>
-        <?= Yii::t('WikiModule.base', 'Last updated ') . TimeAgo::widget(['timestamp' => $page->content->updated_at]) ?>
+        <?= trim(Yii::t('WikiModule.base', 'Last updated ')) . ' ' . TimeAgo::widget(['timestamp' => $page->content->updated_at]) ?>
 
         <?php if ($page->content->updatedBy !== null): ?>
             <?= Yii::t('WikiModule.base', 'by') ?>
