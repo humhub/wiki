@@ -1,6 +1,10 @@
 Changelog
 =========
 
+1.7.0  (Unreleased)
+----------------------
+- Enh #5151: ContentContainer scoped URL Rules
+
 1.6.2  (November 29, 2021)
 --------------------------
 - Fix #220: Force a space between 'last updated' and date on wiki header 
