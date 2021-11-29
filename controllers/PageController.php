@@ -99,6 +99,46 @@ class PageController extends BaseController
         ]);
     }
 
+
+    /**
+     * Compare two revisions of a Wiki page
+     *
+     * @param string $title Wiki page title
+     * @param int $revision1 Id of revision 1
+     * @param int $revision2 Id of revision 2
+     * @return string
+     * @throws Exception
+     * @throws HttpException
+     * @throws \Throwable
+     * @throws \yii\base\InvalidConfigException
+     * @throws \yii\db\StaleObjectException
+     */
+    public function actionDiff(string $title, int $revision1, int $revision2)
+    {
+        $page = WikiPage::find()->contentContainer($this->contentContainer)->readable()->where(['title' => $title])->one();
+        if(!$page) {
+            throw new HttpException(404, 'Wiki page not found!');
+        }
+
+        $revision1 = $this->getRevision($page, $revision1);
+        if(!$revision1) {
+            $page->delete();
+            throw new HttpException(404, 'Wiki page revision 1 not found!');
+        }
+
+        $revision2 = $this->getRevision($page, $revision2);
+        if(!$revision2) {
+            $page->delete();
+            throw new HttpException(404, 'Wiki page revision 2 not found!');
+        }
+
+        return $this->render('diff', [
+            'page' => $page,
+            'revision1' => $revision1,
+            'revision2' => $revision2,
+        ]);
+    }
+
     /**
      * Returns a revision for the given page, either by a given revisionid or the latest.
      *
@@ -132,14 +172,59 @@ class PageController extends BaseController
         $form = (new PageEditForm(['container' => $this->contentContainer]))->forPage($id,$title,$categoryId);
 
         if($form->load(Yii::$app->request->post()) && $form->save()) {
+            $this->view->saved();
             return $this->redirect(Url::toWiki($form->page));
         }
 
-        return $this->render('edit', [
+        $params = [
             'model' => $form,
             'homePage' => $this->getHomePage(),
             'contentContainer' => $this->contentContainer,
-            'canAdminister' => $this->canAdminister()
+            'canAdminister' => $this->canAdminister(),
+            'requireConfirmation' => $form->hasErrors('confirmOverwriting'),
+        ];
+
+        if ($params['requireConfirmation']) {
+            $originalPage = WikiPage::findOne(['id' => $form->page->id]);
+
+            $params = array_merge($params, [
+                'diffUrl' => Url::toWikiDiffEditing($originalPage),
+                'discardChangesUrl' => $originalPage->getUrl(),
+            ]);
+        }
+
+        return $this->render('edit', $params);
+    }
+
+    /**
+     * Compare the latest and the editing revisions of a Wiki page
+     *
+     * @param int $id Wiki page ID
+     * @return string
+     */
+    public function actionDiffEditing(int $id)
+    {
+        /* @var WikiPage $page */
+        $page = WikiPage::find()->contentContainer($this->contentContainer)->readable()->where(['wiki_page.id' => $id])->one();
+        if (!$page) {
+            throw new HttpException(404, 'Wiki page not found!');
+        }
+
+        $form = (new PageEditForm(['container' => $this->contentContainer]))->forPage($id);
+
+        if (!$form->load(Yii::$app->request->post())) {
+            throw new HttpException(404);
+        }
+
+        $submittedRevision = new WikiPageRevision();
+        $submittedRevision->revision = time();
+        $submittedRevision->content = $form->revision->content;
+        $submittedRevision->isCurrentlyEditing = true;
+
+        return $this->render('diff', [
+            'page' => $page,
+            'revision1' => $page->latestRevision,
+            'revision2' => $submittedRevision,
         ]);
     }
 
@@ -200,14 +285,16 @@ class PageController extends BaseController
         $pagination = new \yii\data\Pagination(['totalCount' => $countQuery->count(), 'pageSize' => "20"]);
         $query->offset($pagination->offset)->limit($pagination->limit);
 
+        $revisions = $query->all();
 
         return $this->render('history', [
-                'page' => $page,
-                'revisions' => $query->all(),
-                'pagination' => $pagination,
-                'homePage' => $this->getHomePage(),
-                'contentContainer' => $this->contentContainer]
-        );
+            'page' => $page,
+            'revisions' => $revisions,
+            'pagination' => $pagination,
+            'homePage' => $this->getHomePage(),
+            'contentContainer' => $this->contentContainer,
+            'isEnabledDiffTool' => count($revisions) > 1,
+        ]);
     }
 
     /**

@@ -36,7 +36,7 @@ if ($page->is_home) {
     <?php endif; ?>
 
     <?php if ($page->categoryPage) : ?>
-        <?= Label::primary(Helpers::truncateText(Html::encode($page->categoryPage->title), 30))
+        <?= Label::primary(Helpers::truncateText($page->categoryPage->title, 30))
             ->withLink(Link::to(null, $page->categoryPage->getUrl()))->right() ?>
     <?php endif; ?>
 
@@ -49,7 +49,7 @@ if ($page->is_home) {
 
 <div class="wiki-content-info clearfix">
     <small>
-        <?= Yii::t('WikiModule.base', 'Last updated ') . TimeAgo::widget(['timestamp' => $page->content->updated_at]) ?>
+        <?= trim(Yii::t('WikiModule.base', 'Last updated ')) . ' ' . TimeAgo::widget(['timestamp' => $page->content->updated_at]) ?>
 
         <?php if ($page->content->updatedBy !== null): ?>
             <?= Yii::t('WikiModule.base', 'by') ?>

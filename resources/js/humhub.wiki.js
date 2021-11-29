@@ -20,10 +20,21 @@ humhub.module('wiki', function(module, require, $) {
 
                 sticky = sticky && canStick;
 
-                if(!sticky) {
-                    setting.$node.css({'position':'relative', 'top': '0'});
-                } else {
-                    setting.$node.css({'position': 'sticky', 'top': view.getContentTop()+'px'});
+                var topMenu = setting.$node.data('menu-top');
+                var shiftTopMenuPosition = topMenu && topMenu.length ? topMenu.height() : 0;
+                var menuCss = {'position': 'relative', 'top': '0'};
+
+                if (sticky) {
+                    menuCss.position = 'sticky';
+                    menuCss.top = (view.getContentTop() + shiftTopMenuPosition) + 'px';
+                }
+
+                setting.$node.css(menuCss);
+                if (shiftTopMenuPosition) {
+                    if (sticky) {
+                        menuCss.top = (parseInt(menuCss.top) - shiftTopMenuPosition) + 'px';
+                    }
+                    topMenu.css(menuCss);
                 }
             });
         });

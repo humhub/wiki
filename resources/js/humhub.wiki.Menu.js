@@ -42,6 +42,8 @@ humhub.module('wiki.Menu', function(module, require, $) {
     };
 
     Menu.prototype.buildIndex = function() {
+        var that = this;
+
         var $list = $('<ul class="nav nav-pills nav-stacked">');
 
         var $listHeader = $('<li><a href="#"><i class="fa fa-list-ol"></i> '+wikiView.text('pageindex')+'</li></a>').on('click', function(evt) {
@@ -51,6 +53,11 @@ humhub.module('wiki.Menu', function(module, require, $) {
                 $siblings.hide();
             } else {
                 $siblings.show();
+            }
+            if (that.$.css('position') === 'sticky') {
+                var topMenu = that.$.data('menu-top');
+                var shiftTopMenuPosition = topMenu && topMenu.length ? topMenu.height() : 0;
+                that.$.css('top', (view.getContentTop() + shiftTopMenuPosition) + 'px');
             }
         });
 
@@ -91,7 +98,9 @@ humhub.module('wiki.Menu', function(module, require, $) {
 
         if(hasHeadLine) {
             $list.append('<li class="nav-divider"></li>');
-            $('.wiki-menu-fixed').prepend($list);
+            $('.wiki-page-content').before($list);
+            $list.wrap('<div class="col-lg-3 col-md-3 col-sm-3 wiki-menu wiki-menu-top"></div>')
+            this.$.data('menu-top', $list.parent());
         }
     };
 

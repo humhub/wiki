@@ -8,10 +8,11 @@ use humhub\modules\topic\models\Topic;
 use humhub\modules\topic\permissions\AddTopic;
 use humhub\modules\wiki\models\WikiPageRevision;
 use humhub\modules\wiki\permissions\AdministerPages;
-use humhub\modules\wiki\widgets\WikiEditor;
 use humhub\modules\wiki\widgets\WikiRichText;
 use Yii;
 use yii\base\Model;
+use yii\db\Expression;
+use yii\helpers\ArrayHelper;
 use yii\web\HttpException;
 use humhub\modules\content\components\ContentContainerActiveRecord;
 use humhub\modules\wiki\models\WikiPage;
@@ -35,6 +36,21 @@ class PageEditForm extends Model
     public $revision;
 
     /**
+     * @var int
+     */
+    public $latestRevisionNumber;
+
+    /**
+     * @var bool
+     */
+    public $confirmOverwriting = 0;
+
+    /**
+     * @var bool
+     */
+    public $backOverwriting = 0;
+
+    /**
      * @var bool
      */
     public $isPublic;
@@ -51,8 +67,34 @@ class PageEditForm extends Model
     {
         return [
             ['topics', 'safe'],
-            ['isPublic', 'integer']
+            [['isPublic', 'confirmOverwriting', 'backOverwriting'], 'integer'],
+            ['latestRevisionNumber', 'validateLatestRevisionNumber']
         ];
+    }
+
+    /**
+     * Validate wiki page before saving in order to don't overwrite the latest revision by mistake
+     *
+     * @param string $attribute
+     */
+    public function validateLatestRevisionNumber($attribute)
+    {
+        if ($this->isNewPage()) {
+            return;
+        }
+
+        if ($this->confirmOverwriting || $this->$attribute == $this->getLatestRevisionNumber()) {
+            return;
+        }
+
+        if ($this->backOverwriting) {
+            // Revert back to edit form with not saved page content after not confirmed overwrite
+            $this->addError('backOverwriting', '');
+            return;
+        }
+
+        // Mark the confirmation checkbox with red style and display it on edit form
+        $this->addError('confirmOverwriting', '');
     }
 
     /**
@@ -60,9 +102,18 @@ class PageEditForm extends Model
      */
     public function attributeLabels()
     {
-        return [
+        $labels = [
             'isPublic' => Yii::t('WikiModule.base', 'Is Public'),
         ];
+
+        if (!$this->isNewPage()) {
+            $labels['confirmOverwriting'] = Yii::t('WikiModule.base', 'Overwrite all changes made by :userName on :dateTime.', [
+                ':dateTime' => Yii::$app->formatter->asDate($this->page->content->updated_at, 'medium') . ' - ' . Yii::$app->formatter->asTime($this->page->content->updated_at, 'short'),
+                ':userName' => $this->page->content->updatedBy ? $this->page->content->updatedBy->displayName : ''
+            ]);
+        }
+
+        return $labels;
     }
 
     /**
@@ -72,8 +123,8 @@ class PageEditForm extends Model
     {
         $scenarios = parent::scenarios();
         $scenarios[WikiPage::SCENARIO_CREATE] = ['topics'];
-        $scenarios[WikiPage::SCENARIO_EDIT] =  $this->page->isOwner() ? ['topics'] : [];
-        $scenarios[WikiPage::SCENARIO_ADMINISTER] = ['topics', 'isPublic'];
+        $scenarios[WikiPage::SCENARIO_EDIT] =  $this->page->isOwner() ? ['topics', 'latestRevisionNumber', 'confirmOverwriting', 'backOverwriting'] : ['latestRevisionNumber', 'confirmOverwriting', 'backOverwriting'];
+        $scenarios[WikiPage::SCENARIO_ADMINISTER] = ['topics', 'isPublic', 'latestRevisionNumber', 'confirmOverwriting', 'backOverwriting'];
         return $scenarios;
     }
 
@@ -121,8 +172,16 @@ class PageEditForm extends Model
 
         $this->isPublic = $this->getPageVisibility($category);
         $this->revision = $this->page->createRevision();
+        $this->latestRevisionNumber = $this->getLatestRevisionNumber();
 
         return $this;
+    }
+
+    private function getLatestRevisionNumber(): int
+    {
+        /* @var $latestRevision WikiPageRevision */
+        $latestRevision = $this->page->latestRevision;
+        return $latestRevision instanceof WikiPageRevision ? $latestRevision->revision : 0;
     }
 
     private function getPageVisibility($category = null)
@@ -181,23 +240,38 @@ class PageEditForm extends Model
     }
 
     /**
+     * @param int|null $parentCategoryId Id of the parent category
+     * @param int $level
      * @return array
      * @throws \yii\base\Exception
      */
-    public function getCategoryList()
+    public function getCategoryList(int $parentCategoryId = null, int $level = 0)
     {
         $categories = [];
 
         $query = WikiPage::findCategories($this->container);
 
+        if ($parentCategoryId) {
+            $query->andWhere(['wiki_page.parent_page_id' => $parentCategoryId]);
+        } else {
+            $query->andWhere(['IS', 'wiki_page.parent_page_id', new Expression('NULL')]);
+        }
+
         if (!$this->isNewPage()) {
             $query->andWhere(['!=', 'wiki_page.id', $this->page->id]);
         }
 
-        $categories[] = Yii::t('WikiModule.base', 'None');
+        if (!$parentCategoryId) {
+            $categories[] = Yii::t('WikiModule.base', 'None');
+        }
 
         foreach ($query->all() as $category) {
-            $categories[$category->id] = $category->title;
+            /* @var WikiPage $category */
+            $categories[$category->id] = str_repeat('-', $level) . ' ' . $category->title;
+            if ($subCategories = $this->getCategoryList($category->id, ++$level)) {
+                $categories = ArrayHelper::merge($categories, $subCategories);
+            }
+            $level--;
         }
 
         return $categories;

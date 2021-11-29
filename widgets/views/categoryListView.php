@@ -7,8 +7,8 @@ use humhub\modules\wiki\widgets\CategoryListItem;
 /* @var $categories \humhub\modules\wiki\models\WikiPage[] */
 /* @var $unsortedPages \humhub\modules\wiki\models\WikiPage[] */
 /* @var $options [] */
-/* @var $canCreate bool */
-/* @var $canAdminister bool */
+/* @var $showAddPage bool */
+/* @var $showDrag bool */
 ?>
 <?= Html::beginTag('ul', $options) ?>
 
@@ -16,7 +16,10 @@ use humhub\modules\wiki\widgets\CategoryListItem;
         <?php if ($category->content->canView()) : ?>
             <?= CategoryListItem::widget([
                 'category' => $category,
-                'contentContainer' => $contentContainer]) ?>
+                'contentContainer' => $contentContainer,
+                'showDrag' => $showDrag,
+                'showAddPage' => $showAddPage,
+            ]) ?>
         <?php endif; ?>
     <?php endforeach; ?>
 
@@ -31,5 +34,3 @@ use humhub\modules\wiki\widgets\CategoryListItem;
     <?php endif; ?>
 
 <?= Html::endTag('ul') ?>
-
-

@@ -15,6 +15,9 @@ use humhub\modules\topic\widgets\TopicPicker;
 /* @var $this View */
 /* @var $model PageEditForm */
 /* @var $contentContainer ContentContainerActiveRecord */
+/* @var $requireConfirmation bool */
+/* @var $diffUrl string */
+/* @var $discardChangesUrl string */
 
 humhub\modules\wiki\assets\Assets::register($this);
 
@@ -25,7 +28,11 @@ $canAdminister = $model->canAdminister();
     <div class="panel-body">
         <div class="row <?= $model->page->is_category ? 'wiki-category-page-edit' : '' ?>">
 
-            <?php WikiContent::begin(['title' => $model->getTitle(), 'id' => 'wiki-page-edit']) ?>
+            <?php WikiContent::begin([
+                'title' => $model->getTitle(),
+                'id' => 'wiki-page-edit',
+                'cols' => $requireConfirmation ? 12 : 9,
+            ]) ?>
 
             <?php $form = ActiveForm::begin(
                 ['enableClientValidation' => false, 'options' => [
@@ -37,64 +44,89 @@ $canAdminister = $model->canAdminister();
                 ]
             ); ?>
 
-            <?= $form->field($model->page, 'title')
-                ->textInput([
-                    'placeholder' => Yii::t('WikiModule.base', 'New page title'),
-                    'disabled' => $model->isDisabledField('title')
-                ])->label(false); ?>
-
-            <?= $form->field($model->revision, 'content')->widget(WikiEditor::class)->label(false) ?>
-
-
-            <?= $form->beginCollapsibleFields('Advanced settings'); ?>
-
-            <?php if (!$canAdminister) : ?>
-                <div class="alert alert-info">
+            <?= $form->field($model, 'latestRevisionNumber')->hiddenInput()->label(false); ?>
+            <?php if ($requireConfirmation) : ?>
+                <div class="alert alert-danger">
                     <?= Yii::t('WikiModule.base',
-                        'In order to edit all fields, you need the permission to administer wiki pages.'); ?>
+                        '<strong>Warning!</strong><br><br>Another user has updated this page since you have started editing it. Please confirm that you want to overwrite those changes.<br>:linkToCompare', [
+                            ':linkToCompare' => Button::asLink('<i class="fa fa-arrow-right"></i>&nbsp;' . Yii::t('WikiModule.base', 'Compare changes'))->action('compareOverwriting', $diffUrl)->cssClass('colorDanger')
+                        ]); ?>
                 </div>
+                <?= $form->field($model, 'backOverwriting')->hiddenInput()->label(false); ?>
+                <?= $form->field($model, 'confirmOverwriting')->checkbox()->label(); ?>
+
+                <?= Button::save(Yii::t('WikiModule.base', 'Overwrite'))->submit() ?>
+
+                <?= Button::defaultType(Yii::t('WikiModule.base', 'Back'))->action('backOverwriting')->icon('back')->loader(false); ?>
+
+                <div class="pull-right">
+                    <?= Button::danger(Yii::t('WikiModule.base', 'Discard my changes'))->link($discardChangesUrl)->icon('close')->loader(true); ?>
+                </div>
+            <?php else : ?>
+                <?= $form->field($model, 'confirmOverwriting')->hiddenInput()->label(false); ?>
             <?php endif; ?>
 
-            <?= $form->field($model->page, 'is_home')->checkbox([
-                'title' => Yii::t('WikiModule.base', 'Overwrite the wiki index start page?'),
-                'disabled' => $model->isDisabledField('is_home')]); ?>
+            <div<?php if ($requireConfirmation) : ?> style="display:none"<?php endif; ?>>
 
-            <?= $form->field($model->page, 'is_category')->checkbox(['disabled' => $model->isDisabledField('is_category')]); ?>
+                <?= $form->field($model->page, 'title')
+                    ->textInput([
+                        'placeholder' => Yii::t('WikiModule.base', 'New page title'),
+                        'disabled' => $model->isDisabledField('title')
+                    ])->label(false); ?>
 
-            <?php if (!$model->isDisabledField('is_category') || $model->page->parent_page_id) : ?>
+                <?= $form->field($model->revision, 'content')->widget(WikiEditor::class)->label(false) ?>
+
+
+                <?= $form->beginCollapsibleFields('Advanced settings'); ?>
+
+                <?php if (!$canAdminister) : ?>
+                    <div class="alert alert-info">
+                        <?= Yii::t('WikiModule.base',
+                            'In order to edit all fields, you need the permission to administer wiki pages.'); ?>
+                    </div>
+                <?php endif; ?>
+
+                <?= $form->field($model->page, 'is_home')->checkbox([
+                    'title' => Yii::t('WikiModule.base', 'Overwrite the wiki index start page?'),
+                    'disabled' => $model->isDisabledField('is_home')]); ?>
+
+                <?= $form->field($model->page, 'is_category')->checkbox(['disabled' => $model->isDisabledField('is_category')]); ?>
+
                 <?= $form->field($model->page, 'parent_page_id')
-                    ->dropDownList($model->getCategoryList(), ['disabled' => $model->isDisabledField('parent_page_id')]); ?>
-            <?php endif; ?>
+                    ->dropDownList($model->getCategoryList())
+                    ->label($model->page->is_category ? Yii::t('WikiModule.base', 'Parent category') : null); ?>
 
-            <?= $form->field($model, 'isPublic')->checkbox([
-                'title' => Yii::t('WikiModule.base', 'Enable read access for non space members?'),
-                'disabled' => $model->isDisabledField('isPublic')]); ?>
+                <?= $form->field($model, 'isPublic')->checkbox([
+                    'title' => Yii::t('WikiModule.base', 'Enable read access for non space members?'),
+                    'disabled' => $model->isDisabledField('isPublic')]); ?>
 
-            <?= $form->field($model->page, 'admin_only')->checkbox([
-                'title' => Yii::t('WikiModule.base', 'Disable edit access for non wiki administrators?'),
-                'disabled' => $model->isDisabledField('admin_only')]); ?>
+                <?= $form->field($model->page, 'admin_only')->checkbox([
+                    'title' => Yii::t('WikiModule.base', 'Disable edit access for non wiki administrators?'),
+                    'disabled' => $model->isDisabledField('admin_only')]); ?>
 
-            <?= $form->field($model->page, 'is_container_menu')->checkbox([
-                'disabled' => $model->isDisabledField('is_container_menu')]); ?>
-            <div id="container_menu_order_field"<?php if (!$model->page->is_container_menu) : ?> style="display: none"<?php endif; ?>>
-            <?= $form->field($model->page, 'container_menu_order')->textInput([
-                'disabled' => $model->isDisabledField('container_menu_order')]); ?>
+                <?= $form->field($model->page, 'is_container_menu')->checkbox([
+                    'disabled' => $model->isDisabledField('is_container_menu')]); ?>
+                <div id="container_menu_order_field"<?php if (!$model->page->is_container_menu) : ?> style="display: none"<?php endif; ?>>
+                    <?= $form->field($model->page, 'container_menu_order')->textInput([
+                        'disabled' => $model->isDisabledField('container_menu_order')]); ?>
+                </div>
+
+                <?= $form->endCollapsibleFields(); ?>
+
+                <?= $form->field($model, 'topics')->widget(TopicPicker::class, ['options' => ['disabled' => $model->isDisabledField('topics')]])->label(false) ?>
+
+                <hr>
+
+                <?= Button::save()->submit() ?>
             </div>
-
-            <?= $form->endCollapsibleFields(); ?>
-
-            <?= $form->field($model, 'topics')->widget(TopicPicker::class, ['options' => ['disabled' => $model->isDisabledField('topics')]])->label(false) ?>
-
-
-            <hr>
-
-            <?= Button::save()->submit() ?>
 
             <?php ActiveForm::end(); ?>
 
             <?php WikiContent::end() ?>
 
-            <?= WikiMenu::widget(['page' => $model->page, 'edit' => true]) ?>
+            <?php if (!$requireConfirmation) : ?>
+                <?= WikiMenu::widget(['page' => $model->page, 'edit' => true]) ?>
+            <?php endif; ?>
 
         </div>
     </div>
@@ -102,8 +134,8 @@ $canAdminister = $model->canAdminister();
 
 <?= WikiLinkModal::widget(['contentContainer' => $contentContainer]) ?>
 
-<script <?= Html::nonce()?>>
-$('input[name="WikiPage[is_container_menu]"]').click(function (){
-    $('#container_menu_order_field').toggle($(this).prop('checked'));
-})
+<script <?= Html::nonce() ?>>
+    $('input[name="WikiPage[is_container_menu]"]').click(function () {
+        $('#container_menu_order_field').toggle($(this).prop('checked'));
+    })
 </script>
