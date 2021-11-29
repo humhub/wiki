@@ -8,6 +8,7 @@ use humhub\libs\Html;
 use humhub\modules\content\components\ContentContainerActiveRecord;
 use humhub\modules\ui\form\widgets\JsInputWidget;
 use humhub\modules\wiki\models\WikiPage;
+use humhub\modules\wiki\permissions\CreatePage;
 use yii\helpers\Url;
 
 class WikiSearchInput extends JsInputWidget
@@ -81,9 +82,16 @@ class WikiSearchInput extends JsInputWidget
      */
     public function getData()
     {
-        return [
-          'search-url' => Url::to(['/wiki/search/search']),
+        $data = [
+            'search-url' => Url::to(['/wiki/search/search']),
             'ui-select2' => ''
         ];
+
+        if ($this->contentContainer->can(CreatePage::class)) {
+            $data['ui-select2-allow-new'] = '';
+            $data['ui-select2-new-sign'] = '➕';
+        }
+
+        return $data;
     }
 }
