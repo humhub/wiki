@@ -28,7 +28,7 @@ class Events
      */
     public static function InitContainerMenus(ContentContainerActiveRecord $container, LeftNavigation $menu)
     {
-        if (empty($container) || !$container->isModuleEnabled('wiki')) {
+        if (empty($container) || !$container->moduleManager->isEnabled('wiki')) {
             return;
         }
 

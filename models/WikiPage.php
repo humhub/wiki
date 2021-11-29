@@ -29,6 +29,7 @@ use yii\db\Expression;
  * @property integer $container_menu_order
  *
  * @property-read WikiPage|null $categoryPage
+ * @property-read WikiPageRevision $latestRevision
  *
  */
 class WikiPage extends ContentActiveRecord implements Searchable

@@ -5,20 +5,38 @@ Changelog
 ----------------------
 - Enh #163: Allow to create new page from wiki link
 
-1.6.0  (Unreleased)
-----------------------
+
+1.6.2  (November 29, 2021)
+--------------------------
+- Fix #220: Force a space between 'last updated' and date on wiki header 
+- Fix #218: Category Label being double-html-encoded
+- Fix #224: Fix sorting in sub-categories
+
+1.6.1  (October 27, 2021)
+-------------------------
+- Enh #207: Hide footer from print version
+- Fix #215: Fix category hierarchy selector
+
+1.6.0  (October 5, 2021)
+------------------------
 - Enh: Moved advanced page options into extra section
 - Enh: Compiled multiple translation messages into single `base` file
 - Fix #177: CLI error when no REST module is installed
 - Enh #148: Store folding state for categories per user
-- Enh #180: Option to add wiki pages to Space menu
+- Enh #180: Option to add wiki pages to Space/Profile menu
 - Enh #62: Add print version
 - Enh #22: Diff view for Wiki page changes
 - Enh #138: Add "Save" action to sidebar navigation
 - Enh #9: Add activities for edited Wiki pages
-- Enh #140: Expand category hierarchy
+- Enh #140: More category hierarchy levels
 - Enh #113: Overwrite warning in case of parallel editing
 - Enh #113: Improve parallel editing
+- Enh #5274: Deprecate CompatModuleManager
+- Fix #201: Link color for "Comment" & "Like" from custom theme
+- Fix #206: Fix back to edit page after not confirmed overwrite
+- Fix #205: Fix category selector
+- Fix #204: Fix comparing of currently editing wiki page
+
 
 1.5.3  (April 16, 2021)
 ----------------------

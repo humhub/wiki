@@ -22,6 +22,10 @@ use Yii;
  */
 class WikiPageRevision extends ActiveRecord
 {
+    /**
+     * @var bool
+     */
+    var $isCurrentlyEditing = false;
 
     /**
      * @return string the associated database table name
