@@ -4,7 +4,7 @@ Changelog
 1.7.0  (Unreleased)
 ----------------------
 - Enh #163: Allow to create new page from wiki link
-
+- Enh #5151: ContentContainer scoped URL Rules
 
 1.6.2  (November 29, 2021)
 --------------------------
