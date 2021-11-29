@@ -15,7 +15,7 @@ use humhub\modules\wiki\widgets\PageListItemTitle;
 /* @var $showDrag bool */
 ?>
 
-<li class="wiki-category-list-item" <?= ($category) ? 'data-page-id="' . $category->id . '"' : '' ?>>
+<li<?php if (!$category || $category->is_category) : ?> class="wiki-category-list-item"<?php endif; ?><?php if ($category) : ?> data-page-id="<?= $category->id ?>"<?php endif; ?>>
     <?php if (!$hideTitle) : ?>
         <?= PageListItemTitle::widget([
             'page' => $category,
@@ -28,7 +28,7 @@ use humhub\modules\wiki\widgets\PageListItemTitle;
     <?php if (!empty($pages)) : ?>
     <ul class="wiki-page-list"<?php if ($category && $category->isFolded()) : ?> style="display:none"<?php endif; ?>>
         <?php foreach ($pages as $page): ?>
-            <li data-page-id="<?= $page->id ?>">
+            <li<?php if ($page->is_category) : ?> class="wiki-category-list-item"<?php endif; ?> data-page-id="<?= $page->id ?>">
                 <?= PageListItemTitle::widget([
                     'page' => $page,
                     'showDrag' => $showDrag,
@@ -40,6 +40,8 @@ use humhub\modules\wiki\widgets\PageListItemTitle;
                         'parentCategoryId' => $page->id,
                         'showDrag' => $showDrag,
                         'showAddPage' => $showAddPage,
+                        'jsWidget' => '',
+                        'id' => '',
                     ]) ?>
                 <?php endif; ?>
             </li>
