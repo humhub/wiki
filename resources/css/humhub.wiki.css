@@ -295,7 +295,8 @@
   .wiki-menu,
   .wiki-content-info,
   .social-controls,
-  .comment-container {
+  .comment-container,
+  .footer-nav {
     display: none;
   }
   .layout-content-container .wiki-content {

@@ -73,10 +73,10 @@ return array (
   'Sort order in Space menu' => 'Sorteervolgorde in ruimtemenu',
   'There are no pages in this category' => 'Er zijn geen pagina\'s in deze categorie',
   'This page is empty.' => 'Deze pagina is leeg.',
-  'Unknown revision' => 'Onbekende revisie',
   'View' => 'Toon',
   'Wiki' => 'Wiki',
   'Wiki page' => 'Wikipagina',
+  'Your current version' => 'Uw huidige versie',
   'by' => 'door',
   '{userName} edited the Wiki page "{wikiPageTitle}".' => '{userName} heeft de wiki-pagina "{wikiPageTitle}" bewerkt.',
 );

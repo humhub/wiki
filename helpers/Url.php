@@ -7,13 +7,10 @@
 
 namespace humhub\modules\wiki\helpers;
 
-use humhub\modules\content\components\ContentActiveRecord;
 use humhub\modules\content\components\ContentContainerActiveRecord;
-use humhub\modules\content\components\ContentContainerController;
 use humhub\modules\content\helpers\ContentContainerHelper;
 use humhub\modules\wiki\models\WikiPage;
 use humhub\modules\wiki\models\WikiPageRevision;
-use humhub\modules\wiki\tests\codeception\fixtures\WikiPageFixture;
 
 
 /**
@@ -29,6 +26,7 @@ class Url extends \yii\helpers\Url
     const ROUTE_WIKI_DELETE = '/wiki/page/delete';
     const ROUTE_WIKI_HISTORY = '/wiki/page/history';
     const ROUTE_WIKI_DIFF = '/wiki/page/diff';
+    const ROUTE_WIKI_DIFF_EDITING = '/wiki/page/diff-editing';
     const ROUTE_WIKI_REVERT = '/wiki/page/revert';
     const ROUTE_EXTRACT_TITLES = '/wiki/page/headlines';
 
@@ -52,6 +50,11 @@ class Url extends \yii\helpers\Url
         $rev1 = $revision1 ? $revision1->revision : null;
         $rev2 = $revision2 ? $revision2->revision : null;
         return static::to([static::ROUTE_WIKI_DIFF, 'title' => $page->title, 'revision1' => $rev1, 'revision2' => $rev2, 'container' => $page->content->container]);
+    }
+
+    public static function toWikiDiffEditing(WikiPage $page)
+    {
+        return static::to([static::ROUTE_WIKI_DIFF_EDITING, 'id' => $page->id, 'container' => $page->content->container]);
     }
 
     public static function toWikiRevertRevision(WikiPage $page, $revision)

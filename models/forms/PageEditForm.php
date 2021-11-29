@@ -12,6 +12,7 @@ use humhub\modules\wiki\widgets\WikiRichText;
 use Yii;
 use yii\base\Model;
 use yii\db\Expression;
+use yii\helpers\ArrayHelper;
 use yii\web\HttpException;
 use humhub\modules\content\components\ContentContainerActiveRecord;
 use humhub\modules\wiki\models\WikiPage;
@@ -47,6 +48,11 @@ class PageEditForm extends Model
     /**
      * @var bool
      */
+    public $backOverwriting = 0;
+
+    /**
+     * @var bool
+     */
     public $isPublic;
 
     /**
@@ -61,7 +67,7 @@ class PageEditForm extends Model
     {
         return [
             ['topics', 'safe'],
-            [['isPublic', 'confirmOverwriting'], 'integer'],
+            [['isPublic', 'confirmOverwriting', 'backOverwriting'], 'integer'],
             ['latestRevisionNumber', 'validateLatestRevisionNumber']
         ];
     }
@@ -78,6 +84,12 @@ class PageEditForm extends Model
         }
 
         if ($this->confirmOverwriting || $this->$attribute == $this->getLatestRevisionNumber()) {
+            return;
+        }
+
+        if ($this->backOverwriting) {
+            // Revert back to edit form with not saved page content after not confirmed overwrite
+            $this->addError('backOverwriting', '');
             return;
         }
 
@@ -111,8 +123,8 @@ class PageEditForm extends Model
     {
         $scenarios = parent::scenarios();
         $scenarios[WikiPage::SCENARIO_CREATE] = ['topics'];
-        $scenarios[WikiPage::SCENARIO_EDIT] =  $this->page->isOwner() ? ['topics', 'latestRevisionNumber', 'confirmOverwriting'] : ['latestRevisionNumber', 'confirmOverwriting'];
-        $scenarios[WikiPage::SCENARIO_ADMINISTER] = ['topics', 'isPublic', 'latestRevisionNumber', 'confirmOverwriting'];
+        $scenarios[WikiPage::SCENARIO_EDIT] =  $this->page->isOwner() ? ['topics', 'latestRevisionNumber', 'confirmOverwriting', 'backOverwriting'] : ['latestRevisionNumber', 'confirmOverwriting', 'backOverwriting'];
+        $scenarios[WikiPage::SCENARIO_ADMINISTER] = ['topics', 'isPublic', 'latestRevisionNumber', 'confirmOverwriting', 'backOverwriting'];
         return $scenarios;
     }
 
@@ -257,9 +269,9 @@ class PageEditForm extends Model
             /* @var WikiPage $category */
             $categories[$category->id] = str_repeat('-', $level) . ' ' . $category->title;
             if ($subCategories = $this->getCategoryList($category->id, ++$level)) {
-                $categories = array_merge($categories, $subCategories);
-                $level--;
+                $categories = ArrayHelper::merge($categories, $subCategories);
             }
+            $level--;
         }
 
         return $categories;

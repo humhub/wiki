@@ -123,7 +123,7 @@ class AcceptanceTester extends \AcceptanceTester
         $this->click('[for="wikipage-is_home"]');
         $this->click('Save');
 
-        $this->waitForText('Home', null, '.wiki-menu');
+        $this->waitForText('Home', null, '.wiki-menu[data-ui-widget="wiki.Menu"]');
         $this->toIndex();
 
         $this->click('Wiki', '.layout-nav-container');
