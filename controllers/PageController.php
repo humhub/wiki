@@ -236,10 +236,14 @@ class PageController extends BaseController
      * @throws \Throwable
      */
     public function actionHeadlines($id) {
+        if (intval($id) === 0) {
+            return $this->asJson([]);
+        }
+
         $page = WikiPage::find()->contentContainer($this->contentContainer)->readable()->where(['wiki_page.id' => $id])->one();
 
-        if(!$page) {
-            throw new HttpException(404);
+        if (!$page) {
+            return $this->asJson([]);
         }
 
         return $this->asJson(HeadlineExtractor::extract($page->latestRevision->content));
