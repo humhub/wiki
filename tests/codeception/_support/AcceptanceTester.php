@@ -202,7 +202,7 @@ class AcceptanceTester extends \AcceptanceTester
         $this->fillField('#wikipage-title', "First Public {$type} Wiki Page");
         $this->fillField('#wikipagerevision-content .humhub-ui-richtext', "# My First Wiki {$type} Public Page!");
         $this->jsShow('.form-collapsible-fields.closed fieldset');
-        $this->click('[for="pageeditform-ispublic"]');
+        $this->jsClick('#pageeditform-ispublic');
         $this->click('Save');
 
         $this->waitForElementVisible('.wiki-page-content');
