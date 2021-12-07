@@ -4,11 +4,8 @@ humhub.module('wiki.linkExtension', function (module, require, $) {
     var modal = require('ui.modal');
     var client = require('client');
 
-    var wiki = require('wiki');
-
     var markdown = richtext.api.plugin.markdown;
     var menu = richtext.api.menu;
-    var commands = richtext.api.commands;
     var plugin = richtext.api.plugin;
     var NodeSelection = richtext.api.state.NodeSelection;
 
@@ -214,9 +211,14 @@ humhub.module('wiki.linkExtension', function (module, require, $) {
 
             view.dispatch(view.state.tr.replaceSelectionWith(context.schema.nodes.wiki.createAndFill(newAttrs)));
 
-
             view.focus();
-        }).show();
+        });
+
+        linkModal.$.on('shown.bs.modal', function (e) {
+            $('.ProsemirrorEditor.fullscreen').css('z-index', $(e.target).css('z-index') - 10);
+        });
+
+        linkModal.show();
     };
 
     var slugify = function (s) {
