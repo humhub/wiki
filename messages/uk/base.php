@@ -27,7 +27,6 @@ return [
     'Do you really want to revert this page?' => '',
     'Edit page' => '',
     'Edited at' => '',
-    'Enable read access for non space members?' => '',
     'Headline' => '',
     'Here you can configure default settings the wiki module.' => '',
     'Home' => '',
