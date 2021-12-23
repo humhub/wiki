@@ -7,6 +7,7 @@ Changelog
 - Enh #5151: ContentContainer scoped URL Rules
 - Enh #140: Use widget ContentVisibiltySelect
 - Enh #226: Fix overlay after adding a wiki link
+- Fix #230: Missing translation for compare button
 
 1.6.2  (November 29, 2021)
 --------------------------
