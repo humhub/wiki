@@ -1,8 +1,8 @@
 Changelog
 =========
 
-1.7.0  (Unreleased)
-----------------------
+1.7.0  (January 27, 2022)
+-------------------------
 - Enh #163: Allow to create new page from wiki link
 - Enh #5151: ContentContainer scoped URL Rules
 - Enh #140: Use widget ContentVisibiltySelect
