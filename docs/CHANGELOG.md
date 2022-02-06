@@ -1,6 +1,10 @@
 Changelog
 =========
 
+1.7.1 (February 6, 2022)
+------------------------
+- Fix #232: Reorder of Comment and Like links on Wiki pages
+
 1.7.0  (January 27, 2022)
 -------------------------
 - Enh #163: Allow to create new page from wiki link

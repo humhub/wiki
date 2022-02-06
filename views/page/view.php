@@ -1,7 +1,7 @@
 <?php
 
 use humhub\modules\comment\widgets\Comments;
-use humhub\modules\content\widgets\ContentObjectLinks;
+use humhub\modules\wiki\widgets\ContentObjectLinks;
 use humhub\modules\wiki\widgets\WikiMenu;
 use humhub\modules\wiki\widgets\WikiContent;
 
