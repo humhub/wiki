@@ -45,7 +45,7 @@ class AcceptanceTester extends \AcceptanceTester
             $this->click('.enable-module-wiki');
         }
 
-        $this->waitForText('Disable');
+        $this->waitForText('Configure');
     }
 
     /**
