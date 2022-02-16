@@ -367,10 +367,16 @@
   cursor: pointer;
 }
 @media print {
-  .wiki-icon-print, .wiki-menu, .wiki-content-info, .social-controls, .comment-container, .footer-nav {
+  .wiki-icon-print, .wiki-menu, .wiki-content-info, .social-controls, .comment-container, .footer-nav, .space-nav, #topbar-first {
     display: none;
   }
   .layout-content-container .wiki-content {
     border: none;
+  }
+  .space-layout-container {
+    margin: 0;
+  }
+  #page-content-wrapper {
+    padding: 0;
   }
 }

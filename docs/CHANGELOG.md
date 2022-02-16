@@ -1,6 +1,10 @@
 Changelog
 =========
 
+1.7.1  (Unreleased)
+-------------------------
+- Fix #216: Hide space name on print version
+
 1.7.0  (January 27, 2022)
 -------------------------
 - Enh #163: Allow to create new page from wiki link
