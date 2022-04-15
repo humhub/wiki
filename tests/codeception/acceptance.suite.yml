@@ -17,5 +17,8 @@ modules:
         window_size: maximize
         port: 4444
         restart: true
+        capabilities:
+          chromeOptions:
+            args: ["--lang=en-US"]
     - tests\codeception\_support\WebHelper
     - tests\codeception\_support\DynamicFixtureHelper
