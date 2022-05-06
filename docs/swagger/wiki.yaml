@@ -704,4 +704,4 @@ definitions:
                 - 2
                 - 8
         content:
-          $ref: "https://raw.githubusercontent.com/humhub/rest/master/docs/swagger/content.yaml#/definitions/ContentForm"
+          $ref: "https://raw.githubusercontent.com/humhub/rest/master/docs/swagger/content.yaml#/definitions/Content"
