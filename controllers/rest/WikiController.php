@@ -39,6 +39,13 @@ class WikiController extends BaseContentController
         return RestDefinitions::getWikiPage($contentRecord);
     }
 
+    private function saveWikiPage(PageEditForm $wikiForm): bool
+    {
+        return $wikiForm->load($data = Yii::$app->request->getBodyParams()) &&
+            $wikiForm->save() &&
+            (!method_exists($this, 'updateContent') || $this->updateContent($wikiForm->page, $data));
+    }
+
     public function actionCreate($containerId)
     {
         $containerRecord = ContentContainer::findOne(['id' => $containerId]);
@@ -55,8 +62,8 @@ class WikiController extends BaseContentController
 
         $wikiForm = (new PageEditForm(['container' => $container]))->forPage(null, $title, $categoryId);
 
-        if ($wikiForm->load(Yii::$app->request->getBodyParams()) && $wikiForm->save()) {
-            return RestDefinitions::getWikiPage($wikiForm->page);
+        if ($this->saveWikiPage($wikiForm)) {
+            return $this->returnContentDefinition($wikiForm->page);
         }
 
         if ($wikiForm->hasErrors() || $wikiForm->page->hasErrors()) {
@@ -87,8 +94,8 @@ class WikiController extends BaseContentController
             $bodyParams['PageEditForm']['confirmOverwriting'] = 1;
         }
 
-        if ($wikiForm->load($bodyParams) && $wikiForm->save()) {
-            return RestDefinitions::getWikiPage(WikiPage::findOne(['id' => $wikiForm->page->id]));
+        if ($this->saveWikiPage($wikiForm)) {
+            return $this->returnContentDefinition(WikiPage::findOne(['id' => $wikiForm->page->id]));
         }
 
         if ($wikiForm->hasErrors() || $wikiForm->page->hasErrors()) {

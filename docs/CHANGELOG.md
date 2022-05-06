@@ -4,6 +4,7 @@ Changelog
 1.7.1  (Unreleased)
 -------------------------
 - Fix #216: Hide space name on print version
+- Enh #236: Allow update content topics
 
 1.7.0  (January 27, 2022)
 -------------------------
