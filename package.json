@@ -16,7 +16,7 @@
   },
   "homepage": "https://github.com/humhub/humhub-modules-wiki#readme",
   "devDependencies": {
-    "grunt": "^1.5.2",
+    "grunt": "^1.5.3",
     "grunt-contrib-concat": "^1.0.1",
     "grunt-contrib-cssmin": "^3.0.0",
     "grunt-contrib-less": "^2.0.0",
