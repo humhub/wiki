@@ -3,7 +3,7 @@ Changelog
 
 1.8.0  (Unreleased)
 -------------------------
-- Fix: Remove deprecated checkbox "regular" style
+- Enh #241: Remove deprecated checkbox "regular" style
 
 1.7.1  (Unreleased)
 -------------------------
