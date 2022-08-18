@@ -4,12 +4,16 @@ namespace humhub\modules\wiki;
 
 use humhub\libs\Html;
 use humhub\modules\content\components\ContentContainerActiveRecord;
+use humhub\modules\content\widgets\WallCreateContentMenu;
 use humhub\modules\space\widgets\Menu;
+use humhub\modules\tasks\helpers\TaskListUrl;
+use humhub\modules\tasks\permissions\CreateTask;
 use humhub\modules\ui\menu\MenuLink;
 use humhub\modules\ui\menu\widgets\LeftNavigation;
 use humhub\modules\user\widgets\ProfileMenu;
 use humhub\modules\wiki\models\DefaultSettings;
 use humhub\modules\wiki\models\WikiPage;
+use humhub\modules\wiki\permissions\CreatePage;
 use Yii;
 
 /**
@@ -106,5 +110,23 @@ class Events
             ['pattern' => 'wiki/revision/<id:\d+>/revert', 'route' => 'wiki/rest/revision/revert', 'verb' => 'PATCH'],
 
         ], 'mail');
+    }
+
+    public static function onInitWallCreateContentMenu($event)
+    {
+        /* @var WallCreateContentMenu $menu */
+        $menu = $event->sender;
+
+        if ($menu->contentContainer &&
+            $menu->contentContainer->moduleManager->isEnabled('wiki') &&
+            $menu->contentContainer->getPermissionManager()->can(CreatePage::class)) {
+            $menu->addEntry(new MenuLink([
+                'label' => Yii::t('WikiModule.base', 'Wiki'),
+                // TODO: Implement form loading by AJAX with [data-action-click="loadForm"]
+                'url' => $menu->contentContainer->createUrl('/wiki/page/edit'),
+                'sortOrder' => 400,
+                'icon' => 'book',
+            ]));
+        }
     }
 }
