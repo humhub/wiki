@@ -16,6 +16,10 @@ use humhub\modules\wiki\helpers\Url;
  */
 class WallEntry extends WallStreamModuleEntryWidget
 {
+    /**
+     * @inheritdoc
+     */
+    public $createRoute = '/wiki/page/edit';
 
     /**
      * @inheritdoc
@@ -23,6 +27,16 @@ class WallEntry extends WallStreamModuleEntryWidget
     public $showFiles = false;
 
     public $editMode = self::EDIT_MODE_NEW_WINDOW;
+
+    /**
+     * @inheritdoc
+     */
+    public $menuIcon = 'book';
+
+    /**
+     * @inheritdoc
+     */
+    public $menuSortOrder = 400;
 
     public function getEditUrl()
     {
