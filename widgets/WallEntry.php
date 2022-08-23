@@ -31,11 +31,6 @@ class WallEntry extends WallStreamModuleEntryWidget
     /**
      * @inheritdoc
      */
-    public $menuIcon = 'book';
-
-    /**
-     * @inheritdoc
-     */
     public $menuSortOrder = 400;
 
     public function getEditUrl()
