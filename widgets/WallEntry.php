@@ -31,7 +31,7 @@ class WallEntry extends WallStreamModuleEntryWidget
     /**
      * @inheritdoc
      */
-    public $menuSortOrder = 400;
+    public $createFormSortOrder = 400;
 
     public function getEditUrl()
     {
