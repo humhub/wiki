@@ -14,7 +14,6 @@ use humhub\modules\content\components\ContentContainerActiveRecord;
 use humhub\modules\user\models\User;
 use humhub\modules\wiki\models\WikiPage;
 use humhub\modules\wiki\permissions\AdministerPages;
-use humhub\modules\wiki\permissions\CreatePage;
 use humhub\modules\wiki\permissions\EditPages;
 use Yii;
 
@@ -118,7 +117,7 @@ class CategoryListItem extends Widget
     private function canCreate()
     {
         if(static::$canCreate === null) {
-            static::$canCreate =  $this->contentContainer->can(CreatePage::class);
+            static::$canCreate = (new WikiPage($this->contentContainer))->content->canEdit();
         }
 
         return static::$canCreate;
