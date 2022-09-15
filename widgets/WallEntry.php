@@ -28,11 +28,6 @@ class WallEntry extends WallStreamModuleEntryWidget
 
     public $editMode = self::EDIT_MODE_NEW_WINDOW;
 
-    /**
-     * @inheritdoc
-     */
-    public $createFormSortOrder = 400;
-
     public function getEditUrl()
     {
         return Url::toWikiEdit($this->model);
