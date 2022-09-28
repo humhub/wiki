@@ -20,7 +20,7 @@ use Yii;
 
 class WikiController extends BaseContentController
 {
-    public static $moduleId = 'Wiki';
+    public static $moduleId = 'wiki';
 
     /**
      * {@inheritdoc}
