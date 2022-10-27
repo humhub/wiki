@@ -20,7 +20,7 @@ humhub\modules\wiki\assets\Assets::register($this);
 $homeUrl = $contentContainer->createUrl('/wiki/page/index');
 $createUrl = $contentContainer->createUrl('//wiki/page/edit');
 ?>
-<div class="panel panel-default wiki-bg">
+<div class="panel panel-default">
 
     <div class="panel-body">
 
