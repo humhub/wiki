@@ -1,15 +1,11 @@
 .layout-content-container {
   .wiki-welcome {
-
-    padding: 80px 0 0 0;
-
     h1 {
-      font-size: 37px;
-      font-weight: 200;
+      font-size: 36px;
+      font-weight: bold;
     }
-
     h2 {
-      font-size: 18px;
+      font-size: 14px;
       font-weight: 200;
       line-height: 24px;
       margin: 10px 0 10px 0;
@@ -17,10 +13,15 @@
   }
 
   .wiki-bg {
-    padding-bottom:180px;
+    padding: 440px 0 150px;
     background-image: url('../wiki-bg.jpg');
     background-repeat: no-repeat;
-    background-position: left bottom;
+    background-position: center 100px;
+  }
+  @media only screen and (max-width: 520px) {
+    .wiki-bg {
+      background-size: contain;
+    }
   }
 
   .wiki-menu {

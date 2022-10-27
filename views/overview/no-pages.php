@@ -21,18 +21,18 @@ humhub\modules\wiki\assets\Assets::register($this);
     <div class="panel-body">
 
         <div class="row">
-            <?php WikiContent::begin(['cols' => 12])?>
+            <?php WikiContent::begin(['cols' => 12]) ?>
 
                 <div class="text-center wiki-welcome">
-                    <h1><?= Yii::t('WikiModule.base', '<strong>Wiki</strong> Module'); ?></h1>
+                    <h1><?= Yii::t('WikiModule.base', 'Create a Wiki Page') ?></h1>
                     <?php if ($canCreatePage): ?>
-                        <h2><?= Yii::t('WikiModule.base', 'No pages created yet.  So it\'s on you.<br>Create the first page now.'); ?></h2>
+                        <h2><?= Yii::t('WikiModule.base', 'No pages created yet. So it\'s on you. Create the first page now.') ?></h2>
                         <br>
                         <p>
-                            <?= Button::primary( Yii::t('WikiModule.base', 'Let\'s go!'))->link(Url::toWikiCreate($contentContainer))?>
+                            <?= Button::info( Yii::t('WikiModule.base', 'Let\'s go!'))->link(Url::toWikiCreate($contentContainer)) ?>
                         </p>
                     <?php else: ?>
-                        <h2><?= Yii::t('WikiModule.base', 'No pages created yet.'); ?></h2>
+                        <h2><?= Yii::t('WikiModule.base', 'No pages created yet.') ?></h2>
                     <?php endif; ?>
                 </div>
 
