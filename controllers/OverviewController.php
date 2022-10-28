@@ -54,6 +54,15 @@ class OverviewController extends BaseController
         ]);
     }
 
+    public function actionSearch()
+    {
+        return $this->renderSidebarContent('search', [
+            'contentContainer' => $this->contentContainer,
+            'canCreate' => $this->canCreatePage(),
+            'hideSidebarOnSmallScreen' => false,
+        ]);
+    }
+
     public function actionUpdateFoldingState(int $categoryId)
     {
         if (Yii::$app->user->isGuest) {

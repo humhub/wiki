@@ -18,6 +18,6 @@ use humhub\widgets\Button;
         <?= Button::info(Yii::t('WikiModule.base', 'Create page'))->icon('fa-plus')
             ->link(Url::toWikiCreate($contentContainer))->visible($canCreate)
             ->right()->sm()->style('margin:10px 20px') ?>
-        <h3><?= Icon::get('list-ol') ?> <?= Yii::t('WikiModule.base', 'Last Edited') ?></h3>
+        <h3><?= Icon::get('search') ?> <?= Yii::t('WikiModule.base', 'Search') ?></h3>
     </div>
 </div>

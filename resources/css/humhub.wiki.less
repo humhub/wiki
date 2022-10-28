@@ -351,6 +351,63 @@
   }
 }
 
+.wiki-page-sidebar {
+  padding-right: 0;
+  .wiki-page-content {
+    > h1 {
+      > .fa.fa-home {
+        margin-top: 5px;
+      }
+
+      > strong {
+        margin-top: 5px;
+        font-size: 12px;
+        text-transform: uppercase;
+      }
+
+      > .btn {
+        padding: 6px 11px;
+        margin-left: 8px;
+      }
+    }
+  }
+}
+.wiki-search-form {
+  float: right;
+  position: relative;
+  margin-left: 8px;
+  input[name=keyword] {
+    padding-left: 26px;
+    height: 31px;
+    min-height: 31px;
+  }
+  button[type=submit] {
+    position: absolute;
+    top: 0;
+    background: none;
+    padding: 5px 8px;
+    &:focus {
+      background: none;
+      box-shadow: none;
+    }
+    i.fa {
+      color: #D7D7D7 !important;
+    }
+  }
+}
+
+.wiki-last-edited-pages {
+  h3 {
+    font-size: 20px;
+    margin: 10px;
+    padding: 0 10px 20px;
+    border-bottom: 1px solid #EDEDED;
+    .fa {
+      font-size: 16px;
+    }
+  }
+}
+
 .wiki-preview {
   border: 1px solid lighten(#bababa, 20%);
   border-radius: 4px;
