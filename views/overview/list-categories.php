@@ -5,25 +5,22 @@
  * @license https://www.humhub.com/licences
  */
 
+use humhub\modules\content\components\ContentContainerActiveRecord;
+use humhub\modules\ui\view\components\View;
+use humhub\modules\wiki\assets\Assets;
 use humhub\modules\wiki\widgets\CategoryListView;
 use humhub\modules\wiki\widgets\WikiContent;
 use humhub\widgets\Button;
 use humhub\modules\wiki\helpers\Url;
 
-/* @var $this \humhub\modules\ui\view\components\View */
-/* @var $homePage boolean */
-/* @var $contentContainer \humhub\modules\content\components\ContentContainerActiveRecord */
+/* @var $this View */
+/* @var $contentContainer ContentContainerActiveRecord */
 /* @var $canCreate bool */
 
-humhub\modules\wiki\assets\Assets::register($this);
-
-$homeUrl = $contentContainer->createUrl('/wiki/page/index');
-$createUrl = $contentContainer->createUrl('//wiki/page/edit');
+Assets::register($this);
 ?>
 <div class="panel panel-default">
-
     <div class="panel-body">
-
         <div class="row">
             <?php WikiContent::begin([
                 'cssClass' => 'wiki-page-content',
@@ -37,8 +34,6 @@ $createUrl = $contentContainer->createUrl('//wiki/page/edit');
             <?= CategoryListView::widget(['contentContainer' => $contentContainer]) ?>
 
             <?php WikiContent::end() ?>
-
-
         </div>
     </div>
 </div>

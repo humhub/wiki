@@ -7,10 +7,8 @@
 
 namespace humhub\modules\wiki\controllers;
 
-use Yii;
-use yii\data\Pagination;
 use humhub\modules\wiki\helpers\Url;
-use humhub\modules\wiki\models\WikiPage;
+use Yii;
 
 
 /**
@@ -49,12 +47,11 @@ class OverviewController extends BaseController
             ]);
         }
 
-        return $this->render('list-categories', [
-            'homePage' => $this->getHomePage(),
+        return $this->renderSidebarContent(['list-categories', 'last-edited'], [
             'contentContainer' => $this->contentContainer,
             'canCreate' => $this->canCreatePage(),
+            'hideSidebarOnSmallScreen' => false,
         ]);
-
     }
 
     public function actionUpdateFoldingState(int $categoryId)

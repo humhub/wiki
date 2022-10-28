@@ -86,7 +86,7 @@ class PageController extends BaseController
             throw new HttpException(404, 'Wiki page revision not found!');
         }
 
-        return $this->render('view', [
+        return $this->renderSidebarContent('view', [
             'page' => $page,
             'revision' => $revision,
             'homePage' => $this->getHomePage(),
@@ -193,7 +193,7 @@ class PageController extends BaseController
             ]);
         }
 
-        return $this->render('edit', $params);
+        return $this->renderSidebarContent('edit', $params);
     }
 
     /**

@@ -8,10 +8,13 @@
 namespace humhub\modules\wiki\controllers;
 
 use humhub\modules\content\components\ContentContainerController;
+use humhub\modules\ui\view\helpers\ThemeHelper;
 use humhub\modules\wiki\models\WikiPage;
 use humhub\modules\wiki\permissions\AdministerPages;
 use humhub\modules\wiki\permissions\CreatePage;
 use humhub\modules\wiki\permissions\ViewHistory;
+use Yii;
+use yii\web\NotFoundHttpException;
 
 
 /**
@@ -79,5 +82,38 @@ abstract class BaseController extends ContentContainerController
     protected function hasCategoryPages()
     {
         return (WikiPage::find()->contentContainer($this->contentContainer)->andWhere(['is_category' => 1])->count() > 0);
+    }
+
+    /**
+     * Render a content with sidebar when current theme is "Enterprise" or produced from it
+     *
+     * @param array|string $views 0 - View without sidebar, 1 - View with sidebar(if not set then use view from 0 key)
+     * @param array $params
+     * @return string
+     * @throws NotFoundHttpException|\yii\base\InvalidConfigException
+     */
+    protected function renderSidebarContent($views, array $params = []): string
+    {
+        if (is_string($views)) {
+            $normalView = $sidebarView = $views;
+        } elseif (is_array($views) && isset($views[0])) {
+            $normalView = $views[0];
+            $sidebarView = $views[1] ?? $normalView;
+        } else {
+            throw new NotFoundHttpException();
+        }
+
+        $isEnterpriseTheme = array_key_exists('enterprise', ThemeHelper::getThemeTree(Yii::$app->view->theme));
+
+        if ($isEnterpriseTheme) {
+            return $this->render('@wiki/views/common/sidebar-content', [
+                'contentContainer' => $this->contentContainer,
+                'canCreate' => $this->canCreatePage(),
+                'hideSidebarOnSmallScreen' => $params['hideSidebarOnSmallScreen'] ?? true,
+                'content' => $this->renderPartial($sidebarView, $params),
+            ]);
+        }
+
+        return $this->render($normalView, $params);
     }
 }
