@@ -8,7 +8,9 @@
 namespace humhub\modules\wiki\controllers;
 
 use humhub\modules\wiki\helpers\Url;
+use humhub\modules\wiki\models\WikiPage;
 use Yii;
+use yii\data\ActiveDataProvider;
 
 
 /**
@@ -50,7 +52,48 @@ class OverviewController extends BaseController
         return $this->renderSidebarContent(['list-categories', 'last-edited'], [
             'contentContainer' => $this->contentContainer,
             'canCreate' => $this->canCreatePage(),
+            'dataProvider' => $this->getLastEditedDataProvider(),
             'hideSidebarOnSmallScreen' => false,
+        ]);
+    }
+
+    public function actionLastEdited()
+    {
+        if (!$this->hasPages()) {
+            return $this->render('no-pages', [
+                'canCreatePage' => $this->canCreatePage(),
+                'createPageUrl' => $this->contentContainer->createUrl('/wiki/page/edit'),
+                'contentContainer' => $this->contentContainer
+            ]);
+        }
+
+        return $this->renderSidebarContent('last-edited', [
+            'contentContainer' => $this->contentContainer,
+            'canCreate' => $this->canCreatePage(),
+            'dataProvider' => $this->getLastEditedDataProvider(),
+        ]);
+    }
+
+    private function getLastEditedDataProvider(): ActiveDataProvider
+    {
+        return new ActiveDataProvider([
+            'query' => WikiPage::find()
+                ->contentContainer($this->contentContainer)
+                ->readable()
+                ->andWhere(['is_category' => 0]),
+            'pagination' => ['pageSize' => 10],
+            'sort' => [
+                'attributes' => [
+                    'title',
+                    'updated_at' => [
+                        'asc' => ['content.updated_at' => SORT_ASC],
+                        'desc' => ['content.updated_at' => SORT_DESC],
+                    ],
+                ],
+                'defaultOrder' => [
+                    'updated_at' => SORT_DESC,
+                ],
+            ],
         ]);
     }
 

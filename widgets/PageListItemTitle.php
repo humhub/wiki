@@ -24,8 +24,8 @@ class PageListItemTitle extends Widget
 
     public $icon;
     public $iconPage = 'fa-file-text-o';
-    public $iconCategoryOpened = 'fa-caret-square-o-down';
-    public $iconCategoryFolded = 'fa-caret-square-o-right';
+    public $iconCategoryOpened = 'fa-caret-down';
+    public $iconCategoryFolded = 'fa-caret-right';
 
     /**
      * @var bool

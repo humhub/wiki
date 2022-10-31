@@ -11,12 +11,12 @@ humhub.module('wiki.CategoryListView', function(module, require, $) {
     var DELAY_DRAG_SMALL_DEVICES = 250;
 
     CategoryListView.prototype.init = function() {
-        this.$.find('.fa-caret-square-o-down, .fa-caret-square-o-right').on('click', function() {
+        this.$.find('.fa-caret-down, .fa-caret-right').on('click', function() {
             var $icon = $(this);
             var $pageList = $icon.parent().siblings('.wiki-page-list');
             $pageList.slideToggle('fast', function() {
-                var newIconClass = ($pageList.is(':visible')) ? 'fa-caret-square-o-down' : 'fa-caret-square-o-right';
-                $icon.removeClass('fa-caret-square-o-down fa-caret-square-o-right').addClass(newIconClass);
+                var newIconClass = ($pageList.is(':visible')) ? 'fa-caret-down' : 'fa-caret-right';
+                $icon.removeClass('fa-caret-down fa-caret-right').addClass(newIconClass);
                 // Update folding state of the Category for current User
                 var $categoryId = $icon.closest('.wiki-category-list-item[data-page-id]').data('page-id');
                 if ($categoryId) {
