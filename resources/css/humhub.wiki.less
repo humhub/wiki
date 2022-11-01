@@ -1,5 +1,10 @@
 @THEME: "../../../../../static/less";
+@BOOTSTRAP: "../../../../../protected/vendor/npm-asset/bootstrap";
+
 @import "@{THEME}/variables.less";
+@import "@{BOOTSTRAP}/less/variables.less";
+
+@screen-small-max: @screen-lg - 1;
 
 .layout-content-container {
   .wiki-welcome {
@@ -364,6 +369,26 @@
   }
 }
 
+.wiki-page-content-header {
+  margin-bottom: 10px;
+  border-bottom: 1px solid #EDEDED;
+  h3 {
+    float: left;
+    font-size: 20px;
+    white-space: nowrap;
+    margin: 10px;
+    padding: 5px 10px 20px;
+    .fa {
+      font-size: 20px;
+    }
+  }
+  .wiki-page-content-header-actions {
+    float: right;
+    padding: 10px 10px 0 0;
+  }
+}
+
+// Sidebar is used on Enterprise themes
 .wiki-page-sidebar {
   padding-right: 0;
 
@@ -372,35 +397,43 @@
     margin-left: -10px;
     margin-right: -10px;
     .page-category-title, .page-title {
-      padding-left: 20px;
+      padding-left: 12px;
       padding-right: 5px;
     }
   }
 
   .wiki-page-content {
     padding: 0;
-    > h1 {
-      > .fa.fa-home {
-        margin-top: 5px;
-      }
+  }
 
-      > strong {
-        margin-top: 5px;
-        font-size: 12px;
-        text-transform: uppercase;
+  .wiki-page-content-header {
+    padding: 10px 0;
+    border: none;
+    h3 {
+      font-size: 12px;
+      font-weight: bold;
+      text-transform: uppercase;
+      color: #000;
+      padding: 0;
+      margin: 5px 0;
+      .fa {
+        font-size: 16px;
       }
-
-      > .btn {
-        padding: 6px 11px;
-        margin-left: 8px;
-      }
+    }
+    .btn-sm {
+      padding: 6px 11px;
+      margin: 0 0 4px 4px;
+    }
+    .wiki-page-content-header-actions {
+      padding: 0;
     }
   }
 
   .wiki-search-form {
     float: right;
     position: relative;
-    margin-left: 8px;
+    margin-left: 4px;
+    max-width: 168px;
     input[name=keyword] {
       padding-left: 26px;
       height: 31px;
@@ -420,18 +453,39 @@
       }
     }
   }
+
+  @media (max-width: @screen-small-max) {
+    padding-right: 15px;
+
+    #category_list_view.wiki-page-list {
+      margin-left: 0;
+      margin-right: 0;
+    }
+    .wiki-page-content-header {
+      border-bottom: 1px solid #EDEDED;
+      padding: 14px 8px 20px 8px;
+      h3 {
+        color: #555;
+        font-weight: normal;
+        text-transform: none;
+        font-size: 12px;
+        *&, .fa {
+          font-size: 20px;
+        }
+      }
+      .btn-sm {
+        padding: 4px 8px;
+        margin-top: 4px;
+      }
+    }
+    .wiki-search-form {
+      float: left;
+      max-width: none;
+    }
+  }
 }
 
 .wiki-page-list-table {
-  h3 {
-    font-size: 20px;
-    margin: 10px;
-    padding: 0 10px 20px;
-    border-bottom: 1px solid #EDEDED;
-    .fa {
-      font-size: 16px;
-    }
-  }
   .table-responsive {
     padding-left: 15px;
     padding-right: 15px;
@@ -469,6 +523,12 @@
     .pagination > .active > span:focus {
       background-color: @info;
       border-color: @info;
+    }
+  }
+
+  @media (max-width: @screen-small-max) {
+    .table-responsive {
+      border: none;
     }
   }
 }

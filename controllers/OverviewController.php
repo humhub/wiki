@@ -39,7 +39,7 @@ class OverviewController extends BaseController
      * @return OverviewController|string|\yii\console\Response|\yii\web\Response
      * @throws \yii\base\Exception
      */
-    public function actionListCategories()
+    public function actionListCategories($hideSidebarOnSmallScreen = false)
     {
         if (!$this->hasPages()) {
             return $this->render('no-pages', [
@@ -49,29 +49,22 @@ class OverviewController extends BaseController
             ]);
         }
 
-        return $this->renderSidebarContent(['list-categories', 'last-edited'], [
+        $views = ['last-edited'];
+        if (!$hideSidebarOnSmallScreen) {
+            array_unshift($views, 'list-categories');
+        }
+
+        return $this->renderSidebarContent($views, [
             'contentContainer' => $this->contentContainer,
             'canCreate' => $this->canCreatePage(),
             'dataProvider' => $this->getLastEditedDataProvider(),
-            'hideSidebarOnSmallScreen' => false,
+            'hideSidebarOnSmallScreen' => $hideSidebarOnSmallScreen,
         ]);
     }
 
     public function actionLastEdited()
     {
-        if (!$this->hasPages()) {
-            return $this->render('no-pages', [
-                'canCreatePage' => $this->canCreatePage(),
-                'createPageUrl' => $this->contentContainer->createUrl('/wiki/page/edit'),
-                'contentContainer' => $this->contentContainer
-            ]);
-        }
-
-        return $this->renderSidebarContent('last-edited', [
-            'contentContainer' => $this->contentContainer,
-            'canCreate' => $this->canCreatePage(),
-            'dataProvider' => $this->getLastEditedDataProvider(),
-        ]);
+        return $this->actionListCategories(true);
     }
 
     private function getLastEditedDataProvider(): ActiveDataProvider

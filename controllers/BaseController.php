@@ -9,6 +9,7 @@ namespace humhub\modules\wiki\controllers;
 
 use humhub\modules\content\components\ContentContainerController;
 use humhub\modules\ui\view\helpers\ThemeHelper;
+use humhub\modules\wiki\helpers\Helper;
 use humhub\modules\wiki\models\WikiPage;
 use humhub\modules\wiki\permissions\AdministerPages;
 use humhub\modules\wiki\permissions\CreatePage;
@@ -103,9 +104,7 @@ abstract class BaseController extends ContentContainerController
             throw new NotFoundHttpException();
         }
 
-        $isEnterpriseTheme = array_key_exists('enterprise', ThemeHelper::getThemeTree(Yii::$app->view->theme));
-
-        if ($isEnterpriseTheme) {
+        if (Helper::isEnterpriseTheme()) {
             return $this->render('@wiki/views/common/sidebar-content', [
                 'contentContainer' => $this->contentContainer,
                 'canCreate' => $this->canCreatePage(),

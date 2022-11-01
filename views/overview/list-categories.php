@@ -5,9 +5,12 @@
  * @license https://www.humhub.com/licences
  */
 
+use humhub\libs\Html;
 use humhub\modules\content\components\ContentContainerActiveRecord;
+use humhub\modules\ui\icon\widgets\Icon;
 use humhub\modules\ui\view\components\View;
 use humhub\modules\wiki\assets\Assets;
+use humhub\modules\wiki\helpers\Helper;
 use humhub\modules\wiki\widgets\CategoryListView;
 use humhub\modules\wiki\widgets\WikiContent;
 use humhub\widgets\Button;
@@ -18,18 +21,24 @@ use humhub\modules\wiki\helpers\Url;
 /* @var $canCreate bool */
 
 Assets::register($this);
+
+$createPageTitle = Yii::t('WikiModule.base', 'Create page');
+if (Helper::isEnterpriseTheme()) {
+    $createPageTitle = Html::tag('span', $createPageTitle, ['class' => 'hidden-lg']);
+}
 ?>
 <div class="panel panel-default">
     <div class="panel-body">
         <div class="row">
-            <?php WikiContent::begin([
-                'cssClass' => 'wiki-page-content',
-                'title' => Yii::t('WikiModule.base', '<strong>Index</strong>'),
-                'titleIcon' => 'fa-list-ol',
-                'cols' => 12]) ?>
-
-            <?= Button::success(Yii::t('WikiModule.base', 'New page'))->icon('fa-plus')
-                ->right()->sm()->link(Url::toWikiCreate($contentContainer))->visible($canCreate); ?>
+            <?php WikiContent::begin(['cssClass' => 'wiki-page-content', 'cols' => 12]) ?>
+            <div class="wiki-page-content-header">
+                <h3><?= Icon::get('home') ?> <?= Yii::t('WikiModule.base', 'Index') ?></h3>
+                <div class="wiki-page-content-header-actions">
+                    <?= Button::info(Yii::t('WikiModule.base', 'Last edited'))->sm()->link(Url::toLastEdited($contentContainer))->cssClass(Helper::isEnterpriseTheme() ? 'hidden-lg' : '') ?>
+                    <?= Button::info($createPageTitle)->icon('fa-plus')->sm()->link(Url::toWikiCreate($contentContainer))->visible($canCreate) ?>
+                </div>
+                <div class="clearfix"></div>
+            </div>
 
             <?= CategoryListView::widget(['contentContainer' => $contentContainer]) ?>
 

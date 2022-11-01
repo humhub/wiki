@@ -9,6 +9,8 @@ use humhub\libs\Html;
 use humhub\modules\content\components\ContentContainerActiveRecord;
 use humhub\modules\ui\icon\widgets\Icon;
 use humhub\modules\user\widgets\Image;
+use humhub\modules\wiki\assets\Assets;
+use humhub\modules\wiki\helpers\Helper;
 use humhub\modules\wiki\helpers\Url;
 use humhub\modules\wiki\models\WikiPage;
 use humhub\widgets\Button;
@@ -20,13 +22,21 @@ use yii\data\ActiveDataProvider;
 /* @var $contentContainer ContentContainerActiveRecord */
 /* @var $canCreate bool */
 /* @var $dataProvider ActiveDataProvider */
+
+Assets::register($this);
 ?>
 <div class="panel panel-default wiki-page-list-table">
     <div class="panel-body">
-        <?= Button::info(Yii::t('WikiModule.base', 'Create page'))->icon('fa-plus')
-            ->link(Url::toWikiCreate($contentContainer))->visible($canCreate)
-            ->right()->sm()->style('margin:10px 20px') ?>
-        <h3><?= Icon::get('list-ol') ?> <?= Yii::t('WikiModule.base', 'Last Edited') ?></h3>
+        <div class="wiki-page-content-header">
+            <h3><?= Icon::get('list-ol') ?> <?= Yii::t('WikiModule.base', 'Last Edited') ?></h3>
+            <div class="wiki-page-content-header-actions">
+                <?= Button::info(Yii::t('WikiModule.base', 'Index'))->icon('fa-home')
+                    ->link(Url::toHome($contentContainer))->sm()->cssClass(Helper::isEnterpriseTheme() ? 'hidden-lg' : '') ?>
+                <?= Button::info(Yii::t('WikiModule.base', 'Create page'))->icon('fa-plus')
+                    ->link(Url::toWikiCreate($contentContainer))->visible($canCreate)->sm() ?>
+            </div>
+            <div class="clearfix"></div>
+        </div>
 
         <div class="table-responsive">
             <?= GridView::widget([

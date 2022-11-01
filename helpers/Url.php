@@ -20,6 +20,7 @@ class Url extends \yii\helpers\Url
 {
     const ROUTE_HOME = '/wiki/overview/index';
     const ROUTE_OVERVIEW = '/wiki/overview/list-categories';
+    const ROUTE_LAST_EDITED = '/wiki/overview/last-edited';
     const ROUTE_SEARCH = '/wiki/overview/search';
     const ROUTE_UPDATE_FOLDING_STATE = '/wiki/overview/update-folding-state';
     const ROUTE_WIKI_PAGE = '/wiki/page/view';
@@ -44,6 +45,11 @@ class Url extends \yii\helpers\Url
     public static function toSearch(ContentContainerActiveRecord $container)
     {
         return static::to([static::ROUTE_SEARCH, 'container' => $container]);
+    }
+
+    public static function toLastEdited(ContentContainerActiveRecord $container)
+    {
+        return static::to([static::ROUTE_LAST_EDITED, 'container' => $container]);
     }
 
     public static function toWikiHistory(WikiPage $page)
