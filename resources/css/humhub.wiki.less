@@ -1,3 +1,6 @@
+@THEME: "../../../../../static/less";
+@import "@{THEME}/variables.less";
+
 .layout-content-container {
   .wiki-welcome {
     h1 {
@@ -433,7 +436,13 @@
     padding-left: 15px;
     padding-right: 15px;
     table {
+      tr:hover {
+        .wiki-page-list-row-title a {
+          color: @link;
+        }
+      }
       td {
+        font-size: 14px;
         border: none;
         &:first-child {
           padding-left: 32px;
@@ -443,6 +452,23 @@
           border-radius: 0 4px 4px 0;
         }
       }
+      .wiki-page-list-row-details {
+        *&, .time {
+          font-size: 13px;
+        }
+        a {
+          color: @link;
+        }
+      }
+    }
+    .pagination > .active > a,
+    .pagination > .active > span,
+    .pagination > .active > a:hover,
+    .pagination > .active > span:hover,
+    .pagination > .active > a:focus,
+    .pagination > .active > span:focus {
+      background-color: @info;
+      border-color: @info;
     }
   }
 }

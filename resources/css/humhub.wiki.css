@@ -354,7 +354,11 @@
   padding-left: 15px;
   padding-right: 15px;
 }
+.wiki-page-list-table .table-responsive table tr:hover .wiki-page-list-row-title a {
+  color: #21A1B3;
+}
 .wiki-page-list-table .table-responsive table td {
+  font-size: 14px;
   border: none;
 }
 .wiki-page-list-table .table-responsive table td:first-child {
@@ -363,6 +367,22 @@
 }
 .wiki-page-list-table .table-responsive table td:last-child {
   border-radius: 0 4px 4px 0;
+}
+*.wiki-page-list-table .table-responsive table .wiki-page-list-row-details,
+.wiki-page-list-table .table-responsive table .wiki-page-list-row-details .time {
+  font-size: 13px;
+}
+.wiki-page-list-table .table-responsive table .wiki-page-list-row-details a {
+  color: #21A1B3;
+}
+.wiki-page-list-table .table-responsive .pagination > .active > a,
+.wiki-page-list-table .table-responsive .pagination > .active > span,
+.wiki-page-list-table .table-responsive .pagination > .active > a:hover,
+.wiki-page-list-table .table-responsive .pagination > .active > span:hover,
+.wiki-page-list-table .table-responsive .pagination > .active > a:focus,
+.wiki-page-list-table .table-responsive .pagination > .active > span:focus {
+  background-color: #21A1B3;
+  border-color: #21A1B3;
 }
 .wiki-preview {
   border: 1px solid #ededed;

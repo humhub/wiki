@@ -33,17 +33,18 @@ use yii\data\ActiveDataProvider;
                 'dataProvider' => $dataProvider,
                 'summary' => '',
                 'showHeader' => false,
+                'layout' => "{items}\n<div class='pagination-container'>{pager}</div>",
                 'columns' => [
                     [
                         'attribute' => 'title',
                         'format' => 'raw',
                         'value' => function (WikiPage $model) {
-                            return Html::tag('strong', Link::to($model->title, Url::toWiki($model))) . '<br>'
-                                . TimeAgo::widget(['timestamp' => $model->content->created_at])
-                                . '<small> - '
-                                    . Yii::t('WikiModule.base', 'Created by {author}', ['author' => Html::containerLink($model->content->createdBy)])
+                            return Html::tag('strong', Link::to($model->title, Url::toWiki($model)), ['class' => 'wiki-page-list-row-title'])
+                                . '<div class="wiki-page-list-row-details">'
+                                    . TimeAgo::widget(['timestamp' => $model->content->created_at])
+                                    . ' - ' . Yii::t('WikiModule.base', 'Created by {author}', ['author' => Html::containerLink($model->content->createdBy)])
                                     . ' - ' . Link::to(Yii::t('WikiModule.base', 'show changes'), Url::toWikiHistory($model))
-                                . '</small>';
+                                . '</div>';
                         }
                     ],
                     [

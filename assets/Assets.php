@@ -26,7 +26,7 @@ class Assets extends AssetBundle
 
     public $sourcePath = '@wiki/resources';
 
-    public $forceCopy = true;
+    public $forceCopy = false;
 
     public $css = [
         'css/humhub.wiki.min.css'
