@@ -6,18 +6,24 @@
  */
 
 use humhub\modules\content\components\ContentContainerActiveRecord;
-use humhub\modules\ui\icon\widgets\Icon;
-use humhub\modules\wiki\helpers\Url;
-use humhub\widgets\Button;
+use humhub\modules\wiki\assets\Assets;
+use humhub\modules\wiki\widgets\WikiListHeader;
+use humhub\modules\wiki\widgets\WikiListTable;
+use yii\data\ActiveDataProvider;
 
 /* @var $contentContainer ContentContainerActiveRecord */
-/* @var $canCreate bool */
+/* @var $dataProvider ActiveDataProvider */
+
+Assets::register($this);
 ?>
-<div class="panel panel-default wiki-last-edited-pages">
+<div class="panel panel-default wiki-page-list-table">
     <div class="panel-body">
-        <?= Button::info(Yii::t('WikiModule.base', 'Create page'))->icon('fa-plus')
-            ->link(Url::toWikiCreate($contentContainer))->visible($canCreate)
-            ->right()->sm()->style('margin:10px 20px') ?>
-        <h3><?= Icon::get('search') ?> <?= Yii::t('WikiModule.base', 'Search') ?></h3>
+        <?= WikiListHeader::widget([
+            'icon' => 'search',
+            'title' => Yii::t('WikiModule.base', 'Search'),
+            'contentContainer' => $contentContainer,
+        ]) ?>
+
+        <?= WikiListTable::widget(['dataProvider' => $dataProvider]) ?>
     </div>
 </div>

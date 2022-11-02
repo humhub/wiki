@@ -90,12 +90,31 @@ class OverviewController extends BaseController
         ]);
     }
 
-    public function actionSearch()
+    public function actionSearch($keyword)
     {
+        $dataProvider = new ActiveDataProvider([
+            'query' => WikiPage::find()
+                ->contentContainer($this->contentContainer)
+                ->readable()
+                ->andWhere(['LIKE', 'title', $keyword]),
+            'pagination' => ['pageSize' => 10],
+            'sort' => [
+                'attributes' => [
+                    'title',
+                    'updated_at' => [
+                        'asc' => ['content.updated_at' => SORT_ASC],
+                        'desc' => ['content.updated_at' => SORT_DESC],
+                    ],
+                ],
+                'defaultOrder' => [
+                    'updated_at' => SORT_DESC,
+                ],
+            ],
+        ]);
+
         return $this->renderSidebarContent('search', [
             'contentContainer' => $this->contentContainer,
-            'canCreate' => $this->canCreatePage(),
-            'hideSidebarOnSmallScreen' => false,
+            'dataProvider' => $dataProvider,
         ]);
     }
 
