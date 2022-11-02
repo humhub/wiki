@@ -13,6 +13,7 @@ use humhub\modules\wiki\assets\Assets;
 use humhub\modules\wiki\helpers\Helper;
 use humhub\modules\wiki\helpers\Url;
 use humhub\modules\wiki\models\WikiPage;
+use humhub\modules\wiki\widgets\WikiSearchForm;
 use humhub\widgets\Button;
 use humhub\widgets\GridView;
 use humhub\widgets\Link;
@@ -29,6 +30,7 @@ Assets::register($this);
     <div class="panel-body">
         <div class="wiki-page-content-header">
             <h3><?= Icon::get('list-ol') ?> <?= Yii::t('WikiModule.base', 'Last Edited') ?></h3>
+            <?= WikiSearchForm::widget(['contentContainer' => $contentContainer, 'cssClass' => Helper::isEnterpriseTheme() ? 'hidden-lg' : '']) ?>
             <div class="wiki-page-content-header-actions">
                 <?= Button::info(Yii::t('WikiModule.base', 'Index'))->icon('fa-home')
                     ->link(Url::toHome($contentContainer))->sm()->cssClass(Helper::isEnterpriseTheme() ? 'hidden-lg' : '') ?>

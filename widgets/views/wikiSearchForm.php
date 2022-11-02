@@ -13,8 +13,9 @@ use yii\widgets\ActiveForm;
 /* @var $placeholder string */
 /* @var $keyword string */
 /* @var $submitUrl string */
+/* @var $cssClass string */
 ?>
-<?php ActiveForm::begin(['action' => $submitUrl, 'method' => 'get', 'options' => ['class' => 'wiki-search-form']]) ?>
+<?php ActiveForm::begin(['action' => $submitUrl, 'method' => 'get', 'options' => ['class' => 'wiki-search-form' . ($cssClass ? ' ' . $cssClass : '')]]) ?>
 
 <?= Html::textInput('keyword', $keyword, ['placeholder' => $placeholder, 'class' => 'form-control']) ?>
 

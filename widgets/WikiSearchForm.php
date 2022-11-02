@@ -22,6 +22,11 @@ class WikiSearchForm extends Widget
     /**
      * @var string
      */
+    public $cssClass;
+
+    /**
+     * @var string
+     */
     public $placeholder;
 
     public function init()
@@ -42,6 +47,7 @@ class WikiSearchForm extends Widget
             'placeholder' => $this->placeholder,
             'keyword' => Yii::$app->request->get('keyword'),
             'submitUrl' => Url::toSearch($this->contentContainer),
+            'cssClass' => $this->cssClass,
         ]);
     }
 }

@@ -371,20 +371,51 @@
 
 .wiki-page-content-header {
   margin-bottom: 10px;
+  padding: 10px 10px;
   border-bottom: 1px solid #EDEDED;
   h3 {
     float: left;
     font-size: 20px;
     white-space: nowrap;
-    margin: 10px;
-    padding: 5px 10px 20px;
+    margin: 3px 30px 10px 0;
+    padding: 0;
     .fa {
       font-size: 20px;
     }
   }
+  .wiki-search-form {
+    margin: 0 0 10px;
+  }
   .wiki-page-content-header-actions {
     float: right;
-    padding: 10px 10px 0 0;
+    .btn {
+      margin-bottom: 4px;
+    }
+  }
+}
+
+.wiki-search-form {
+  float: right;
+  position: relative;
+  margin-left: 4px;
+  max-width: 168px;
+  input[name=keyword] {
+    padding-left: 26px;
+    height: 31px;
+    min-height: 31px;
+  }
+  button[type=submit] {
+    position: absolute;
+    top: 0;
+    background: none;
+    padding: 5px 8px;
+    &:focus {
+      background: none;
+      box-shadow: none;
+    }
+    i.fa {
+      color: #D7D7D7 !important;
+    }
   }
 }
 
@@ -403,11 +434,11 @@
   }
 
   .wiki-page-content {
-    padding: 0;
+    padding: 0 4px;
   }
 
   .wiki-page-content-header {
-    padding: 10px 0;
+    padding: 3px 0 0;
     border: none;
     h3 {
       font-size: 12px;
@@ -427,30 +458,8 @@
     .wiki-page-content-header-actions {
       padding: 0;
     }
-  }
-
-  .wiki-search-form {
-    float: right;
-    position: relative;
-    margin-left: 4px;
-    max-width: 168px;
-    input[name=keyword] {
-      padding-left: 26px;
-      height: 31px;
-      min-height: 31px;
-    }
-    button[type=submit] {
-      position: absolute;
-      top: 0;
-      background: none;
-      padding: 5px 8px;
-      &:focus {
-        background: none;
-        box-shadow: none;
-      }
-      i.fa {
-        color: #D7D7D7 !important;
-      }
+    .wiki-search-form {
+      margin: 0 0 0 5px;
     }
   }
 
@@ -481,11 +490,15 @@
     .wiki-search-form {
       float: left;
       max-width: none;
+      margin-left: 34px;
     }
   }
 }
 
 .wiki-page-list-table {
+  .wiki-search-form {
+    float: left;
+  }
   .table-responsive {
     padding-left: 15px;
     padding-right: 15px;
