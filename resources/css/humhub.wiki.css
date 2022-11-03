@@ -19,6 +19,18 @@
     background-size: contain;
   }
 }
+.layout-content-container .wiki-page-path {
+  float: left;
+  font-size: 13px;
+  font-weight: bold;
+  color: #000;
+}
+.layout-content-container .wiki-page-path .fa {
+  font-size: 18px;
+}
+.layout-content-container .wiki-page-actions {
+  float: right;
+}
 .layout-content-container .wiki-menu .nav > li > a {
   padding: 6px 15px;
 }
@@ -66,10 +78,20 @@
   margin-left: 2px;
 }
 .layout-content-container .wiki-page-content .wiki-headline .wiki-page-title {
-  font-weight: 500;
+  font-weight: 600;
+  font-size: 22px;
+  margin-top: 30px;
+  color: #000;
+  clear: both;
+}
+.layout-content-container .wiki-page-content .wiki-headline a {
+  color: #21A1B3;
+}
+.layout-content-container .wiki-page-content .wiki-headline a:hover {
+  color: #000;
 }
 .layout-content-container .wiki-page-content hr.wiki-headline-seperator {
-  margin: 10px 0 10px;
+  margin: 20px 0 10px;
 }
 .layout-content-container .wiki-page-content .wiki-category-list-item {
   padding-bottom: 0 !important;
@@ -89,11 +111,7 @@
   padding-left: 2px;
 }
 .layout-content-container .wiki-content .wiki-content-info {
-  margin-bottom: 5px;
-}
-.layout-content-container .wiki-content h1 .fa {
-  font-size: inherit;
-  width: inherit;
+  margin-top: 5px;
 }
 .layout-content-container .wiki-content [data-wiki-page] {
   color: #4cc159 !important;

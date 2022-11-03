@@ -25,7 +25,7 @@ humhub\modules\wiki\assets\Assets::register($this);
     <div class="panel-body">
 
         <div class="row">
-            <?php WikiContent::begin(['cssClass' => 'wiki-page-content']) ?>
+            <?php WikiContent::begin(['cssClass' => 'wiki-page-content', 'cols' => 12]) ?>
 
                 <?= $this->render('_view_header', ['page' => $page]) ?>
 

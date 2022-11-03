@@ -1,67 +1,49 @@
 <?php
 
-use humhub\libs\Helpers;
 use humhub\libs\Html;
-use humhub\modules\topic\models\Topic;
-use humhub\modules\topic\widgets\TopicLabel;
 use humhub\modules\ui\icon\widgets\Icon;
+use humhub\modules\wiki\helpers\Url;
+use humhub\modules\wiki\models\WikiPage;
+use humhub\modules\wiki\widgets\WikiActions;
+use humhub\modules\wiki\widgets\WikiPath;
 use humhub\widgets\Label;
 use humhub\widgets\Link;
 use humhub\widgets\TimeAgo;
 
-/* @var $this \humhub\modules\ui\view\components\View */
-/* @var $page \humhub\modules\wiki\models\WikiPage */
-
-$icon = $page->is_category ? 'file-word-o' : 'file-text-o';
-
-if ($page->is_home) {
-    $icon = 'home';
-}
+/* @var $page WikiPage */
 ?>
 
-<h1 class="wiki-headline">
-    <?= Icon::get($icon) ?>
-    <span class="wiki-page-title"><?= Html::encode($page->title) ?></span>
+<div class="wiki-headline">
+    <?= WikiPath::widget(['page' => $page]) ?>
+    <?= WikiActions::widget(['page' => $page, 'buttons' => ['edit']]) ?>
 
-    <?php if ($page->is_home) : ?>
-        <?= Label::success()->icon('fa-home')->tooltip(Yii::t('ContentModule.widgets_views_label', 'Home'))->right() ?>
-    <?php endif; ?>
-
-    <?php if ($page->content->isPublic()) : ?>
-        <?= Label::info()->tooltip(Yii::t('ContentModule.widgets_views_label', 'Public'))->icon('fa-globe')->right() ?>
-    <?php endif; ?>
-
-    <?php if ($page->admin_only) : ?>
-        <?= Label::defaultType()->icon('fa-lock')->tooltip(Yii::t('ContentModule.widgets_views_label', 'Protected'))->right() ?>
-    <?php endif; ?>
-
-    <?php if ($page->categoryPage) : ?>
-        <?= Label::primary(Helpers::truncateText($page->categoryPage->title, 30))
-            ->withLink(Link::to(null, $page->categoryPage->getUrl()))->right() ?>
-    <?php endif; ?>
+    <div class="wiki-page-title"><?= Html::encode($page->title) ?></div>
 
     <?= Icon::get('print', ['htmlOptions' => [
             'title' => Yii::t('WikiModule.base', 'Print this wiki page'),
             'data-action-click' => 'wiki.Page.print',
             'class' => 'wiki-icon-print'
         ]]) ?>
-</h1>
 
-<div class="wiki-content-info clearfix">
-    <small>
-        <?= trim(Yii::t('WikiModule.base', 'Last updated ')) . ' ' . TimeAgo::widget(['timestamp' => $page->content->updated_at]) ?>
+    <div class="wiki-content-info clearfix">
+        <small>
+            <?= Yii::t('WikiModule.base', 'Created by {author}', ['author' => Html::containerLink($page->content->createdBy)]) . ', ' ?>
+            <?= Yii::t('WikiModule.base', 'last update {dateTime}', ['dateTime' => TimeAgo::widget(['timestamp' => $page->content->updated_at])]) ?>
+            <?= Link::to('(' . Yii::t('WikiModule.base', 'History') . ')', Url::toWikiHistory($page)) ?>
+        </small>
 
-        <?php if ($page->content->updatedBy !== null): ?>
-            <?= Yii::t('WikiModule.base', 'by') ?>
-            <strong>
-                <a href="<?= $page->content->updatedBy->getUrl() ?>" style="color:<?= $this->theme->variable('info') ?>"
-                   data-contentcontainer-id="<?= $page->content->updatedBy->contentcontainer_id ?>">
-                    <?= Html::encode($page->content->updatedBy->displayName) ?>
-                </a>
-            </strong>
+        <?php if ($page->is_home) : ?>
+            <?= Label::success()->icon('fa-home')->tooltip(Yii::t('ContentModule.widgets_views_label', 'Home')) ?>
         <?php endif; ?>
 
-    </small>
+        <?php if ($page->content->isPublic()) : ?>
+            <?= Label::info()->tooltip(Yii::t('ContentModule.widgets_views_label', 'Public'))->icon('fa-globe') ?>
+        <?php endif; ?>
+
+        <?php if ($page->admin_only) : ?>
+            <?= Label::defaultType()->icon('fa-lock')->tooltip(Yii::t('ContentModule.widgets_views_label', 'Protected')) ?>
+        <?php endif; ?>
+    </div>
 </div>
 
 <hr class="wiki-headline-seperator">

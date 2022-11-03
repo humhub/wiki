@@ -8,8 +8,6 @@
 
 namespace humhub\modules\wiki\widgets;
 
-
-use humhub\components\Widget;
 use humhub\modules\content\components\ContentContainerActiveRecord;
 use humhub\modules\content\widgets\MoveContentLink;
 use humhub\modules\content\widgets\PermaLink;
@@ -18,16 +16,12 @@ use humhub\modules\wiki\models\WikiPage;
 use humhub\modules\wiki\models\WikiPageRevision;
 use humhub\modules\wiki\permissions\AdministerPages;
 use humhub\modules\wiki\permissions\CreatePage;
-use humhub\modules\wiki\permissions\EditPages;
 use humhub\modules\wiki\permissions\ViewHistory;
 use humhub\widgets\JsWidget;
 use humhub\widgets\Link;
 use Yii;
 
-/**
- * @deprecated Use new WikiActions instead
- */
-class WikiMenu extends JsWidget
+class WikiActions extends JsWidget
 {
     public $jsWidget = 'wiki.Menu';
 
@@ -108,6 +102,11 @@ class WikiMenu extends JsWidget
      */
     public $blocks = [];
 
+    /**
+     * @var array
+     */
+    public $buttons = [];
+
     public $cols = 3;
 
     public function init()
@@ -147,9 +146,10 @@ class WikiMenu extends JsWidget
 
     public function run()
     {
-        return $this->render('menu', [
+        return $this->render('wikiActions', [
             'options' => $this->getOptions(),
             'blocks' => $this->blocks,
+            'buttons' => $this->buttons,
             'cols' => $this->cols
         ]);
     }
@@ -160,6 +160,13 @@ class WikiMenu extends JsWidget
         return [
             'class' => "col-lg-$cols col-md-$cols col-sm-$cols wiki-menu ",
         ];
+    }
+
+    public function renderButton($button)
+    {
+        $button = $this->getLink($button);
+
+        return $button ? $button->cssClass('btn btn-info btn-sm') : '';
     }
 
     /**
@@ -179,18 +186,19 @@ class WikiMenu extends JsWidget
 
     /**
      * @param $link
-     * @return Link|string
+     * @return Link|string|null
      * @throws \yii\base\InvalidConfigException
      * @throws \Exception
      */
-    private function getLink($link) {
+    private function getLink($link)
+    {
         switch ($link) {
             case static::LINK_HOME:
                 return ($this->home) ? Link::to(Yii::t('WikiModule.base', 'Home'), Url::toWiki($this->home))->icon('fa-home') : null;
             case static::LINK_INDEX:
                 return  Link::to(Yii::t('WikiModule.base', 'Index'), Url::toOverview($this->container))->icon('fa-list-alt')->id('wiki_index');
             case static::LINK_EDIT:
-                return ($this->canEdit) ? Link::to(Yii::t('WikiModule.base', 'Edit page'), Url::toWikiEdit($this->page))->icon('fa-pencil-square-o edit') : null;
+                return ($this->canEdit) ? Link::to(Yii::t('WikiModule.base', 'Edit'), Url::toWikiEdit($this->page))->icon('fa-pencil') : null;
             case static::LINK_HISTORY:
                 return ($this->canViewHistory()) ? Link::to(Yii::t('WikiModule.base', 'Page History'), Url::toWikiHistory($this->page))->icon('fa-clock-o history') : null;
             case static::LINK_PERMA:
@@ -224,6 +232,8 @@ class WikiMenu extends JsWidget
             case static::LINK_MOVE:
                 return (!$this->page->isNewRecord && $this->page->canMove()) ?  MoveContentLink::widget(['model' => $this->page]) : null;
         }
+
+        return null;
     }
 
     protected function renderListItem($link)
