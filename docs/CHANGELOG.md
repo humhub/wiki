@@ -1,6 +1,10 @@
 Changelog
 =========
 
+1.8.0  (Unreleased)
+-------------------------
+- Enh #241: Remove deprecated checkbox "regular" style
+
 1.7.1  (Unreleased)
 -------------------------
 - Fix #216: Hide space name on print version
