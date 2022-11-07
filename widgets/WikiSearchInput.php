@@ -8,7 +8,6 @@ use humhub\libs\Html;
 use humhub\modules\content\components\ContentContainerActiveRecord;
 use humhub\modules\ui\form\widgets\JsInputWidget;
 use humhub\modules\wiki\models\WikiPage;
-use humhub\modules\wiki\permissions\CreatePage;
 use yii\helpers\Url;
 
 class WikiSearchInput extends JsInputWidget
@@ -87,7 +86,7 @@ class WikiSearchInput extends JsInputWidget
             'ui-select2' => ''
         ];
 
-        if ($this->contentContainer->can(CreatePage::class)) {
+        if ((new WikiPage($this->contentContainer))->content->canEdit()) {
             $data['ui-select2-allow-new'] = '';
             $data['ui-select2-new-sign'] = '➕';
         }

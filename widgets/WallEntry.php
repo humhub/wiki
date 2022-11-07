@@ -16,6 +16,10 @@ use humhub\modules\wiki\helpers\Url;
  */
 class WallEntry extends WallStreamModuleEntryWidget
 {
+    /**
+     * @inheritdoc
+     */
+    public $createRoute = '/wiki/page/edit';
 
     /**
      * @inheritdoc

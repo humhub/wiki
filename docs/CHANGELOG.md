@@ -6,6 +6,7 @@ Changelog
 - Enh #241: Remove deprecated checkbox "regular" style
 - Fix #216: Hide space name on print version
 - Enh #236: Allow update content topics
+- Enh #244: Menu for create a Wiki Page from wall stream
 
 1.7.0  (January 27, 2022)
 -------------------------

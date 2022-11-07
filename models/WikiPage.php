@@ -10,6 +10,7 @@ use humhub\modules\space\models\Space;
 use humhub\modules\wiki\activities\WikiPageEditedActivity;
 use humhub\modules\wiki\helpers\Url;
 use humhub\modules\wiki\permissions\AdministerPages;
+use humhub\modules\wiki\permissions\CreatePage;
 use humhub\modules\wiki\permissions\EditPages;
 use Yii;
 use yii\db\Expression;
@@ -51,6 +52,11 @@ class WikiPage extends ContentActiveRecord implements Searchable
      * @inheritdoc
      */
     public $wallEntryClass = "humhub\modules\wiki\widgets\WallEntry";
+
+    /**
+     * @inheritdoc
+     */
+    protected $createPermission = CreatePage::class;
 
     /**
      * @inheritdoc
