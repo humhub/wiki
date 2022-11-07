@@ -105,6 +105,6 @@ class Events
             ['pattern' => 'wiki/revision/<id:\d+>', 'route' => 'wiki/rest/revision/view', 'verb' => 'GET'],
             ['pattern' => 'wiki/revision/<id:\d+>/revert', 'route' => 'wiki/rest/revision/revert', 'verb' => 'PATCH'],
 
-        ], 'mail');
+        ], 'wiki');
     }
 }

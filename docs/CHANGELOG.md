@@ -1,8 +1,9 @@
 Changelog
 =========
 
-1.7.1  (Unreleased)
+1.8.0  (November 7, 2022)
 -------------------------
+- Enh #241: Remove deprecated checkbox "regular" style
 - Fix #216: Hide space name on print version
 - Enh #236: Allow update content topics
 - Enh #244: Menu for create a Wiki Page from wall stream
