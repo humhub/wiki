@@ -1,6 +1,12 @@
 Changelog
 =========
 
+
+1.9.0-beta.1 (November 7, 2022)
+-------------------------------
+- Enh #244: Implemented new HumHub v1.13 Content Form Support
+
+
 1.8.0  (November 7, 2022)
 -------------------------
 - Enh #241: Remove deprecated checkbox "regular" style
