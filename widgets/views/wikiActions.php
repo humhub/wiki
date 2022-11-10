@@ -5,41 +5,28 @@
  * @license https://www.humhub.com/licences
  */
 
-/* @var $blocks [][] */
-/* @var $buttons array */
+use humhub\modules\ui\view\components\View;
+use humhub\modules\wiki\widgets\WikiActions;
+
+/* @var $this View */
+/* @var $widget WikiActions */
+$widget = $this->context;
 ?>
-
 <div class="wiki-page-actions">
-    <?php foreach($buttons as $button) : ?>
-        <?= $this->context->renderButton($button) ?>
+    <?php foreach ($widget->buttons as $button) : ?>
+        <?= $widget->renderButton($button) ?>
     <?php endforeach; ?>
 
-    <?php foreach ($blocks as $blockIndex => $block) : ?>
-        <?php foreach ($block as $linkIndex => $link) : ?>
-
-        <?php endforeach; ?>
-    <?php endforeach; ?>
-</div>
-
-<?php /* Html::beginTag('div', $options)?>
-    <div class="wiki-menu-fixed">
-        <ul class="nav nav-pills nav-stacked" data-action-component="content.Content">
-            <?php $firstBlockRendered = false ?>
-            <?php foreach ($blocks as $blockIndex => $block) : ?>
-                <?php $firstLinkRendered = false ?>
-                <?php foreach ($block as $linkIndex => $link) : ?>
-                    <?php $link = $this->context->renderLink($link) ?>
-
-                    <?php if($firstBlockRendered && !empty($link) && !$firstLinkRendered) : ?>
-                        <li class="nav-divider"></li>
-                    <?php endif; ?>
-
-                    <?php if(!empty($link)) : ?>
-                        <?= $link ?>
-                        <?php $firstBlockRendered = $firstLinkRendered = true ?>
-                    <?php endif; ?>
-                <?php endforeach; ?>
+    <?php if (!empty($widget->menu)) : ?>
+    <div class="btn-group dropdown-navigation">
+        <button type="button" class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true">
+            <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu pull-right">
+            <?php foreach ($widget->menu as $entry) : ?>
+                <li><?= $entry->render() ?></li>
             <?php endforeach; ?>
         </ul>
     </div>
-<?= Html::endTag('div') */ ?>
+    <?php endif; ?>
+</div>

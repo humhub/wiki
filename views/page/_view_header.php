@@ -11,11 +11,12 @@ use humhub\widgets\Link;
 use humhub\widgets\TimeAgo;
 
 /* @var $page WikiPage */
+/* @var $revision \humhub\modules\wiki\models\WikiPageRevision */
 ?>
 
 <div class="wiki-headline">
     <?= WikiPath::widget(['page' => $page]) ?>
-    <?= WikiActions::widget(['page' => $page, 'buttons' => ['edit']]) ?>
+    <?= WikiActions::widget(['page' => $page, 'buttons' => WikiActions::LINK_EDIT, 'revision' => $revision]) ?>
 
     <div class="wiki-page-title"><?= Html::encode($page->title) ?></div>
 
@@ -45,5 +46,3 @@ use humhub\widgets\TimeAgo;
         <?php endif; ?>
     </div>
 </div>
-
-<hr class="wiki-headline-seperator">

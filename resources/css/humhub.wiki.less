@@ -100,7 +100,9 @@
     }
 
     .wiki-headline {
-      margin-bottom:3px;
+      padding-bottom: 20px;
+      margin-bottom: 10px;
+      border-bottom: 1px solid #eeeeee;
 
       .label {
         margin-left:2px;
@@ -114,10 +116,13 @@
         clear: both;
       }
 
-      a {
-        color: @info;
-        &:hover {
-          color: #000;
+      .wiki-page-path, .wiki-content-info {
+        a {
+          color: @info;
+
+          &:hover {
+            color: #000;
+          }
         }
       }
     }

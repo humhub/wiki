@@ -20,7 +20,7 @@ class WikiContent extends JsWidget
     public $cssClass;
     public $title;
     public $titleIcon;
-    public $cols = 9;
+    public $cols = 12;
 
     public function init()
     {

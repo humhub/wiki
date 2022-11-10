@@ -25,9 +25,9 @@ humhub\modules\wiki\assets\Assets::register($this);
     <div class="panel-body">
 
         <div class="row">
-            <?php WikiContent::begin(['cssClass' => 'wiki-page-content', 'cols' => 12]) ?>
+            <?php WikiContent::begin(['cssClass' => 'wiki-page-content']) ?>
 
-                <?= $this->render('_view_header', ['page' => $page]) ?>
+                <?= $this->render('_view_header', ['page' => $page, 'revision' => $revision]) ?>
 
                 <?= $this->render('_view_content', ['page' => $page, 'canEdit' => $canEdit, 'content' => $content]) ?>
 
@@ -43,8 +43,6 @@ humhub\modules\wiki\assets\Assets::register($this);
                 <?= Comments::widget(['object' => $page]); ?>
 
             <?php WikiContent::end() ?>
-
-            <?= WikiMenu::widget(['page' => $page, 'revision' => $revision]) ?>
 
         </div>
     </div>
