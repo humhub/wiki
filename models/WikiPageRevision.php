@@ -4,7 +4,6 @@ namespace humhub\modules\wiki\models;
 
 use humhub\components\ActiveRecord;
 use humhub\modules\user\models\User;
-use humhub\modules\wiki\permissions\CreatePage;
 use Yii;
 
 /**
@@ -107,7 +106,7 @@ class WikiPageRevision extends ActiveRecord
      */
     private function createPagesFromWikiLinks()
     {
-        if (!$this->page->content->container->can(CreatePage::class)) {
+        if (!$this->page->content->canEdit()) {
             return;
         }
 

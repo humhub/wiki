@@ -9,7 +9,6 @@
 namespace humhub\modules\wiki\widgets;
 
 
-use humhub\components\Widget;
 use humhub\modules\content\components\ContentContainerActiveRecord;
 use humhub\modules\content\widgets\MoveContentLink;
 use humhub\modules\content\widgets\PermaLink;
@@ -17,8 +16,6 @@ use humhub\modules\wiki\helpers\Url;
 use humhub\modules\wiki\models\WikiPage;
 use humhub\modules\wiki\models\WikiPageRevision;
 use humhub\modules\wiki\permissions\AdministerPages;
-use humhub\modules\wiki\permissions\CreatePage;
-use humhub\modules\wiki\permissions\EditPages;
 use humhub\modules\wiki\permissions\ViewHistory;
 use humhub\widgets\JsWidget;
 use humhub\widgets\Link;
@@ -234,7 +231,7 @@ class WikiMenu extends JsWidget
      */
     public function canCreatePage()
     {
-        return $this->container->can(CreatePage::class);
+        return (new WikiPage($this->container))->content->canEdit();
     }
 
     /**

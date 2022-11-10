@@ -100,4 +100,12 @@ class Module extends ContentContainerModule
         ];
     }
 
+    /**
+     * @inheritdoc
+     */
+    public function getContentClasses(): array
+    {
+        return [WikiPage::class];
+    }
+
 }
