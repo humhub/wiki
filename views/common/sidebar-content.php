@@ -27,7 +27,7 @@ Assets::register($this);
     <div class="wiki-page-sidebar col-lg-4 <?= $hideSidebarOnSmallScreen ? 'visible-lg' : 'col-md-12' ?>">
         <div class="panel panel-default">
             <div class="panel-body">
-                <?php WikiContent::begin(['cssClass' => 'wiki-page-content', 'cols' => 12]) ?>
+                <?php WikiContent::begin(['cssClass' => 'wiki-page-content']) ?>
                 <div class="wiki-page-content-header">
                     <h3><?= Icon::get('home') ?> <?= Yii::t('WikiModule.base', 'Index') ?></h3>
                     <?= WikiSearchForm::widget(['contentContainer' => $contentContainer]) ?>

@@ -6,6 +6,7 @@ namespace humhub\modules\wiki\models\forms;
 use humhub\modules\content\models\Content;
 use humhub\modules\topic\models\Topic;
 use humhub\modules\topic\permissions\AddTopic;
+use humhub\modules\ui\icon\widgets\Icon;
 use humhub\modules\wiki\models\WikiPageRevision;
 use humhub\modules\wiki\permissions\AdministerPages;
 use humhub\modules\wiki\widgets\WikiRichText;
@@ -279,9 +280,9 @@ class PageEditForm extends Model
 
     public function getTitle()
     {
-        return ($this->isNewPage())
-            ? Yii::t('WikiModule.base', '<strong>Create</strong> new page')
-            : Yii::t('WikiModule.base', '<strong>Edit</strong> page');
+        return $this->isNewPage()
+            ? Icon::get('list-alt') . ' ' . Yii::t('WikiModule.base', 'Create new page')
+            : Icon::get('edit') . ' ' . Yii::t('WikiModule.base', 'Edit page');
     }
 
     public function isNewPage()

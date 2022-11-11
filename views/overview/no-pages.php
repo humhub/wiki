@@ -21,7 +21,7 @@ humhub\modules\wiki\assets\Assets::register($this);
     <div class="panel-body">
 
         <div class="row">
-            <?php WikiContent::begin(['cols' => 12]) ?>
+            <?php WikiContent::begin() ?>
 
                 <div class="text-center wiki-welcome">
                     <h1><?= Yii::t('WikiModule.base', 'Create a Wiki Page') ?></h1>

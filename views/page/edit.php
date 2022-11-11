@@ -4,6 +4,7 @@ use humhub\libs\Html;
 use humhub\modules\content\components\ContentContainerActiveRecord;
 use humhub\modules\ui\form\widgets\ContentVisibilitySelect;
 use humhub\modules\ui\view\components\View;
+use humhub\modules\wiki\assets\Assets;
 use humhub\modules\wiki\models\forms\PageEditForm;
 use humhub\modules\wiki\widgets\WikiEditor;
 use humhub\modules\ui\form\widgets\ActiveForm;
@@ -21,14 +22,11 @@ use humhub\modules\topic\widgets\TopicPicker;
 /* @var $diffUrl string */
 /* @var $discardChangesUrl string */
 
-humhub\modules\wiki\assets\Assets::register($this);
-
-$canAdminister = $model->canAdminister();
-
+Assets::register($this);
 ?>
 <div class="panel panel-default">
     <div class="panel-body">
-        <div class="row <?= $model->page->is_category ? 'wiki-category-page-edit' : '' ?>">
+        <div class="row<?= $model->page->is_category ? ' wiki-category-page-edit' : '' ?>">
 
             <?php WikiContent::begin([
                 'id' => 'wiki-page-edit',
@@ -88,7 +86,7 @@ $canAdminister = $model->canAdminister();
 
                 <?= $form->beginCollapsibleFields('Advanced settings'); ?>
 
-                <?php if (!$canAdminister) : ?>
+                <?php if (!$model->canAdminister()) : ?>
                     <div class="alert alert-info">
                         <?= Yii::t('WikiModule.base',
                             'In order to edit all fields, you need the permission to administer wiki pages.'); ?>
