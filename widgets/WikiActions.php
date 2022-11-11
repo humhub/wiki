@@ -197,9 +197,16 @@ class WikiActions extends DropdownMenu
         $button = $this->getLink($button);
 
         if ($button instanceof MenuLink) {
+            $htmlOptions = $button->getHtmlOptions();
+            if (isset($htmlOptions['btn-type'])) {
+                $btnTypeClass = 'btn-' . $htmlOptions['btn-type'];
+                unset($htmlOptions['btn-type']);
+            } else {
+                $btnTypeClass = 'btn-info';
+            }
             return Link::to($button->icon . ' ' . $button->getLabel(), $button->getUrl())
-                ->cssClass('btn btn-info btn-sm')
-                ->options($button->getHtmlOptions());
+                ->cssClass('btn btn-sm ' . $btnTypeClass)
+                ->options($htmlOptions);
         }
 
         return '';
@@ -249,14 +256,25 @@ class WikiActions extends DropdownMenu
                     ],
                 ]);
             case static::LINK_REVERT:
-                return $this->canEdit ?
-                    Link::withAction(Yii::t('WikiModule.base', 'Revert this'), 'wiki.revertRevision', Url::toWikiRevertRevision($this->page, $this->revision))
-                        ->icon('fa-history history')->confirm(
-                            Yii::t('WikiModule.base', '<strong>Confirm</strong> page reverting'),
-                            Yii::t('WikiModule.base', 'Do you really want to revert this page?'),
-                            Yii::t('WikiModule.base', 'Revert')) : null;
+                return $this->canEdit ? new MenuLink([
+                    'label' => Yii::t('WikiModule.base', 'Revert this'),
+                    'url' => '#',
+                    'icon' => 'fa-history',
+                    'htmlOptions' => [
+                        'btn-type' => 'warning',
+                        'data-action-click' => 'wiki.revertRevision',
+                        'data-action-click-url' => Url::toWikiRevertRevision($this->page, $this->revision),
+                        'data-action-confirm-header' => Yii::t('WikiModule.base', '<strong>Confirm</strong> page reverting'),
+                        'data-action-confirm' => Yii::t('WikiModule.base', 'Do you really want to revert this page?'),
+                        'data-action-confirm-text' => Yii::t('WikiModule.base', 'Revert'),
+                    ],
+                ]) : null;
             case static::LINK_REVERT_GO_BACK:
-                return Link::to(Yii::t('WikiModule.base', 'Go back'), Url::toWikiHistory($this->page))->icon('fa-reply');
+                return new MenuLink([
+                    'label' => Yii::t('WikiModule.base', 'Go back'),
+                    'url' => Url::toWikiHistory($this->page),
+                    'icon' => 'fa-reply',
+                ]);
             case static::LINK_NEW:
                 $url = ($this->page && $this->page->is_category)
                     ? Url::toWikiCreate($this->container, $this->page->id)
@@ -288,7 +306,10 @@ class WikiActions extends DropdownMenu
                     'label' => Yii::t('WikiModule.base', 'Save'),
                     'url' => '#',
                     'icon' => 'fa-save',
-                    'htmlOptions' => ['data-action-click' => 'wiki.Form.submit'],
+                    'htmlOptions' => [
+                        'btn-type' => 'primary',
+                        'data-action-click' => 'wiki.Form.submit',
+                    ],
                 ]);
             case static::LINK_BACK_TO_PAGE:
                 return new MenuLink([

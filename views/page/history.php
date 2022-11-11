@@ -3,8 +3,10 @@
 use humhub\modules\content\components\ContentContainerActiveRecord;
 use humhub\modules\ui\view\components\View;
 use humhub\modules\wiki\helpers\Url;
+use humhub\modules\wiki\widgets\WikiActions;
 use humhub\modules\wiki\widgets\WikiContent;
 use humhub\modules\user\widgets\Image;
+use humhub\modules\wiki\widgets\WikiPath;
 use humhub\widgets\Button;
 use humhub\widgets\LinkPager;
 use humhub\modules\wiki\widgets\WikiMenu;
@@ -31,7 +33,17 @@ if ($isEnabledDiffTool) {
     <div class="panel-body">
         <div class="row">
 
-            <?php WikiContent::begin(['title' => Yii::t('WikiModule.base', '<strong>Page</strong> history')])?>
+            <?php WikiContent::begin(['cssClass' => 'wiki-page-content'])?>
+
+                <div class="wiki-headline">
+                    <?= WikiPath::widget(['page' => $page]) ?>
+                    <?= WikiActions::widget([
+                        'page' => $page,
+                        'buttons' => WikiMenu::LINK_BACK_TO_PAGE,
+                        'blocks' => [[WikiMenu::LINK_BACK_TO_PAGE], WikiMenu::BLOCK_START],
+                    ]) ?>
+                    <div class="wiki-page-title"><?= Yii::t('WikiModule.base', '<strong>Page</strong> history') ?></div>
+                </div>
 
                 <h1 class="wiki-page-history-title"><i class="fa fa-file-text-o"></i> <?= Html::encode($page->title); ?></h1>
 
@@ -73,12 +85,10 @@ if ($isEnabledDiffTool) {
                 </ul>
 
                 <?php if ($isEnabledDiffTool) : ?>
-                    <?= Button::primary(Yii::t('WikiModule.base', 'Compare changes'))->sm()->cssClass('wiki-page-history-btn-compare')->action('wiki.History.compare') ?>
+                    <?= Button::info(Yii::t('WikiModule.base', 'Compare changes'))->sm()->cssClass('wiki-page-history-btn-compare')->action('wiki.History.compare') ?>
                 <?php endif; ?>
 
             <?php WikiContent::end() ?>
-
-            <?= WikiMenu::widget(['page' => $page, 'blocks' => [[WikiMenu::LINK_BACK_TO_PAGE], WikiMenu::BLOCK_START]])?>
         </div>
     </div>
 </div>

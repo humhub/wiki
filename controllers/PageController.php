@@ -132,7 +132,7 @@ class PageController extends BaseController
             throw new HttpException(404, 'Wiki page revision 2 not found!');
         }
 
-        return $this->render('diff', [
+        return $this->renderSidebarContent('diff', [
             'page' => $page,
             'revision1' => $revision1,
             'revision2' => $revision2,
@@ -291,7 +291,7 @@ class PageController extends BaseController
 
         $revisions = $query->all();
 
-        return $this->render('history', [
+        return $this->renderSidebarContent('history', [
             'page' => $page,
             'revisions' => $revisions,
             'pagination' => $pagination,

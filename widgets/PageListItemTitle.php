@@ -23,7 +23,7 @@ class PageListItemTitle extends Widget
     public $title;
 
     public $icon;
-    public $iconPage = 'fa-file-text-o';
+    public $iconPage = '';
     public $iconCategoryOpened = 'fa-caret-down';
     public $iconCategoryFolded = 'fa-caret-right';
 

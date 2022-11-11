@@ -12,11 +12,16 @@ use humhub\widgets\TimeAgo;
 
 /* @var $page WikiPage */
 /* @var $revision \humhub\modules\wiki\models\WikiPageRevision */
+/* @var $buttons array|string */
+
+if (empty($buttons)) {
+    $buttons = WikiActions::LINK_EDIT;
+}
 ?>
 
 <div class="wiki-headline">
     <?= WikiPath::widget(['page' => $page]) ?>
-    <?= WikiActions::widget(['page' => $page, 'buttons' => WikiActions::LINK_EDIT, 'revision' => $revision]) ?>
+    <?= WikiActions::widget(['page' => $page, 'buttons' => $buttons, 'revision' => $revision]) ?>
 
     <div class="wiki-page-title"><?= Html::encode($page->title) ?></div>
 
