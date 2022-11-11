@@ -222,8 +222,8 @@ class WikiMenu extends DropdownMenu
     }
 
     /**
-     * @param $link
-     * @return Link|MenuLink|string|null
+     * @param string $link
+     * @return MenuLink|null
      * @throws \yii\base\InvalidConfigException
      * @throws \Exception
      */

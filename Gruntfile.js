@@ -21,7 +21,6 @@ module.exports = function (grunt) {
                 src:[
                     'resources/js/humhub.wiki.js',
                     'resources/js/humhub.wiki.Page.js',
-                    'resources/js/humhub.wiki.Menu.js',
                     'resources/js/humhub.wiki.Form.js',
                     'resources/js/humhub.wiki.CategoryListView.js',
                     'resources/js/humhub.wiki.linkExtension.js',
