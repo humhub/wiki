@@ -4,24 +4,25 @@ use humhub\libs\Html;
 use humhub\modules\ui\icon\widgets\Icon;
 use humhub\modules\wiki\helpers\Url;
 use humhub\modules\wiki\models\WikiPage;
-use humhub\modules\wiki\widgets\WikiActions;
+use humhub\modules\wiki\models\WikiPageRevision;
+use humhub\modules\wiki\widgets\WikiMenu;
 use humhub\modules\wiki\widgets\WikiPath;
 use humhub\widgets\Label;
 use humhub\widgets\Link;
 use humhub\widgets\TimeAgo;
 
 /* @var $page WikiPage */
-/* @var $revision \humhub\modules\wiki\models\WikiPageRevision */
+/* @var $revision WikiPageRevision */
 /* @var $buttons array|string */
 
 if (empty($buttons)) {
-    $buttons = WikiActions::LINK_EDIT;
+    $buttons = WikiMenu::LINK_EDIT;
 }
 ?>
 
 <div class="wiki-headline">
     <?= WikiPath::widget(['page' => $page]) ?>
-    <?= WikiActions::widget(['page' => $page, 'buttons' => $buttons, 'revision' => $revision]) ?>
+    <?= WikiMenu::widget(['page' => $page, 'buttons' => $buttons, 'revision' => $revision ?? null]) ?>
 
     <div class="wiki-page-title"><?= Html::encode($page->title) ?></div>
 

@@ -5,11 +5,11 @@ use humhub\modules\content\components\ContentContainerActiveRecord;
 use humhub\modules\ui\form\widgets\ContentVisibilitySelect;
 use humhub\modules\ui\view\components\View;
 use humhub\modules\wiki\models\forms\PageEditForm;
-use humhub\modules\wiki\widgets\WikiActions;
 use humhub\modules\wiki\widgets\WikiEditor;
 use humhub\modules\ui\form\widgets\ActiveForm;
 use humhub\modules\wiki\widgets\WikiLinkModal;
 use humhub\modules\wiki\widgets\WikiContent;
+use humhub\modules\wiki\widgets\WikiMenu;
 use humhub\modules\wiki\widgets\WikiPath;
 use humhub\widgets\Button;
 use humhub\modules\topic\widgets\TopicPicker;
@@ -38,7 +38,7 @@ $canAdminister = $model->canAdminister();
             <div class="wiki-headline">
                 <?= WikiPath::widget(['page' => $model->page]) ?>
                 <?php if (!$requireConfirmation) : ?>
-                    <?= WikiActions::widget(['page' => $model->page, 'buttons' => WikiActions::LINK_EDIT_SAVE, 'edit' => true]) ?>
+                    <?= WikiMenu::widget(['page' => $model->page, 'buttons' => WikiMenu::LINK_EDIT_SAVE, 'edit' => true]) ?>
                 <?php endif; ?>
                 <div class="wiki-page-title"><?= $model->getTitle() ?></div>
             </div>

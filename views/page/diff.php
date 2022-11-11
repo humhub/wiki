@@ -3,7 +3,6 @@
 use humhub\modules\ui\view\components\View;
 use humhub\modules\wiki\models\WikiPage;
 use humhub\modules\wiki\models\WikiPageRevision;
-use humhub\modules\wiki\widgets\WikiActions;
 use humhub\modules\wiki\widgets\WikiMenu;
 use humhub\modules\wiki\widgets\WikiContent;
 use humhub\modules\wiki\widgets\WikiRichText;
@@ -21,7 +20,7 @@ humhub\modules\wiki\assets\Assets::register($this);
         <div class="row">
             <?php WikiContent::begin(['cssClass' => 'wiki-page-content wiki-page-diff']) ?>
 
-            <?= $this->render('_view_header', ['page' => $page, 'buttons' => WikiActions::LINK_REVERT, 'revision' => $revision1]) ?>
+            <?= $this->render('_view_header', ['page' => $page, 'buttons' => WikiMenu::LINK_REVERT]) ?>
 
             <div class="row">
                 <div class="col-xs-6">

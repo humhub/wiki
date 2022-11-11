@@ -3,7 +3,6 @@
 use humhub\modules\content\components\ContentContainerActiveRecord;
 use humhub\modules\ui\view\components\View;
 use humhub\modules\wiki\helpers\Url;
-use humhub\modules\wiki\widgets\WikiActions;
 use humhub\modules\wiki\widgets\WikiContent;
 use humhub\modules\user\widgets\Image;
 use humhub\modules\wiki\widgets\WikiPath;
@@ -37,7 +36,7 @@ if ($isEnabledDiffTool) {
 
                 <div class="wiki-headline">
                     <?= WikiPath::widget(['page' => $page]) ?>
-                    <?= WikiActions::widget([
+                    <?= WikiMenu::widget([
                         'page' => $page,
                         'buttons' => WikiMenu::LINK_BACK_TO_PAGE,
                         'blocks' => [[WikiMenu::LINK_BACK_TO_PAGE], WikiMenu::BLOCK_START],
