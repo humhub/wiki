@@ -44,6 +44,9 @@
 
   .wiki-page-actions {
     float: right;
+    .btn-group {
+      margin-left: 4px;
+    }
   }
 
   .wiki-page-index {
@@ -225,6 +228,12 @@
         padding-bottom: 5px;
         &:hover {
           background: #F7F7F7;
+        }
+        &.page-current {
+          a.page-title-text {
+            font-weight: bold;
+            color: @info;
+          }
         }
       }
 

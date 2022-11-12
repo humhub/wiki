@@ -1,6 +1,7 @@
 <?php
 
 use humhub\libs\Html;
+use humhub\modules\wiki\helpers\Helper;
 use humhub\widgets\Button;
 use humhub\modules\wiki\helpers\Url;
 
@@ -12,9 +13,9 @@ use humhub\modules\wiki\helpers\Url;
 /* @var $showAddPage bool */
 ?>
 
-<div class="<?php if (!$page || $page->is_category) : ?>page-category-title<?php else : ?>page-title<?php endif; ?>">
+<div class="<?php if (!$page || $page->is_category) : ?>page-category-title<?php else : ?>page-title<?php endif; ?><?php if (Helper::isCurrentPage($page)) : ?> page-current<?php endif; ?>">
     <?= Button::asLink()->icon('fa-bars')->cssClass('wiki-page-control drag-icon')->visible($page && $showDrag) ?>
-    <i class="fa <?= $icon ?>"></i> <?= Html::a(Html::encode($title), $url) ?>
+    <i class="fa <?= $icon ?>"></i> <?= Html::a(Html::encode($title), $url, ['class' => 'page-title-text']) ?>
 
     <?php if ($page && $page->is_category) : ?>
         <?= Button::asLink(null, Url::toWikiCreateForCategory($page))->icon('fa-plus')

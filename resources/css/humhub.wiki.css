@@ -31,6 +31,9 @@
 .layout-content-container .wiki-page-actions {
   float: right;
 }
+.layout-content-container .wiki-page-actions .btn-group {
+  margin-left: 4px;
+}
 .layout-content-container .wiki-page-index {
   border: 1px solid #eee;
   border-radius: 4px;
@@ -186,6 +189,11 @@
 .layout-content-container .wiki-content ul.wiki-page-list .page-category-title:hover,
 .layout-content-container .wiki-content ul.wiki-page-list .page-title:hover {
   background: #F7F7F7;
+}
+.layout-content-container .wiki-content ul.wiki-page-list .page-category-title.page-current a.page-title-text,
+.layout-content-container .wiki-content ul.wiki-page-list .page-title.page-current a.page-title-text {
+  font-weight: bold;
+  color: #21A1B3;
 }
 .layout-content-container .wiki-content ul.wiki-page-list ul.wiki-page-list {
   padding-left: 20px;
