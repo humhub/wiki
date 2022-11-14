@@ -256,16 +256,23 @@
       border-left: 1px dashed #AEAEAE;
       &.wiki-page-history-with-diff {
         li {
-          padding-left: 38px;
+          padding-left: 56px;
         }
       }
 
       li {
-        padding: 7px 18px;
+        padding: 20px 18px;
         position: relative;
+
+        h4.media-heading {
+          font-size: 16px;
+          font-weight: 600;
+        }
 
         h5 {
           margin-bottom: 0;
+          color: #000;
+          font-size: 13px;
         }
 
         .time, .time a {
@@ -275,11 +282,13 @@
         .horizontal-line {
           position: absolute;
           left: 2px;
-          top: 13px;
+          top: 38px;
           letter-spacing: 1px;
-          color: #AEAEAE;
+          border-top: 1px dashed #AEAEAE;
           label {
-            margin-bottom: -5px;
+            position: relative;
+            right: -27px;
+            top: -9px;
           }
         }
 
@@ -297,12 +306,15 @@
           }
         }
 
+        .media {
+          padding: 0 11px;
+        }
         .alert {
           padding: 10px;
           margin-bottom: 0;
 
           .horizontal-line {
-            top: 24px;
+            top: 48px;
           }
         }
       }
@@ -325,6 +337,8 @@
   }
   .wiki-page-history-title {
     padding-left: 15px;
+    font-weight: 600;
+    font-size: 20px;
 
     .fa {
       font-size: 14px;

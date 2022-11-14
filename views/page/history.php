@@ -7,6 +7,7 @@ use humhub\modules\wiki\widgets\WikiContent;
 use humhub\modules\user\widgets\Image;
 use humhub\modules\wiki\widgets\WikiPath;
 use humhub\widgets\Button;
+use humhub\widgets\Link;
 use humhub\widgets\LinkPager;
 use humhub\modules\wiki\widgets\WikiMenu;
 use yii\helpers\Html;
@@ -41,33 +42,29 @@ if ($isEnabledDiffTool) {
                         'buttons' => WikiMenu::LINK_BACK_TO_PAGE,
                         'blocks' => [[WikiMenu::LINK_BACK_TO_PAGE], WikiMenu::BLOCK_START],
                     ]) ?>
-                    <div class="wiki-page-title"><?= Yii::t('WikiModule.base', '<strong>Page</strong> history') ?></div>
+                    <div class="wiki-page-title"><?= Yii::t('WikiModule.base', 'Page history') ?></div>
                 </div>
 
-                <h1 class="wiki-page-history-title"><i class="fa fa-file-text-o"></i> <?= Html::encode($page->title); ?></h1>
+                <h1 class="wiki-page-history-title"><?= Html::encode($page->title) ?></h1>
 
                 <ul class="wiki-page-history<?php if ($isEnabledDiffTool) : ?> wiki-page-history-with-diff<?php endif; ?>" data-ui-widget="wiki.History" data-ui-init>
                     <?php $first = true; ?>
                     <?php foreach ($revisions as $revision): ?>
                         <li>
                             <div class="media <?= ($first && $pagination->page == 0) ? 'alert alert-warning' : '' ?>">
-                                <div class="horizontal-line">---<?= $isEnabledDiffTool ? Html::input('radio', 'revision_' . $revision->revision, $revision->revision) : ''; ?></div>
+                                <div class="horizontal-line"><?= $isEnabledDiffTool ? Html::input('radio', 'revision_' . $revision->revision, $revision->revision) : ''; ?></div>
 
-                                <?= Image::widget(['user' => $revision->author, 'showTooltip' => true, 'width' => 36, 'htmlOptions' => ['class' => 'pull-left'] ]) ?>
+                                <?= Image::widget(['user' => $revision->author, 'showTooltip' => true, 'width' => 24, 'htmlOptions' => ['class' => 'pull-right'] ]) ?>
 
                                 <div class="media-body">
-                                    <i class="fa fa-clock-o history pull-left"></i>
                                     <h4 class="media-heading">
                                         <a href="<?= $contentContainer->createUrl('view', ['title' => $page->title, 'revision' => $revision->revision]); ?>">
-                                            <?= Html::encode($page->title); ?></a>
-                                           <a class="wiki-page-view-link colorInfo" href="<?= Url::toWiki($page, $revision); ?>">
-                                               [ <i class="fa fa-eye"></i><?= Yii::t('WikiModule.base', 'View'); ?> ]
-                                           </a><br>
+                                            <?= Html::encode($page->title); ?>
+                                        </a><br>
                                         <h5>
-                                            <?= Yii::t('WikiModule.base', 'Edited at'); ?>
-                                            <?= Yii::$app->formatter->asDateTime($revision->revision); ?>
-                                            <?= Yii::t('WikiModule.base', 'by'); ?>
-                                            <?= Html::a(Html::encode($revision->author->displayName), $revision->author->getUrl(), ['class' => 'wiki-author-link']); ?>
+                                            <?= Yii::$app->formatter->asDateTime($revision->revision) ?>
+                                            - <?= Yii::t('WikiModule.base', 'Created by {author}', ['author' => \humhub\libs\Html::containerLink($page->content->createdBy, ['class' => 'colorInfo'])]) ?>
+                                            - <?= Link::to(Yii::t('WikiModule.base', 'show changes'), Url::toWiki($page, $revision))->cssClass('colorInfo') ?>
                                         </h5>
                                     </h4>
 
