@@ -11,9 +11,9 @@ use humhub\modules\wiki\helpers\Url;
 /* @var $url string */
 /* @var $showDrag bool */
 /* @var $showAddPage bool */
+/* @var $options array */
 ?>
-
-<div class="<?php if (!$page || $page->is_category) : ?>page-category-title<?php else : ?>page-title<?php endif; ?><?php if (Helper::isCurrentPage($page)) : ?> page-current<?php endif; ?>">
+<?= Html::beginTag('div', $options) ?>
     <?= Button::asLink()->icon('fa-bars')->cssClass('wiki-page-control drag-icon')->visible($page && $showDrag) ?>
     <i class="fa <?= $icon ?>"></i> <?= Html::a(Html::encode($title), $url, ['class' => 'page-title-text']) ?>
 
@@ -22,4 +22,4 @@ use humhub\modules\wiki\helpers\Url;
             ->cssClass('wiki-page-control tt wiki-category-add')->style('display:none')
             ->title(Yii::t('WikiModule.base', 'Add Page'))->visible($showAddPage) ?>
     <?php endif; ?>
-</div>
+<?= Html::endTag('div') ?>

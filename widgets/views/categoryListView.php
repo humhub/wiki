@@ -9,6 +9,7 @@ use humhub\modules\wiki\widgets\CategoryListItem;
 /* @var $options [] */
 /* @var $showAddPage bool */
 /* @var $showDrag bool */
+/* @var $level int */
 ?>
 <?= Html::beginTag('ul', $options) ?>
 
@@ -19,6 +20,7 @@ use humhub\modules\wiki\widgets\CategoryListItem;
                 'contentContainer' => $contentContainer,
                 'showDrag' => $showDrag,
                 'showAddPage' => $showAddPage,
+                'level' => $level,
             ]) ?>
         <?php endif; ?>
     <?php endforeach; ?>

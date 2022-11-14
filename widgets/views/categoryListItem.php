@@ -13,6 +13,7 @@ use humhub\modules\wiki\widgets\PageListItemTitle;
 /* @var $hideTitle bool */
 /* @var $showAddPage bool */
 /* @var $showDrag bool */
+/* @var $level int */
 ?>
 
 <li<?php if (!$category || $category->is_category) : ?> class="wiki-category-list-item"<?php endif; ?><?php if ($category) : ?> data-page-id="<?= $category->id ?>"<?php endif; ?>>
@@ -23,6 +24,7 @@ use humhub\modules\wiki\widgets\PageListItemTitle;
             'showAddPage' => $showAddPage,
             'title' => $title,
             'icon' => $icon,
+            'level' => $level,
         ]) ?>
     <?php endif; ?>
     <?php if (!empty($pages)) : ?>
@@ -33,6 +35,7 @@ use humhub\modules\wiki\widgets\PageListItemTitle;
                     'page' => $page,
                     'showDrag' => $showDrag,
                     'showAddPage' => $showAddPage,
+                    'level' => $level + 1,
                 ]) ?>
                 <?php if ($page->is_category) : ?>
                     <?= CategoryListView::widget([
@@ -42,6 +45,7 @@ use humhub\modules\wiki\widgets\PageListItemTitle;
                         'showAddPage' => $showAddPage,
                         'jsWidget' => '',
                         'id' => '',
+                        'level' => $level + 2,
                     ]) ?>
                 <?php endif; ?>
             </li>

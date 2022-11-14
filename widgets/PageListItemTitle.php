@@ -8,6 +8,7 @@
 namespace humhub\modules\wiki\widgets;
 
 use humhub\components\Widget;
+use humhub\modules\wiki\helpers\Helper;
 use humhub\modules\wiki\models\WikiPage;
 
 class PageListItemTitle extends Widget
@@ -38,6 +39,11 @@ class PageListItemTitle extends Widget
     public $showDrag = false;
 
     /**
+     * @var int Level of the sub-category
+     */
+    public $level = 0;
+
+    /**
      * @inheritdoc
      */
     public function run()
@@ -60,7 +66,23 @@ class PageListItemTitle extends Widget
             'icon' => $this->icon ?? $icon,
             'showDrag' => $this->showDrag,
             'showAddPage' => $this->showAddPage,
+            'options' => $this->getOptions(),
+            'level' => $this->level,
         ]);
+    }
+
+    public function getOptions(): array
+    {
+        $options = [
+            'class' => (!$this->page || $this->page->is_category) ? 'page-category-title' : 'page-title',
+            'style' => 'padding-left:' . (12 + $this->level * 20) .'px',
+        ];
+
+        if (Helper::isCurrentPage($this->page)) {
+            $options['class'] .= ' page-current';
+        }
+
+        return $options;
     }
 
 }

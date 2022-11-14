@@ -71,6 +71,11 @@ class CategoryListItem extends Widget
     public static $canCreate = null;
 
     /**
+     * @var int Level of the sub-category
+     */
+    public $level = 0;
+
+    /**
      * @inheritdoc
      */
     public function run()
@@ -97,6 +102,7 @@ class CategoryListItem extends Widget
             'showDrag' => $this->showDrag,
             'contentContainer' => $this->contentContainer,
             'category' => $this->category,
+            'level' => $this->level,
         ]);
     }
 

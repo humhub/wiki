@@ -33,7 +33,7 @@ class Helper
             return $currentPage && $currentPage->id == $page->id;
         }
 
-        $id = Yii::$app->request->get('id');
+        $id = Yii::$app->request->get('id', Yii::$app->request->get('categoryId'));
         if (!empty($id)) {
             $currentPage = WikiPage::findOne($id);
             return $currentPage && $currentPage->id == $page->id;

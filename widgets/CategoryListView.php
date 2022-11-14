@@ -52,6 +52,11 @@ class CategoryListView extends JsWidget
     public $showDrag;
 
     /**
+     * @var int Level of the sub-category
+     */
+    public $level = 0;
+
+    /**
      * @return string
      * @throws \yii\base\Exception
      */
@@ -79,6 +84,7 @@ class CategoryListView extends JsWidget
             'contentContainer' => $this->contentContainer,
             'showAddPage' => $this->showAddPage,
             'showDrag' => $this->showDrag,
+            'level' => $this->level,
         ]);
     }
 
