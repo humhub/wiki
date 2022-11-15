@@ -8,7 +8,6 @@
 
 namespace wiki\functional;
 
-use Yii;
 use wiki\FunctionalPermissionTest;
 use wiki\FunctionalTester;
 use humhub\libs\BasePermission;
@@ -51,7 +50,6 @@ class EditPermissionCest extends FunctionalPermissionTest
         $I->dontSee('#wikipage-parent_page_id');
         $I->seeElement('#wikipage-is_home:disabled');
         $I->seeElement('#wikipage-admin_only:disabled');
-        $I->seeElement('#wikipage-is_category:disabled');
         $I->seeElement('#pageeditform-ispublic:disabled');
 
         $I->fillField('WikiPageRevision[content]', 'Changed content');

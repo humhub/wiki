@@ -8,13 +8,11 @@
 namespace humhub\modules\wiki\controllers;
 
 use humhub\modules\content\components\ContentContainerController;
-use humhub\modules\ui\view\helpers\ThemeHelper;
 use humhub\modules\wiki\helpers\Helper;
 use humhub\modules\wiki\models\WikiPage;
 use humhub\modules\wiki\permissions\AdministerPages;
 use humhub\modules\wiki\permissions\CreatePage;
 use humhub\modules\wiki\permissions\ViewHistory;
-use Yii;
 use yii\web\NotFoundHttpException;
 
 
@@ -74,15 +72,6 @@ abstract class BaseController extends ContentContainerController
     protected function hasPages()
     {
         return (WikiPage::find()->contentContainer($this->contentContainer)->count() > 0);
-    }
-
-    /**
-     * @return bool
-     * @throws \yii\base\Exception
-     */
-    protected function hasCategoryPages()
-    {
-        return (WikiPage::find()->contentContainer($this->contentContainer)->andWhere(['is_category' => 1])->count() > 0);
     }
 
     /**

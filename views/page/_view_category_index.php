@@ -4,13 +4,10 @@ use humhub\modules\wiki\widgets\CategoryListItem;
 
 /* @var $this \humhub\modules\ui\view\components\View */
 /* @var $page \humhub\modules\wiki\models\WikiPage */
-
-$icon = $page->is_category ? 'fa-file-word-o' : 'fa-file-text-o';
-
 $pages = $page->findChildren()->all();
 ?>
 
-<?php if ($page->is_category): ?>
+<?php if ($page->isCategory): ?>
     <div class="wiki-sub-pages" style="background-color:<?= $this->theme->variable('background-color-secondary') ?>">
         <ul class="wiki-page-list">
             <?php if(!empty($pages)) : ?>

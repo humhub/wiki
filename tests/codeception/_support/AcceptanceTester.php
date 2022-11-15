@@ -63,7 +63,6 @@ class AcceptanceTester extends \AcceptanceTester
         $this->fillField('#wikipage-title', 'First Test Wiki Category');
         $this->fillField('#wikipagerevision-content .humhub-ui-richtext', '# My First Wiki Category!');
         $this->jsShow('.form-collapsible-fields.closed fieldset');
-        $this->click('[for="wikipage-is_category"]');
         $this->click('Save');
 
         $this->waitForElementVisible('.wiki-page-content');

@@ -38,11 +38,11 @@ class WikiPageItemDrop extends ItemDrop
         /* @var $model \humhub\modules\wiki\models\WikiPage */
         $model = $this->getModel();
 
-        if($model->is_category) {
+        if ($model->isCategory) {
             return WikiPage::findCategories($this->contentContainer);
         } else if($this->targetId) {
             $target = WikiPage::findOne(['id' => $this->targetId]);
-            if(!$target->is_category) {
+            if (!$target->isCategory) {
                 throw new HttpException(400);
             }
             return $target->findChildren();
@@ -56,7 +56,7 @@ class WikiPageItemDrop extends ItemDrop
         /* @var $model \humhub\modules\wiki\models\WikiPage */
         $model = $this->getModel();
 
-        if($model->is_category) {
+        if ($model->isCategory) {
             return;
         }
 

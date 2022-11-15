@@ -55,10 +55,6 @@ class FunctionalTester extends \FunctionalTester
             $this->checkOption('#wikipage-admin_only');
         }
 
-        if(isset($options['is_category']) && $options['is_category']) {
-            $this->checkOption('#wikipage-is_category');
-        }
-
         if(isset($options['is_home']) && $options['is_home']) {
             $this->checkOption('#wikipage-is_home');
         }
@@ -97,7 +93,6 @@ class FunctionalTester extends \FunctionalTester
      */
     public function createCategoy($space, $title, $content, $options = [])
     {
-        $options['is_category'] = 1;
         $wiki = $this->createWiki($space,$title,$content, $options);
 
         $this->see('There are no pages in this category');

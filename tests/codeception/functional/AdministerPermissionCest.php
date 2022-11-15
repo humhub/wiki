@@ -110,7 +110,6 @@ class AdministerPermissionCest extends FunctionalPermissionTest
         $I->seeElement('#wikipage-parent_page_id'); // functional tests see display:none elements..
         $I->seeElement('#wikipage-is_home');
         $I->seeElement('#wikipage-admin_only');
-        $I->seeElement('#wikipage-is_category');
         $I->seeElement('#pageeditform-ispublic');
         $I->dontSee('In order to edit all fields, you need the permission to administer wiki pages.');
 
@@ -118,7 +117,6 @@ class AdministerPermissionCest extends FunctionalPermissionTest
         $I->fillField('WikiPageRevision[content]', 'Changed content');
         $I->checkOption('#wikipage-is_home');
         $I->checkOption('#wikipage-admin_only');
-        $I->checkOption('#wikipage-is_category');
         $I->checkOption('#pageeditform-ispublic');
 
         $I->click('Save', '#wiki-page-edit');

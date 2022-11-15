@@ -199,7 +199,7 @@
       padding-left:10px;
 
       li {
-        font-size: 14px;
+        font-size: 16px;
         padding-bottom:6px;
       }
 
@@ -220,7 +220,7 @@
       }
 
       .page-category-title {
-        font-weight: bold;
+        font-weight: 600;
         margin-bottom:6px;
       }
       .page-category-title, .page-title {
@@ -231,7 +231,7 @@
         }
         &.page-current {
           a.page-title-text {
-            font-weight: bold;
+            font-weight: 600;
             color: @info;
           }
         }
@@ -479,6 +479,11 @@
     #category_list_view.wiki-page-list {
       margin-left: 0;
       margin-right: 0;
+      .page-category-title, .page-title {
+        &:hover {
+          border-radius: 4px;
+        }
+      }
     }
     .wiki-page-content-header {
       border-bottom: 1px solid #EDEDED;

@@ -165,7 +165,7 @@ class PageEditForm extends Model
 
         $category = null;
         if($categoryId) {
-            $category = WikiPage::find()->contentContainer($this->container)->readable()->where(['wiki_page.id' => $categoryId, 'is_category' => 1])->one();
+            $category = WikiPage::find()->contentContainer($this->container)->readable()->where(['wiki_page.id' => $categoryId])->one();
             if($category) {
                 $this->page->parent_page_id = $categoryId;
             }
@@ -250,7 +250,7 @@ class PageEditForm extends Model
     {
         $categories = [];
 
-        $query = WikiPage::findCategories($this->container);
+        $query = WikiPage::find()->contentContainer($this->container);
 
         if ($parentCategoryId) {
             $query->andWhere(['wiki_page.parent_page_id' => $parentCategoryId]);

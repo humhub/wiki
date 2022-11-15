@@ -26,7 +26,7 @@ Assets::register($this);
 ?>
 <div class="panel panel-default">
     <div class="panel-body">
-        <div class="row<?= $model->page->is_category ? ' wiki-category-page-edit' : '' ?>">
+        <div class="row<?= $model->page->isCategory ? ' wiki-category-page-edit' : '' ?>">
 
             <?php WikiContent::begin([
                 'id' => 'wiki-page-edit',
@@ -45,7 +45,7 @@ Assets::register($this);
                 ['enableClientValidation' => false, 'options' => [
                     'data-ui-widget' => 'wiki.Form',
                     'data-change-category-confirm' => Yii::t('WikiModule.base', 'Are you really sure? All existing category page assignments will be removed!'),
-                    'data-is-category' => $model->page->is_category,
+                    'data-is-category' => $model->page->isCategory,
                     'data-ui-init' => '1'],
                     'acknowledge' => true
                 ]
@@ -97,11 +97,9 @@ Assets::register($this);
                     'title' => Yii::t('WikiModule.base', 'Overwrite the wiki index start page?'),
                     'disabled' => $model->isDisabledField('is_home')]); ?>
 
-                <?= $form->field($model->page, 'is_category')->checkbox(['disabled' => $model->isDisabledField('is_category')]); ?>
-
                 <?= $form->field($model->page, 'parent_page_id')
                     ->dropDownList($model->getCategoryList())
-                    ->label($model->page->is_category ? Yii::t('WikiModule.base', 'Parent category') : null); ?>
+                    ->label($model->page->isCategory ? Yii::t('WikiModule.base', 'Parent category') : null); ?>
 
                 <?= $form->field($model, 'isPublic')->widget(ContentVisibilitySelect::class, [
                     'readonly' => $model->isDisabledField('isPublic')]); ?>

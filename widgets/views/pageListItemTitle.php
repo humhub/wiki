@@ -17,7 +17,7 @@ use humhub\modules\wiki\helpers\Url;
     <?= Button::asLink()->icon('fa-bars')->cssClass('wiki-page-control drag-icon')->visible($page && $showDrag) ?>
     <i class="fa <?= $icon ?>"></i> <?= Html::a(Html::encode($title), $url, ['class' => 'page-title-text']) ?>
 
-    <?php if ($page && $page->is_category) : ?>
+    <?php if ($page) : ?>
         <?= Button::asLink(null, Url::toWikiCreateForCategory($page))->icon('fa-plus')
             ->cssClass('wiki-page-control tt wiki-category-add')->style('display:none')
             ->title(Yii::t('WikiModule.base', 'Add Page'))->visible($showAddPage) ?>

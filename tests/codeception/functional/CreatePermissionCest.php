@@ -80,7 +80,6 @@ class CreatePermissionCest extends FunctionalPermissionTest
         $I->dontSeeElement('#pageeditform-topics:disabled');
         $I->seeElement('#wikipage-is_home:disabled');
         $I->seeElement('#wikipage-admin_only:disabled');
-        $I->seeElement('#wikipage-is_category:disabled');
         $I->seeElement('#pageeditform-ispublic:disabled');
 
         $I->see('In order to edit all fields, you need the permission to administer wiki pages.');

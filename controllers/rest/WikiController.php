@@ -123,7 +123,7 @@ class WikiController extends BaseContentController
             return $this->returnError(400, 'Target category is required.');
         }
         $targetPage = WikiPage::findOne(['id' => $requestParams['target_id']]);
-        if (! $targetPage || ! $targetPage->is_category) {
+        if (!$targetPage) {
             return $this->returnError(400, 'Wrong target category.');
         }
         if (!$targetPage->canEditWikiPage()) {

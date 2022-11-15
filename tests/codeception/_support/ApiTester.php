@@ -45,7 +45,6 @@ class ApiTester extends \ApiTester
                 'title' => $title,
                 'is_home' => $params['isHome'],
                 'admin_only' => $params['adminOnly'],
-                'is_category' => $params['isCategory'],
                 'parent_page_id' => $params['parentPageId'],
             ],
             'WikiPageRevision' => [

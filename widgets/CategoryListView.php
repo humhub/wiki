@@ -67,9 +67,10 @@ class CategoryListView extends JsWidget
             $categories = WikiPage::findByCategoryId($this->contentContainer, $this->parentCategoryId)->all();
             $unsortedPages = [];
         } else {
-            // Get root categories and pages without category
+            // Get root categories
             $categories = WikiPage::findCategories($this->contentContainer)
-                ->andWhere(['IS', 'wiki_page.parent_page_id', new Expression('NULL')])->all();
+                ->andWhere(['IS', 'wiki_page.parent_page_id', new Expression('NULL')])
+                ->all();
             $unsortedPages = WikiPage::findUnsorted($this->contentContainer)->all();
         }
 

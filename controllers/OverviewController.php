@@ -72,8 +72,7 @@ class OverviewController extends BaseController
         return new ActiveDataProvider([
             'query' => WikiPage::find()
                 ->contentContainer($this->contentContainer)
-                ->readable()
-                ->andWhere(['is_category' => 0]),
+                ->readable(),
             'pagination' => ['pageSize' => 10],
             'sort' => [
                 'attributes' => [

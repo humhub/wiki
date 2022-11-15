@@ -285,12 +285,9 @@ class WikiMenu extends DropdownMenu
                     'icon' => 'fa-reply',
                 ]);
             case static::LINK_NEW:
-                $url = ($this->page && $this->page->is_category)
-                    ? Url::toWikiCreate($this->container, $this->page->id)
-                    : Url::toWikiCreate($this->container);
                 return $this->canCreatePage() ? new MenuLink([
                     'label' => Yii::t('WikiModule.base', 'New page'),
-                    'url' => $url,
+                    'url' => Url::toWikiCreate($this->container, $this->page ? $this->page->id : null),
                     'icon' => 'fa-plus new',
                 ]) : null;
             case static::LINK_EDIT_DELETE:

@@ -80,11 +80,11 @@ class CategoryListItem extends Widget
      */
     public function run()
     {
-        if($this->showDrag === null) {
+        if ($this->showDrag === null) {
             $this->showDrag = $this->canAdminister();
         }
 
-        if($this->showAddPage === null) {
+        if ($this->showAddPage === null) {
             $this->showAddPage = $this->canCreate();
         }
 

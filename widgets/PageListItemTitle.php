@@ -52,7 +52,7 @@ class PageListItemTitle extends Widget
 
         if ($this->page) {
             $this->title = $this->page->title;
-            if ($this->page->is_category) {
+            if ($this->page->isCategory) {
                 $icon = $this->page->isFolded() ? $this->iconCategoryFolded : $this->iconCategoryOpened;
             } else {
                 $icon = $this->iconPage;
@@ -74,7 +74,7 @@ class PageListItemTitle extends Widget
     public function getOptions(): array
     {
         $options = [
-            'class' => (!$this->page || $this->page->is_category) ? 'page-category-title' : 'page-title',
+            'class' => (!$this->page || $this->page->isCategory) ? 'page-category-title' : 'page-title',
             'style' => 'padding-left:' . (12 + $this->level * 20) .'px',
         ];
 

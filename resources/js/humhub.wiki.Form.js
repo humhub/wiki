@@ -1,7 +1,6 @@
 humhub.module('wiki.Form', function(module, require, $) {
     var Widget = require('ui.widget').Widget;
     var wikiView = require('wiki');
-    var modal = require('ui.modal');
     var additions = require('ui.additions');
 
     /**
@@ -27,21 +26,6 @@ humhub.module('wiki.Form', function(module, require, $) {
 
                 additions.apply($this, 'tooltip');
             }, 200);
-
-            if(that.options.isCategory) {
-                $('#wikipage-is_category').click(function () {
-                    var $this = $(this);
-                    if($this.is(":not(:checked)")) {
-                        return modal.confirm({
-                            'body': that.options.changeCategoryConfirm
-                        }).then(function(confirm) {
-                            if(!confirm) {
-                                $this.prop('checked', true);
-                            }
-                        });
-                    }
-                });
-            }
         });
     };
 
