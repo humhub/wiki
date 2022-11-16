@@ -302,16 +302,18 @@ humhub.module('wiki.CategoryListView', function(module, require, $) {
         this.$.sortable({
             delay: (view.isSmall()) ? DELAY_DRAG_SMALL_DEVICES : null,
             handle: '.drag-icon',
-            items: '.wiki-category-list-item[data-page-id]',
+            items: '[data-page-id]',
             helper: 'clone',
+            receive: $.proxy(this.beforeDropItem, this),
             update: $.proxy(this.dropItem, this)
         });
 
         this.$.find('.wiki-page-list').sortable({
             delay: (view.isSmall()) ? DELAY_DRAG_SMALL_DEVICES : null,
             handle: '.drag-icon',
-            connectWith: '.wiki-page-list:not(#category_list_view)',
+            connectWith: '.wiki-page-list',
             helper: 'clone',
+            receive: $.proxy(this.beforeDropItem, this),
             update: $.proxy(this.dropItem, this)
         });
 
@@ -323,6 +325,21 @@ humhub.module('wiki.CategoryListView', function(module, require, $) {
             });
         }
     };
+
+    CategoryListView.prototype.beforeDropItem = function (event, ui) {
+        var fixListIndent = function ($item) {
+            var $list = $item.closest('.wiki-page-list');
+            if ($list.length) {
+                var title = $list.prev('.page-category-title');
+                var indent = title.length ? parseInt(title.css('padding-left')) + 20 : 12;
+                $item.children('.page-title, .page-category-title').css('padding-left', indent + 'px');
+                $item.children('.wiki-page-list').children('li').each(function () {
+                    fixListIndent($(this));
+                });
+            }
+        }
+        fixListIndent(ui.item);
+    }
 
     CategoryListView.prototype.dropItem = function (event, ui) {
         var $item = ui.item;

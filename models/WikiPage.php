@@ -309,20 +309,6 @@ class WikiPage extends ContentActiveRecord implements Searchable
             ->column();
     }
 
-    /**
-     * @param ContentContainerActiveRecord $contentContainer
-     * @return \humhub\modules\content\components\ActiveQueryContent
-     * @throws \yii\base\Exception
-     */
-    public static function findUnsorted(ContentContainerActiveRecord $contentContainer)
-    {
-        return static::find()->contentContainer($contentContainer)
-            ->andWhere(['IS', 'parent_page_id', new Expression('NULL')])
-            ->andWhere(['NOT IN', 'wiki_page.id', static::getCategoryIds($contentContainer)])
-            ->readable()
-            ->orderBy('sort_order ASC, title ASC');
-    }
-
     public function getCategoryPage()
     {
         return $this->hasOne(static::class, ['id' => 'parent_page_id']);
@@ -336,7 +322,7 @@ class WikiPage extends ContentActiveRecord implements Searchable
     public static function findCategories(ContentContainerActiveRecord $container)
     {
         return static::find()->contentContainer($container)
-            ->andWhere(['IN', 'wiki_page.id', static::getCategoryIds($container)])
+//            ->andWhere(['IN', 'wiki_page.id', static::getCategoryIds($container)])
             ->readable()
             ->orderBy('sort_order ASC, title ASC');
     }

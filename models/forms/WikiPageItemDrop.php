@@ -48,7 +48,7 @@ class WikiPageItemDrop extends ItemDrop
             return $target->findChildren();
         }
 
-        return WikiPage::findUnsorted($this->contentContainer);
+        return WikiPage::findRootPages($this->contentContainer);
     }
 
     protected function updateTarget()
@@ -60,7 +60,7 @@ class WikiPageItemDrop extends ItemDrop
             return;
         }
 
-        $targetId = $this->targetId ? $this->targetId : new Expression('NULL');
+        $targetId = $this->targetId ?: new Expression('NULL');
         $this->getModel()->updateAttributes(['parent_page_id' => $targetId]);
     }
 }

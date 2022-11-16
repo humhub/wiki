@@ -71,17 +71,15 @@ class CategoryListView extends JsWidget
             $categories = WikiPage::findCategories($this->contentContainer)
                 ->andWhere(['IS', 'wiki_page.parent_page_id', new Expression('NULL')])
                 ->all();
-            $unsortedPages = WikiPage::findUnsorted($this->contentContainer)->all();
         }
 
-        if (empty($categories) && empty($unsortedPages)) {
+        if (empty($categories)) {
             return '';
         }
 
         return $this->render('categoryListView', [
             'options' => $this->getOptions(),
             'categories' => $categories,
-            'unsortedPages' => $unsortedPages,
             'contentContainer' => $this->contentContainer,
             'showAddPage' => $this->showAddPage,
             'showDrag' => $this->showDrag,
