@@ -234,7 +234,7 @@ class WikiPage extends ContentActiveRecord implements Searchable
         }
     }
 
-    public function validateParentPage($attribute, $params)
+    public function validateParentPage()
     {
         if (empty($this->parent_page_id)) {
             return;
@@ -253,7 +253,41 @@ class WikiPage extends ContentActiveRecord implements Searchable
 
         if ($query->count() != 1) {
             $this->addError('parent_page_id', Yii::t('WikiModule.base', 'Invalid category!'));
+            return;
         }
+
+        if ($this->isChildPage($this->parent_page_id)) {
+            // Exclude infinite recursion
+            $this->addError('parent_page_id', Yii::t('WikiModule.base', 'Child page cannot be used as parent page!'));
+        }
+    }
+
+    /**
+     * Check if the given page is a child page
+     *
+     * @param int $pageId
+     * @return bool
+     */
+    public function isChildPage($pageId): bool
+    {
+        if ($this->isNewRecord) {
+            return false;
+        }
+
+        $page = WikiPage::findOne($pageId);
+        if (!$page) {
+            return false;
+        }
+
+        $parentPage = $page->categoryPage;
+        while ($parentPage) {
+            if ($parentPage->id == $this->id) {
+                return true;
+            }
+            $parentPage = $parentPage->categoryPage;
+        }
+
+        return false;
     }
 
     public function getContentName()
