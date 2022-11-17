@@ -11,6 +11,7 @@ use humhub\modules\ui\form\widgets\ActiveForm;
 use humhub\modules\wiki\widgets\WikiLinkModal;
 use humhub\modules\wiki\widgets\WikiContent;
 use humhub\modules\wiki\widgets\WikiMenu;
+use humhub\modules\wiki\widgets\WikiPagePicker;
 use humhub\modules\wiki\widgets\WikiPath;
 use humhub\widgets\Button;
 use humhub\modules\topic\widgets\TopicPicker;
@@ -98,8 +99,8 @@ Assets::register($this);
                     'disabled' => $model->isDisabledField('is_home')]); ?>
 
                 <?= $form->field($model->page, 'parent_page_id')
-                    ->dropDownList($model->getCategoryList())
-                    ->label($model->page->isCategory ? Yii::t('WikiModule.base', 'Parent category') : null); ?>
+                    ->widget(WikiPagePicker::class, ['model' => $model->page])
+                    ->label(false) ?>
 
                 <?= $form->field($model, 'isPublic')->widget(ContentVisibilitySelect::class, [
                     'readonly' => $model->isDisabledField('isPublic')]); ?>

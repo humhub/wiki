@@ -240,6 +240,10 @@ class WikiPage extends ContentActiveRecord implements Searchable
             return;
         }
 
+        if (is_array($this->parent_page_id) && isset($this->parent_page_id[0])) {
+            $this->parent_page_id = $this->parent_page_id[0];
+        }
+
         $query = static::find();
         $query->contentContainer($this->content->container);
         $query->andWhere(['wiki_page.id' => $this->parent_page_id]);

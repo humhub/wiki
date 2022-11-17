@@ -365,6 +365,28 @@ class PageController extends BaseController
         ]);
     }
 
+    public function actionPickerSearch($keyword, $id = null)
+    {
+        $pages = WikiPage::find()
+            ->contentContainer($this->contentContainer)
+            ->readable()
+            ->andWhere(['like', 'wiki_page.title', $keyword]);
+        if ($id) {
+            $pages->andWhere(['!=', 'wiki_page.id', $id]);
+        }
+
+        $output = [];
+        foreach ($pages->all() as $page) {
+            /* @var WikiPage $page */
+            $output[] = [
+                'id' => $page->id,
+                'text' => $page->title,
+            ];
+        }
+
+        return $this->asJson($output);
+    }
+
     /**
      * @param WikiPage $page
      * @return boolean can edit given wiki site?
