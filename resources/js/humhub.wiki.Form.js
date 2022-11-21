@@ -14,19 +14,31 @@ humhub.module('wiki.Form', function(module, require, $) {
             wikiView.registerStickyElement(that.getRichtextMenu(), that.getRichtext());
         });
 
-        // We need to wait until checkboxes are rendered
-        setTimeout(function() {
-            that.$.find('.regular-checkbox-container').each(function() {
-                var $this = $(this);
-                var $checkbox = $this.find('[type="checkbox"][title]');
+        that.$.find('div.checkbox').each(function() {
+            var $this = $(this);
+            var $checkbox = $this.find('[type=checkbox][title]');
 
-                if($checkbox.length) {
-                    $this.find('label').addClass('tt').attr('title', $checkbox.attr('title'));
-                }
+            if($checkbox.length) {
+                $this.find('label').addClass('tt').attr('title', $checkbox.attr('title'));
+            }
 
-                additions.apply($this, 'tooltip');
-            }, 200);
+            additions.apply($this, 'tooltip');
         });
+
+        if(that.options.isCategory) {
+            $('#wikipage-is_category').click(function () {
+                var $this = $(this);
+                if($this.is(":not(:checked)")) {
+                    return modal.confirm({
+                        'body': that.options.changeCategoryConfirm
+                    }).then(function(confirm) {
+                        if(!confirm) {
+                            $this.prop('checked', true);
+                        }
+                    });
+                }
+            });
+        }
     };
 
     Form.prototype.getRichtextMenu = function() {

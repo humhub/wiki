@@ -17,7 +17,6 @@ use yii\helpers\ArrayHelper;
 use yii\web\HttpException;
 use humhub\modules\content\components\ContentContainerActiveRecord;
 use humhub\modules\wiki\models\WikiPage;
-use humhub\modules\wiki\permissions\CreatePage;
 
 class PageEditForm extends Model
 {
@@ -296,7 +295,7 @@ class PageEditForm extends Model
      */
     public function canCreatePage()
     {
-        return $this->container->can(CreatePage::class);
+        return (new WikiPage($this->container))->content->canEdit();
     }
 
     /**

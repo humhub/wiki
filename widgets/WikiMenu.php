@@ -17,7 +17,6 @@ use humhub\modules\wiki\helpers\Url;
 use humhub\modules\wiki\models\WikiPage;
 use humhub\modules\wiki\models\WikiPageRevision;
 use humhub\modules\wiki\permissions\AdministerPages;
-use humhub\modules\wiki\permissions\CreatePage;
 use humhub\modules\wiki\permissions\ViewHistory;
 use humhub\widgets\Link;
 use Yii;
@@ -348,7 +347,7 @@ class WikiMenu extends DropdownMenu
      */
     public function canCreatePage(): bool
     {
-        return $this->container->can(CreatePage::class);
+        return (new WikiPage($this->container))->content->canEdit();
     }
 
     /**

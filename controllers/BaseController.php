@@ -11,7 +11,6 @@ use humhub\modules\content\components\ContentContainerController;
 use humhub\modules\wiki\helpers\Helper;
 use humhub\modules\wiki\models\WikiPage;
 use humhub\modules\wiki\permissions\AdministerPages;
-use humhub\modules\wiki\permissions\CreatePage;
 use humhub\modules\wiki\permissions\ViewHistory;
 use yii\web\NotFoundHttpException;
 
@@ -34,7 +33,7 @@ abstract class BaseController extends ContentContainerController
      */
     public function canCreatePage()
     {
-        return $this->contentContainer->permissionManager->can(CreatePage::class);
+        return (new WikiPage($this->contentContainer))->content->canEdit();
     }
 
     /**
