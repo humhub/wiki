@@ -195,8 +195,8 @@
 
     ul.wiki-page-list {
       list-style: none;
-      min-height:2px;
-      padding-left:10px;
+      min-height: 2px;
+      padding-left: 0;
 
       li {
         font-size: 16px;
@@ -228,6 +228,7 @@
         padding-bottom: 5px;
         &:hover {
           background: #F7F7F7;
+          border-radius: 4px;
         }
         &.page-current {
           a.page-title-text {
@@ -470,6 +471,14 @@
     }
     .wiki-search-form {
       margin: 0 0 0 5px;
+    }
+  }
+
+  .wiki-content ul.wiki-page-list {
+    .page-category-title, .page-title {
+      &:hover {
+        border-radius: 0;
+      }
     }
   }
 
