@@ -122,9 +122,9 @@ class AcceptanceTester extends \AcceptanceTester
         $this->click('Save');
         $this->seeSuccess();
 
-        $this->waitForElementVisible('.wiki-page-actions');
-        $this->jsClick('.wiki-page-actions .dropdown-toggle');
-        $this->waitForText('Home', null, '.wiki-page-actions');
+        $this->waitForElementVisible('.wiki-menu');
+        $this->jsClick('.wiki-menu .dropdown-toggle');
+        $this->waitForText('Home', null, '.wiki-menu');
         $this->toIndex();
 
         $this->click('Wiki', '.layout-nav-container');
@@ -169,7 +169,7 @@ class AcceptanceTester extends \AcceptanceTester
         $this->click('Save');
         $this->seeSuccess();
 
-        $this->jsClick('.wiki-page-actions .dropdown-toggle');
+        $this->jsClick('.wiki-menu .dropdown-toggle');
         $this->waitForText('Page History');
 
         $this->see('My Sub Page Updated');
@@ -180,8 +180,8 @@ class AcceptanceTester extends \AcceptanceTester
 
         $this->click('show changes', '.wiki-page-history .media:not(.alert)');
 
-        $this->waitForText('Edit', null, '.wiki-page-actions');
-        $this->jsClick('.wiki-page-actions .dropdown-toggle');
+        $this->waitForText('Edit', null, '.wiki-menu');
+        $this->jsClick('.wiki-menu .dropdown-toggle');
         $this->waitForText('Revert this');
         $this->click('Revert this');
 
@@ -268,8 +268,8 @@ class AcceptanceTester extends \AcceptanceTester
 
         $this->waitForText($wikiPageTitle);
         $this->click($wikiPageTitle);
-        $this->waitForText('Edit', null, '.wiki-page-actions');
-        $this->click('Edit', '.wiki-page-actions');
+        $this->waitForText('Edit', null, '.wiki-menu');
+        $this->click('Edit', '.wiki-menu');
         $this->waitForText('Advanced settings');
         $this->jsShow('.form-collapsible-fields.closed fieldset');
         $this->click('[for="wikipage-is_container_menu"]');

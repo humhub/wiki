@@ -13,7 +13,7 @@ use humhub\modules\wiki\widgets\WikiMenu;
 /* @var $entries MenuEntry[] */
 /* @var $options array */
 ?>
-<div class="wiki-page-actions">
+<div class="wiki-menu">
     <?php foreach ($menu->buttons as $button) : ?>
         <?= $menu->renderButton($button) ?>
     <?php endforeach; ?>

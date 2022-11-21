@@ -29,6 +29,7 @@ class WikiMenu extends DropdownMenu
     const LINK_EDIT = 'edit';
     const LINK_HISTORY = 'history';
     const LINK_PERMA = 'perma';
+    const LINK_PRINT = 'print';
 
     const LINK_EDIT_CANCEL = 'edit_cancel';
     const LINK_EDIT_SAVE = 'edit_save';
@@ -45,9 +46,9 @@ class WikiMenu extends DropdownMenu
 
     const BLOCK_START = [self::LINK_HOME, self::LINK_INDEX];
 
-    const BLOCK_PAGE_VIEW =  [self::LINK_EDIT, self::LINK_HISTORY, self::LINK_PERMA];
+    const BLOCK_PAGE_VIEW =  [self::LINK_EDIT, self::LINK_HISTORY, self::LINK_PERMA, self::LINK_PRINT];
 
-    const BLOCK_REVISION_VIEW =  [self::LINK_REVERT, self::LINK_REVERT_GO_BACK];
+    const BLOCK_REVISION_VIEW =  [self::LINK_REVERT, self::LINK_REVERT_GO_BACK, self::LINK_PRINT];
 
     const BLOCK_EDIT =  [self::LINK_EDIT_SAVE, self::LINK_EDIT_CANCEL, self::LINK_EDIT_DELETE, self::LINK_MOVE];
 
@@ -261,6 +262,15 @@ class WikiMenu extends DropdownMenu
                     'htmlOptions' => [
                         'data-action-click' => 'content.permalink',
                         'data-content-permalink' => \yii\helpers\Url::to(['/content/perma', 'id' => $this->page->content->id], true),
+                    ],
+                ]);
+            case static::LINK_PRINT:
+                return new MenuLink([
+                    'label' => Yii::t('ContentModule.base', 'Print'),
+                    'url' => '#',
+                    'icon' => 'fa-print',
+                    'htmlOptions' => [
+                        'data-action-click' => 'wiki.Page.print',
                     ],
                 ]);
             case static::LINK_REVERT:

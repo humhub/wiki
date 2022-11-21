@@ -28,10 +28,10 @@
 .layout-content-container .wiki-page-path .fa {
   font-size: 18px;
 }
-.layout-content-container .wiki-page-actions {
+.layout-content-container .wiki-menu {
   float: right;
 }
-.layout-content-container .wiki-page-actions .btn-group {
+.layout-content-container .wiki-menu .btn-group {
   margin-left: 4px;
 }
 .layout-content-container .wiki-page-index {

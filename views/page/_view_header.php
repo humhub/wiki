@@ -26,12 +26,6 @@ if (empty($buttons)) {
 
     <div class="wiki-page-title"><?= Html::encode($page->title) ?></div>
 
-    <?= Icon::get('print', ['htmlOptions' => [
-            'title' => Yii::t('WikiModule.base', 'Print this wiki page'),
-            'data-action-click' => 'wiki.Page.print',
-            'class' => 'wiki-icon-print'
-        ]]) ?>
-
     <div class="wiki-content-info clearfix">
         <small>
             <?= Yii::t('WikiModule.base', 'Created by {author}', ['author' => Html::containerLink($page->content->createdBy)]) . ', ' ?>
