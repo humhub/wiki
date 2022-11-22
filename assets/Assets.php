@@ -8,10 +8,11 @@
 
 namespace humhub\modules\wiki\assets;
 
-use humhub\modules\wiki\helpers\Url;
-use Yii;
-use humhub\modules\ui\view\components\View;
+use humhub\assets\JqueryWidgetAsset;
 use humhub\components\assets\AssetBundle;
+use humhub\modules\wiki\helpers\Url;
+use humhub\modules\ui\view\components\View;
+use Yii;
 
 class Assets extends AssetBundle
 {
@@ -35,6 +36,13 @@ class Assets extends AssetBundle
     public $js = [
         'js/humhub.wiki.bundle.min.js',
         //'js/jquery.ui.touch-punch.js'
+    ];
+
+    /**
+     * @inheritdoc
+     */
+    public $depends = [
+        JqueryWidgetAsset::class,
     ];
 
     /**

@@ -25,6 +25,7 @@ module.exports = function (grunt) {
                     'resources/js/humhub.wiki.CategoryListView.js',
                     'resources/js/humhub.wiki.linkExtension.js',
                     'resources/js/humhub.wiki.History.js',
+                    'resources/js/humhub.wiki.Sidebar.js',
                     'resources/js/htmldiff.js',
                 ],
                 dest: 'resources/js/humhub.wiki.bundle.js'
