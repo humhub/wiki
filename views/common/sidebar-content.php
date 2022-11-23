@@ -22,7 +22,7 @@ Assets::register($this);
         'contentContainer' => $contentContainer,
         'hideOnSmallScreen' => $hideSidebarOnSmallScreen,
     ]) ?>
-    <div class="col-lg-8 <?= $hideSidebarOnSmallScreen ? 'col-md-12' : 'visible-lg' ?>">
+    <div class="wiki-right-part col-lg-8 <?= $hideSidebarOnSmallScreen ? 'col-md-12' : 'visible-lg' ?>">
         <?= $content ?>
     </div>
 </div>

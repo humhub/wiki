@@ -361,6 +361,7 @@
 }
 .wiki-page-sidebar {
   padding-right: 0;
+  position: relative;
 }
 .wiki-page-sidebar #category_list_view.wiki-page-list {
   padding-left: 0;
@@ -407,6 +408,12 @@
 @media (max-width: 1199px) {
   .wiki-page-sidebar {
     padding-right: 15px;
+  }
+  .wiki-page-sidebar:not(.visible-lg) {
+    width: 100% !important;
+  }
+  .wiki-page-sidebar:not(.visible-lg) .ui-resizable-handle {
+    display: none;
   }
   .wiki-page-sidebar #category_list_view.wiki-page-list {
     margin-left: 0;
@@ -480,6 +487,9 @@
 @media (max-width: 1199px) {
   .wiki-page-list-table .table-responsive {
     border: none;
+  }
+  .wiki-right-part:not(.visible-lg) {
+    width: 100% !important;
   }
 }
 .wiki-preview {

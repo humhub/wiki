@@ -433,6 +433,7 @@
 // Sidebar is used on Enterprise themes
 .wiki-page-sidebar {
   padding-right: 0;
+  position: relative;
 
   #category_list_view.wiki-page-list {
     padding-left: 0;
@@ -485,6 +486,13 @@
   @media (max-width: @screen-small-max) {
     padding-right: 15px;
 
+    &:not(.visible-lg) {
+      width: 100% !important;
+      .ui-resizable-handle {
+        display: none;
+      }
+    }
+
     #category_list_view.wiki-page-list {
       margin-left: 0;
       margin-right: 0;
@@ -523,35 +531,43 @@
   .wiki-search-form {
     float: left;
   }
+
   .table-responsive {
     padding-left: 15px;
     padding-right: 15px;
+
     table {
       tr:hover {
         .wiki-page-list-row-title a {
           color: @link;
         }
       }
+
       td {
         font-size: 14px;
         border: none;
+
         &:first-child {
           padding-left: 32px;
           border-radius: 4px 0 0 4px;
         }
+
         &:last-child {
           border-radius: 0 4px 4px 0;
         }
       }
+
       .wiki-page-list-row-details {
         *&, .time {
           font-size: 13px;
         }
+
         a {
           color: @link;
         }
       }
     }
+
     .pagination > .active > a,
     .pagination > .active > span,
     .pagination > .active > a:hover,
@@ -562,11 +578,14 @@
       border-color: @info;
     }
   }
+}
 
-  @media (max-width: @screen-small-max) {
-    .table-responsive {
-      border: none;
-    }
+@media (max-width: @screen-small-max) {
+  .wiki-page-list-table .table-responsive {
+    border: none;
+  }
+  .wiki-right-part:not(.visible-lg) {
+    width: 100% !important;
   }
 }
 
