@@ -1,8 +1,6 @@
 humhub.module('wiki.Sidebar', function(module, require, $) {
     const Widget = require('ui.widget').Widget;
 
-    const CACHE_NAME = 'wiki.sidebar';
-
     const Sidebar = Widget.extend();
 
     Sidebar.prototype.init = function() {
@@ -11,8 +9,6 @@ humhub.module('wiki.Sidebar', function(module, require, $) {
         const wrapper = sidebar.parent();
         const content = sidebar.next();
         const padding = sidebar.outerWidth() - sidebar.width() + content.outerWidth() - content.width();
-
-        that.setWidth(this.getCache(true));
 
         sidebar.resizable({
             minWidth: wrapper.width() * 0.25,
@@ -36,20 +32,20 @@ humhub.module('wiki.Sidebar', function(module, require, $) {
         }
     }
 
-    Sidebar.prototype.getCache = function(returnWidth) {
-        let cache = localStorage.getItem(CACHE_NAME);
-        cache = cache ? JSON.parse(cache) : {};
-
-        return returnWidth
-            ? cache && cache.hasOwnProperty(this.key()) ? cache[this.key()] : null
-            : cache;
+    Sidebar.prototype.getCache = function() {
+        let cache = localStorage.getItem(this.cacheName());
+        return  cache ? JSON.parse(cache) : {};
     }
 
     Sidebar.prototype.setCache = function(sidebarWidth) {
         const cache = this.getCache();
         cache[this.key()] = sidebarWidth;
 
-        localStorage.setItem(CACHE_NAME, JSON.stringify(cache));
+        localStorage.setItem(this.cacheName(), JSON.stringify(cache));
+    }
+
+    Sidebar.prototype.cacheName = function() {
+        return this.$.data('resizable-key');
     }
 
     Sidebar.prototype.key = function() {

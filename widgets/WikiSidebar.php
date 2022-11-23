@@ -34,6 +34,11 @@ class WikiSidebar extends JsWidget
     public $hideOnSmallScreen;
 
     /**
+     * @var string
+     */
+    public $resizableCacheKey = 'wiki.sidebar';
+
+    /**
      * @inheritdoc
      */
     public function run()
@@ -62,6 +67,7 @@ class WikiSidebar extends JsWidget
     {
         return [
             'container-id' => $this->contentContainer->id,
+            'resizable-key' => $this->resizableCacheKey,
         ];
     }
 }
