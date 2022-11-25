@@ -387,6 +387,26 @@ class PageController extends BaseController
         return $this->asJson($output);
     }
 
+    public function actionEntry($id = null)
+    {
+        if ($page = WikiPage::findOne($id)) {
+            $revision = $this->getRevision($page);
+            return $this->asJson([
+                'output' => $this->renderAjax('_view_body', [
+                    'page' => $page,
+                    'revision' => $revision,
+                    'canEdit' => $page->canEditWikiPage(),
+                    'content' => $revision->content,
+                ]),
+            ]);
+        }
+
+        return $this->asJson([
+            'success' => false,
+            'error' => 'No page found!'
+        ]);
+    }
+
     /**
      * @param WikiPage $page
      * @return boolean can edit given wiki site?

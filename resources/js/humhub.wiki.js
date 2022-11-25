@@ -3,6 +3,7 @@ humhub.module('wiki', function(module, require, $) {
     var event = require('event');
     var view = require('ui.view');
     var client = require('client');
+    var loader = require('ui.loader');
 
     var stickyElementSettings = [];
 
@@ -39,6 +40,39 @@ humhub.module('wiki', function(module, require, $) {
             });
         });
     };
+
+    Content.prototype.loader = function (show) {
+        var $loader = this.$.find('.wiki-menu');
+        if (show === false) {
+            loader.reset($loader);
+            return;
+        }
+
+        loader.set($loader, {
+            'size': '8px',
+            'css': {padding: 0, width: '60px'}
+        });
+    };
+
+    Content.prototype.reloadEntry = function (entry) {
+        if (!entry) {
+            return;
+        }
+
+        var content = entry.parent('[data-ui-widget="wiki.Content"]');
+        content.loader();
+
+        return client.get(entry.data('entry-url')).then(function (response) {
+            if (response.output) {
+                content.$.html(response.output);
+            }
+            return response;
+        }).catch(function (err) {
+            module.log.error(err, true);
+        }).finally(function () {
+            content.loader(false);
+        });
+    }
 
     var toAnchor = function(anchor) {
         var $anchor = $('#'+$.escapeSelector(anchor.substr(1, anchor.length)));

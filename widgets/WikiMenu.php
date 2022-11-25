@@ -148,6 +148,17 @@ class WikiMenu extends WallEntryControls
         ];
     }
 
+    /**
+     * @inheritdoc
+     */
+    public function getData()
+    {
+        return [
+            'ui-widget' => 'stream.StreamEntry',
+            'entry-url' => Url::toWikiEntry($this->object),
+        ];
+    }
+
     protected function setDefaults()
     {
         if ($this->edit) {

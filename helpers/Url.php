@@ -24,6 +24,7 @@ class Url extends \yii\helpers\Url
     const ROUTE_SEARCH = '/wiki/overview/search';
     const ROUTE_UPDATE_FOLDING_STATE = '/wiki/overview/update-folding-state';
     const ROUTE_WIKI_PAGE = '/wiki/page/view';
+    const ROUTE_WIKI_ENTRY = '/wiki/page/entry';
     const ROUTE_WIKI_EDIT = '/wiki/page/edit';
     const ROUTE_WIKI_DELETE = '/wiki/page/delete';
     const ROUTE_WIKI_HISTORY = '/wiki/page/history';
@@ -133,6 +134,11 @@ class Url extends \yii\helpers\Url
     public static function toUpdateFoldingState()
     {
         return static::to([static::ROUTE_UPDATE_FOLDING_STATE, 'container' => ContentContainerHelper::getCurrent()]);
+    }
+
+    public static function toWikiEntry(WikiPage $page)
+    {
+        return static::to([static::ROUTE_WIKI_ENTRY, 'id' => $page->id, 'container' => $page->content->container]);
     }
 
 }

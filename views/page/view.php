@@ -1,49 +1,31 @@
 <?php
-
-use humhub\modules\comment\widgets\Comments;
-use humhub\modules\content\widgets\ContentObjectLinks;
-use humhub\modules\wiki\widgets\WikiMenu;
+use humhub\modules\ui\view\components\View;
+use humhub\modules\wiki\assets\Assets;
+use humhub\modules\wiki\models\WikiPage;
+use humhub\modules\wiki\models\WikiPageRevision;
 use humhub\modules\wiki\widgets\WikiContent;
 
-
-/* @var $this \humhub\modules\ui\view\components\View */
-/* @var $page \humhub\modules\wiki\models\WikiPage */
-/* @var $revision \humhub\modules\wiki\models\WikiPageRevision */
-/* @var $homePage string */
+/* @var $this View */
+/* @var $page WikiPage */
+/* @var $revision WikiPageRevision */
 /* @var $content string */
-/* @var $contentContainer \humhub\modules\content\components\ContentContainerActiveRecord */
-/* @var $canViewHistory bool */
 /* @var $canEdit bool */
-/* @var $canAdminister bool */
-/* @var $canCreatePage bool */
 
-
-humhub\modules\wiki\assets\Assets::register($this);
-
+Assets::register($this);
 ?>
 <div class="panel panel-default">
     <div class="panel-body">
-
         <div class="row">
             <?php WikiContent::begin(['cssClass' => 'wiki-page-content']) ?>
 
-                <?= $this->render('_view_header', ['page' => $page, 'revision' => $revision]) ?>
-
-                <?= $this->render('_view_content', ['page' => $page, 'canEdit' => $canEdit, 'content' => $content]) ?>
-
-                <?= $this->render('_view_category_index', ['page' => $page]) ?>
-
-                <div class="wall-entry-controls social-controls">
-                    <?= ContentObjectLinks::widget([
-                        'object' => $page,
-                        'seperator' => '&middot;',
-                    ]); ?>
-                </div>
-
-                <?= Comments::widget(['object' => $page]); ?>
+                <?= $this->render('_view_body', [
+                    'page' => $page,
+                    'revision' => $revision,
+                    'canEdit' => $canEdit,
+                    'content' => $content,
+                ]) ?>
 
             <?php WikiContent::end() ?>
-
         </div>
     </div>
 </div>
