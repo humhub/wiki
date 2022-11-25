@@ -13,7 +13,7 @@ use humhub\modules\wiki\widgets\WikiMenu;
 /* @var $entries MenuEntry[] */
 /* @var $options array */
 ?>
-<div class="wiki-menu">
+<div class="wiki-menu" data-ui-widget="stream.StreamEntry">
     <?php foreach ($menu->buttons as $button) : ?>
         <?= $menu->renderButton($button) ?>
     <?php endforeach; ?>

@@ -26,7 +26,36 @@ class WallEntry extends WallStreamModuleEntryWidget
      */
     public $showFiles = false;
 
+    /**
+     * @inheritdoc
+     */
     public $editMode = self::EDIT_MODE_NEW_WINDOW;
+
+    /**
+     * @var bool
+     */
+    public $disabledWallEntryControls = false;
+
+    /**
+     * @inerhitdoc
+     */
+    public function init()
+    {
+        parent::init();
+
+        if ($this->disabledWallEntryControls) {
+            if ($this->renderOptions && $this->model->isNewRecord) {
+                $this->renderOptions->disableControlsMenu();
+                $this->renderOptions->disableControlsEntryTopics();
+            }
+            $this->renderOptions->disableControlsEntryEdit();
+            $this->renderOptions->disableControlsEntryPermalink();
+            $this->renderOptions->disableControlsEntryDelete();
+            $this->renderOptions->disableControlsEntryPin();
+            $this->renderOptions->disableControlsEntryMove();
+            $this->renderOptions->disableControlsEntryArchive();
+        }
+    }
 
     public function getEditUrl()
     {

@@ -38,7 +38,7 @@ if ($isEnabledDiffTool) {
                 <div class="wiki-headline">
                     <?= WikiPath::widget(['page' => $page]) ?>
                     <?= WikiMenu::widget([
-                        'page' => $page,
+                        'object' => $page,
                         'buttons' => WikiMenu::LINK_BACK_TO_PAGE,
                         'blocks' => [[WikiMenu::LINK_BACK_TO_PAGE], WikiMenu::BLOCK_START],
                     ]) ?>

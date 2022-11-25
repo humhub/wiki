@@ -10,9 +10,9 @@ namespace humhub\modules\wiki\widgets;
 
 use humhub\modules\content\components\ContentContainerActiveRecord;
 use humhub\modules\content\widgets\MoveContentLink;
+use humhub\modules\content\widgets\WallEntryControls;
 use humhub\modules\ui\menu\DropdownDivider;
 use humhub\modules\ui\menu\MenuLink;
-use humhub\modules\ui\menu\widgets\DropdownMenu;
 use humhub\modules\wiki\helpers\Url;
 use humhub\modules\wiki\models\WikiPage;
 use humhub\modules\wiki\models\WikiPageRevision;
@@ -21,7 +21,7 @@ use humhub\modules\wiki\permissions\ViewHistory;
 use humhub\widgets\Link;
 use Yii;
 
-class WikiMenu extends DropdownMenu
+class WikiMenu extends WallEntryControls
 {
     const LINK_HOME = 'home';
     const LINK_INDEX = 'index';
@@ -55,9 +55,10 @@ class WikiMenu extends DropdownMenu
     const BLOCK_BOTTOM =  [self::LINK_NEW];
 
     /**
+     * @inheritdoc
      * @var WikiPage
      */
-    public $page;
+    public $object;
 
     /**
      * @var ContentContainerActiveRecord
@@ -111,31 +112,49 @@ class WikiMenu extends DropdownMenu
 
     public function init()
     {
-        if (!$this->container && $this->page) {
-            $this->container = $this->page->content->container;
+        if (!$this->container && $this->object) {
+            $this->container = $this->object->content->container;
         }
 
         if (!$this->home) {
             $this->home = WikiPage::getHome($this->container);
         }
 
-        if ($this->page) {
-            $this->canEdit = $this->page->canEditWikiPage();
-            $this->canDelete = !$this->page->isNewRecord && $this->canAdminister();
+        if ($this->object) {
+            $this->canEdit = $this->object->canEditWikiPage();
+            $this->canDelete = !$this->object->isNewRecord && $this->canAdminister();
         }
 
         $this->initEntries();
 
+        $this->wallEntryWidget = new WallEntry([
+            'model' => $this->object,
+            'disabledWallEntryControls' => true,
+        ]);
+        if ($this->edit) {
+            $this->wallEntryWidget->renderOptions->disableControlsEntryTopics();
+        }
+
         parent::init();
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getAttributes()
+    {
+        return [
+            'class' => 'btn-group dropdown-navigation'
+        ];
     }
 
     protected function setDefaults()
     {
         if ($this->edit) {
             $this->blocks = [static::BLOCK_EDIT, static::BLOCK_START];
-        } else if ($this->page && (!$this->revision || $this->revision->is_latest)) {
+        } else if ($this->object && (!$this->revision || $this->revision->is_latest)) {
             $this->blocks = [static::BLOCK_START, static::BLOCK_PAGE_VIEW, static::BLOCK_BOTTOM];
-        } else if ($this->page && $this->revision) {
+        } else if ($this->object && $this->revision) {
             $this->blocks = [static::BLOCK_START, static::BLOCK_REVISION_VIEW, static::BLOCK_BOTTOM];
         } else {
             $this->blocks = [static::BLOCK_START, static::BLOCK_BOTTOM];
@@ -152,7 +171,7 @@ class WikiMenu extends DropdownMenu
             $this->buttons = [$this->buttons];
         }
 
-        $sortOrder = 100;
+        $sortOrder = 1;
         $blockEntriesCount = [];
         foreach ($this->blocks as $blockIndex => $block) {
             $dividerWasPrinted = false;
@@ -166,19 +185,18 @@ class WikiMenu extends DropdownMenu
                 if ($link instanceof MenuLink) {
                     if (!$dividerWasPrinted && !empty($blockEntriesCount[$blockIndex - 1])) {
                         $this->addEntry(new DropdownDivider(['sortOrder' => $sortOrder]));
-                        $sortOrder += 100;
+                        $sortOrder++;
                         $dividerWasPrinted = true;
                     }
 
                     $link->setSortOrder($sortOrder);
                     $this->addEntry($link);
-                    $sortOrder += 100;
+                    $sortOrder++;
                     $blockEntriesCount[$blockIndex]++;
                 }
             }
         }
     }
-
 
     /**
      * @inheritdoc
@@ -190,6 +208,8 @@ class WikiMenu extends DropdownMenu
         if (empty($this->template) || (empty($this->buttons) && empty($this->entries))) {
             return '';
         }
+
+        $this->initControls();
 
         return $this->render($this->template, $this->getViewParams());
     }
@@ -245,13 +265,13 @@ class WikiMenu extends DropdownMenu
             case static::LINK_EDIT:
                 return $this->canEdit ? new MenuLink([
                     'label' => Yii::t('WikiModule.base', 'Edit'),
-                    'url' => Url::toWikiEdit($this->page),
+                    'url' => Url::toWikiEdit($this->object),
                     'icon' => 'fa-pencil',
                 ]) : null;
             case static::LINK_HISTORY:
                 return $this->canViewHistory() ? new MenuLink([
                     'label' => Yii::t('WikiModule.base', 'Page History'),
-                    'url' => Url::toWikiHistory($this->page),
+                    'url' => Url::toWikiHistory($this->object),
                     'icon' => 'fa-clock-o history',
                 ]) : null;
             case static::LINK_PERMA:
@@ -261,7 +281,7 @@ class WikiMenu extends DropdownMenu
                     'icon' => 'fa-link',
                     'htmlOptions' => [
                         'data-action-click' => 'content.permalink',
-                        'data-content-permalink' => \yii\helpers\Url::to(['/content/perma', 'id' => $this->page->content->id], true),
+                        'data-content-permalink' => \yii\helpers\Url::to(['/content/perma', 'id' => $this->object->content->id], true),
                     ],
                 ]);
             case static::LINK_PRINT:
@@ -281,7 +301,7 @@ class WikiMenu extends DropdownMenu
                     'htmlOptions' => [
                         'btn-type' => 'warning',
                         'data-action-click' => 'wiki.revertRevision',
-                        'data-action-click-url' => Url::toWikiRevertRevision($this->page, $this->revision),
+                        'data-action-click-url' => Url::toWikiRevertRevision($this->object, $this->revision),
                         'data-action-confirm-header' => Yii::t('WikiModule.base', '<strong>Confirm</strong> page reverting'),
                         'data-action-confirm' => Yii::t('WikiModule.base', 'Do you really want to revert this page?'),
                         'data-action-confirm-text' => Yii::t('WikiModule.base', 'Revert'),
@@ -290,13 +310,13 @@ class WikiMenu extends DropdownMenu
             case static::LINK_REVERT_GO_BACK:
                 return new MenuLink([
                     'label' => Yii::t('WikiModule.base', 'Go back'),
-                    'url' => Url::toWikiHistory($this->page),
+                    'url' => Url::toWikiHistory($this->object),
                     'icon' => 'fa-reply',
                 ]);
             case static::LINK_NEW:
                 return $this->canCreatePage() ? new MenuLink([
                     'label' => Yii::t('WikiModule.base', 'New page'),
-                    'url' => Url::toWikiCreate($this->container, $this->page ? $this->page->id : null),
+                    'url' => Url::toWikiCreate($this->container, $this->object ? $this->object->id : null),
                     'icon' => 'fa-plus new',
                 ]) : null;
             case static::LINK_EDIT_DELETE:
@@ -306,14 +326,14 @@ class WikiMenu extends DropdownMenu
                     'icon' => 'fa-trash-o delete',
                     'htmlOptions' => [
                         'data-action-click' => 'wiki.delete',
-                        'data-action-click-url' => Url::toWikiDelete($this->page),
+                        'data-action-click-url' => Url::toWikiDelete($this->object),
                         'data-action-confirm' => '',
                     ],
                 ]) : null;
             case static::LINK_EDIT_CANCEL:
                 return new MenuLink([
                     'label' => Yii::t('WikiModule.base', 'Cancel'),
-                    'url' => $this->page->isNewRecord ? Url::toOverview($this->container) : Url::toWiki($this->page),
+                    'url' => $this->object->isNewRecord ? Url::toOverview($this->container) : Url::toWiki($this->object),
                     'icon' => 'fa-reply',
                 ]);
             case static::LINK_EDIT_SAVE:
@@ -329,12 +349,12 @@ class WikiMenu extends DropdownMenu
             case static::LINK_BACK_TO_PAGE:
                 return new MenuLink([
                     'label' => Yii::t('WikiModule.base', 'Back to page'),
-                    'url' => Url::toWiki($this->page),
+                    'url' => Url::toWiki($this->object),
                     'icon' => 'fa-reply',
                 ]);
             case static::LINK_MOVE:
-                if (!$this->page->isNewRecord && $this->page->canMove()) {
-                    $moveLink = new MoveContentLink(['model' => $this->page]);
+                if (!$this->object->isNewRecord && $this->object->canMove()) {
+                    $moveLink = new MoveContentLink(['model' => $this->object]);
                     return new MenuLink([
                         'label' => Yii::t('ContentModule.base', 'Move content'),
                         'url' => '#',

@@ -1,7 +1,6 @@
 <?php
 
 use humhub\libs\Html;
-use humhub\modules\ui\icon\widgets\Icon;
 use humhub\modules\wiki\helpers\Url;
 use humhub\modules\wiki\models\WikiPage;
 use humhub\modules\wiki\models\WikiPageRevision;
@@ -22,7 +21,11 @@ if (empty($buttons)) {
 
 <div class="wiki-headline">
     <?= WikiPath::widget(['page' => $page]) ?>
-    <?= WikiMenu::widget(['page' => $page, 'buttons' => $buttons, 'revision' => $revision ?? null]) ?>
+    <?= WikiMenu::widget([
+        'object' => $page,
+        'buttons' => $buttons,
+        'revision' => $revision ?? null
+    ]) ?>
 
     <div class="wiki-page-title"><?= Html::encode($page->title) ?></div>
 

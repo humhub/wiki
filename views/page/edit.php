@@ -37,7 +37,11 @@ Assets::register($this);
             <div class="wiki-headline">
                 <?= WikiPath::widget(['page' => $model->page]) ?>
                 <?php if (!$requireConfirmation) : ?>
-                    <?= WikiMenu::widget(['page' => $model->page, 'buttons' => WikiMenu::LINK_EDIT_SAVE, 'edit' => true]) ?>
+                    <?= WikiMenu::widget([
+                        'object' => $model->page,
+                        'buttons' => WikiMenu::LINK_EDIT_SAVE,
+                        'edit' => true
+                    ]) ?>
                 <?php endif; ?>
                 <div class="wiki-page-title"><?= $model->getTitle() ?></div>
             </div>
