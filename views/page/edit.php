@@ -78,7 +78,7 @@ $canAdminister = $model->canAdminister();
                 <?= $form->field($model->revision, 'content')->widget(WikiEditor::class)->label(false) ?>
 
 
-                <?= $form->beginCollapsibleFields('Advanced settings'); ?>
+                <?= $form->beginCollapsibleFields(Yii::t('WikiModule.base', 'Advanced settings')); ?>
 
                 <?php if (!$canAdminister) : ?>
                     <div class="alert alert-info">
