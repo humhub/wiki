@@ -79,4 +79,5 @@ return [
     'Your current version' => 'Tu versión actual',
     'by' => 'por',
     '{userName} edited the Wiki page "{wikiPageTitle}".' => '{userName} ha editado la página del wiki "{wikiPageTitle}".',
+    'Advanced settings' => '',
 ];

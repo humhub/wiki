@@ -14,6 +14,7 @@ return [
     'Add Page' => '',
     'Adds a wiki to this space.' => '',
     'Adds a wiki to your profile.' => '',
+    'Advanced settings' => '',
     'Are you really sure? All existing category page assignments will be removed!' => '',
     'Back to page' => '',
     'Cancel' => '',

@@ -79,4 +79,5 @@ return [
     'Your current version' => 'Din nuvarande version',
     'by' => 'av',
     '{userName} edited the Wiki page "{wikiPageTitle}".' => '{userName} redigerade Wiki-sidan "{wikiPageTitle}".',
+    'Advanced settings' => '',
 ];

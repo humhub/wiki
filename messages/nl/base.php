@@ -79,4 +79,5 @@ return [
     'Your current version' => 'Uw huidige versie',
     'by' => 'door',
     '{userName} edited the Wiki page "{wikiPageTitle}".' => '{userName} heeft de wiki-pagina "{wikiPageTitle}" bewerkt.',
+    'Advanced settings' => '',
 ];

@@ -34,6 +34,7 @@ return [
     '<strong>Warning!</strong><br><br>Another user has updated this page since you have started editing it. Please confirm that you want to overwrite those changes.<br>:linkToCompare' => '',
     'Adds a wiki to this space.' => '',
     'Adds a wiki to your profile.' => '',
+    'Advanced settings' => '',
     'Are you really sure? All existing category page assignments will be removed!' => '',
     'Compare changes' => '',
     'Default wiki settings' => '',
