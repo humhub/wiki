@@ -155,6 +155,7 @@ class WikiMenu extends WallEntryControls
     {
         return [
             'ui-widget' => 'stream.StreamEntry',
+            'content-key' => $this->object->content->id,
             'entry-url' => Url::toWikiEntry($this->object),
         ];
     }
