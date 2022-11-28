@@ -65,6 +65,9 @@ humhub.module('wiki', function(module, require, $) {
         return client.get(entry.data('entry-url')).then(function (response) {
             if (response.output) {
                 content.$.html(response.output);
+                content.$.find('[data-ui-widget]').each(function () {
+                    Widget.instance($(this));
+                });
             }
             return response;
         }).catch(function (err) {
