@@ -392,6 +392,7 @@
     padding: 0;
     .fa {
       font-size: 20px;
+      margin-right: 8px;
     }
   }
   .wiki-search-form {
@@ -461,6 +462,7 @@
       margin: 5px 0;
       .fa {
         font-size: 16px;
+        margin: 0;
       }
     }
     .btn-sm {
@@ -536,7 +538,18 @@
     padding-left: 15px;
     padding-right: 15px;
 
+    .grid-view {
+      padding: 15px 0;
+      .pagination {
+        margin-bottom: 0;
+      }
+    }
+
     table {
+      .wiki-page-list-row-title {
+        font-size: 16px;
+        font-weight: 600;
+      }
       tr:hover {
         .wiki-page-list-row-title a {
           color: @link;

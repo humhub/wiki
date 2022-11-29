@@ -325,6 +325,7 @@
 }
 .wiki-page-content-header h3 .fa {
   font-size: 20px;
+  margin-right: 8px;
 }
 .wiki-page-content-header .wiki-search-form {
   margin: 0 0 10px;
@@ -390,6 +391,7 @@
 }
 .wiki-page-sidebar .wiki-page-content-header h3 .fa {
   font-size: 16px;
+  margin: 0;
 }
 .wiki-page-sidebar .wiki-page-content-header .btn-sm {
   padding: 6px 11px;
@@ -453,6 +455,16 @@
 .wiki-page-list-table .table-responsive {
   padding-left: 15px;
   padding-right: 15px;
+}
+.wiki-page-list-table .table-responsive .grid-view {
+  padding: 15px 0;
+}
+.wiki-page-list-table .table-responsive .grid-view .pagination {
+  margin-bottom: 0;
+}
+.wiki-page-list-table .table-responsive table .wiki-page-list-row-title {
+  font-size: 16px;
+  font-weight: 600;
 }
 .wiki-page-list-table .table-responsive table tr:hover .wiki-page-list-row-title a {
   color: #21A1B3;

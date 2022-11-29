@@ -18,7 +18,7 @@ use humhub\widgets\Button;
 /* @var $canCreate bool */
 ?>
 <div class="wiki-page-content-header">
-    <h3><?= ($icon ? Icon::get($icon) . ' ' : '') . $title ?></h3>
+    <h3><?= ($icon ? Icon::get($icon) : '') . $title ?></h3>
     <?= WikiSearchForm::widget(['contentContainer' => $contentContainer, 'cssClass' => Helper::isEnterpriseTheme() ? 'hidden-lg' : '']) ?>
     <div class="wiki-page-content-header-actions">
         <?= Button::info(Yii::t('WikiModule.base', 'Index'))->icon('fa-home')
