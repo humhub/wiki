@@ -27,7 +27,10 @@ use humhub\widgets\Button;
             <?= WikiSearchForm::widget(['contentContainer' => $contentContainer]) ?>
             <div class="wiki-page-content-header-actions">
                 <?= Button::info(Yii::t('WikiModule.base', 'Last edited'))->sm()->link(Url::toLastEdited($contentContainer))->cssClass('hidden-lg') ?>
-                <?= Button::info('<span class="hidden-lg">' . Yii::t('WikiModule.base', 'Create page') . '</span>')->icon('fa-plus')->sm()->link(Url::toWikiCreate($contentContainer))->visible($canCreate)->cssClass('') ?>
+                <?php if ($canCreate) : ?>
+                    <?= Button::info()->icon('fa-plus')->link(Url::toWikiCreate($contentContainer))->cssClass('visible-lg')->sm() ?>
+                    <?= Button::info(Yii::t('WikiModule.base', 'Create page'))->icon('fa-plus')->link(Url::toWikiCreate($contentContainer))->cssClass('hidden-lg')->sm() ?>
+                <?php endif; ?>
             </div>
             <div class="clearfix"></div>
         </div>
