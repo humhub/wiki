@@ -13,6 +13,7 @@ use humhub\modules\wiki\widgets\CategoryListView;
 use humhub\modules\wiki\widgets\WikiContent;
 use humhub\modules\wiki\widgets\WikiSearchForm;
 use humhub\widgets\Button;
+use humhub\widgets\Link;
 
 /* @var $options array */
 /* @var $contentContainer ContentContainerActiveRecord */
@@ -23,7 +24,7 @@ use humhub\widgets\Button;
     <div class="panel-body">
         <?php WikiContent::begin(['cssClass' => 'wiki-page-content']) ?>
         <div class="wiki-page-content-header">
-            <h3><?= Icon::get('home') ?> <?= Yii::t('WikiModule.base', 'Index') ?></h3>
+            <h3><?= Link::to(Yii::t('WikiModule.base', 'Index'), Url::toLastEdited($contentContainer))->icon('home') ?></h3>
             <?= WikiSearchForm::widget(['contentContainer' => $contentContainer]) ?>
             <div class="wiki-page-content-header-actions">
                 <?= Button::info(Yii::t('WikiModule.base', 'Last edited'))->sm()->link(Url::toLastEdited($contentContainer))->cssClass('hidden-lg') ?>

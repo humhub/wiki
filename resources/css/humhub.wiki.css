@@ -93,6 +93,9 @@
   color: #000;
   clear: both;
 }
+.layout-content-container .wiki-page-content .wiki-headline .wiki-page-title i.fa {
+  margin-right: 4px;
+}
 .layout-content-container .wiki-page-content .wiki-headline .wiki-page-path a,
 .layout-content-container .wiki-page-content .wiki-headline .wiki-content-info a {
   color: #21A1B3;
