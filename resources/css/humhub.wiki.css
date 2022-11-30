@@ -411,6 +411,9 @@
   padding: 6px 11px;
   margin: 0 0 4px 4px;
 }
+.wiki-page-sidebar .wiki-page-content-header .btn-sm:active {
+  padding: 5px 10px;
+}
 .wiki-page-sidebar .wiki-page-content-header .wiki-page-content-header-actions {
   padding: 0;
 }
