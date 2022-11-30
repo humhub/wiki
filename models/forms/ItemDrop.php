@@ -42,6 +42,9 @@ abstract class ItemDrop extends Model
      */
     public $id;
 
+    /**
+     * @var integer
+     */
     public $targetId;
 
     /**
@@ -62,8 +65,7 @@ abstract class ItemDrop extends Model
     public function save()
     {
         try {
-            $this->moveItemIndex($this->id, $this->index);
-            return true;
+            return $this->moveItemIndex($this->id, $this->index);
         } catch (\Throwable $e) {
             Yii::error($e);
         }
@@ -80,12 +82,11 @@ abstract class ItemDrop extends Model
      */
     protected function moveItemIndex($id, $newIndex)
     {
-
         /** @var $transaction Transaction */
         $transaction = $this->beginTransaction();
 
         try {
-            $model = $this->getModel($id);
+            $model = $this->getModel();
             $tableName = $this->getTableName();
 
             // Load all items to sort and exclude the model we want to resort
@@ -108,6 +109,7 @@ abstract class ItemDrop extends Model
             }
 
             $transaction->commit();
+            return true;
         } catch (\Exception $e) {
             $transaction->rollBack();
             throw $e;
@@ -155,7 +157,6 @@ abstract class ItemDrop extends Model
     }
 
     /**
-     * @param $id mixed
      * @return ActiveRecord
      */
     protected function getModel()
@@ -168,7 +169,6 @@ abstract class ItemDrop extends Model
     }
 
     /**
-     * @param $id
      * @return ActiveRecord
      */
     protected function loadModel()
@@ -181,14 +181,4 @@ abstract class ItemDrop extends Model
      */
     protected abstract function getSortItemsQuery();
     protected abstract function updateTarget();
-
-
-    public function getSortableModel()
-    {
-        if(!$this->model) {
-            $this->model = call_user_func("$this->modelClass::findOne", ['id' => $this->modelId]);
-        }
-
-        return $this->model;
-    }
 }

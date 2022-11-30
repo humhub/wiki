@@ -30,7 +30,7 @@ class EditPermissionCest extends FunctionalPermissionTest
         $I->amAdmin(true);
         $I->enableModule($space->guid, 'wiki');
 
-        $I->createCategoy($space, 'Admin Category', 'Admin Category content');
+        $I->createWiki($space, 'Admin Category', 'Admin Category content');
 
         $I->loginBySpaceUserGroup(Space::USERGROUP_MEMBER, '/wiki/overview');
 
@@ -41,10 +41,10 @@ class EditPermissionCest extends FunctionalPermissionTest
 
         $I->seeCategory('Admin Category');
         $I->click('Admin Category');
-        $I->seeInMenu('Edit page');
+        $I->seeInMenu('Edit');
         $I->dontSeeInMenu('Delete');
 
-        $I->click('Edit page');
+        $I->click('Edit');
 
         $I->seeElement('#wikipage-title:disabled');
         $I->dontSee('#wikipage-parent_page_id');
@@ -69,13 +69,13 @@ class EditPermissionCest extends FunctionalPermissionTest
         $I->amAdmin(true);
         $I->enableModule($space->guid, 'wiki');
 
-        $category = $I->createCategoy($space, 'Admin Category', 'Admin Category content', ['admin_only' => 1]);
-        $I->seeInMenu('Edit page');
+        $category = $I->createWiki($space, 'Admin Category', 'Admin Category content', ['admin_only' => 1]);
+        $I->seeInMenu('Edit');
 
         $I->loginBySpaceUserGroup(Space::USERGROUP_MEMBER, '/wiki/overview');
         $I->seeCategory('Admin Category');
         $I->click('Admin Category');
-        $I->dontSeeInMenu('Edit page');
+        $I->dontSeeInMenu('Edit');
         $I->dontSeeInMenu('Delete');
         $I->amOnSpace($space->guid, '/wiki/page/edit', ['id' => $category->id]);
         $I->seeResponseCodeIs(403);

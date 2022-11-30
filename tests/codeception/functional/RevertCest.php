@@ -35,8 +35,8 @@ class RevertCest extends FunctionalPermissionTest
         $I->amAdmin(true);
         $I->enableModule($space->guid, 'wiki');
 
-        $category = $I->createCategoy($space, 'Admin Category', 'Admin Category content');
-        $I->click('Edit page');
+        $category = $I->createWiki($space, 'Admin Category', 'Admin Category content');
+        $I->click('Edit');
         $I->fillField('WikiPageRevision[content]', 'Edited Admin Category content');
         $I->saveWiki();
 
@@ -67,8 +67,8 @@ class RevertCest extends FunctionalPermissionTest
         $I->amAdmin(true);
         $I->enableModule($space->guid, 'wiki');
 
-        $category = $I->createCategoy($space, 'Admin Category', 'Admin Category content');
-        $I->click('Edit page');
+        $category = $I->createWiki($space, 'Admin Category', 'Admin Category content');
+        $I->click('Edit');
         $I->fillField('WikiPageRevision[content]', 'Edited Admin Category content');
         $I->saveWiki();
 
@@ -116,8 +116,8 @@ class RevertCest extends FunctionalPermissionTest
         $I->amAdmin(true);
         $I->enableModule($space->guid, 'wiki');
 
-        $category = $I->createCategoy($space, 'Admin Category', 'Admin Category content');
-        $I->click('Edit page');
+        $category = $I->createWiki($space, 'Admin Category', 'Admin Category content');
+        $I->click('Edit');
         $I->fillField('WikiPageRevision[content]', 'Edited Admin Category content');
         $I->saveWiki();
 
@@ -156,8 +156,8 @@ class RevertCest extends FunctionalPermissionTest
         $I->amAdmin(true);
         $I->enableModule($space->guid, 'wiki');
 
-        $category = $I->createCategoy($space, 'Admin Category', 'Admin Category content', ['admin_only' => 1]);
-        $I->click('Edit page');
+        $category = $I->createWiki($space, 'Admin Category', 'Admin Category content', ['admin_only' => 1]);
+        $I->click('Edit');
         $I->fillField('WikiPageRevision[content]', 'Edited Admin Category content');
         $I->saveWiki();
 

@@ -71,7 +71,7 @@ class FunctionalTester extends \FunctionalTester
             $this->checkOption('PageEditForm[topics]');
         }
 
-        $this->click('Save', '#wiki-page-edit');
+        $this->click('Save', '#wiki-page-edit form');
 
         $this->see($title, '.wiki-page-content');
         $this->see($content, '#wiki-page-richtext');
@@ -82,36 +82,6 @@ class FunctionalTester extends \FunctionalTester
     public function saveWiki()
     {
         $this->click('Save', '#wiki-page-edit');
-    }
-
-    /**
-     * @param $space
-     * @param $title
-     * @param $content
-     * @param array $options
-     * @return WikiPage
-     */
-    public function createCategoy($space, $title, $content, $options = [])
-    {
-        $wiki = $this->createWiki($space,$title,$content, $options);
-
-        $this->see('There are no pages in this category');
-
-        return $wiki;
-
-    }
-
-    /**
-     * @param $space
-     * @param $title
-     * @param $content
-     * @param array $options
-     * @return WikiPage
-     */
-    public function createPublicWiki($space, $title, $content, $options = [])
-    {
-        $options['isPublic'] = 1;
-        return $this->createWiki($space,$title,$content, $options);
     }
 
     public function seeInitPageWithCreateOption()

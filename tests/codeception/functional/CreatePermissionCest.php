@@ -39,7 +39,7 @@ class CreatePermissionCest extends FunctionalPermissionTest
         $I->assertSpaceAccessFalse(Space::USERGROUP_MEMBER, '/wiki/page/edit');
 
         $I->amAdmin(true);
-        $I->createCategoy($space->guid, 'Private Wiki', 'My private wiki content');
+        $I->createWiki($space->guid, 'Private Wiki', 'My private wiki content');
 
         $I->loginBySpaceUserGroup(Space::USERGROUP_MEMBER, '/wiki/overview');
 
@@ -86,8 +86,8 @@ class CreatePermissionCest extends FunctionalPermissionTest
 
         $I->createWiki($space->guid, 'My own wiki', 'My own wiki content');
 
-        $I->seeInMenu('Edit page');
-        $I->click('Edit page');
+        $I->seeInMenu('Edit');
+        $I->click('Edit');
 
         // Since I'am the content owner I can change the title
         $I->dontSee('#wikipage-title:disabled');
@@ -108,7 +108,7 @@ class CreatePermissionCest extends FunctionalPermissionTest
         $I->amAdmin(true);
         $I->enableModule($space->guid, 'wiki');
 
-        $category = $I->createCategoy($space, 'Admin Category', 'Admin Category content');
+        $category = $I->createWiki($space, 'Admin Category', 'Admin Category content');
 
         $I->loginBySpaceUserGroup(Space::USERGROUP_MEMBER, '/wiki/overview');
 

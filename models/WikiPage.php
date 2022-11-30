@@ -343,16 +343,6 @@ class WikiPage extends ContentActiveRecord implements Searchable
         return static::find()->andWhere(['parent_page_id' => $this->id])->readable()->orderBy('sort_order ASC, title ASC');
     }
 
-    public static function getCategoryIds(ContentContainerActiveRecord $contentContainer): array
-    {
-        return static::find()
-            ->select('wiki_page.parent_page_id')
-            ->contentContainer($contentContainer)
-            ->andWhere(['NOT IN', 'wiki_page.parent_page_id', new Expression('NULL')])
-            ->distinct()
-            ->column();
-    }
-
     public function getCategoryPage()
     {
         return $this->hasOne(static::class, ['id' => 'parent_page_id']);
@@ -366,7 +356,6 @@ class WikiPage extends ContentActiveRecord implements Searchable
     public static function findCategories(ContentContainerActiveRecord $container)
     {
         return static::find()->contentContainer($container)
-//            ->andWhere(['IN', 'wiki_page.id', static::getCategoryIds($container)])
             ->readable()
             ->orderBy('sort_order ASC, title ASC');
     }
@@ -379,6 +368,7 @@ class WikiPage extends ContentActiveRecord implements Searchable
     public static function findRootPages(ContentContainerActiveRecord $container)
     {
         return static::find()->contentContainer($container)
+            ->readable()
             ->andWhere(['IS NOT', 'wiki_page.parent_page_id', new Expression('NULL')]);
     }
 

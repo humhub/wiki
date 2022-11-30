@@ -29,7 +29,7 @@ class FirstAccessCest
         $I->click('Let\'s go!');
         $I->see('Create new page');
 
-        $I->createCategoy(3, 'Private Wiki', 'My private wiki content');
+        $I->createWiki(3, 'Private Wiki', 'My private wiki content');
     }
 
     public function testFirstAccessForNonCreatePermissionUser(FunctionalTester $I)

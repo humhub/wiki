@@ -35,17 +35,10 @@ class WikiPageItemDrop extends ItemDrop
      */
     protected function getSortItemsQuery()
     {
-        /* @var $model \humhub\modules\wiki\models\WikiPage */
-        $model = $this->getModel();
-
-        if ($model->isCategory) {
-            return WikiPage::findCategories($this->contentContainer);
-        } else if($this->targetId) {
-            $target = WikiPage::findOne(['id' => $this->targetId]);
-            if (!$target->isCategory) {
-                throw new HttpException(400);
-            }
-            return $target->findChildren();
+        if ($this->targetId) {
+            return WikiPage::find()->contentContainer($this->contentContainer)
+                ->readable()
+                ->andWhere(['parent_page_id' => $this->targetId]);
         }
 
         return WikiPage::findRootPages($this->contentContainer);
@@ -53,13 +46,6 @@ class WikiPageItemDrop extends ItemDrop
 
     protected function updateTarget()
     {
-        /* @var $model \humhub\modules\wiki\models\WikiPage */
-        $model = $this->getModel();
-
-        if ($model->isCategory) {
-            return;
-        }
-
         $targetId = $this->targetId ?: new Expression('NULL');
         $this->getModel()->updateAttributes(['parent_page_id' => $targetId]);
     }

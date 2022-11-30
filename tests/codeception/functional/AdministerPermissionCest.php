@@ -34,19 +34,18 @@ class AdministerPermissionCest extends FunctionalPermissionTest
         $I->amAdmin(true);
         $I->enableModule($space->guid, 'wiki');
 
-        $I->createCategoy($space, 'Admin Category', 'Admin Category content');
+        $I->createWiki($space, 'Admin Category', 'Admin Category content');
         $I->createWiki($space, 'Admin Wiki', 'Admin Wiki content');
 
         $I->loginBySpaceUserGroup(Space::USERGROUP_MEMBER, '/wiki/overview');
 
         $I->seeElement('.drag-icon');
-        $I->dontSeeCategory('a.wiki-category-add');
-        $I->seeCategory('Pages without category');
+        $I->dontSeeCategory('Admin Category');
 
-        $I->sendAjaxPostRequest(Url::to(['/wiki/page/sort', 'cguid' => $space->guid]), ['ItemDrop[id]' => 2, 'ItemDrop[targetId]' => 1, 'ItemDrop[index]' => 0]);
+        $I->sendAjaxPostRequest($space->createUrl('/wiki/page/sort', ['ItemDrop[id]' => 2, 'ItemDrop[targetId]' => 1, 'ItemDrop[index]' => 0]));
         Yii::$app->response->format = Response::FORMAT_HTML;
         $I->amOnSpace($space->guid, '/wiki/overview');
-        $I->dontSeeCategory('Pages without category');
+        $I->seeCategory('Admin Category');
     }
 
     public function testDragList(FunctionalTester $I)
@@ -61,8 +60,8 @@ class AdministerPermissionCest extends FunctionalPermissionTest
         $I->amAdmin(true);
         $I->enableModule($space->guid, 'wiki');
 
-        $category1 = $I->createCategoy($space, 'Admin Category 1', 'Admin Category content');
-        $I->createCategoy($space, 'Admin Category 2', 'Admin Category content');
+        $category1 = $I->createWiki($space, 'Admin Category 1', 'Admin Category content');
+        $I->createWiki($space, 'Admin Category 2', 'Admin Category content');
         $I->createWiki($space, 'Admin Page 1', 'Admin Page content', ['category' => $category1->id]);
 
         $I->loginBySpaceUserGroup(Space::USERGROUP_MEMBER, '/wiki/overview');
@@ -96,15 +95,15 @@ class AdministerPermissionCest extends FunctionalPermissionTest
         $I->amAdmin(true);
         $I->enableModule($space->guid, 'wiki');
 
-        $category1 = $I->createCategoy($space, 'Admin Category 1', 'Admin Category content');
-        $I->createCategoy($space, 'Admin Category 2', 'Admin Category content');
+        $category1 = $I->createWiki($space, 'Admin Category 1', 'Admin Category content');
+        $I->createWiki($space, 'Admin Category 2', 'Admin Category content');
         $I->createWiki($space, 'Admin Page 1', 'Admin Page content', ['category' => $category1->id]);
 
         $I->loginBySpaceUserGroup(Space::USERGROUP_MEMBER, '/wiki/overview');
 
         $I->click('Admin Page 1');
-        $I->seeInMenu('Edit page');
-        $I->click('Edit page');
+        $I->seeInMenu('Edit');
+        $I->click('Edit');
 
         $I->seeElement('#wikipage-title');
         $I->seeElement('#wikipage-parent_page_id'); // functional tests see display:none elements..
@@ -140,7 +139,7 @@ class AdministerPermissionCest extends FunctionalPermissionTest
         $I->amAdmin(true);
         $I->enableModule($space->guid, 'wiki');
 
-        $category = $I->createCategoy($space, 'Admin Category 1', 'Admin Category content', ['admin_only' => true]);
+        $category = $I->createWiki($space, 'Admin Category 1', 'Admin Category content', ['admin_only' => true]);
         $I->amOnSpace($space->guid, '/wiki/page/edit', ['id' => $category->id]);
         $I->seeSuccessResponseCode();
 
