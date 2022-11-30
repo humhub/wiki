@@ -218,20 +218,26 @@
           color: #999999;
           &.wiki-category-add {
             color: #000;
+            margin-left: 8px;
           }
         }
       }
 
       .page-category-title {
-        font-weight: 600;
-        margin-bottom:6px;
+        margin-bottom: 6px;
       }
       .page-category-title, .page-title {
         padding-top: 5px;
         padding-bottom: 5px;
+        .wiki-category-add {
+          display: none;
+        }
         &:hover {
           background: #F7F7F7;
           border-radius: 4px;
+          .wiki-category-add {
+            display: inline-block;
+          }
         }
         &.page-current {
           a.page-title-text {
@@ -446,6 +452,9 @@
     .page-category-title, .page-title {
       padding-left: 12px;
       padding-right: 5px;
+    }
+    > li > div > .page-title-text {
+      font-weight: 600;
     }
   }
 

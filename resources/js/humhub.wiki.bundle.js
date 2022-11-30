@@ -365,14 +365,6 @@ humhub.module('wiki.CategoryListView', function(module, require, $) {
             receive: $.proxy(this.beforeDropItem, this),
             update: $.proxy(this.dropItem, this)
         });
-
-        if(view.isNormal()) {
-            this.$.find('.page-title, .page-category-title').hover(function() {
-                $(this).find('.wiki-page-control:not(.drag-icon)').show();
-            }, function() {
-                $(this).find('.wiki-page-control:not(.drag-icon)').hide();
-            });
-        }
     };
 
     CategoryListView.prototype.beforeDropItem = function (event, ui) {

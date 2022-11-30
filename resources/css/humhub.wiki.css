@@ -179,9 +179,9 @@
 .layout-content-container .wiki-content ul.wiki-page-list .page-title .wiki-page-control.wiki-category-add,
 .layout-content-container .wiki-content ul.wiki-page-list .page-category-title .wiki-page-control.wiki-category-add {
   color: #000;
+  margin-left: 8px;
 }
 .layout-content-container .wiki-content ul.wiki-page-list .page-category-title {
-  font-weight: 600;
   margin-bottom: 6px;
 }
 .layout-content-container .wiki-content ul.wiki-page-list .page-category-title,
@@ -189,10 +189,18 @@
   padding-top: 5px;
   padding-bottom: 5px;
 }
+.layout-content-container .wiki-content ul.wiki-page-list .page-category-title .wiki-category-add,
+.layout-content-container .wiki-content ul.wiki-page-list .page-title .wiki-category-add {
+  display: none;
+}
 .layout-content-container .wiki-content ul.wiki-page-list .page-category-title:hover,
 .layout-content-container .wiki-content ul.wiki-page-list .page-title:hover {
   background: #F7F7F7;
   border-radius: 4px;
+}
+.layout-content-container .wiki-content ul.wiki-page-list .page-category-title:hover .wiki-category-add,
+.layout-content-container .wiki-content ul.wiki-page-list .page-title:hover .wiki-category-add {
+  display: inline-block;
 }
 .layout-content-container .wiki-content ul.wiki-page-list .page-category-title.page-current a.page-title-text,
 .layout-content-container .wiki-content ul.wiki-page-list .page-title.page-current a.page-title-text {
@@ -376,6 +384,9 @@
 .wiki-page-sidebar #category_list_view.wiki-page-list .page-title {
   padding-left: 12px;
   padding-right: 5px;
+}
+.wiki-page-sidebar #category_list_view.wiki-page-list > li > div > .page-title-text {
+  font-weight: 600;
 }
 .wiki-page-sidebar .wiki-page-content {
   padding: 0 4px;
