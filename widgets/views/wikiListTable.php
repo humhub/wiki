@@ -31,8 +31,8 @@ use yii\data\ActiveDataProvider;
                 return Html::tag('strong', Link::to($model->title, Url::toWiki($model)), ['class' => 'wiki-page-list-row-title'])
                     . '<div class="wiki-page-list-row-details">'
                     . TimeAgo::widget(['timestamp' => $model->content->created_at])
-                    . ' - ' . Yii::t('WikiModule.base', 'Created by {author}', ['author' => Html::containerLink($model->content->createdBy)])
-                    . ' - ' . Link::to(Yii::t('WikiModule.base', 'show changes'), Url::toWikiHistory($model))
+                    . ' &middot; ' . Yii::t('WikiModule.base', 'Created by {author}', ['author' => Html::containerLink($model->content->createdBy)])
+                    . ' &middot; ' . Link::to(Yii::t('WikiModule.base', 'show changes'), Url::toWikiHistory($model))
                     . '</div>';
             }
         ],

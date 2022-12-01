@@ -63,8 +63,8 @@ if ($isEnabledDiffTool) {
                                         </a><br>
                                         <h5>
                                             <?= Yii::$app->formatter->asDateTime($revision->revision) ?>
-                                            - <?= Yii::t('WikiModule.base', 'Created by {author}', ['author' => \humhub\libs\Html::containerLink($page->content->createdBy, ['class' => 'colorInfo'])]) ?>
-                                            - <?= Link::to(Yii::t('WikiModule.base', 'show changes'), Url::toWiki($page, $revision))->cssClass('colorInfo') ?>
+                                            &middot; <?= Yii::t('WikiModule.base', 'Created by {author}', ['author' => \humhub\libs\Html::containerLink($page->content->createdBy, ['class' => 'colorInfo'])]) ?>
+                                            &middot; <?= Link::to(Yii::t('WikiModule.base', 'show changes'), Url::toWiki($page, $revision))->cssClass('colorInfo') ?>
                                         </h5>
                                     </h4>
 
