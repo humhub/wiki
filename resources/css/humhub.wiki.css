@@ -252,7 +252,7 @@
   letter-spacing: 1px;
   border-top: 1px dashed #AEAEAE;
 }
-.layout-content-container .wiki-content ul.wiki-page-history li .horizontal-line label {
+.layout-content-container .wiki-content ul.wiki-page-history li .horizontal-line input[type=radio] {
   position: relative;
   right: -27px;
   top: -9px;
@@ -371,6 +371,9 @@
 .wiki-search-form button[type=submit] i.fa {
   color: #D7D7D7 !important;
 }
+#category_list_view.wiki-page-list > li > div > .page-title-text {
+  font-weight: 600;
+}
 .wiki-page-sidebar {
   padding-right: 0;
   position: relative;
@@ -384,9 +387,6 @@
 .wiki-page-sidebar #category_list_view.wiki-page-list .page-title {
   padding-left: 12px;
   padding-right: 5px;
-}
-.wiki-page-sidebar #category_list_view.wiki-page-list > li > div > .page-title-text {
-  font-weight: 600;
 }
 .wiki-page-sidebar .wiki-page-content {
   padding: 0 4px;

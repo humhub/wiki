@@ -295,7 +295,7 @@
           top: 38px;
           letter-spacing: 1px;
           border-top: 1px dashed #AEAEAE;
-          label {
+          input[type=radio] {
             position: relative;
             right: -27px;
             top: -9px;
@@ -440,6 +440,12 @@
   }
 }
 
+#category_list_view.wiki-page-list {
+  > li > div > .page-title-text {
+    font-weight: 600;
+  }
+}
+
 // Sidebar is used on Enterprise themes
 .wiki-page-sidebar {
   padding-right: 0;
@@ -452,9 +458,6 @@
     .page-category-title, .page-title {
       padding-left: 12px;
       padding-right: 5px;
-    }
-    > li > div > .page-title-text {
-      font-weight: 600;
     }
   }
 
