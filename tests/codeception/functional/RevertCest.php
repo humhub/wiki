@@ -40,8 +40,7 @@ class RevertCest extends FunctionalPermissionTest
         $I->fillField('WikiPageRevision[content]', 'Edited Admin Category content');
         $I->saveWiki();
 
-
-        $I->see('Page History');
+        $I->seeInMenu('Page History');
 
         $I->loginBySpaceUserGroup(Space::USERGROUP_MEMBER, '/wiki/overview');
         $I->click($category->title);
@@ -53,8 +52,9 @@ class RevertCest extends FunctionalPermissionTest
         $I->seeInMenu('Page History');
         $I->click('Page History');
 
-        $I->see('Page history', 'h1');
+        $I->see('Page history', '.wiki-page-title');
     }
+
     public function testRevertWithEditPermission(FunctionalTester $I)
     {
         $I->wantTo('make user with edit permissions can revert wikis');
@@ -77,7 +77,7 @@ class RevertCest extends FunctionalPermissionTest
         $I->amOnSpace($space->guid, '/wiki/page/view', ['title' => $category->title]);
         $I->click('Page History');
 
-        $I->see('Page history', 'h1');
+        $I->see('Page history', '.wiki-page-title');
 
         $I->click(Locator::elementAt('.wiki-page-view-link', 2));
 
@@ -121,13 +121,13 @@ class RevertCest extends FunctionalPermissionTest
         $I->fillField('WikiPageRevision[content]', 'Edited Admin Category content');
         $I->saveWiki();
 
-        $I->see('Page History');
+        $I->seeInMenu('Page History');
 
         $I->loginBySpaceUserGroup(Space::USERGROUP_MEMBER, '/wiki/overview');
         $I->click($category->title);
         $I->click('Page History');
 
-        $I->see('Page history', 'h1');
+        $I->see('Page history', '.wiki-page-title');
 
         $I->click(Locator::elementAt('.wiki-page-view-link', 2));
         $I->seeInMenu('Revert this');
@@ -161,13 +161,13 @@ class RevertCest extends FunctionalPermissionTest
         $I->fillField('WikiPageRevision[content]', 'Edited Admin Category content');
         $I->saveWiki();
 
-        $I->see('Page History');
+        $I->seeInMenu('Page History');
 
         $I->loginBySpaceUserGroup(Space::USERGROUP_MEMBER, '/wiki/overview');
         $I->click($category->title);
         $I->click('Page History');
 
-        $I->see('Page history', 'h1');
+        $I->see('Page history', '.wiki-page-title');
 
         $I->click(Locator::elementAt('.wiki-page-view-link', 2));
         $I->dontSeeInMenu('Revert this');

@@ -118,7 +118,7 @@ class AdministerPermissionCest extends FunctionalPermissionTest
         $I->checkOption('#wikipage-admin_only');
         $I->checkOption('#pageeditform-ispublic');
 
-        $I->click('Save', '#wiki-page-edit');
+        $I->saveWiki();
 
         $I->seeInMenu('Home');
         $I->seeElement('.fa-globe');

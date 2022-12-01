@@ -261,13 +261,6 @@
   color: #AEAEAE;
   text-decoration: underline;
 }
-.layout-content-container .wiki-content ul.wiki-page-history li .wiki-page-view-link {
-  font-weight: normal;
-  font-size: 12px;
-}
-.layout-content-container .wiki-content ul.wiki-page-history li .wiki-page-view-link .fa {
-  font-size: 12px;
-}
 .layout-content-container .wiki-content ul.wiki-page-history li .media {
   padding: 0 11px;
 }

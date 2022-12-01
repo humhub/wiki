@@ -39,11 +39,12 @@ class CreatePermissionCest extends FunctionalPermissionTest
         $I->assertSpaceAccessFalse(Space::USERGROUP_MEMBER, '/wiki/page/edit');
 
         $I->amAdmin(true);
-        $I->createWiki($space->guid, 'Private Wiki', 'My private wiki content');
+        $category = $I->createWiki($space, 'Private Wiki', 'My private wiki content');
+        $I->createWiki($space, 'Wiki Page', 'Wiki page content', ['category' => $category->id]);
 
         $I->loginBySpaceUserGroup(Space::USERGROUP_MEMBER, '/wiki/overview');
 
-        $I->see('Private Wiki', '.page-category-title');
+        $I->seeCategory('Private Wiki');
         $I->click('Private Wiki', '.page-category-title');
 
         $I->seeInMenu('Index');
@@ -109,6 +110,7 @@ class CreatePermissionCest extends FunctionalPermissionTest
         $I->enableModule($space->guid, 'wiki');
 
         $category = $I->createWiki($space, 'Admin Category', 'Admin Category content');
+        $I->createWiki($space, 'Wiki Page', 'Wiki page content', ['category' => $category->id]);
 
         $I->loginBySpaceUserGroup(Space::USERGROUP_MEMBER, '/wiki/overview');
 

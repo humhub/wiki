@@ -63,39 +63,44 @@ class FunctionalTester extends \FunctionalTester
             $this->checkOption('#pageeditform-ispublic');
         }
 
-        if(isset($options['category']) && $options['category']) {
-            $this->selectOption('WikiPage[parent_page_id]', $options['category']);
-        }
-
         if(isset($options['topics']) && $options['topics']) {
             $this->checkOption('PageEditForm[topics]');
         }
 
-        $this->click('Save', '#wiki-page-edit form');
+        $this->saveWiki();
 
         $this->see($title, '.wiki-page-content');
         $this->see($content, '#wiki-page-richtext');
 
-        return WikiPage::findOne(['title' => $title]);
+        $page = WikiPage::findOne(['title' => $title]);
+
+        if (!empty($options['category'])) {
+            $page->parent_page_id = $options['category'];
+            $page->save();
+        }
+
+        return $page;
     }
 
     public function saveWiki()
     {
-        $this->click('Save', '#wiki-page-edit');
+        $this->click('Save', '#wiki-page-edit form');
     }
 
     public function seeInitPageWithCreateOption()
     {
-        $this->see('Wiki Module');
-        $this->see('No pages created yet');
+        $this->see('Create a Wiki Page');
+        $this->see('No pages created yet.');
+        $this->see('So it\'s on you.');
         $this->see('Create the first page now.');
         $this->see('Let\'s go!');
     }
 
     public function seeInitPageWithoutCreateOption()
     {
-        $this->see('Wiki Module');
+        $this->see('Create a Wiki Page');
         $this->see('No pages created yet');
+        $this->dontSee('So it\'s on you.');
         $this->dontSee('Create the first page now.');
         $this->dontSee('Let\'s go!');
     }

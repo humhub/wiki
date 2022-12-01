@@ -30,7 +30,8 @@ class EditPermissionCest extends FunctionalPermissionTest
         $I->amAdmin(true);
         $I->enableModule($space->guid, 'wiki');
 
-        $I->createWiki($space, 'Admin Category', 'Admin Category content');
+        $category = $I->createWiki($space, 'Admin Category', 'Admin Category content');
+        $I->createWiki($space, 'Wiki Page', 'Wiki page content', ['category' => $category->id]);
 
         $I->loginBySpaceUserGroup(Space::USERGROUP_MEMBER, '/wiki/overview');
 
@@ -53,7 +54,7 @@ class EditPermissionCest extends FunctionalPermissionTest
         $I->seeElement('#pageeditform-ispublic:disabled');
 
         $I->fillField('WikiPageRevision[content]', 'Changed content');
-        $I->click('Save', '#wiki-page-edit');
+        $I->saveWiki();
 
         $I->see('Changed content', '.wiki-page-content');
     }
@@ -71,6 +72,7 @@ class EditPermissionCest extends FunctionalPermissionTest
 
         $category = $I->createWiki($space, 'Admin Category', 'Admin Category content', ['admin_only' => 1]);
         $I->seeInMenu('Edit');
+        $I->createWiki($space, 'Wiki Page', 'Wiki page content', ['category' => $category->id]);
 
         $I->loginBySpaceUserGroup(Space::USERGROUP_MEMBER, '/wiki/overview');
         $I->seeCategory('Admin Category');
