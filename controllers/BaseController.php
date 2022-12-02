@@ -23,11 +23,6 @@ abstract class BaseController extends ContentContainerController
 {
 
     /**
-     * @inheritdoc
-     */
-    public $hideSidebar = true;
-
-    /**
      * @return boolean can create new wiki site
      * @throws \yii\base\InvalidConfigException
      */

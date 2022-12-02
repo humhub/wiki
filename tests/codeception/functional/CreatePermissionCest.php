@@ -9,13 +9,13 @@
 namespace wiki\functional;
 
 use humhub\libs\BasePermission;
+use humhub\modules\space\models\Space;
 use humhub\modules\wiki\permissions\AdministerPages;
 use humhub\modules\wiki\permissions\CreatePage;
 use humhub\modules\wiki\permissions\EditPages;
 use wiki\FunctionalPermissionTest;
 use wiki\FunctionalTester;
 use Yii;
-use humhub\modules\space\models\Space;
 
 class CreatePermissionCest extends FunctionalPermissionTest
 {

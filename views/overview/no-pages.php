@@ -6,7 +6,6 @@
  */
 
 use humhub\modules\wiki\widgets\WikiContent;
-use humhub\modules\wiki\widgets\WikiMenu;
 use humhub\modules\wiki\helpers\Url;
 use humhub\widgets\Button;
 
