@@ -194,13 +194,11 @@ class WikiPage extends ContentActiveRecord implements Searchable
         }
 
         $sort_order = 1;
-        $this->sort_order = $sort_order++;
-        $this->save();
+        $this->updateAttributes(['sort_order' => $sort_order++]);
 
         foreach ($pages->all() as $page) {
             /* @var WikiPage $page */
-            $page->sort_order = $sort_order++;
-            $page->save();
+            $page->updateAttributes(['sort_order' => $sort_order++]);
         }
     }
 
