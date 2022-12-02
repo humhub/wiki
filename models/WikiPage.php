@@ -137,7 +137,9 @@ class WikiPage extends ContentActiveRecord implements Searchable
         ];
     }
 
-
+    /**
+     * @inheritdoc
+     */
     public function beforeSave($insert)
     {
         if (empty($this->parent_page_id)) {
@@ -147,6 +149,9 @@ class WikiPage extends ContentActiveRecord implements Searchable
         return parent::beforeSave($insert);
     }
 
+    /**
+     * @inheritdoc
+     */
     public function afterSave($insert, $changedAttributes)
     {
         if ($this->is_home == 1) {
@@ -166,6 +171,37 @@ class WikiPage extends ContentActiveRecord implements Searchable
         }
 
         parent::afterSave($insert, $changedAttributes);
+
+        if ($insert) {
+            $this->sortOnTop();
+        }
+    }
+
+    /**
+     * Make this page ordered on top inside its category
+     */
+    private function sortOnTop()
+    {
+        $pages = static::find()
+            ->contentContainer($this->content->container)
+            ->andWhere(['!=', static::tableName() . '.id', $this->id])
+            ->orderBy(['sort_order' => SORT_ASC, 'title' => SORT_ASC]);
+
+        if (empty($this->parent_page_id)) {
+            $pages->andWhere(['IS', 'parent_page_id', new Expression('NULL')]);
+        } else {
+            $pages->andWhere(['parent_page_id' => $this->parent_page_id]);
+        }
+
+        $sort_order = 1;
+        $this->sort_order = $sort_order++;
+        $this->save();
+
+        foreach ($pages->all() as $page) {
+            /* @var WikiPage $page */
+            $page->sort_order = $sort_order++;
+            $page->save();
+        }
     }
 
     /**
