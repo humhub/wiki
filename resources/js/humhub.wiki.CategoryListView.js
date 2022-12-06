@@ -31,8 +31,11 @@ humhub.module('wiki.CategoryListView', function(module, require, $) {
         this.$.sortable({
             delay: (view.isSmall()) ? DELAY_DRAG_SMALL_DEVICES : null,
             handle: '.drag-icon',
+            connectWith: '.wiki-page-list',
             items: '[data-page-id]',
             helper: 'clone',
+            over: $.proxy(this.overList, this),
+            out: $.proxy(this.outList, this),
             receive: $.proxy(this.beforeDropItem, this),
             update: $.proxy(this.dropItem, this)
         });
@@ -42,18 +45,27 @@ humhub.module('wiki.CategoryListView', function(module, require, $) {
             handle: '.drag-icon',
             connectWith: '.wiki-page-list',
             helper: 'clone',
+            over: $.proxy(this.overList, this),
+            out: $.proxy(this.outList, this),
             receive: $.proxy(this.beforeDropItem, this),
             update: $.proxy(this.dropItem, this)
         });
     };
 
+    CategoryListView.prototype.overList = function (event, ui) {
+        ui.placeholder.closest('.wiki-page-list').prev('div').addClass('wiki-page-current-droppable');
+    }
+    CategoryListView.prototype.outList = function (event, ui) {
+        ui.placeholder.closest('.wiki-page-list').prev('div').removeClass('wiki-page-current-droppable');
+    }
+
     CategoryListView.prototype.beforeDropItem = function (event, ui) {
         var fixListIndent = function ($item) {
             var $list = $item.closest('.wiki-page-list');
             if ($list.length) {
-                var title = $list.prev('.page-category-title');
+                var title = $list.prev('.page-title');
                 var indent = title.length ? parseInt(title.css('padding-left')) + 20 : 12;
-                $item.children('.page-title, .page-category-title').css('padding-left', indent + 'px');
+                $item.children('.page-title').css('padding-left', indent + 'px');
                 $item.children('.wiki-page-list').children('li').each(function () {
                     fixListIndent($(this));
                 });
@@ -66,13 +78,16 @@ humhub.module('wiki.CategoryListView', function(module, require, $) {
         var $item = ui.item;
         var pageId = $item.data('page-id');
 
-        var targetId = $item.is('.wiki-category-list-item') ? null : $item.closest('.wiki-category-list-item').data('page-id');
+        var parent = $item.parents('.wiki-category-list-item').first();
+        var targetId = parent.length ? parent.data('page-id') : null;
 
         var data = {
             'ItemDrop[id]': pageId,
             'ItemDrop[targetId]': targetId,
             'ItemDrop[index]': $item.index()
         };
+
+        $('.wiki-page-current-droppable').removeClass('wiki-page-current-droppable');
 
         client.post(this.options.dropUrl, {data: data}).then(function (response) {
             if (!response.success) {

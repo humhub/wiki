@@ -9,14 +9,14 @@ use humhub\modules\wiki\widgets\PageListItemTitle;
 /* @var $pages WikiPage[] */
 /* @var $title string */
 /* @var $icon string */
-/* @var $category WikiPage|null */
+/* @var $category WikiPage */
 /* @var $hideTitle bool */
 /* @var $showAddPage bool */
 /* @var $showDrag bool */
 /* @var $level int */
 ?>
 
-<li<?php if (!$category || $category->isCategory) : ?> class="wiki-category-list-item"<?php endif; ?><?php if ($category) : ?> data-page-id="<?= $category->id ?>"<?php endif; ?>>
+<li class="wiki-category-list-item"<?php if ($category) : ?> data-page-id="<?= $category->id ?>"<?php endif; ?>>
     <?php if (!$hideTitle) : ?>
         <?= PageListItemTitle::widget([
             'page' => $category,
@@ -27,10 +27,9 @@ use humhub\modules\wiki\widgets\PageListItemTitle;
             'level' => $level,
         ]) ?>
     <?php endif; ?>
-    <?php if (!empty($pages)) : ?>
     <ul class="wiki-page-list"<?php if ($category && $category->isFolded()) : ?> style="display:none"<?php endif; ?>>
-        <?php foreach ($pages as $page): ?>
-            <li<?php if ($page->isCategory) : ?> class="wiki-category-list-item"<?php endif; ?> data-page-id="<?= $page->id ?>">
+        <?php foreach ($pages as $page) : ?>
+            <li class="wiki-category-list-item" data-page-id="<?= $page->id ?>">
                 <?= PageListItemTitle::widget([
                     'page' => $page,
                     'showDrag' => $showDrag,
@@ -47,11 +46,10 @@ use humhub\modules\wiki\widgets\PageListItemTitle;
                         'id' => '',
                         'level' => $level + 2,
                     ]) ?>
+                <?php else : ?>
+                    <ul class="wiki-page-list"></ul>
                 <?php endif; ?>
             </li>
         <?php endforeach; ?>
     </ul>
-    <?php endif; ?>
 </li>
-
-

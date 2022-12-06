@@ -69,8 +69,8 @@ class AdministerPermissionCest extends FunctionalPermissionTest
         $I->seeElement('.drag-icon');
         $I->dontSeeCategory('Pages without category');
 
-        $I->see('Admin Category 1', Locator::firstElement('.page-category-title'));
-        $I->see('Admin Category 2', Locator::elementAt('.page-category-title', 2));
+        $I->see('Admin Category 1', Locator::firstElement('.page-title'));
+        $I->see('Admin Category 2', Locator::elementAt('.page-title', 2));
 
         $I->sendAjaxPostRequest(Url::to(['/wiki/page/sort', 'cguid' => $space->guid]), ['ItemDrop[id]' => 2, 'ItemDrop[targetId]' => 1, 'ItemDrop[index]' => 0]);
 
@@ -78,8 +78,8 @@ class AdministerPermissionCest extends FunctionalPermissionTest
 
         $I->amOnSpace($space->guid, '/wiki/overview');
 
-        $I->see('Admin Category 2', Locator::firstElement('.page-category-title'));
-        $I->see('Admin Category 1', Locator::elementAt('.page-category-title', 2));
+        $I->see('Admin Category 2', Locator::firstElement('.page-title'));
+        $I->see('Admin Category 1', Locator::elementAt('.page-title', 2));
         $I->see('Admin Page 1');
     }
 

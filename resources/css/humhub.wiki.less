@@ -155,6 +155,10 @@
       ul.wiki-page-list {
         margin-bottom: 0;
         padding-left: 2px;
+        .ui-sortable-helper {
+          background: #dd8888;
+          border: 1px solid #F00;
+        }
       }
     }
   }
@@ -172,14 +176,14 @@
       color: #ec4332 !important;
     }
 
-    .page-title.editable, .page-category-title.editable {
+    .page-title.editable {
       cursor: pointer;
       .fa-pencil {
         margin-left:5px;
       }
     }
 
-    .page-title.editable:hover, .page-category-title.editable:hover {
+    .page-title.editable:hover {
       background-color: #fff8e0;
     }
 
@@ -206,7 +210,7 @@
         padding-bottom:6px;
       }
 
-      .page-title, .page-category-title {
+      .page-title {
         .wiki-edit {
           padding-left:5px;
         }
@@ -223,10 +227,7 @@
         }
       }
 
-      .page-category-title {
-        margin-bottom: 6px;
-      }
-      .page-category-title, .page-title {
+      .page-title {
         padding-top: 5px;
         padding-bottom: 5px;
         .wiki-category-add {
@@ -255,7 +256,7 @@
 
       ul.wiki-page-list {
           padding-left: 0;
-          min-height: 10px;
+          min-height: 2px;
       }
     }
 
@@ -431,9 +432,14 @@
   }
 }
 
-#category_list_view.wiki-page-list {
-  > li > div > .page-title-text {
-    font-weight: 600;
+#category_list_view {
+  &.wiki-page-list {
+    > li > div > .page-title-text {
+      font-weight: 600;
+    }
+  }
+  .wiki-page-current-droppable {
+    background: @background-color-warning;
   }
 }
 
@@ -446,7 +452,7 @@
     padding-left: 0;
     margin-left: -14px;
     margin-right: -14px;
-    .page-category-title, .page-title {
+    .page-title {
       padding-left: 12px;
       padding-right: 5px;
     }
@@ -487,10 +493,8 @@
   }
 
   .wiki-content ul.wiki-page-list {
-    .page-category-title, .page-title {
-      &:hover {
-        border-radius: 0;
-      }
+    .page-title:hover {
+      border-radius: 0;
     }
   }
 
@@ -507,10 +511,8 @@
     #category_list_view.wiki-page-list {
       margin-left: 0;
       margin-right: 0;
-      .page-category-title, .page-title {
-        &:hover {
-          border-radius: 4px;
-        }
+      .page-title:hover {
+        border-radius: 4px;
       }
     }
     .wiki-page-content-header {

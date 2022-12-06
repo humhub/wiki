@@ -124,6 +124,10 @@
   margin-bottom: 0;
   padding-left: 2px;
 }
+.layout-content-container .wiki-page-content .wiki-sub-pages ul.wiki-page-list .ui-sortable-helper {
+  background: #dd8888;
+  border: 1px solid #F00;
+}
 .layout-content-container .wiki-content .wiki-content-info {
   margin-top: 5px;
 }
@@ -133,16 +137,13 @@
 .layout-content-container .wiki-content [data-wiki-page="#"] {
   color: #ec4332 !important;
 }
-.layout-content-container .wiki-content .page-title.editable,
-.layout-content-container .wiki-content .page-category-title.editable {
+.layout-content-container .wiki-content .page-title.editable {
   cursor: pointer;
 }
-.layout-content-container .wiki-content .page-title.editable .fa-pencil,
-.layout-content-container .wiki-content .page-category-title.editable .fa-pencil {
+.layout-content-container .wiki-content .page-title.editable .fa-pencil {
   margin-left: 5px;
 }
-.layout-content-container .wiki-content .page-title.editable:hover,
-.layout-content-container .wiki-content .page-category-title.editable:hover {
+.layout-content-container .wiki-content .page-title.editable:hover {
   background-color: #fff8e0;
 }
 .layout-content-container .wiki-content .social-controls,
@@ -164,60 +165,46 @@
   font-size: 16px;
   padding-bottom: 6px;
 }
-.layout-content-container .wiki-content ul.wiki-page-list .page-title .wiki-edit,
-.layout-content-container .wiki-content ul.wiki-page-list .page-category-title .wiki-edit {
+.layout-content-container .wiki-content ul.wiki-page-list .page-title .wiki-edit {
   padding-left: 5px;
 }
-.layout-content-container .wiki-content ul.wiki-page-list .page-title .fa,
-.layout-content-container .wiki-content ul.wiki-page-list .page-category-title .fa {
+.layout-content-container .wiki-content ul.wiki-page-list .page-title .fa {
   font-size: 14px;
 }
-.layout-content-container .wiki-content ul.wiki-page-list .page-title .wiki-page-control,
-.layout-content-container .wiki-content ul.wiki-page-list .page-category-title .wiki-page-control {
+.layout-content-container .wiki-content ul.wiki-page-list .page-title .wiki-page-control {
   color: #999999;
 }
-.layout-content-container .wiki-content ul.wiki-page-list .page-title .wiki-page-control.wiki-category-add,
-.layout-content-container .wiki-content ul.wiki-page-list .page-category-title .wiki-page-control.wiki-category-add {
+.layout-content-container .wiki-content ul.wiki-page-list .page-title .wiki-page-control.wiki-category-add {
   color: #000;
   margin-left: 8px;
 }
-.layout-content-container .wiki-content ul.wiki-page-list .page-category-title {
-  margin-bottom: 6px;
-}
-.layout-content-container .wiki-content ul.wiki-page-list .page-category-title,
 .layout-content-container .wiki-content ul.wiki-page-list .page-title {
   padding-top: 5px;
   padding-bottom: 5px;
 }
-.layout-content-container .wiki-content ul.wiki-page-list .page-category-title .wiki-category-add,
 .layout-content-container .wiki-content ul.wiki-page-list .page-title .wiki-category-add {
   display: none;
 }
-.layout-content-container .wiki-content ul.wiki-page-list .page-category-title:hover,
 .layout-content-container .wiki-content ul.wiki-page-list .page-title:hover {
   background: #F7F7F7;
   border-radius: 4px;
 }
-.layout-content-container .wiki-content ul.wiki-page-list .page-category-title:hover .wiki-category-add,
 .layout-content-container .wiki-content ul.wiki-page-list .page-title:hover .wiki-category-add {
   display: inline-block;
 }
-.layout-content-container .wiki-content ul.wiki-page-list .page-category-title.page-current a.page-title-text,
 .layout-content-container .wiki-content ul.wiki-page-list .page-title.page-current a.page-title-text {
   font-weight: 600;
   color: #21A1B3;
 }
-.layout-content-container .wiki-content ul.wiki-page-list .page-category-title .fa-caret-down,
 .layout-content-container .wiki-content ul.wiki-page-list .page-title .fa-caret-down {
   margin: 0 6px;
 }
-.layout-content-container .wiki-content ul.wiki-page-list .page-category-title .fa-caret-right,
 .layout-content-container .wiki-content ul.wiki-page-list .page-title .fa-caret-right {
   margin: 0 8px 0 7px;
 }
 .layout-content-container .wiki-content ul.wiki-page-list ul.wiki-page-list {
   padding-left: 0;
-  min-height: 10px;
+  min-height: 2px;
 }
 .layout-content-container .wiki-content ul.wiki-page-history {
   list-style: none;
@@ -367,6 +354,9 @@
 #category_list_view.wiki-page-list > li > div > .page-title-text {
   font-weight: 600;
 }
+#category_list_view .wiki-page-current-droppable {
+  background: #fffbf7;
+}
 .wiki-page-sidebar {
   padding-right: 0;
   position: relative;
@@ -376,7 +366,6 @@
   margin-left: -14px;
   margin-right: -14px;
 }
-.wiki-page-sidebar #category_list_view.wiki-page-list .page-category-title,
 .wiki-page-sidebar #category_list_view.wiki-page-list .page-title {
   padding-left: 12px;
   padding-right: 5px;
@@ -413,7 +402,6 @@
 .wiki-page-sidebar .wiki-page-content-header .wiki-search-form {
   margin: 0 0 0 5px;
 }
-.wiki-page-sidebar .wiki-content ul.wiki-page-list .page-category-title:hover,
 .wiki-page-sidebar .wiki-content ul.wiki-page-list .page-title:hover {
   border-radius: 0;
 }
@@ -431,7 +419,6 @@
     margin-left: 0;
     margin-right: 0;
   }
-  .wiki-page-sidebar #category_list_view.wiki-page-list .page-category-title:hover,
   .wiki-page-sidebar #category_list_view.wiki-page-list .page-title:hover {
     border-radius: 4px;
   }

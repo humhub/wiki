@@ -74,7 +74,7 @@ class PageListItemTitle extends Widget
     public function getOptions(): array
     {
         $options = [
-            'class' => (!$this->page || $this->page->isCategory) ? 'page-category-title' : 'page-title',
+            'class' => 'page-title',
             'style' => 'padding-left:' . (12 + $this->level * 20) .'px',
         ];
 

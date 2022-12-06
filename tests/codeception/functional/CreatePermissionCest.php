@@ -45,7 +45,7 @@ class CreatePermissionCest extends FunctionalPermissionTest
         $I->loginBySpaceUserGroup(Space::USERGROUP_MEMBER, '/wiki/overview');
 
         $I->seeCategory('Private Wiki');
-        $I->click('Private Wiki', '.page-category-title');
+        $I->click('Private Wiki', '.page-title');
 
         $I->seeInMenu('Index');
         $I->seeInMenu('Page History');
