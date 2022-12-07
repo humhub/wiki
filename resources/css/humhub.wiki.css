@@ -405,6 +405,9 @@
 .wiki-page-sidebar .wiki-content ul.wiki-page-list .page-title:hover {
   border-radius: 0;
 }
+.wiki-page-sidebar .ui-resizable-handle.ui-resizable-e {
+  cursor: ew-resize;
+}
 @media (max-width: 1199px) {
   .wiki-page-sidebar {
     padding-right: 15px;
