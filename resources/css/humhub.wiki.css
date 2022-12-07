@@ -334,9 +334,13 @@
   max-width: 168px;
 }
 .wiki-search-form input[name=keyword] {
+  background: #F3F3F3;
+  font-size: 13px;
+  border: none;
+  color: #AEAEAE;
   padding-left: 26px;
-  height: 31px;
-  min-height: 31px;
+  height: 36px;
+  min-height: 36px;
 }
 .wiki-search-form button[type=submit] {
   position: absolute;
@@ -349,13 +353,20 @@
   box-shadow: none;
 }
 .wiki-search-form button[type=submit] i.fa {
-  color: #D7D7D7 !important;
+  color: #7A7A7A !important;
+  margin-top: 6px;
 }
 #category_list_view.wiki-page-list > li > div > .page-title-text {
   font-weight: 600;
 }
 #category_list_view .wiki-page-current-droppable {
   background: #fffbf7;
+}
+#category_list_view .drag-icon {
+  visibility: hidden;
+}
+#category_list_view:hover .drag-icon {
+  visibility: visible;
 }
 .wiki-page-sidebar {
   padding-right: 0;
@@ -378,9 +389,8 @@
   border: none;
 }
 .wiki-page-sidebar .wiki-page-content-header h3 {
-  font-size: 12px;
-  font-weight: bold;
-  text-transform: uppercase;
+  font-size: 28px;
+  font-weight: 600;
   color: #000;
   padding: 0;
   margin: 5px 0;
@@ -389,18 +399,24 @@
   font-size: 16px;
   margin: 0;
 }
-.wiki-page-sidebar .wiki-page-content-header .btn-sm {
-  padding: 6px 11px;
-  margin: 0 0 4px 4px;
+.wiki-page-sidebar .wiki-page-content-header .btn-add-page {
+  float: left;
+  padding: 4px 6px;
+  margin: 9px 0 0 9px;
+  line-height: 9px;
 }
-.wiki-page-sidebar .wiki-page-content-header .btn-sm:active {
-  padding: 5px 10px;
+.wiki-page-sidebar .wiki-page-content-header .btn-add-page:active {
+  padding: 3px 5px;
 }
 .wiki-page-sidebar .wiki-page-content-header .wiki-page-content-header-actions {
   padding: 0;
 }
-.wiki-page-sidebar .wiki-page-content-header .wiki-search-form {
-  margin: 0 0 0 5px;
+.wiki-page-sidebar .wiki-search-form {
+  margin: 55px 0 15px;
+  display: block;
+  float: none;
+  clear: both;
+  max-width: none;
 }
 .wiki-page-sidebar .wiki-content ul.wiki-page-list .page-title:hover {
   border-radius: 0;
@@ -434,6 +450,7 @@
     font-weight: normal;
     text-transform: none;
     font-size: 12px;
+    margin-right: 16px;
   }
   *.wiki-page-sidebar .wiki-page-content-header h3,
   .wiki-page-sidebar .wiki-page-content-header h3 .fa {
@@ -443,10 +460,14 @@
     padding: 4px 8px;
     margin-top: 4px;
   }
+  .wiki-page-sidebar .wiki-page-content-header .btn-add-page {
+    display: none;
+  }
   .wiki-page-sidebar .wiki-search-form {
     float: left;
+    clear: none;
     max-width: none;
-    margin-left: 34px;
+    margin: 0;
   }
 }
 .wiki-page-list-table .wiki-search-form {

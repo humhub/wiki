@@ -24,12 +24,12 @@ use humhub\widgets\Link;
     <div class="panel-body">
         <?php WikiContent::begin(['cssClass' => 'wiki-page-content']) ?>
         <div class="wiki-page-content-header">
-            <h3><?= Link::to(Yii::t('WikiModule.base', 'Index'), Url::toLastEdited($contentContainer))->icon('home') ?></h3>
+            <h3><?= Link::to(Yii::t('WikiModule.base', 'Wiki'), Url::toLastEdited($contentContainer)) ?></h3>
+            <?= Button::info()->icon('fa-plus')->link(Url::toWikiCreate($contentContainer))->cssClass('btn-add-page')->sm() ?>
             <?= WikiSearchForm::widget(['contentContainer' => $contentContainer]) ?>
             <div class="wiki-page-content-header-actions">
                 <?= Button::info(Yii::t('WikiModule.base', 'Last edited'))->sm()->link(Url::toLastEdited($contentContainer))->cssClass('hidden-lg') ?>
                 <?php if ($canCreate) : ?>
-                    <?= Button::info()->icon('fa-plus')->link(Url::toWikiCreate($contentContainer))->cssClass('visible-lg')->sm() ?>
                     <?= Button::info(Yii::t('WikiModule.base', 'Create page'))->icon('fa-plus')->link(Url::toWikiCreate($contentContainer))->cssClass('hidden-lg')->sm() ?>
                 <?php endif; ?>
             </div>

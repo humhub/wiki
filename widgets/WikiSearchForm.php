@@ -34,7 +34,7 @@ class WikiSearchForm extends Widget
         parent::init();
 
         if (!isset($this->placeholder)) {
-            $this->placeholder = Yii::t('WikiModule.base', 'Search...');
+            $this->placeholder = Yii::t('WikiModule.base', 'Search');
         }
     }
 

@@ -413,9 +413,13 @@
   margin-left: 4px;
   max-width: 168px;
   input[name=keyword] {
+    background: #F3F3F3;
+    font-size: 13px;
+    border: none;
+    color: #AEAEAE;
     padding-left: 26px;
-    height: 31px;
-    min-height: 31px;
+    height: 36px;
+    min-height: 36px;
   }
   button[type=submit] {
     position: absolute;
@@ -427,7 +431,8 @@
       box-shadow: none;
     }
     i.fa {
-      color: #D7D7D7 !important;
+      color: #7A7A7A !important;
+      margin-top: 6px;
     }
   }
 }
@@ -440,6 +445,14 @@
   }
   .wiki-page-current-droppable {
     background: @background-color-warning;
+  }
+  .drag-icon {
+    visibility: hidden;
+  }
+  &:hover {
+    .drag-icon {
+      visibility: visible;
+    }
   }
 }
 
@@ -466,9 +479,8 @@
     padding: 3px 0 0;
     border: none;
     h3 {
-      font-size: 12px;
-      font-weight: bold;
-      text-transform: uppercase;
+      font-size: 28px;
+      font-weight: 600;
       color: #000;
       padding: 0;
       margin: 5px 0;
@@ -477,19 +489,25 @@
         margin: 0;
       }
     }
-    .btn-sm {
-      padding: 6px 11px;
-      margin: 0 0 4px 4px;
+    .btn-add-page {
+      float: left;
+      padding: 4px 6px;
+      margin: 9px 0 0 9px;
+      line-height: 9px;
       &:active {
-        padding: 5px 10px;
+        padding: 3px 5px;
       }
     }
     .wiki-page-content-header-actions {
       padding: 0;
     }
-    .wiki-search-form {
-      margin: 0 0 0 5px;
-    }
+  }
+  .wiki-search-form {
+    margin: 55px 0 15px;
+    display: block;
+    float: none;
+    clear: both;
+    max-width: none;
   }
 
   .wiki-content ul.wiki-page-list {
@@ -527,6 +545,7 @@
         font-weight: normal;
         text-transform: none;
         font-size: 12px;
+        margin-right: 16px;
         *&, .fa {
           font-size: 20px;
         }
@@ -535,11 +554,15 @@
         padding: 4px 8px;
         margin-top: 4px;
       }
+      .btn-add-page {
+        display: none;
+      }
     }
     .wiki-search-form {
       float: left;
+      clear: none;
       max-width: none;
-      margin-left: 34px;
+      margin: 0;
     }
   }
 }

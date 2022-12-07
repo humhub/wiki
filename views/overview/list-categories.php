@@ -33,7 +33,7 @@ if (Helper::isEnterpriseTheme()) {
         <div class="row">
             <?php WikiContent::begin(['cssClass' => 'wiki-page-content']) ?>
             <div class="wiki-page-content-header">
-                <h3><?= Icon::get('home') . Yii::t('WikiModule.base', 'Index') ?></h3>
+                <h3><?= Yii::t('WikiModule.base', 'Wiki') ?></h3>
                 <?= WikiSearchForm::widget(['contentContainer' => $contentContainer, 'cssClass' => 'pull-left']) ?>
                 <div class="wiki-page-content-header-actions">
                     <?= Button::info(Yii::t('WikiModule.base', 'Last edited'))->sm()->link(Url::toLastEdited($contentContainer))->cssClass(Helper::isEnterpriseTheme() ? 'hidden-lg' : '') ?>
