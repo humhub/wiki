@@ -176,17 +176,6 @@
       color: #ec4332 !important;
     }
 
-    .page-title.editable {
-      cursor: pointer;
-      .fa-pencil {
-        margin-left:5px;
-      }
-    }
-
-    .page-title.editable:hover {
-      background-color: #fff8e0;
-    }
-
     .social-controls, .social-controls a {
       font-size: 11px;
       color: #AEAEAE;
@@ -210,14 +199,24 @@
         padding-bottom:6px;
       }
 
-      .page-title {
-        .wiki-edit {
-          padding-left:5px;
+      .wiki-list-item-selected {
+        background: fade(@info, 12%);
+        > .page-title {
+          background: fade(@info, 5%);
         }
-        .fa {
-          font-size: 14px;
-        }
+      }
 
+      .page-title {
+        padding-top: 4px;
+        padding-bottom: 4px;
+        border: 1px solid transparent;
+        &:hover {
+          border-color: @info;
+          border-radius: 4px;
+          .wiki-category-add {
+            display: inline-block;
+          }
+        }
         .wiki-page-control {
           color: #999999;
           &.wiki-category-add {
@@ -225,32 +224,22 @@
             margin-left: 8px;
           }
         }
-      }
-
-      .page-title {
-        padding-top: 5px;
-        padding-bottom: 5px;
         .wiki-category-add {
           display: none;
         }
-        &:hover {
-          background: #F7F7F7;
-          border-radius: 4px;
-          .wiki-category-add {
-            display: inline-block;
-          }
-        }
-        &.page-current {
-          a.page-title-text {
-            font-weight: 600;
-            color: @info;
-          }
+        .fa {
+          font-size: 14px;
         }
         .fa-caret-down {
           margin: 0 6px;
         }
         .fa-caret-right {
            margin: 0 8px 0 7px;
+        }
+        .fa-file-text-o {
+          font-size: 11px;
+          color: #AEAEAE;
+          margin: 0 5px;
         }
       }
 
@@ -448,6 +437,10 @@
   }
   .drag-icon {
     visibility: hidden;
+    color: #AEAEAE;
+    .fa {
+      font-size: 11px;
+    }
   }
   &:hover {
     .drag-icon {

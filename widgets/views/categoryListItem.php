@@ -1,6 +1,7 @@
 <?php
 
 use humhub\modules\content\components\ContentContainerActiveRecord;
+use humhub\modules\wiki\helpers\Helper;
 use humhub\modules\wiki\models\WikiPage;
 use humhub\modules\wiki\widgets\CategoryListView;
 use humhub\modules\wiki\widgets\PageListItemTitle;
@@ -16,7 +17,7 @@ use humhub\modules\wiki\widgets\PageListItemTitle;
 /* @var $level int */
 ?>
 
-<li class="wiki-category-list-item"<?php if ($category) : ?> data-page-id="<?= $category->id ?>"<?php endif; ?>>
+<li class="wiki-category-list-item<?= Helper::isCurrentPage($category) ? ' wiki-list-item-selected' : '' ?>"<?php if ($category) : ?> data-page-id="<?= $category->id ?>"<?php endif; ?>>
     <?php if (!$hideTitle) : ?>
         <?= PageListItemTitle::widget([
             'page' => $category,
@@ -29,7 +30,7 @@ use humhub\modules\wiki\widgets\PageListItemTitle;
     <?php endif; ?>
     <ul class="wiki-page-list"<?php if ($category && $category->isFolded()) : ?> style="display:none"<?php endif; ?>>
         <?php foreach ($pages as $page) : ?>
-            <li class="wiki-category-list-item" data-page-id="<?= $page->id ?>">
+            <li class="wiki-category-list-item<?= Helper::isCurrentPage($page) ? ' wiki-list-item-selected' : '' ?>" data-page-id="<?= $page->id ?>">
                 <?= PageListItemTitle::widget([
                     'page' => $page,
                     'showDrag' => $showDrag,
