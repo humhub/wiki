@@ -155,10 +155,6 @@
       ul.wiki-page-list {
         margin-bottom: 0;
         padding-left: 2px;
-        .ui-sortable-helper {
-          background: #dd8888;
-          border: 1px solid #F00;
-        }
       }
     }
   }
@@ -433,7 +429,10 @@
     }
   }
   .wiki-page-current-droppable {
-    background: @background-color-warning;
+    border-color: @info;
+  }
+  .ui-sortable-drop-area {
+    border-top: 1px solid #000;
   }
   .drag-icon {
     visibility: hidden;

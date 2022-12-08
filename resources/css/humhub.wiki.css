@@ -124,10 +124,6 @@
   margin-bottom: 0;
   padding-left: 2px;
 }
-.layout-content-container .wiki-page-content .wiki-sub-pages ul.wiki-page-list .ui-sortable-helper {
-  background: #dd8888;
-  border: 1px solid #F00;
-}
 .layout-content-container .wiki-content .wiki-content-info {
   margin-top: 5px;
 }
@@ -356,7 +352,10 @@
   font-weight: 600;
 }
 #category_list_view .wiki-page-current-droppable {
-  background: #fffbf7;
+  border-color: #21A1B3;
+}
+#category_list_view .ui-sortable-drop-area {
+  border-top: 1px solid #000;
 }
 #category_list_view .drag-icon {
   visibility: hidden;

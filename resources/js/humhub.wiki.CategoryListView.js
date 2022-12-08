@@ -34,6 +34,7 @@ humhub.module('wiki.CategoryListView', function(module, require, $) {
             connectWith: '.wiki-page-list',
             items: '[data-page-id]',
             helper: 'clone',
+            placeholder: 'ui-sortable-drop-area',
             over: $.proxy(this.overList, this),
             out: $.proxy(this.outList, this),
             receive: $.proxy(this.beforeDropItem, this),
@@ -45,6 +46,7 @@ humhub.module('wiki.CategoryListView', function(module, require, $) {
             handle: '.drag-icon',
             connectWith: '.wiki-page-list',
             helper: 'clone',
+            placeholder: 'ui-sortable-drop-area',
             over: $.proxy(this.overList, this),
             out: $.proxy(this.outList, this),
             receive: $.proxy(this.beforeDropItem, this),
@@ -53,10 +55,11 @@ humhub.module('wiki.CategoryListView', function(module, require, $) {
     };
 
     CategoryListView.prototype.overList = function (event, ui) {
+        $('.wiki-page-current-droppable').removeClass('wiki-page-current-droppable');
         ui.placeholder.closest('.wiki-page-list').prev('div').addClass('wiki-page-current-droppable');
     }
     CategoryListView.prototype.outList = function (event, ui) {
-        ui.placeholder.closest('.wiki-page-list').prev('div').removeClass('wiki-page-current-droppable');
+        $('.wiki-page-current-droppable').removeClass('wiki-page-current-droppable');
     }
 
     CategoryListView.prototype.beforeDropItem = function (event, ui) {
