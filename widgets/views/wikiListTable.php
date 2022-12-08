@@ -30,18 +30,10 @@ use yii\data\ActiveDataProvider;
             'value' => function (WikiPage $model) {
                 return Html::tag('strong', Link::to($model->title, Url::toWiki($model)), ['class' => 'wiki-page-list-row-title'])
                     . '<div class="wiki-page-list-row-details">'
-                    . TimeAgo::widget(['timestamp' => $model->content->created_at])
-                    . ' &middot; ' . Yii::t('WikiModule.base', 'Created by {author}', ['author' => Html::containerLink($model->content->createdBy)])
+                    . TimeAgo::widget(['timestamp' => $model->content->updated_at])
+                    . ' &middot; ' . Html::containerLink($model->content->updatedBy)
                     . ' &middot; ' . Link::to(Yii::t('WikiModule.base', 'show changes'), Url::toWikiHistory($model))
                     . '</div>';
-            }
-        ],
-        [
-            'attribute' => 'updated_by',
-            'options' => ['width' => '50px'],
-            'format' => 'raw',
-            'value' => function (WikiPage $model) {
-                return Image::widget(['user' => $model->content->updatedBy, 'width' => 24, 'showTooltip' => true]);
             }
         ],
     ],

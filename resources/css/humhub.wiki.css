@@ -489,9 +489,6 @@
   font-size: 16px;
   font-weight: 600;
 }
-.wiki-page-list-table .table-responsive table tr:hover .wiki-page-list-row-title a {
-  color: #21A1B3;
-}
 .wiki-page-list-table .table-responsive table td {
   font-size: 14px;
   border: none;
@@ -504,11 +501,10 @@
   border-radius: 0 4px 4px 0;
 }
 *.wiki-page-list-table .table-responsive table .wiki-page-list-row-details,
+.wiki-page-list-table .table-responsive table .wiki-page-list-row-details a,
 .wiki-page-list-table .table-responsive table .wiki-page-list-row-details .time {
-  font-size: 13px;
-}
-.wiki-page-list-table .table-responsive table .wiki-page-list-row-details a {
-  color: #21A1B3;
+  color: #7A7A7A;
+  font-size: 12px;
 }
 .wiki-page-list-table .table-responsive .pagination > .active > a,
 .wiki-page-list-table .table-responsive .pagination > .active > span,
