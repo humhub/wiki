@@ -35,7 +35,7 @@
   .wiki-page-path {
     float: left;
     font-size: 13px;
-    font-weight: bold;
+    font-weight: 600;
     color: #000;
     .fa {
       font-size: 18px;
@@ -160,6 +160,13 @@
         }
       }
     }
+
+    .wiki-page-list-row-details {
+      *&, a, .time {
+        color: #7A7A7A;
+        font-size: 12px;
+      }
+    }
   }
 
   .wiki-content {
@@ -250,6 +257,7 @@
 
     ul.wiki-page-history {
       list-style: none;
+      margin-top: 40px;
       margin-left: 22px;
       padding-left: 0;
       border-left: 1px dashed #AEAEAE;
@@ -262,6 +270,7 @@
       li {
         padding: 20px 18px;
         position: relative;
+        top: -38px;
 
         h4.media-heading {
           font-size: 16px;
@@ -595,13 +604,6 @@
 
         &:last-child {
           border-radius: 0 4px 4px 0;
-        }
-      }
-
-      .wiki-page-list-row-details {
-        *&, a, .time {
-          color: #7A7A7A;
-          font-size: 12px;
         }
       }
     }

@@ -10,6 +10,7 @@ use humhub\widgets\Button;
 use humhub\widgets\Link;
 use humhub\widgets\LinkPager;
 use humhub\modules\wiki\widgets\WikiMenu;
+use humhub\widgets\TimeAgo;
 use yii\helpers\Html;
 
 /* @var $this View */
@@ -51,22 +52,20 @@ if ($isEnabledDiffTool) {
                     <?php $first = true; ?>
                     <?php foreach ($revisions as $revision): ?>
                         <li>
-                            <div class="media <?= ($first && $pagination->page == 0) ? 'alert alert-warning' : '' ?>">
+                            <div class="media">
                                 <div class="horizontal-line"><?= $isEnabledDiffTool ? Html::input('radio', 'revision_' . $revision->revision, $revision->revision) : ''; ?></div>
-
-                                <?= Image::widget(['user' => $revision->author, 'showTooltip' => true, 'width' => 24, 'htmlOptions' => ['class' => 'pull-right'] ]) ?>
 
                                 <div class="media-body">
                                     <h4 class="media-heading">
                                         <a href="<?= $contentContainer->createUrl('view', ['title' => $page->title, 'revision' => $revision->revision]); ?>">
                                             <?= Html::encode($page->title); ?>
-                                        </a><br>
-                                        <h5>
-                                            <?= Yii::$app->formatter->asDateTime($revision->revision) ?>
-                                            &middot; <?= Yii::t('WikiModule.base', 'Created by {author}', ['author' => \humhub\libs\Html::containerLink($page->content->createdBy, ['class' => 'colorInfo'])]) ?>
-                                            &middot; <?= Link::to(Yii::t('WikiModule.base', 'show changes'), Url::toWiki($page, $revision))->cssClass('wiki-page-view-link colorInfo') ?>
-                                        </h5>
+                                        </a>
                                     </h4>
+                                    <div class="wiki-page-list-row-details">
+                                        <?= TimeAgo::widget(['timestamp' => $revision->revision]) ?>
+                                        &middot; <?= \humhub\libs\Html::containerLink($revision->author) ?>
+                                        &middot; <?= Link::to(Yii::t('WikiModule.base', 'show changes'), Url::toWiki($page, $revision))->cssClass('wiki-page-view-link') ?>
+                                    </div>
 
                                 </div>
 

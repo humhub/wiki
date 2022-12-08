@@ -6,7 +6,6 @@
  */
 
 use humhub\libs\Html;
-use humhub\modules\user\widgets\Image;
 use humhub\modules\wiki\helpers\Url;
 use humhub\modules\wiki\models\WikiPage;
 use humhub\widgets\GridView;

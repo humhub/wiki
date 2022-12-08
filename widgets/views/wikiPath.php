@@ -13,7 +13,7 @@ use humhub\widgets\Link;
 /* @var $path WikiPage[] */
 ?>
 <div class="wiki-page-path">
-    <?= Link::to(Yii::t('WikiModule.base', 'Index'), Url::toHome($page->content->container))->icon('home')->id('wiki_index') ?>
+    <?= Link::to('', Url::toHome($page->content->container))->icon('home')->id('wiki_index') ?>
     <?php foreach ($path as $categoryPage) : ?>
         / <?= Link::to($categoryPage->title, Url::toWiki($categoryPage)) ?>
     <?php endforeach; ?>
