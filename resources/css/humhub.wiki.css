@@ -124,6 +124,9 @@
   margin-bottom: 0;
   padding-left: 2px;
 }
+.layout-content-container .wiki-page-content .wiki-sub-pages ul.wiki-page-list .page-title:hover {
+  border-color: transparent;
+}
 .layout-content-container .wiki-content .wiki-content-info {
   margin-top: 5px;
 }
