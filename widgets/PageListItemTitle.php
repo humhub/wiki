@@ -75,7 +75,7 @@ class PageListItemTitle extends Widget
     {
         $options = [
             'class' => 'page-title',
-            'style' => 'padding-left:' . (12 + $this->level * 20) .'px',
+            'style' => 'padding-left:' . (12 + $this->level * 40) .'px',
         ];
 
         if (Helper::isCurrentPage($this->page)) {

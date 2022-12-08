@@ -332,7 +332,7 @@ humhub.module('wiki.CategoryListView', function(module, require, $) {
 
     CategoryListView.prototype.indent = {
         default: 12,
-        level: 20,
+        level: 40,
     };
 
     CategoryListView.prototype.init = function() {
