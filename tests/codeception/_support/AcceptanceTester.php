@@ -119,7 +119,7 @@ class AcceptanceTester extends \AcceptanceTester
         $this->waitForElementVisible('#wiki-page-edit');
         $this->jsShow('.form-collapsible-fields.closed fieldset');
         $this->click('[for="wikipage-is_home"]');
-        $this->click('Save');
+        $this->click('Save', '#wiki-page-edit form');
         $this->seeSuccess();
 
         $this->waitForElementVisible('.wiki-menu');
@@ -166,7 +166,7 @@ class AcceptanceTester extends \AcceptanceTester
         $this->click('Edit');
         $this->waitForElementVisible('#wiki-page-edit');
         $this->fillField('#wikipagerevision-content .humhub-ui-richtext', '# My Sub Page Updated!');
-        $this->click('Save');
+        $this->click('Save', '#wiki-page-edit form');
         $this->seeSuccess();
 
         $this->jsClick('.wiki-menu .dropdown-toggle');
@@ -208,7 +208,7 @@ class AcceptanceTester extends \AcceptanceTester
         $this->fillField('#wikipagerevision-content .humhub-ui-richtext', "# My First Wiki {$type} Public Page!");
         $this->jsShow('.form-collapsible-fields.closed fieldset');
         $this->jsClick('#pageeditform-ispublic');
-        $this->click('Save');
+        $this->click('Save', '#wiki-page-edit form');
         $this->seeSuccess();
 
         $this->waitForElementVisible('.wiki-page-content');
@@ -228,7 +228,7 @@ class AcceptanceTester extends \AcceptanceTester
         $this->waitForText('Create new page', 30);
         $this->fillField('#wikipage-title', "First Private {$type} Wiki Page");
         $this->fillField('#wikipagerevision-content .humhub-ui-richtext', "# My First Wiki {$type} Private Page!");
-        $this->click('Save');
+        $this->click('Save', '#wiki-page-edit form');
         $this->seeSuccess();
 
         $this->waitForElementVisible('.wiki-page-content');
@@ -274,7 +274,7 @@ class AcceptanceTester extends \AcceptanceTester
         $this->jsShow('.form-collapsible-fields.closed fieldset');
         $this->click('[for="wikipage-is_container_menu"]');
         $this->fillField('#wikipage-container_menu_order', 100);
-        $this->click('Save');
+        $this->click('Save', '#wiki-page-edit form');
 
         $this->waitForText($wikiPageTitle, 10, $sidebarSelector);
     }
