@@ -209,7 +209,6 @@
 }
 .layout-content-container .wiki-content ul.wiki-page-history {
   list-style: none;
-  margin-top: 40px;
   margin-left: 22px;
   padding-left: 0;
   border-left: 1px dashed #AEAEAE;
@@ -220,7 +219,16 @@
 .layout-content-container .wiki-content ul.wiki-page-history li {
   padding: 20px 18px;
   position: relative;
-  top: -38px;
+}
+.layout-content-container .wiki-content ul.wiki-page-history li:first-child::before {
+  content: '';
+  background: #FFF;
+  display: block;
+  position: absolute;
+  top: 0;
+  left: -1px;
+  width: 1px;
+  height: 38px;
 }
 .layout-content-container .wiki-content ul.wiki-page-history li h4.media-heading {
   font-size: 16px;
