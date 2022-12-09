@@ -42,7 +42,7 @@ class AdministerPermissionCest extends FunctionalPermissionTest
         $I->seeElement('.drag-icon');
         $I->dontSeeCategory('Admin Category');
 
-        $I->sendAjaxPostRequest($space->createUrl('/wiki/page/sort', ['ItemDrop[id]' => 2, 'ItemDrop[targetId]' => 1, 'ItemDrop[index]' => 0]));
+        $I->sendAjaxPostRequest($space->createUrl('/wiki/page/sort'), ['ItemDrop[id]' => 2, 'ItemDrop[targetId]' => 1, 'ItemDrop[index]' => 0]);
         Yii::$app->response->format = Response::FORMAT_HTML;
         $I->amOnSpace($space->guid, '/wiki/overview');
         $I->seeCategory('Admin Category');
@@ -69,17 +69,17 @@ class AdministerPermissionCest extends FunctionalPermissionTest
         $I->seeElement('.drag-icon');
         $I->dontSeeCategory('Pages without category');
 
-        $I->see('Admin Category 1', Locator::firstElement('.page-title'));
-        $I->see('Admin Category 2', Locator::elementAt('.page-title', 2));
+        $I->see('Admin Category 2', Locator::firstElement('.page-title'));
+        $I->see('Admin Category 1', Locator::elementAt('.page-title', 2));
 
-        $I->sendAjaxPostRequest(Url::to(['/wiki/page/sort', 'cguid' => $space->guid]), ['ItemDrop[id]' => 2, 'ItemDrop[targetId]' => 1, 'ItemDrop[index]' => 0]);
+        $I->sendAjaxPostRequest($space->createUrl('/wiki/page/sort'), ['ItemDrop[id]' => 2, 'ItemDrop[targetId]' => 1, 'ItemDrop[index]' => 0]);
 
         Yii::$app->response->format = Response::FORMAT_HTML;
 
         $I->amOnSpace($space->guid, '/wiki/overview');
 
-        $I->see('Admin Category 2', Locator::firstElement('.page-title'));
-        $I->see('Admin Category 1', Locator::elementAt('.page-title', 2));
+        $I->see('Admin Category 1', Locator::firstElement('.page-title'));
+        $I->see('Admin Category 2', Locator::elementAt('.page-title', 2));
         $I->see('Admin Page 1');
     }
 
@@ -96,8 +96,10 @@ class AdministerPermissionCest extends FunctionalPermissionTest
         $I->enableModule($space->guid, 'wiki');
 
         $category1 = $I->createWiki($space, 'Admin Category 1', 'Admin Category content');
-        $I->createWiki($space, 'Admin Category 2', 'Admin Category content');
-        $I->createWiki($space, 'Admin Page 1', 'Admin Page content', ['category' => $category1->id]);
+        $page1 = $I->createWiki($space, 'Admin Page 1', 'Admin Page content', ['category' => $category1->id]);
+
+        $I->dontSeeCategory('Admin Page 1');
+        $I->createWiki($space, 'Admin Category 2', 'Admin Category content', ['category' => $page1->id]);
 
         $I->loginBySpaceUserGroup(Space::USERGROUP_MEMBER, '/wiki/overview');
 
@@ -124,7 +126,9 @@ class AdministerPermissionCest extends FunctionalPermissionTest
         $I->seeElement('.fa-globe');
         $I->see('Changed to category', '.wiki-page-content');
         $I->see('Changed content', '.wiki-page-content');
-        $I->see('There are no pages in this category', '.wiki-page-content');
+
+        $I->click('#wiki_index');
+        $I->seeCategory('Changed to category');
     }
 
     public function testEditProtected(FunctionalTester $I)

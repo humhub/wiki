@@ -127,9 +127,9 @@
 .layout-content-container .wiki-page-content .wiki-sub-pages ul.wiki-page-list .page-title:hover {
   border-color: transparent;
 }
-*.layout-content-container .wiki-page-content .wiki-page-list-row-details,
-.layout-content-container .wiki-page-content .wiki-page-list-row-details a,
-.layout-content-container .wiki-page-content .wiki-page-list-row-details .time {
+*.layout-content-container .wiki-page-list-row-details,
+.layout-content-container .wiki-page-list-row-details a,
+.layout-content-container .wiki-page-list-row-details .time {
   color: #7A7A7A;
   font-size: 12px;
 }
@@ -238,10 +238,6 @@
   margin-bottom: 0;
   color: #000;
   font-size: 13px;
-}
-.layout-content-container .wiki-content ul.wiki-page-history li .time,
-.layout-content-container .wiki-content ul.wiki-page-history li .time a {
-  font-size: 12px;
 }
 .layout-content-container .wiki-content ul.wiki-page-history li .horizontal-line {
   position: absolute;

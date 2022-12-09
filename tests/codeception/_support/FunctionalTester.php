@@ -117,12 +117,12 @@ class FunctionalTester extends \FunctionalTester
 
     public function seeCategory($value)
     {
-        $this->see($value, '.page-title');
+        $this->see($value, '.page-title.page-is-category');
     }
 
     public function dontSeeCategory($value)
     {
-        $this->dontSee($value, '.page-title');
+        $this->dontSee($value, '.page-title.page-is-category');
     }
 
     public function seePageTitle($value)
