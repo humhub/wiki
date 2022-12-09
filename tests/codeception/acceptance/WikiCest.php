@@ -77,7 +77,7 @@ class WikiCest
 
         $I->amOnUser1Profile();
         $I->click('Wiki', '.layout-nav-container');
-        $I->waitForText('Index', null, '.wiki-content');
+        $I->waitForText('Wiki', null, '.wiki-content');
         $I->see('First Public Profile Wiki Page', '.wiki-page-list');
         $I->dontSee('First Private Profile Wiki Page', '.wiki-page-list');
     }
@@ -103,7 +103,7 @@ class WikiCest
 
         $I->amOnSpace(2);
         $I->click('Wiki', '.layout-nav-container');
-        $I->waitForText('Index', null, '.wiki-content');
+        $I->waitForText('Wiki', null, '.wiki-content');
         $I->see('First Public Space Wiki Page', '.wiki-page-list');
         $I->dontSee('First Private Space Wiki Page', '.wiki-page-list');
     }

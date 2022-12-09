@@ -178,7 +178,7 @@ class AcceptanceTester extends \AcceptanceTester
 
         $this->waitForText('Page history', null, '.wiki-content');
 
-        $this->click('show changes', '.wiki-page-history .media:not(.alert)');
+        $this->click('show changes', '.wiki-page-history li:not(:first-child)');
 
         $this->waitForText('Edit', null, '.wiki-menu');
         $this->jsClick('.wiki-menu .dropdown-toggle');
@@ -250,7 +250,7 @@ class AcceptanceTester extends \AcceptanceTester
     {
         $this->waitForElementVisible('#wiki_index');
         $this->click('#wiki_index');
-        $this->waitForText('Index', null, '.wiki-page-content-header h3');
+        $this->waitForText('Wiki', null, '.wiki-page-content-header h3');
     }
 
     /**
@@ -263,7 +263,7 @@ class AcceptanceTester extends \AcceptanceTester
     public function showWikiPageInContainerMenu(string $wikiPageTitle, string $sidebarSelector)
     {
         $this->click('Wiki', '.layout-nav-container');
-        $this->waitForText('Index', 10, '.wiki-page-content');
+        $this->waitForText('Wiki', 10, '.wiki-page-content');
         $this->dontSee($wikiPageTitle, $sidebarSelector);
 
         $this->waitForText($wikiPageTitle);
