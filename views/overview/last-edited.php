@@ -19,7 +19,6 @@ Assets::register($this);
 <div class="panel panel-default wiki-page-list-table">
     <div class="panel-body">
         <?= WikiListHeader::widget([
-            'icon' => 'list-ol',
             'title' => Yii::t('WikiModule.base', 'Last Edited'),
             'contentContainer' => $contentContainer,
         ]) ?>

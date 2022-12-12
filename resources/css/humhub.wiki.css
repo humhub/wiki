@@ -171,6 +171,9 @@
   padding-top: 4px;
   padding-bottom: 4px;
   border: 1px solid transparent;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .layout-content-container .wiki-content ul.wiki-page-list .page-title:hover {
   border-color: #21A1B3;
@@ -393,7 +396,7 @@
 }
 .wiki-page-sidebar #category_list_view.wiki-page-list .page-title {
   padding-left: 12px;
-  padding-right: 5px;
+  padding-right: 12px;
 }
 .wiki-page-sidebar .wiki-page-content {
   padding: 0 4px;
