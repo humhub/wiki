@@ -216,9 +216,12 @@
         padding-top: 4px;
         padding-bottom: 4px;
         border: 1px solid transparent;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
+        display: flex;
+        > div {
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
         &:hover {
           border-color: @info;
           border-radius: 4px;
