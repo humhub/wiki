@@ -263,11 +263,11 @@ class AcceptanceTester extends \AcceptanceTester
     public function showWikiPageInContainerMenu(string $wikiPageTitle, string $sidebarSelector)
     {
         $this->click('Wiki', '.layout-nav-container');
-        $this->waitForText('Wiki', 10, '.wiki-page-content .wiki-page-content-header');
+        $this->waitForText('Wiki', null, '.wiki-page-content .wiki-page-content-header');
         $this->dontSee($wikiPageTitle, $sidebarSelector);
 
-        $this->waitForText($wikiPageTitle);
-        $this->click($wikiPageTitle);
+        $this->waitForText($wikiPageTitle, null, '.wiki-page-content');
+        $this->click($wikiPageTitle, '.wiki-page-content');
         $this->waitForText('Edit', null, '.wiki-menu');
         $this->click('Edit', '.wiki-menu');
         $this->waitForText('Advanced settings');
