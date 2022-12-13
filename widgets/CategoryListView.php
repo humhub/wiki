@@ -100,7 +100,9 @@ class CategoryListView extends JsWidget
     public function getData()
     {
         return [
-            'drop-url' => $this->contentContainer->createUrl('/wiki/page/sort')
+            'drop-url' => $this->contentContainer->createUrl('/wiki/page/sort'),
+            'icon-page' => 'fa fa-file-text-o',
+            'icon-category' => 'fa fa-caret-down',
         ];
     }
 

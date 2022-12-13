@@ -16,9 +16,9 @@ humhub.module('wiki.CategoryListView', function(module, require, $) {
     };
 
     CategoryListView.prototype.init = function() {
-        this.$.find('.fa-caret-down, .fa-caret-right').on('click', function() {
+        this.$.on('click', '.fa-caret-down, .fa-caret-right', function() {
             var $icon = $(this);
-            var $pageList = $icon.parent().siblings('.wiki-page-list');
+            var $pageList = $icon.parent().parent().siblings('.wiki-page-list');
             $pageList.slideToggle('fast', function() {
                 var newIconClass = ($pageList.is(':visible')) ? 'fa-caret-down' : 'fa-caret-right';
                 $icon.removeClass('fa-caret-down fa-caret-right').addClass(newIconClass);
@@ -70,6 +70,33 @@ humhub.module('wiki.CategoryListView', function(module, require, $) {
         ui.item.show().addClass('wiki-current-dropping-page');
     }
 
+    CategoryListView.prototype.updateIcons = function () {
+        var that = this;
+        var iconPageSelector = '.' + that.data('icon-page').replace(' ', '.');
+        var iconCategorySelector = '.' + that.data('icon-category').replace(' ', '.');
+
+        $('.page-title').each(function () {
+            var hasChildren = $(this).next('ul.wiki-page-list').find('li.wiki-category-list-item').length;
+            var isCategory = $(this).hasClass('page-is-category');
+
+            if (hasChildren && !isCategory) {
+                console.log('11111');
+                $(this).addClass('page-is-category');
+                $(this).find(iconPageSelector)
+                    .after('<i class="' + that.data('icon-category') + '"></i>')
+                    .remove();
+            }
+
+            if (!hasChildren && isCategory) {
+                console.log('22222');
+                $(this).removeClass('page-is-category');
+                $(this).find(iconCategorySelector)
+                    .after('<i class="' + that.data('icon-page') + '"></i>')
+                    .remove();
+            }
+        });
+    }
+
     CategoryListView.prototype.beforeDropItem = function (event, ui) {
         var that = this;
         var fixListIndent = function ($item) {
@@ -101,6 +128,7 @@ humhub.module('wiki.CategoryListView', function(module, require, $) {
 
         $item.removeClass('wiki-current-dropping-page');
         this.clearDroppablePlaceholder();
+        this.updateIcons();
 
         client.post(this.options.dropUrl, {data: data}).then(function (response) {
             if (!response.success) {
