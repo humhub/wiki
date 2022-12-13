@@ -165,7 +165,7 @@
   background: rgba(33, 161, 179, 0.12);
 }
 .layout-content-container .wiki-content ul.wiki-page-list .wiki-list-item-selected > .page-title {
-  background: rgba(33, 161, 179, 0.05);
+  background: rgba(33, 161, 179, 0.06);
 }
 .layout-content-container .wiki-content ul.wiki-page-list .page-title {
   padding-top: 4px;
@@ -372,11 +372,20 @@
 #category_list_view.wiki-page-list > li > div > .page-title-text {
   font-weight: 600;
 }
-#category_list_view .wiki-page-current-droppable {
+#category_list_view .wiki-current-target-category {
   border-color: #21A1B3;
 }
+#category_list_view .wiki-current-dropping-page {
+  border: 1px solid rgba(33, 161, 179, 0.12);
+}
+#category_list_view .ui-sortable-helper {
+  visibility: hidden;
+}
+#category_list_view .ui-sortable-helper .fa {
+  display: none;
+}
 #category_list_view .ui-sortable-drop-area {
-  border-top: 1px solid #000;
+  border-top: 0.5px solid #000;
 }
 #category_list_view .drag-icon {
   visibility: hidden;
@@ -387,6 +396,7 @@
 }
 #category_list_view:hover .drag-icon {
   visibility: visible;
+  cursor: move;
 }
 .wiki-page-sidebar {
   padding-right: 0;
@@ -513,10 +523,12 @@
 }
 .wiki-page-list-table .table-responsive table td:first-child {
   padding-left: 32px;
-  border-radius: 4px 0 0 4px;
+  border-top-left-radius: 4px;
+  border-bottom-left-radius: 4px;
 }
 .wiki-page-list-table .table-responsive table td:last-child {
-  border-radius: 0 4px 4px 0;
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 4px;
 }
 .wiki-page-list-table .table-responsive .pagination > .active > a,
 .wiki-page-list-table .table-responsive .pagination > .active > span,

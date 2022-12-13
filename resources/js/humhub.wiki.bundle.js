@@ -354,8 +354,10 @@ humhub.module('wiki.CategoryListView', function(module, require, $) {
         });
 
         this.$.find('.wiki-page-list').add(this.$).sortable({
+            containment : '#category_list_view',
             delay: view.isSmall() ? DELAY_DRAG_SMALL_DEVICES : null,
             handle: '.drag-icon',
+            cursor: 'move',
             connectWith: '.wiki-page-list',
             items: '[data-page-id]',
             helper: 'clone',
@@ -363,6 +365,7 @@ humhub.module('wiki.CategoryListView', function(module, require, $) {
             change: $.proxy(this.changePosition, this),
             over: $.proxy(this.overList, this),
             out: $.proxy(this.clearDroppablePlaceholder, this),
+            start: $.proxy(this.startDropItem, this),
             receive: $.proxy(this.beforeDropItem, this),
             update: $.proxy(this.dropItem, this)
         });
@@ -376,11 +379,15 @@ humhub.module('wiki.CategoryListView', function(module, require, $) {
 
     CategoryListView.prototype.overList = function (event, ui) {
         this.clearDroppablePlaceholder();
-        ui.placeholder.closest('.wiki-page-list').prev('div').addClass('wiki-page-current-droppable');
+        ui.placeholder.closest('.wiki-page-list').prev('div').addClass('wiki-current-target-category');
     }
 
     CategoryListView.prototype.clearDroppablePlaceholder = function () {
-        $('.wiki-page-current-droppable').removeClass('wiki-page-current-droppable');
+        $('.wiki-current-target-category').removeClass('wiki-current-target-category');
+    }
+
+    CategoryListView.prototype.startDropItem = function (event, ui) {
+        ui.item.show().addClass('wiki-current-dropping-page');
     }
 
     CategoryListView.prototype.beforeDropItem = function (event, ui) {
@@ -412,6 +419,7 @@ humhub.module('wiki.CategoryListView', function(module, require, $) {
             'ItemDrop[index]': $item.index()
         };
 
+        $item.removeClass('wiki-current-dropping-page');
         this.clearDroppablePlaceholder();
 
         client.post(this.options.dropUrl, {data: data}).then(function (response) {
