@@ -366,6 +366,7 @@ humhub.module('wiki.CategoryListView', function(module, require, $) {
             over: $.proxy(this.overList, this),
             out: $.proxy(this.clearDroppablePlaceholder, this),
             start: $.proxy(this.startDropItem, this),
+            stop: $.proxy(this.stopDropItem, this),
             receive: $.proxy(this.beforeDropItem, this),
             update: $.proxy(this.dropItem, this)
         });
@@ -390,6 +391,10 @@ humhub.module('wiki.CategoryListView', function(module, require, $) {
         ui.item.show().addClass('wiki-current-dropping-page');
     }
 
+    CategoryListView.prototype.stopDropItem = function (event, ui) {
+        ui.item.removeClass('wiki-current-dropping-page');
+    }
+
     CategoryListView.prototype.updateIcons = function () {
         var that = this;
         var iconPageSelector = '.' + that.data('icon-page').replace(' ', '.');
@@ -400,7 +405,6 @@ humhub.module('wiki.CategoryListView', function(module, require, $) {
             var isCategory = $(this).hasClass('page-is-category');
 
             if (hasChildren && !isCategory) {
-                console.log('11111');
                 $(this).addClass('page-is-category');
                 $(this).find(iconPageSelector)
                     .after('<i class="' + that.data('icon-category') + '"></i>')
@@ -408,7 +412,6 @@ humhub.module('wiki.CategoryListView', function(module, require, $) {
             }
 
             if (!hasChildren && isCategory) {
-                console.log('22222');
                 $(this).removeClass('page-is-category');
                 $(this).find(iconCategorySelector)
                     .after('<i class="' + that.data('icon-page') + '"></i>')

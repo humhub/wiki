@@ -118,8 +118,9 @@ class AcceptanceTester extends \AcceptanceTester
         $this->click('Edit');
         $this->waitForElementVisible('#wiki-page-edit');
         $this->jsShow('.form-collapsible-fields.closed fieldset');
+        $this->waitForElementVisible('[for="wikipage-is_home"]');
         $this->click('[for="wikipage-is_home"]');
-        $this->click('Save', '#wiki-page-edit form');
+        $this->click('Save');
         $this->seeSuccess();
 
         $this->waitForElementVisible('.wiki-menu');
@@ -166,7 +167,7 @@ class AcceptanceTester extends \AcceptanceTester
         $this->click('Edit');
         $this->waitForElementVisible('#wiki-page-edit');
         $this->fillField('#wikipagerevision-content .humhub-ui-richtext', '# My Sub Page Updated!');
-        $this->click('Save', '#wiki-page-edit form');
+        $this->click('Save');
         $this->seeSuccess();
 
         $this->jsClick('.wiki-menu .dropdown-toggle');
