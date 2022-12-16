@@ -13,6 +13,7 @@ use humhub\widgets\TimeAgo;
 /* @var $page WikiPage */
 /* @var $revision WikiPageRevision */
 /* @var $buttons array|string */
+/* @var $displayTitle bool */
 
 if (empty($buttons)) {
     $buttons = WikiMenu::LINK_EDIT;
@@ -27,9 +28,12 @@ if (empty($buttons)) {
         'revision' => $revision ?? null
     ]) ?>
 
-    <div class="wiki-page-title"><?= Html::encode($page->title) ?></div>
+    <?php if (!isset($displayTitle) || $displayTitle) : ?>
+        <div class="wiki-page-title"><?= Html::encode($page->title) ?></div>
+    <?php endif; ?>
 
-    <div class="wiki-content-info clearfix">
+    <div class="clearfix"></div>
+    <div class="wiki-content-info">
         <small>
             <?= Yii::t('WikiModule.base', 'Created by {author}', ['author' => Html::containerLink($page->content->createdBy)]) . ', ' ?>
             <?= Yii::t('WikiModule.base', 'last update {dateTime}', ['dateTime' => TimeAgo::widget(['timestamp' => $page->content->updated_at])]) ?>

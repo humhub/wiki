@@ -50,32 +50,46 @@
   }
 
   .wiki-page-index {
+    max-width: 300px;
     border: 1px solid #eee;
     border-radius: 4px;
-    padding: 0 5px;
-    margin-bottom: 10px;
+    padding: 3px 5px;
+    margin: 30px 0;
     .nav {
       padding: 0;
       margin: 0;
-      > li > a {
-        padding: 6px 15px;
-        .fa {
-          margin-right: 5px;
+      li {
+        margin: 2px 0;
+        a {
+          padding: 3px 15px;
+          color: @info !important;
+          > span {
+            font-weight: 600;
+            color: #000 !important;
+            margin-right: 10px;
+          }
+        }
+        &:first-child a {
+          font-size: 14px;
+          font-weight: 600;
+          color: #000 !important;
         }
       }
     }
 
     .wiki-page-index-section, .wiki-page-index-sub-section {
       white-space: nowrap;
-
       .header-anchor {
         text-overflow: ellipsis;
         overflow:hidden;
+        padding-left: 20px;
       }
     }
 
     .wiki-page-index-sub-section {
-      padding-left:10px;
+      .header-anchor {
+        padding-left: 50px;
+      }
     }
   }
 
@@ -102,6 +116,21 @@
       margin-bottom:10px;
     }
 
+    .wiki-page-title {
+      font-weight: 600;
+      font-size: 22px;
+      margin-top: 30px;
+      color: #000;
+      clear: both;
+      i.fa {
+        margin-right: 4px;
+      }
+    }
+
+    .wiki-page-body {
+      padding: 0 30px 30px;
+    }
+
     .wiki-headline {
       padding-bottom: 20px;
       margin-bottom: 10px;
@@ -109,17 +138,6 @@
 
       .label {
         margin-left:2px;
-      }
-
-      .wiki-page-title {
-        font-weight: 600;
-        font-size: 22px;
-        margin-top: 30px;
-        color: #000;
-        clear: both;
-        i.fa {
-          margin-right: 4px;
-        }
       }
 
       .wiki-page-path, .wiki-content-info {
@@ -650,6 +668,17 @@
   }
   .wiki-right-part:not(.visible-lg) {
     width: 100% !important;
+  }
+}
+
+@media (max-width: @screen-sm) {
+  .layout-content-container {
+    .wiki-page-content {
+      .wiki-page-body {
+        padding-left: 0;
+        padding-right: 0;
+      }
+    }
   }
 }
 
