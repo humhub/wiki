@@ -390,11 +390,17 @@
 #category_list_view.wiki-page-list > li > div > .page-title-text {
   font-weight: 600;
 }
-#category_list_view .wiki-current-target-category {
+#category_list_view .wiki-current-target-category > .page-title {
   border-color: #21A1B3;
 }
+#category_list_view .wiki-current-target-category .page-title:hover {
+  border-color: transparent !important;
+}
+#category_list_view .wiki-current-target-category .page-title:hover .wiki-category-add {
+  display: none;
+}
 #category_list_view .wiki-current-dropping-page {
-  border: 1px solid rgba(33, 161, 179, 0.12);
+  background: rgba(33, 161, 179, 0.12);
 }
 #category_list_view .ui-sortable-helper {
   visibility: hidden;

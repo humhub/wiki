@@ -471,10 +471,18 @@
     }
   }
   .wiki-current-target-category {
-    border-color: @info;
+    > .page-title {
+      border-color: @info;
+    }
+    .page-title:hover {
+      border-color: transparent !important;
+      .wiki-category-add {
+        display: none;
+      }
+    }
   }
   .wiki-current-dropping-page {
-    border: 1px solid fade(@info, 12%);
+    background: fade(@info, 12%);
   }
   .ui-sortable-helper {
     visibility: hidden;

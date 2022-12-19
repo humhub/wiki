@@ -60,7 +60,7 @@ humhub.module('wiki.CategoryListView', function(module, require, $) {
 
     CategoryListView.prototype.overList = function (event, ui) {
         this.clearDroppablePlaceholder();
-        ui.placeholder.closest('.wiki-page-list').prev('div').addClass('wiki-current-target-category');
+        ui.placeholder.closest('.wiki-page-list').parent().addClass('wiki-current-target-category');
     }
 
     CategoryListView.prototype.clearDroppablePlaceholder = function () {
