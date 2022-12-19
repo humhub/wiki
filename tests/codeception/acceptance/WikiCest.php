@@ -119,6 +119,7 @@ class WikiCest
         $I->click('Let\'s go!');
 
         $I->createWikiPages('Space');
+        $I->amOnSpace(2);
 
         $I->showWikiPageInContainerMenu('First Public Space Wiki Page', '#space-main-menu');
         $I->showWikiPageInContainerMenu('First Private Space Wiki Page', '#space-main-menu');
@@ -137,6 +138,7 @@ class WikiCest
         $I->click('Let\'s go!');
 
         $I->createWikiPages('Profile');
+        $I->amOnProfile();
 
         $I->showWikiPageInContainerMenu('First Public Profile Wiki Page', '.profile-content .left-navigation');
         $I->showWikiPageInContainerMenu('First Private Profile Wiki Page', '.profile-content .left-navigation');
