@@ -389,7 +389,7 @@ humhub.module('wiki.CategoryListView', function(module, require, $) {
             over: $.proxy(this.overList, this),
             out: $.proxy(this.clearDroppablePlaceholder, this),
             start: $.proxy(this.startDropItem, this),
-            stop: $.proxy(this.stopDropItem, this),
+            stop: $.proxy(this.clearDroppablePlaceholder, this),
             receive: $.proxy(this.beforeDropItem, this),
             update: $.proxy(this.dropItem, this)
         });
@@ -403,19 +403,18 @@ humhub.module('wiki.CategoryListView', function(module, require, $) {
 
     CategoryListView.prototype.overList = function (event, ui) {
         this.clearDroppablePlaceholder();
-        ui.placeholder.closest('.wiki-page-list').parent().addClass('wiki-current-target-category');
+        ui.placeholder.closest('.wiki-page-list')
+            .parent().addClass('wiki-current-target-category')
+            .parents('.wiki-category-list-item').addClass('wiki-parent-target-category');
     }
 
     CategoryListView.prototype.clearDroppablePlaceholder = function () {
         $('.wiki-current-target-category').removeClass('wiki-current-target-category');
+        $('.wiki-parent-target-category').removeClass('wiki-parent-target-category');
     }
 
     CategoryListView.prototype.startDropItem = function (event, ui) {
         ui.item.show().addClass('wiki-current-dropping-page');
-    }
-
-    CategoryListView.prototype.stopDropItem = function (event, ui) {
-        ui.item.removeClass('wiki-current-dropping-page');
     }
 
     CategoryListView.prototype.updateIcons = function () {

@@ -390,6 +390,10 @@
 #category_list_view.wiki-page-list > li > div > .page-title-text {
   font-weight: 600;
 }
+#category_list_view .wiki-parent-target-category > .page-title {
+  border-top: 1px solid #AEAEAE;
+  border-bottom: 1px solid #AEAEAE;
+}
 #category_list_view .wiki-current-target-category > .page-title {
   border-color: #21A1B3;
 }
