@@ -428,8 +428,39 @@
   }
   .wiki-page-content-header-actions {
     float: right;
+    padding-top: 5px;
     .btn {
       margin-bottom: 4px;
+    }
+  }
+
+  @media (max-width: @screen-small-max) {
+    display: flex;
+    .wiki-search-form {
+      width: 100%;
+      max-width: none;
+      margin-right: 50px !important;
+    }
+
+    .wiki-page-content-header-actions {
+      white-space: nowrap;
+    }
+  }
+
+  @media (max-width: @screen-md - 1) {
+    .wiki-search-form {
+      margin-right: 10px !important;
+    }
+  }
+
+  @media (max-width: @screen-xs - 1) {
+    display: block;
+    .wiki-search-form {
+      width: auto;
+      margin-right: 0 !important;
+    }
+    .wiki-page-content-header-actions {
+      white-space: normal;
     }
   }
 }

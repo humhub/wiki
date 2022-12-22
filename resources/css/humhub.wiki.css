@@ -354,9 +354,40 @@
 }
 .wiki-page-content-header .wiki-page-content-header-actions {
   float: right;
+  padding-top: 5px;
 }
 .wiki-page-content-header .wiki-page-content-header-actions .btn {
   margin-bottom: 4px;
+}
+@media (max-width: 1199px) {
+  .wiki-page-content-header {
+    display: flex;
+  }
+  .wiki-page-content-header .wiki-search-form {
+    width: 100%;
+    max-width: none;
+    margin-right: 50px !important;
+  }
+  .wiki-page-content-header .wiki-page-content-header-actions {
+    white-space: nowrap;
+  }
+}
+@media (max-width: 991px) {
+  .wiki-page-content-header .wiki-search-form {
+    margin-right: 10px !important;
+  }
+}
+@media (max-width: 479px) {
+  .wiki-page-content-header {
+    display: block;
+  }
+  .wiki-page-content-header .wiki-search-form {
+    width: auto;
+    margin-right: 0 !important;
+  }
+  .wiki-page-content-header .wiki-page-content-header-actions {
+    white-space: normal;
+  }
 }
 .wiki-search-form {
   float: right;
