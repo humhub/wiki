@@ -157,6 +157,7 @@
 
     .wiki-category-list-item {
       padding-bottom: 0 !important;
+      position: relative;
     }
 
     .markdown-render {
@@ -215,8 +216,16 @@
 
     ul.wiki-page-list {
       list-style: none;
-      padding-top: 2px;
       padding-left: 0;
+      &.wiki-page-list-droppable-target {
+        height: 15px;
+        bottom: 0;
+        position: absolute;
+        width: 100%;
+        .ui-sortable-drop-area {
+          margin-top: 10px !important;
+        }
+      }
 
       li {
         font-size: 16px;
@@ -506,6 +515,8 @@
     > .page-title {
       border-color: @info;
     }
+  }
+  .wiki-parent-target-category, .wiki-current-target-category {
     .page-title:hover {
       border-color: transparent !important;
       .wiki-category-add {
@@ -523,7 +534,7 @@
     }
   }
   .ui-sortable-drop-area {
-    border-bottom: 0.5px solid #000;
+    border-bottom: 1px solid #000;
     margin-top: -7px;
   }
   .drag-icon {

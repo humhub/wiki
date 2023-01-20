@@ -398,7 +398,7 @@ humhub.module('wiki.CategoryListView', function(module, require, $) {
     CategoryListView.prototype.changePosition = function () {
         var dropArea = $('.ui-sortable-drop-area');
         var parentIndent = parseInt(dropArea.parent().prev('.page-title').css('padding-left'));
-        dropArea.css('margin-left', (parentIndent - this.indent.default) + 'px');
+        dropArea.css('margin-left', (parentIndent + this.indent.level - this.indent.default - 8) + 'px');
     }
 
     CategoryListView.prototype.overList = function (event, ui) {
@@ -416,12 +416,18 @@ humhub.module('wiki.CategoryListView', function(module, require, $) {
     CategoryListView.prototype.startDropItem = function (event, ui) {
         ui.item.show().addClass('wiki-current-dropping-page');
         $('.wiki-list-item-selected').removeClass('wiki-list-item-selected');
+        $('.wiki-page-list').each(function() {
+            if ($(this).find('li').length === 0) {
+                $(this).addClass('wiki-page-list-droppable-target');
+            }
+        });
     }
 
     CategoryListView.prototype.stopDropItem = function (event, ui) {
         this.clearDroppablePlaceholder();
         $('.wiki-current-dropping-page').removeClass('wiki-current-dropping-page');
         $('.wiki-category-list-item .page-current').parent().addClass('wiki-list-item-selected');
+        $('.wiki-page-list-droppable-target').removeClass('wiki-page-list-droppable-target');
     }
 
     CategoryListView.prototype.updateIcons = function () {
@@ -484,7 +490,6 @@ humhub.module('wiki.CategoryListView', function(module, require, $) {
         client.post(this.options.dropUrl, {data: data}).then(function (response) {
             if (!response.success) {
                 $item.closest('.category_list_view, .wiki-page-list').sortable('cancel');
-                module.log.error('', true);
             }
         }).catch(function (e) {
             module.log.error(e, true);
