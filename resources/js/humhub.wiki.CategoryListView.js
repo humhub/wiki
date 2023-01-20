@@ -62,7 +62,7 @@ humhub.module('wiki.CategoryListView', function(module, require, $) {
         this.clearDroppablePlaceholder();
         ui.placeholder.closest('.wiki-page-list')
             .parent().addClass('wiki-current-target-category')
-            .parents('.wiki-category-list-item').addClass('wiki-parent-target-category');
+            .parents('.wiki-category-list-item:eq(0)').addClass('wiki-parent-target-category');
     }
 
     CategoryListView.prototype.clearStyle = function (className) {
