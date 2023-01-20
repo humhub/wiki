@@ -46,7 +46,7 @@ humhub.module('wiki.CategoryListView', function(module, require, $) {
             over: $.proxy(this.overList, this),
             out: $.proxy(this.clearDroppablePlaceholder, this),
             start: $.proxy(this.startDropItem, this),
-            stop: $.proxy(this.clearDroppablePlaceholder, this),
+            stop: $.proxy(this.stopDropItem, this),
             receive: $.proxy(this.beforeDropItem, this),
             update: $.proxy(this.dropItem, this)
         });
@@ -72,6 +72,13 @@ humhub.module('wiki.CategoryListView', function(module, require, $) {
 
     CategoryListView.prototype.startDropItem = function (event, ui) {
         ui.item.show().addClass('wiki-current-dropping-page');
+        $('.wiki-list-item-selected').removeClass('wiki-list-item-selected');
+    }
+
+    CategoryListView.prototype.stopDropItem = function (event, ui) {
+        this.clearDroppablePlaceholder();
+        $('.wiki-current-dropping-page').removeClass('wiki-current-dropping-page');
+        $('.wiki-category-list-item .page-current').parent().addClass('wiki-list-item-selected');
     }
 
     CategoryListView.prototype.updateIcons = function () {
@@ -128,8 +135,7 @@ humhub.module('wiki.CategoryListView', function(module, require, $) {
             'ItemDrop[index]': $item.index()
         };
 
-        $item.removeClass('wiki-current-dropping-page');
-        this.clearDroppablePlaceholder();
+        this.stopDropItem();
         this.updateIcons();
 
         client.post(this.options.dropUrl, {data: data}).then(function (response) {
