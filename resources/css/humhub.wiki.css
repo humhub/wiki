@@ -170,7 +170,7 @@
 }
 .layout-content-container .wiki-content ul.wiki-page-list {
   list-style: none;
-  min-height: 2px;
+  padding-top: 2px;
   padding-left: 0;
 }
 .layout-content-container .wiki-content ul.wiki-page-list li {
@@ -224,10 +224,6 @@
   font-size: 11px;
   color: #AEAEAE;
   margin: 0 5px;
-}
-.layout-content-container .wiki-content ul.wiki-page-list ul.wiki-page-list {
-  padding-left: 0;
-  min-height: 2px;
 }
 .layout-content-container .wiki-content ul.wiki-page-history {
   list-style: none;
@@ -444,7 +440,8 @@
   display: none;
 }
 #category_list_view .ui-sortable-drop-area {
-  border-top: 0.5px solid #000;
+  border-bottom: 0.5px solid #000;
+  margin-top: -7px;
 }
 #category_list_view .drag-icon {
   visibility: hidden;
