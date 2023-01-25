@@ -142,10 +142,14 @@
 .layout-content-container .wiki-page-content .wiki-sub-pages ul.wiki-page-list .page-title:hover {
   border-color: transparent;
 }
-.layout-content-container .wiki-page-content .wiki-sub-pages a {
-  color: #21A1B3;
+.layout-content-container .wiki-page-content .wiki-sub-pages a,
+.layout-content-container .wiki-page-content .wiki-sub-pages span.page-title-info {
   font-size: 13px;
   font-weight: 500;
+  color: #555;
+}
+.layout-content-container .wiki-page-content .wiki-sub-pages a {
+  color: #21A1B3;
 }
 .layout-content-container .wiki-page-content .wiki-sub-pages ul.wiki-page-list {
   padding: 0;

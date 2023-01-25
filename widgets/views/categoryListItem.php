@@ -14,10 +14,12 @@ use humhub\modules\wiki\widgets\PageListItemTitle;
 /* @var $hideTitle bool */
 /* @var $showAddPage bool */
 /* @var $showDrag bool */
+/* @var $showNumFoldedSubpages bool */
 /* @var $level int */
 /* @var $levelIndent int */
+/* @var $maxLevel int */
+/* @var $displaySubPages bool */
 ?>
-
 <li class="wiki-category-list-item<?= Helper::isCurrentPage($category) ? ' wiki-list-item-selected' : '' ?>"<?php if ($category) : ?> data-page-id="<?= $category->id ?>"<?php endif; ?>>
     <?php if (!$hideTitle) : ?>
         <?= PageListItemTitle::widget([
@@ -28,8 +30,10 @@ use humhub\modules\wiki\widgets\PageListItemTitle;
             'icon' => $icon,
             'level' => $level,
             'levelIndent' => $levelIndent,
+            'maxLevel' => $maxLevel
         ]) ?>
     <?php endif; ?>
+    <?php if ($displaySubPages) : ?>
     <ul class="wiki-page-list"<?php if ($category && $category->isFolded()) : ?> style="display:none"<?php endif; ?>>
         <?php foreach ($pages as $page) : ?>
             <li class="wiki-category-list-item<?= Helper::isCurrentPage($page) ? ' wiki-list-item-selected' : '' ?>" data-page-id="<?= $page->id ?>">
@@ -37,8 +41,10 @@ use humhub\modules\wiki\widgets\PageListItemTitle;
                     'page' => $page,
                     'showDrag' => $showDrag,
                     'showAddPage' => $showAddPage,
+                    'showNumFoldedSubpages' => $showNumFoldedSubpages,
                     'level' => $level + 1,
                     'levelIndent' => $levelIndent,
+                    'maxLevel' => $maxLevel
                 ]) ?>
                 <?php if ($page->isCategory) : ?>
                     <?= CategoryListView::widget([
@@ -50,6 +56,7 @@ use humhub\modules\wiki\widgets\PageListItemTitle;
                         'id' => '',
                         'level' => $level + 2,
                         'levelIndent' => $levelIndent,
+                        'maxLevel' => $maxLevel
                     ]) ?>
                 <?php else : ?>
                     <ul class="wiki-page-list"></ul>
@@ -57,4 +64,5 @@ use humhub\modules\wiki\widgets\PageListItemTitle;
             </li>
         <?php endforeach; ?>
     </ul>
+    <?php endif; ?>
 </li>

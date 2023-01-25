@@ -10,6 +10,7 @@ use humhub\modules\wiki\widgets\CategoryListItem;
 /* @var $showDrag bool */
 /* @var $level int */
 /* @var $levelIndent int */
+/* @var $maxLevel int */
 ?>
 <?= Html::beginTag('ul', $options) ?>
     <?php foreach ($categories as $category) : ?>
@@ -21,6 +22,7 @@ use humhub\modules\wiki\widgets\CategoryListItem;
                 'showAddPage' => $showAddPage,
                 'level' => $level,
                 'levelIndent' => $levelIndent,
+                'maxLevel' => $maxLevel
             ]) ?>
         <?php endif; ?>
     <?php endforeach; ?>

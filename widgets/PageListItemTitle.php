@@ -10,6 +10,7 @@ namespace humhub\modules\wiki\widgets;
 use humhub\components\Widget;
 use humhub\modules\wiki\helpers\Helper;
 use humhub\modules\wiki\models\WikiPage;
+use Yii;
 
 class PageListItemTitle extends Widget
 {
@@ -22,6 +23,11 @@ class PageListItemTitle extends Widget
      * @var string
      */
     public $title;
+
+    /**
+     * @var string
+     */
+    public $titleInfo;
 
     public $icon;
     public $iconPage = 'fa-file-text-o';
@@ -39,6 +45,11 @@ class PageListItemTitle extends Widget
     public $showDrag = false;
 
     /**
+     * @var bool
+     */
+    public $showNumFoldedSubpages = false;
+
+    /**
      * @var int Level of the sub-category
      */
     public $level = 0;
@@ -47,6 +58,11 @@ class PageListItemTitle extends Widget
      * @var int Text indent for level of the sub-category
      */
     public $levelIndent = 40;
+
+    /**
+     * @var int|null Max level deep to load sub-pages, null - to load all levels
+     */
+    public $maxLevel;
 
     /**
      * @inheritdoc
@@ -58,15 +74,24 @@ class PageListItemTitle extends Widget
         if ($this->page) {
             $this->title = $this->page->title;
             if ($this->page->isCategory) {
-                $icon = $this->page->isFolded() ? $this->iconCategoryFolded : $this->iconCategoryOpened;
+                $displaySubPages = $this->maxLevel === null || $this->level < $this->maxLevel;
+                $icon = !$displaySubPages || $this->page->isFolded() ? $this->iconCategoryFolded : $this->iconCategoryOpened;
             } else {
                 $icon = $this->iconPage;
             }
         }
 
+        if ($this->titleInfo === null &&
+            $this->showNumFoldedSubpages &&
+            ($this->maxLevel !== null && $this->level === $this->maxLevel) &&
+            ($subpagesCount = $this->page->findChildren()->count())) {
+            $this->titleInfo = Yii::t('WikiModule.base', '({n,plural,=1{+1 subpage}other{+{count} subpages}})', ['n' => $subpagesCount, 'count' => $subpagesCount]);
+        }
+
         return $this->render('pageListItemTitle', [
             'page' => $this->page,
             'title' => $this->title,
+            'titleInfo' => $this->titleInfo,
             'url' => $this->page ? $this->page->getUrl() : null,
             'icon' => $this->icon ?? $icon,
             'showDrag' => $this->showDrag,

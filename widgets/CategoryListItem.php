@@ -60,6 +60,11 @@ class CategoryListItem extends Widget
     public $showDrag;
 
     /**
+     * @var bool
+     */
+    public $showNumFoldedSubpages;
+
+    /**
      * @var bool|null
      */
     private static $canAdminister = null;
@@ -80,10 +85,19 @@ class CategoryListItem extends Widget
     public $levelIndent = 40;
 
     /**
+     * @var int|null Max level deep to load sub-pages, null - to load all levels
+     */
+    public $maxLevel;
+
+    /**
      * @inheritdoc
      */
     public function run()
     {
+        if ($this->maxLevel !== null && $this->level > $this->maxLevel) {
+            return '';
+        }
+
         if ($this->showDrag === null) {
             $this->showDrag = $this->canAdminister();
         }
@@ -104,10 +118,13 @@ class CategoryListItem extends Widget
             'hideTitle' => $this->hideTitle,
             'showAddPage' => $this->showAddPage,
             'showDrag' => $this->showDrag,
+            'showNumFoldedSubpages' => $this->showNumFoldedSubpages,
             'contentContainer' => $this->contentContainer,
             'category' => $this->category,
             'level' => $this->level,
             'levelIndent' => $this->levelIndent,
+            'maxLevel' => $this->maxLevel,
+            'displaySubPages' => $this->maxLevel === null || $this->level < $this->maxLevel
         ]);
     }
 

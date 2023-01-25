@@ -62,6 +62,11 @@ class CategoryListView extends JsWidget
     public $levelIndent = 40;
 
     /**
+     * @var int|null Max level deep to load sub-pages, null - to load all levels
+     */
+    public $maxLevel;
+
+    /**
      * @return string
      * @throws \yii\base\Exception
      */
@@ -70,7 +75,6 @@ class CategoryListView extends JsWidget
         if ($this->parentCategoryId) {
             // Get pages of the requested category
             $categories = WikiPage::findByCategoryId($this->contentContainer, $this->parentCategoryId)->all();
-            $unsortedPages = [];
         } else {
             // Get root categories
             $categories = WikiPage::findCategories($this->contentContainer)
@@ -90,6 +94,7 @@ class CategoryListView extends JsWidget
             'showDrag' => $this->showDrag,
             'level' => $this->level,
             'levelIndent' => $this->levelIndent,
+            'maxLevel' => $this->maxLevel
         ]);
     }
 
