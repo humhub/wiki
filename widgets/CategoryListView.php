@@ -57,6 +57,11 @@ class CategoryListView extends JsWidget
     public $level = 0;
 
     /**
+     * @var int Text indent for level of the sub-category
+     */
+    public $levelIndent = 40;
+
+    /**
      * @return string
      * @throws \yii\base\Exception
      */
@@ -84,6 +89,7 @@ class CategoryListView extends JsWidget
             'showAddPage' => $this->showAddPage,
             'showDrag' => $this->showDrag,
             'level' => $this->level,
+            'levelIndent' => $this->levelIndent,
         ]);
     }
 

@@ -75,6 +75,11 @@ class CategoryListItem extends Widget
     public $level = 0;
 
     /**
+     * @var int Text indent for level of the sub-category
+     */
+    public $levelIndent = 40;
+
+    /**
      * @inheritdoc
      */
     public function run()
@@ -102,6 +107,7 @@ class CategoryListItem extends Widget
             'contentContainer' => $this->contentContainer,
             'category' => $this->category,
             'level' => $this->level,
+            'levelIndent' => $this->levelIndent,
         ]);
     }
 

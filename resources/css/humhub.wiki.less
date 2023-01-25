@@ -165,11 +165,9 @@
     }
 
     .wiki-sub-pages {
-      border-bottom: 1px solid #eee;
-      border-top: 1px dashed #eee;
-      padding: 5px;
-      border-radius:4px;
-      margin-bottom:5px;
+      border: 1px solid #ddd;
+      padding: 15px 0;
+      margin-bottom: 10px;
 
       ul.wiki-page-list {
         margin-bottom: 0;
@@ -177,6 +175,25 @@
         .page-title:hover {
           border-color: transparent;
         }
+      }
+
+      a {
+        color: @info;
+        font-size: 13px;
+        font-weight: 500;
+      }
+      ul.wiki-page-list {
+        padding: 0;
+        .page-title {
+          padding-top: 0;
+          padding-bottom: 0;
+        }
+      }
+      span.page-title-text {
+        display: inline-block;
+        margin-bottom: 10px;
+        color: #000;
+        font-weight: 600;
       }
     }
   }

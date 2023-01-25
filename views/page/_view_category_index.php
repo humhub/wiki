@@ -1,22 +1,20 @@
 <?php
 
+use humhub\modules\wiki\models\WikiPage;
 use humhub\modules\wiki\widgets\CategoryListItem;
 
-/* @var $this \humhub\modules\ui\view\components\View */
-/* @var $page \humhub\modules\wiki\models\WikiPage */
-$pages = $page->findChildren()->all();
+/* @var $page WikiPage */
 ?>
-
 <?php if ($page->isCategory): ?>
-    <div class="wiki-sub-pages" style="background-color:<?= $this->theme->variable('background-color-secondary') ?>">
+    <div class="wiki-sub-pages">
         <ul class="wiki-page-list">
             <?= CategoryListItem::widget([
-                'title' => Yii::t('WikiModule.base', 'Pages in this category'),
-                'pages' => $pages,
+                'title' => $page->title,
+                'pages' => $page->findChildren()->all(),
                 'showDrag' => false,
                 'showAddPage' => false,
                 'contentContainer' => $page->content->container,
-                'icon' => 'fa-list-ol'
+                'levelIndent' => 20,
             ])?>
         </ul>
     </div>

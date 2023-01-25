@@ -15,6 +15,7 @@ use humhub\modules\wiki\widgets\PageListItemTitle;
 /* @var $showAddPage bool */
 /* @var $showDrag bool */
 /* @var $level int */
+/* @var $levelIndent int */
 ?>
 
 <li class="wiki-category-list-item<?= Helper::isCurrentPage($category) ? ' wiki-list-item-selected' : '' ?>"<?php if ($category) : ?> data-page-id="<?= $category->id ?>"<?php endif; ?>>
@@ -26,6 +27,7 @@ use humhub\modules\wiki\widgets\PageListItemTitle;
             'title' => $title,
             'icon' => $icon,
             'level' => $level,
+            'levelIndent' => $levelIndent,
         ]) ?>
     <?php endif; ?>
     <ul class="wiki-page-list"<?php if ($category && $category->isFolded()) : ?> style="display:none"<?php endif; ?>>
@@ -36,6 +38,7 @@ use humhub\modules\wiki\widgets\PageListItemTitle;
                     'showDrag' => $showDrag,
                     'showAddPage' => $showAddPage,
                     'level' => $level + 1,
+                    'levelIndent' => $levelIndent,
                 ]) ?>
                 <?php if ($page->isCategory) : ?>
                     <?= CategoryListView::widget([
@@ -46,6 +49,7 @@ use humhub\modules\wiki\widgets\PageListItemTitle;
                         'jsWidget' => '',
                         'id' => '',
                         'level' => $level + 2,
+                        'levelIndent' => $levelIndent,
                     ]) ?>
                 <?php else : ?>
                     <ul class="wiki-page-list"></ul>

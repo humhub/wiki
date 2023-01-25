@@ -44,6 +44,11 @@ class PageListItemTitle extends Widget
     public $level = 0;
 
     /**
+     * @var int Text indent for level of the sub-category
+     */
+    public $levelIndent = 40;
+
+    /**
      * @inheritdoc
      */
     public function run()
@@ -75,7 +80,7 @@ class PageListItemTitle extends Widget
     {
         $options = [
             'class' => 'page-title' . ($this->page && $this->page->isCategory ? ' page-is-category' : ''),
-            'style' => 'padding-left:' . (12 + $this->level * 40) .'px',
+            'style' => 'padding-left:' . (12 + $this->level * $this->levelIndent) .'px',
         ];
 
         if (Helper::isCurrentPage($this->page)) {
