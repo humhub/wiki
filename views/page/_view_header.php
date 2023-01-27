@@ -1,12 +1,12 @@
 <?php
 
 use humhub\libs\Html;
+use humhub\modules\ui\icon\widgets\Icon;
 use humhub\modules\wiki\helpers\Url;
 use humhub\modules\wiki\models\WikiPage;
 use humhub\modules\wiki\models\WikiPageRevision;
 use humhub\modules\wiki\widgets\WikiMenu;
 use humhub\modules\wiki\widgets\WikiPath;
-use humhub\widgets\Label;
 use humhub\widgets\Link;
 use humhub\widgets\TimeAgo;
 
@@ -41,15 +41,15 @@ if (empty($buttons)) {
         </small>
 
         <?php if ($page->is_home) : ?>
-            <?= Label::success()->icon('fa-home')->tooltip(Yii::t('ContentModule.widgets_views_label', 'Home')) ?>
+            <?= Icon::get('home')->tooltip(Yii::t('ContentModule.widgets_views_label', 'Home'))->color('success') ?>
         <?php endif; ?>
 
         <?php if ($page->content->isPublic()) : ?>
-            <?= Label::info()->tooltip(Yii::t('ContentModule.widgets_views_label', 'Public'))->icon('fa-globe') ?>
+            <?= Icon::get('globe')->tooltip(Yii::t('ContentModule.widgets_views_label', 'Public'))->color('info') ?>
         <?php endif; ?>
 
         <?php if ($page->admin_only) : ?>
-            <?= Label::defaultType()->icon('fa-lock')->tooltip(Yii::t('ContentModule.widgets_views_label', 'Protected')) ?>
+            <?= Icon::get('lock')->tooltip(Yii::t('ContentModule.widgets_views_label', 'Protected')) ?>
         <?php endif; ?>
     </div>
 </div>
