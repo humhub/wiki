@@ -281,7 +281,7 @@ class PageEditForm extends Model
     {
         return $this->isNewPage()
             ? Yii::t('WikiModule.base', 'Create new page')
-            : Icon::get('edit') . ' ' . Yii::t('WikiModule.base', 'Edit page');
+            : Yii::t('WikiModule.base', 'Edit page');
     }
 
     public function isNewPage()
