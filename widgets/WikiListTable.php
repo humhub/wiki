@@ -7,11 +7,21 @@
 
 namespace humhub\modules\wiki\widgets;
 
-use humhub\components\Widget;
+use humhub\widgets\JsWidget;
 use yii\data\ActiveDataProvider;
 
-class WikiListTable extends Widget
+class WikiListTable extends JsWidget
 {
+    /**
+     * @inheritdoc
+     */
+    public $jsWidget = 'wiki.ListTable';
+
+    /**
+     * @inheritdoc
+     */
+    public $init = true;
+
     /**
      * @var ActiveDataProvider
      */
@@ -24,6 +34,15 @@ class WikiListTable extends Widget
     {
         return $this->render('wikiListTable', [
             'dataProvider' => $this->dataProvider,
+            'options' => $this->getOptions()
         ]);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getAttributes()
+    {
+        return ['class' => 'table-responsive'];
     }
 }

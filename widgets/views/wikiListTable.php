@@ -14,9 +14,9 @@ use humhub\widgets\TimeAgo;
 use yii\data\ActiveDataProvider;
 
 /* @var $dataProvider ActiveDataProvider */
+/* @var $options array */
 ?>
-
-<div class="table-responsive">
+<?= Html::beginTag('div', $options) ?>
 <?= GridView::widget([
     'dataProvider' => $dataProvider,
     'summary' => '',
@@ -37,4 +37,4 @@ use yii\data\ActiveDataProvider;
         ],
     ],
 ]); ?>
-</div>
+<?= Html::endTag('div') ?>

@@ -598,13 +598,25 @@
 .wiki-page-list-table .table-responsive .grid-view .pagination {
   margin-bottom: 0;
 }
+.wiki-page-list-table .table-responsive table a:hover {
+  color: #21A1B3;
+}
 .wiki-page-list-table .table-responsive table .wiki-page-list-row-title {
   font-size: 16px;
   font-weight: 600;
 }
+.wiki-page-list-table .table-responsive table .wiki-page-list-row-title a {
+  display: block;
+}
+.wiki-page-list-table .table-responsive table .wiki-page-list-row-title a:hover {
+  color: #000;
+}
 .wiki-page-list-table .table-responsive table td {
   font-size: 14px;
   border: none;
+}
+.wiki-page-list-table .table-responsive table td:hover {
+  cursor: pointer;
 }
 .wiki-page-list-table .table-responsive table td:first-child {
   padding-left: 12px;
