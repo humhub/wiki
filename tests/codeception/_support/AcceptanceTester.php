@@ -63,7 +63,7 @@ class AcceptanceTester extends \AcceptanceTester
         $this->fillField('#wikipage-title', 'First Test Wiki Category');
         $this->fillField('#wikipagerevision-content .humhub-ui-richtext', '# My First Wiki Category!');
         $this->jsShow('.form-collapsible-fields.closed fieldset');
-        $this->click('Save');
+        $this->click('Save', '#wiki-page-edit form');
 
         $this->waitForElementVisible('.wiki-page-content');
         $this->waitForText('First Test Wiki Category');
@@ -83,7 +83,7 @@ class AcceptanceTester extends \AcceptanceTester
         $this->fillField('#wikipagerevision-content .humhub-ui-richtext', '# My Sub Page!');
         $this->jsShow('.form-collapsible-fields.closed fieldset');
         $this->seeOptionIsSelected('#wikipage-parent_page_id', 'First Test Wiki Category');
-        $this->click('Save');
+        $this->click('Save', '#wiki-page-edit form');
 
         $this->waitForElementVisible('.wiki-page-content');
         $this->waitForText('First Sub Page');
@@ -103,7 +103,7 @@ class AcceptanceTester extends \AcceptanceTester
         $this->fillField('#wikipagerevision-content .humhub-ui-richtext', '# My Second Page!');
         $this->jsShow('.form-collapsible-fields.closed fieldset');
         $this->seeOptionIsSelected('#wikipage-parent_page_id', 'First Test Wiki Category');
-        $this->click('Save');
+        $this->click('Save', '#wiki-page-edit form');
 
         $this->waitForElementVisible('.wiki-page-content');
         $this->toIndex();
@@ -120,7 +120,7 @@ class AcceptanceTester extends \AcceptanceTester
         $this->jsShow('.form-collapsible-fields.closed fieldset');
         $this->waitForElementVisible('[for="wikipage-is_home"]');
         $this->click('[for="wikipage-is_home"]');
-        $this->click('Save');
+        $this->click('Save', '#wiki-page-edit form');
         $this->seeSuccess();
 
         $this->waitForElementVisible('.wiki-menu');
@@ -167,7 +167,7 @@ class AcceptanceTester extends \AcceptanceTester
         $this->click('Edit');
         $this->waitForElementVisible('#wiki-page-edit');
         $this->fillField('#wikipagerevision-content .humhub-ui-richtext', '# My Sub Page Updated!');
-        $this->click('Save');
+        $this->click('Save', '#wiki-page-edit form');
         $this->seeSuccess();
 
         $this->jsClick('.wiki-menu .dropdown-toggle');
