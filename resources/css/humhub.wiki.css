@@ -29,6 +29,7 @@
   font-size: 18px;
 }
 .layout-content-container .wiki-menu {
+  margin-top: 9px;
   float: right;
 }
 .layout-content-container .wiki-menu .btn-group {
