@@ -19,8 +19,7 @@ Assets::register($this);
 <div class="panel panel-default wiki-page-list-table">
     <div class="panel-body">
         <?= WikiListHeader::widget([
-            'icon' => 'search',
-            'title' => Yii::t('WikiModule.base', 'Search'),
+            'title' => Yii::t('WikiModule.base', 'Search results'),
             'contentContainer' => $contentContainer,
         ]) ?>
 
