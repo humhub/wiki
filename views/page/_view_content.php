@@ -1,5 +1,6 @@
 <?php
 
+use humhub\libs\Html;
 use humhub\modules\topic\models\Topic;
 use humhub\modules\topic\widgets\TopicLabel;
 use humhub\modules\wiki\widgets\WikiRichText;
@@ -16,6 +17,8 @@ use humhub\modules\wiki\helpers\Url;
     <?= TopicLabel::forTopic($topic) ?>
 <?php endforeach; ?>
 </div>
+
+<h1 class="wiki-page-title"><?= Html::encode($page->title) ?></h1>
 
 <?php if (!empty($content)) : ?>
     <div class="markdown-render" data-ui-widget="wiki.Page"  data-ui-init="1" style="display:none">

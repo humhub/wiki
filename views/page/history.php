@@ -43,7 +43,7 @@ if ($isEnabledDiffTool) {
                         'buttons' => WikiMenu::LINK_BACK_TO_PAGE,
                         'blocks' => [[WikiMenu::LINK_BACK_TO_PAGE], WikiMenu::BLOCK_START],
                     ]) ?>
-                    <div class="wiki-page-title"><?= Yii::t('WikiModule.base', 'Page history') ?></div>
+                    <div class="wiki-page-title pull-left"><?= Yii::t('WikiModule.base', 'Page history') ?></div>
                     <div class="clearfix"></div>
                 </div>
 

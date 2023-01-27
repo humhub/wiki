@@ -43,7 +43,7 @@ Assets::register($this);
                         'edit' => true
                     ]) ?>
                 <?php endif; ?>
-                <div class="wiki-page-title"><?= $model->getTitle() ?></div>
+                <div class="wiki-page-title pull-left"><?= $model->getTitle() ?></div>
                 <div class="clearfix"></div>
             </div>
 

@@ -20,7 +20,7 @@ use humhub\modules\wiki\models\WikiPageRevision;
 
 Assets::register($this);
 ?>
-<?= $this->render('_view_header', ['page' => $page, 'revision' => $revision]) ?>
+<?= $this->render('_view_header', ['page' => $page, 'revision' => $revision, 'displayTitle' => false]) ?>
 
 <?= $this->render('_view_category_index', ['page' => $page, 'hasContent' => $content !== '']) ?>
 

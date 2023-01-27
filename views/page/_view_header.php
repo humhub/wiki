@@ -22,15 +22,16 @@ if (empty($buttons)) {
 
 <div class="wiki-headline">
     <?= WikiPath::widget(['page' => $page]) ?>
+
+    <?php if (!isset($displayTitle) || $displayTitle) : ?>
+        <div class="wiki-page-title pull-left"><?= Html::encode($page->title) ?></div>
+    <?php endif; ?>
+
     <?= WikiMenu::widget([
         'object' => $page,
         'buttons' => $buttons,
         'revision' => $revision ?? null
     ]) ?>
-
-    <?php if (!isset($displayTitle) || $displayTitle) : ?>
-        <div class="wiki-page-title"><?= Html::encode($page->title) ?></div>
-    <?php endif; ?>
 
     <div class="clearfix"></div>
     <div class="wiki-content-info">

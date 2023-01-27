@@ -18,4 +18,3 @@ use humhub\widgets\Link;
         / <?= $categoryPage instanceof WikiPage ? Link::to($categoryPage->title, Url::toWiki($categoryPage)) : $categoryPage ?>
     <?php endforeach; ?>
 </div>
-<div class="clearfix"></div>

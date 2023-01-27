@@ -94,8 +94,9 @@
 }
 .layout-content-container .wiki-page-content .wiki-page-title {
   font-size: 28px;
+  font-weight: 500;
   color: #000;
-  float: left;
+  clear: both;
 }
 .layout-content-container .wiki-page-content .wiki-page-title i.fa {
   margin-right: 4px;
