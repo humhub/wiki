@@ -44,6 +44,7 @@ Assets::register($this);
                     ]) ?>
                 <?php endif; ?>
                 <div class="wiki-page-title"><?= $model->getTitle() ?></div>
+                <div class="clearfix"></div>
             </div>
 
             <?php $form = ActiveForm::begin(
@@ -126,7 +127,7 @@ Assets::register($this);
 
                 <hr>
 
-                <?= Button::save()->submit() ?>
+                <?= Button::save()->submit()->setType('info')->sm() ?>
             </div>
 
             <?php ActiveForm::end(); ?>

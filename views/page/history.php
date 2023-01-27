@@ -44,6 +44,7 @@ if ($isEnabledDiffTool) {
                         'blocks' => [[WikiMenu::LINK_BACK_TO_PAGE], WikiMenu::BLOCK_START],
                     ]) ?>
                     <div class="wiki-page-title"><?= Yii::t('WikiModule.base', 'Page history') ?></div>
+                    <div class="clearfix"></div>
                 </div>
 
                 <h1 class="wiki-page-history-title"><?= Html::encode($page->title) ?></h1>

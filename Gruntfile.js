@@ -37,17 +37,23 @@ module.exports = function (grunt) {
                     'resources/css/humhub.wiki.css': 'resources/css/humhub.wiki.less'
                 }
             }
-        }
+        },
+        watch: {
+            scripts: {
+                files: ['resources/js/*.js', 'resources/css/*.less'],
+                tasks: ['build'],
+                options: {
+                    spawn: false,
+                },
+            },
+        },
     });
 
-
-
-    //grunt.loadNpmTasks('grunt-contrib-less');
     grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-cssmin');
     grunt.loadNpmTasks('grunt-contrib-less');
-
+    grunt.loadNpmTasks('grunt-contrib-watch');
 
     grunt.registerTask('build', ['concat', 'uglify', 'less', 'cssmin']);
 };
