@@ -81,7 +81,9 @@ if ($isEnabledDiffTool) {
                 </ul>
 
                 <?php if ($isEnabledDiffTool) : ?>
-                    <?= Button::info(Yii::t('WikiModule.base', 'Compare changes'))->sm()->cssClass('wiki-page-history-btn-compare')->action('wiki.History.compare') ?>
+                    <?= Button::primary(Yii::t('WikiModule.base', 'Compare changes'))
+                        ->action('wiki.History.compare')
+                        ->cssClass('wiki-page-history-btn-compare') ?>
                 <?php endif; ?>
 
             <?php WikiContent::end() ?>

@@ -127,7 +127,7 @@ Assets::register($this);
 
                 <hr>
 
-                <?= Button::save()->submit()->setType('info')->sm() ?>
+                <?= Button::save()->submit() ?>
             </div>
 
             <?php ActiveForm::end(); ?>

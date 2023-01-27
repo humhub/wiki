@@ -354,6 +354,7 @@ class WikiMenu extends WallEntryControls
                     'url' => '#',
                     'icon' => 'fa-save',
                     'htmlOptions' => [
+                        'btn-type' => 'primary',
                         'data-action-click' => 'wiki.Form.submit',
                     ],
                 ]);
