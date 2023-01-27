@@ -15,7 +15,7 @@ use humhub\widgets\Link;
 <div class="wiki-page-path">
     <?= Link::to('', Url::toHome($page->content->container))->icon('home')->id('wiki_index') ?>
     <?php foreach ($path as $categoryPage) : ?>
-        / <?= Link::to($categoryPage->title, Url::toWiki($categoryPage)) ?>
+        / <?= $categoryPage instanceof WikiPage ? Link::to($categoryPage->title, Url::toWiki($categoryPage)) : $categoryPage ?>
     <?php endforeach; ?>
 </div>
 <div class="clearfix"></div>

@@ -45,6 +45,17 @@ class WikiPath extends Widget
             $page = $page->categoryPage;
         }
 
+        $pathLength = count($path);
+        if ($pathLength > 3) {
+            foreach ($path as $p => $page) {
+                if ($p > 2 && $p < $pathLength - 1) {
+                    unset($path[$p]);
+                } elseif ($p === 2) {
+                    $path[$p] = '...';
+                }
+            }
+        }
+
         return array_reverse($path);
     }
 }
