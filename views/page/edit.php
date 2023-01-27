@@ -39,7 +39,7 @@ Assets::register($this);
                 <?php if (!$requireConfirmation) : ?>
                     <?= WikiMenu::widget([
                         'object' => $model->page,
-                        'buttons' => WikiMenu::LINK_EDIT_SAVE,
+                        'buttons' => $model->page->isNewRecord ? [] : WikiMenu::LINK_EDIT_SAVE,
                         'edit' => true
                     ]) ?>
                 <?php endif; ?>

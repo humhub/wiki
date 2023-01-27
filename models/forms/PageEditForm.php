@@ -280,7 +280,7 @@ class PageEditForm extends Model
     public function getTitle()
     {
         return $this->isNewPage()
-            ? Icon::get('list-alt') . ' ' . Yii::t('WikiModule.base', 'Create new page')
+            ? Yii::t('WikiModule.base', 'Create new page')
             : Icon::get('edit') . ' ' . Yii::t('WikiModule.base', 'Edit page');
     }
 
