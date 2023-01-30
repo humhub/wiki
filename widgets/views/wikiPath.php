@@ -10,11 +10,13 @@ use humhub\modules\wiki\models\WikiPage;
 use humhub\widgets\Link;
 
 /* @var $page WikiPage */
-/* @var $path WikiPage[] */
+/* @var $path WikiPage[]|string[] */
 ?>
 <div class="wiki-page-path">
     <?= Link::to('', Url::toHome($page->content->container))->icon('home')->id('wiki_index') ?>
     <?php foreach ($path as $categoryPage) : ?>
-        / <?= $categoryPage instanceof WikiPage ? Link::to($categoryPage->title, Url::toWiki($categoryPage)) : $categoryPage ?>
+        / <?= $categoryPage instanceof WikiPage
+            ? Link::to($categoryPage->title, Url::toWiki($categoryPage))
+            : '<span>' . $categoryPage . '</span>' ?>
     <?php endforeach; ?>
 </div>

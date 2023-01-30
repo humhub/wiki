@@ -39,7 +39,26 @@ humhub.module('wiki.Form', function(module, require, $) {
                 }
             });
         }
+
+        this.initFieldTitle();
     };
+
+    Form.prototype.initFieldTitle = function () {
+        const crumb = $('.wiki-page-path').children('a, span').last();
+        if (!crumb.length) {
+            return;
+        }
+        const initTitle = crumb.html();
+
+        this.$.find('#wikipage-title').on('keyup', function () {
+            let title = $(this).val().trim();
+            if (title === '') {
+                title = initTitle;
+            }
+
+            crumb.html(title);
+        });
+    }
 
     Form.prototype.getRichtextMenu = function() {
         if(!this.$menu) {

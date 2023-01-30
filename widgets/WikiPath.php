@@ -9,6 +9,7 @@ namespace humhub\modules\wiki\widgets;
 
 use humhub\components\Widget;
 use humhub\modules\wiki\models\WikiPage;
+use Yii;
 
 class WikiPath extends Widget
 {
@@ -37,9 +38,7 @@ class WikiPath extends Widget
         $path = [];
 
         while ($page) {
-            if (!$page->isNewRecord) {
-                $path[] = $page;
-            }
+            $path[] = $page->isNewRecord ? Yii::t('WikiModule.base', 'New Page') : $page;
             $page = $page->categoryPage;
         }
 
