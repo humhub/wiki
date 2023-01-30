@@ -182,6 +182,7 @@ class PageController extends BaseController
             'contentContainer' => $this->contentContainer,
             'canAdminister' => $this->canAdminister(),
             'requireConfirmation' => $form->hasErrors('confirmOverwriting'),
+            'displayFieldCategory' => !$form->page->isNewRecord || !$form->page->categoryPage
         ];
 
         if ($params['requireConfirmation']) {

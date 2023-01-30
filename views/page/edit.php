@@ -20,6 +20,7 @@ use humhub\modules\topic\widgets\TopicPicker;
 /* @var $model PageEditForm */
 /* @var $contentContainer ContentContainerActiveRecord */
 /* @var $requireConfirmation bool */
+/* @var $displayFieldCategory bool */
 /* @var $diffUrl string */
 /* @var $discardChangesUrl string */
 
@@ -103,9 +104,10 @@ Assets::register($this);
                     'title' => Yii::t('WikiModule.base', 'Overwrite the wiki index start page?'),
                     'disabled' => $model->isDisabledField('is_home')]); ?>
 
-                <?= $form->field($model->page, 'parent_page_id')
-                    ->widget(WikiPagePicker::class, ['model' => $model->page])
-                    ->label(false) ?>
+                <?php $category = $form->field($model->page, 'parent_page_id')->label(false) ?>
+                <?= $displayFieldCategory
+                    ? $category->widget(WikiPagePicker::class, ['model' => $model->page])
+                    : $category->hiddenInput() ?>
 
                 <?= $form->field($model, 'isPublic')->widget(ContentVisibilitySelect::class, [
                     'readonly' => $model->isDisabledField('isPublic')]); ?>
