@@ -22,10 +22,6 @@ class WikiPath extends Widget
      */
     public function run()
     {
-        if ($this->page->isNewRecord) {
-            return '';
-        }
-
         return $this->render('wikiPath', [
             'page' => $this->page,
             'path' => $this->getPagePath(),
@@ -41,7 +37,9 @@ class WikiPath extends Widget
         $path = [];
 
         while ($page) {
-            $path[] = $page;
+            if (!$page->isNewRecord) {
+                $path[] = $page;
+            }
             $page = $page->categoryPage;
         }
 
