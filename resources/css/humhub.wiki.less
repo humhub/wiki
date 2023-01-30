@@ -239,11 +239,12 @@
       padding-left: 0;
       &.wiki-page-list-droppable-target {
         height: 15px;
-        bottom: 0;
+        bottom: 9px;
         position: absolute;
         width: 100%;
         .ui-sortable-drop-area {
           margin-top: 10px !important;
+          border: none !important;
         }
       }
 
@@ -525,15 +526,25 @@
       font-weight: 600;
     }
   }
-  .wiki-parent-target-category {
-    > .page-title {
-      border-top: 1px solid #AEAEAE;
-      border-bottom: 1px solid #AEAEAE;
-    }
-  }
+  // Temp: don't show grey borders around top parent category
+  //       in order to see only blue borders around first parent
+  //.wiki-parent-target-category {
+  //  > .page-title {
+  //    border-top: 1px solid #AEAEAE;
+  //    border-bottom: 1px solid #AEAEAE;
+  //  }
+  //}
   .wiki-current-target-category {
     > .page-title {
       border-color: @info;
+    }
+    > ul.wiki-page-list  > li.ui-sortable-drop-area:first-child {
+      border-color: transparent;
+    }
+  }
+  .ui-sortable-drop-area + .wiki-current-target-category {
+    > .page-title {
+      border-color: transparent;
     }
   }
   .wiki-parent-target-category, .wiki-current-target-category {
@@ -544,8 +555,16 @@
       }
     }
   }
+  .wiki-current-target-category-over {
+    > .page-title:hover {
+      border-color: @info !important;
+    }
+  }
   .wiki-current-dropping-page {
     background: fade(@info, 12%);
+    + .ui-sortable-drop-area {
+      display: none;
+    }
   }
   .ui-sortable-helper {
     visibility: hidden;
@@ -554,8 +573,8 @@
     }
   }
   .ui-sortable-drop-area {
-    border-bottom: 1px solid #000;
-    margin-top: -7px;
+    border-bottom: 2px solid #000;
+    margin-top: -8px;
   }
   .drag-icon {
     visibility: hidden;
@@ -584,6 +603,12 @@
     .page-title {
       padding-left: 12px;
       padding-right: 12px;
+    }
+    &.wiki-page-is-dropping {
+      ul.wiki-page-list:not(.wiki-page-list-droppable-target) {
+        padding-top: 25px;
+        margin-top: -25px;
+      }
     }
   }
 

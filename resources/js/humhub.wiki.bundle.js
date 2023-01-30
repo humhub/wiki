@@ -398,14 +398,17 @@ humhub.module('wiki.CategoryListView', function(module, require, $) {
     CategoryListView.prototype.changePosition = function () {
         var dropArea = $('.ui-sortable-drop-area');
         var parentIndent = parseInt(dropArea.parent().prev('.page-title').css('padding-left'));
-        dropArea.css('margin-left', (parentIndent + this.indent.level - this.indent.default - 8) + 'px');
+        dropArea.css('margin-left', (parentIndent + this.indent.level * 2 - this.indent.default - 8) + 'px');
     }
 
     CategoryListView.prototype.overList = function (event, ui) {
         this.clearDroppablePlaceholder();
-        ui.placeholder.closest('.wiki-page-list')
-            .parent().addClass('wiki-current-target-category')
+        const parent = ui.placeholder.closest('.wiki-page-list').parent();
+        parent.addClass('wiki-current-target-category')
             .parents('.wiki-category-list-item:eq(0)').addClass('wiki-parent-target-category');
+        if (ui.placeholder.index() === 0 && ui.placeholder.parent().children('li').length > 1) {
+            parent.addClass('wiki-current-target-category-over');
+        }
     }
 
     CategoryListView.prototype.clearStyle = function (className) {
@@ -415,12 +418,14 @@ humhub.module('wiki.CategoryListView', function(module, require, $) {
 
     CategoryListView.prototype.clearDroppablePlaceholder = function () {
         return this.clearStyle('wiki-current-target-category')
+            .clearStyle('wiki-current-target-category-over')
             .clearStyle('wiki-parent-target-category');
     }
 
     CategoryListView.prototype.startDropItem = function (event, ui) {
         ui.item.show().addClass('wiki-current-dropping-page');
         this.clearStyle('wiki-list-item-selected');
+        this.$.addClass('wiki-page-is-dropping');
         $('.wiki-page-list').each(function() {
             if ($(this).find('li').length === 0) {
                 $(this).addClass('wiki-page-list-droppable-target');
@@ -431,7 +436,8 @@ humhub.module('wiki.CategoryListView', function(module, require, $) {
     CategoryListView.prototype.stopDropItem = function (event, ui) {
         this.clearDroppablePlaceholder()
             .clearStyle('wiki-current-dropping-page')
-            .clearStyle('wiki-page-list-droppable-target');
+            .clearStyle('wiki-page-list-droppable-target')
+            .clearStyle('wiki-page-is-dropping');
         $('.wiki-category-list-item .page-current').parent().addClass('wiki-list-item-selected');
     }
 
