@@ -64,6 +64,7 @@ class AcceptanceTester extends \AcceptanceTester
         $this->fillField('#wikipagerevision-content .humhub-ui-richtext', '# My First Wiki Category!');
         $this->jsShow('.form-collapsible-fields.closed fieldset');
         $this->click('Save', '#wiki-page-edit form');
+        $this->seeSuccess();
 
         $this->waitForElementVisible('.wiki-page-content');
         $this->waitForText('First Test Wiki Category');
@@ -84,6 +85,7 @@ class AcceptanceTester extends \AcceptanceTester
         $this->jsShow('.form-collapsible-fields.closed fieldset');
         $this->seeOptionIsSelected('#wikipage-parent_page_id', 'First Test Wiki Category');
         $this->click('Save', '#wiki-page-edit form');
+        $this->seeSuccess();
 
         $this->waitForElementVisible('.wiki-page-content');
         $this->waitForText('First Sub Page');
@@ -104,6 +106,7 @@ class AcceptanceTester extends \AcceptanceTester
         $this->jsShow('.form-collapsible-fields.closed fieldset');
         $this->seeOptionIsSelected('#wikipage-parent_page_id', 'First Test Wiki Category');
         $this->click('Save', '#wiki-page-edit form');
+        $this->seeSuccess();
 
         $this->waitForElementVisible('.wiki-page-content');
         $this->toIndex();
