@@ -1,10 +1,8 @@
-@THEME: "../../../../../static/less";
 @BOOTSTRAP: "../../../../../protected/vendor/npm-asset/bootstrap";
-
-@import "@{THEME}/variables.less";
 @import "@{BOOTSTRAP}/less/variables.less";
+@screen-small-max: @screen-lg - 1; // 1199px
 
-@screen-small-max: @screen-lg - 1;
+@info: #21A1B3;
 
 .layout-content-container {
   .wiki-welcome {
@@ -425,7 +423,7 @@
   }
 }
 
-@media (max-width: 767px) {
+@media (max-width: @screen-sm) {
   .wiki-page-content {
     min-height: 220px;
   }

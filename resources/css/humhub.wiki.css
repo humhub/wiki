@@ -352,7 +352,7 @@
 .layout-content-container .wiki-content .back {
   color: #555555;
 }
-@media (max-width: 767px) {
+@media (max-width: 768px) {
   .wiki-page-content {
     min-height: 220px;
   }
