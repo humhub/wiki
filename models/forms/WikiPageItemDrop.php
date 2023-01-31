@@ -13,7 +13,6 @@ use humhub\modules\content\components\ContentContainerActiveRecord;
 use humhub\modules\wiki\models\WikiPage;
 use yii\db\ActiveQuery;
 use yii\db\Expression;
-use yii\web\HttpException;
 
 class WikiPageItemDrop extends ItemDrop
 {
@@ -29,19 +28,20 @@ class WikiPageItemDrop extends ItemDrop
     public $contentContainer;
 
     /**
-     * @return ActiveQuery
-     * @throws HttpException
-     * @throws \yii\base\Exception
+     * @inheritdoc
      */
-    protected function getSortItemsQuery()
+    protected function getSortItemsQuery(): ActiveQuery
     {
-        if ($this->targetId) {
-            return WikiPage::find()->contentContainer($this->contentContainer)
-                ->readable()
-                ->andWhere(['parent_page_id' => $this->targetId]);
-        }
+        $parentFilter = $this->targetId
+            ? [$this->getTableName() . '.parent_page_id' => $this->targetId]
+            : ['IS', $this->getTableName() . '.parent_page_id', new Expression('NULL')];
 
-        return WikiPage::findRootPages($this->contentContainer);
+        return WikiPage::find()
+            ->contentContainer($this->contentContainer)
+            ->readable()
+            ->orderBy($this->getTableName() . '.sort_order')
+            ->andWhere(['!=', $this->getTableName() . '.id', $this->id])
+            ->andWhere($parentFilter);
     }
 
     protected function updateTarget()

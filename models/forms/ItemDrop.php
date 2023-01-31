@@ -87,14 +87,13 @@ abstract class ItemDrop extends Model
 
         try {
             $model = $this->getModel();
-            $tableName = $this->getTableName();
 
             // Load all items to sort and exclude the model we want to resort
-            $itemsToSort = $this->getSortItemsQuery()->andWhere(['!=', $tableName.'.id', $id])->all();
+            $itemsToSort = $this->getSortItemsQuery()->all();
 
             $newIndex = $this->validateIndex($newIndex, $itemsToSort);
 
-            if($this->getSortOrder($model) === $newIndex) {
+            if ($this->getSortOrder($model) === $newIndex) {
                 $transaction->rollBack();
                 return true;
             }
@@ -179,6 +178,6 @@ abstract class ItemDrop extends Model
     /**
      * @return ActiveQuery
      */
-    protected abstract function getSortItemsQuery();
+    protected abstract function getSortItemsQuery(): ActiveQuery;
     protected abstract function updateTarget();
 }

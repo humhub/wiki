@@ -396,18 +396,6 @@ class WikiPage extends ContentActiveRecord implements Searchable
 
     /**
      * @param ContentContainerActiveRecord $container
-     * @return ActiveQueryContent
-     * @throws \yii\base\Exception
-     */
-    public static function findRootPages(ContentContainerActiveRecord $container)
-    {
-        return static::find()->contentContainer($container)
-            ->readable()
-            ->andWhere(['IS NOT', 'wiki_page.parent_page_id', new Expression('NULL')]);
-    }
-
-    /**
-     * @param ContentContainerActiveRecord $container
      * @param int $categoryId
      * @return ActiveQueryContent
      * @throws \yii\base\Exception
