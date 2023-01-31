@@ -450,22 +450,8 @@
 #category_list_view .wiki-current-target-category > .page-title {
   border-color: #21A1B3;
 }
-#category_list_view .wiki-current-target-category > ul.wiki-page-list > li.ui-sortable-drop-area:first-child {
-  border-color: transparent;
-}
 #category_list_view .ui-sortable-drop-area + .wiki-current-target-category > .page-title {
   border-color: transparent;
-}
-#category_list_view .wiki-parent-target-category .page-title:hover,
-#category_list_view .wiki-current-target-category .page-title:hover {
-  border-color: transparent !important;
-}
-#category_list_view .wiki-parent-target-category .page-title:hover .wiki-category-add,
-#category_list_view .wiki-current-target-category .page-title:hover .wiki-category-add {
-  display: none;
-}
-#category_list_view .wiki-current-target-category-over > .page-title:hover {
-  border-color: #21A1B3 !important;
 }
 #category_list_view .wiki-current-dropping-page {
   background: rgba(33, 161, 179, 0.12);
@@ -481,7 +467,8 @@
 }
 #category_list_view .ui-sortable-drop-area {
   border-bottom: 2px solid #000;
-  margin-top: -8px;
+  margin-top: -6px;
+  margin-bottom: -2px;
 }
 #category_list_view .drag-icon {
   visibility: hidden;
@@ -510,6 +497,12 @@
 .wiki-page-sidebar #category_list_view.wiki-page-list.wiki-page-is-dropping ul.wiki-page-list:not(.wiki-page-list-droppable-target) {
   padding-top: 25px;
   margin-top: -25px;
+}
+.wiki-page-sidebar #category_list_view.wiki-page-list.wiki-page-is-dropping li:not(.wiki-current-target-category-over) > .page-title:hover {
+  border-color: transparent !important;
+}
+.wiki-page-sidebar #category_list_view.wiki-page-list.wiki-page-is-dropping .page-title:hover .wiki-category-add {
+  display: none;
 }
 .wiki-page-sidebar .wiki-page-content {
   padding: 0 4px;

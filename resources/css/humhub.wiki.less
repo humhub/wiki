@@ -538,26 +538,10 @@
     > .page-title {
       border-color: @info;
     }
-    > ul.wiki-page-list  > li.ui-sortable-drop-area:first-child {
-      border-color: transparent;
-    }
   }
   .ui-sortable-drop-area + .wiki-current-target-category {
     > .page-title {
       border-color: transparent;
-    }
-  }
-  .wiki-parent-target-category, .wiki-current-target-category {
-    .page-title:hover {
-      border-color: transparent !important;
-      .wiki-category-add {
-        display: none;
-      }
-    }
-  }
-  .wiki-current-target-category-over {
-    > .page-title:hover {
-      border-color: @info !important;
     }
   }
   .wiki-current-dropping-page {
@@ -574,7 +558,8 @@
   }
   .ui-sortable-drop-area {
     border-bottom: 2px solid #000;
-    margin-top: -8px;
+    margin-top: -6px;
+    margin-bottom: -2px;
   }
   .drag-icon {
     visibility: hidden;
@@ -608,6 +593,16 @@
       ul.wiki-page-list:not(.wiki-page-list-droppable-target) {
         padding-top: 25px;
         margin-top: -25px;
+      }
+      li:not(.wiki-current-target-category-over) {
+        > .page-title:hover {
+          border-color: transparent !important;
+        }
+      }
+      .page-title:hover {
+        .wiki-category-add {
+          display: none;
+        }
       }
     }
   }

@@ -34,7 +34,6 @@ humhub.module('wiki.CategoryListView', function(module, require, $) {
         });
 
         this.$.find('.wiki-page-list').add(this.$).sortable({
-            containment : '#category_list_view',
             delay: view.isSmall() ? DELAY_DRAG_SMALL_DEVICES : null,
             handle: '.drag-icon',
             cursor: 'move',
@@ -53,9 +52,11 @@ humhub.module('wiki.CategoryListView', function(module, require, $) {
     };
 
     CategoryListView.prototype.changePosition = function () {
-        var dropArea = $('.ui-sortable-drop-area');
-        var parentIndent = parseInt(dropArea.parent().prev('.page-title').css('padding-left'));
-        dropArea.css('margin-left', (parentIndent + this.indent.level * 2 - this.indent.default - 8) + 'px');
+        const dropArea = $('.ui-sortable-drop-area');
+        const indent = this.$.is(dropArea.parent()) ? 0
+            : parseInt(dropArea.parent().prev('.page-title').css('padding-left'))
+                + this.indent.level * 2 - this.indent.default - 8
+        dropArea.css('margin-left', indent + 'px');
     }
 
     CategoryListView.prototype.overList = function (event, ui) {
