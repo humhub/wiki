@@ -83,7 +83,6 @@ class AcceptanceTester extends \AcceptanceTester
         $this->fillField('#wikipage-title', 'First Sub Page');
         $this->fillField('#wikipagerevision-content .humhub-ui-richtext', '# My Sub Page!');
         $this->jsShow('.form-collapsible-fields.closed fieldset');
-        $this->seeOptionIsSelected('#wikipage-parent_page_id', 'First Test Wiki Category');
         $this->click('Save', '#wiki-page-edit form');
         $this->seeSuccess();
 
@@ -98,13 +97,13 @@ class AcceptanceTester extends \AcceptanceTester
          * CREATE Second SUB PAGE
          */
         $this->amGoingTo('Create my second sub page');
-        $this->jsClick('[data-original-title="Add Page"]');
+        $this->click('Create page');
         $this->waitForText('Create new page', 30);
 
         $this->fillField('#wikipage-title', 'Second Page');
         $this->fillField('#wikipagerevision-content .humhub-ui-richtext', '# My Second Page!');
         $this->jsShow('.form-collapsible-fields.closed fieldset');
-        $this->seeOptionIsSelected('#wikipage-parent_page_id', 'First Test Wiki Category');
+        $this->selectFromPicker('#wikipage-parent_page_id', 'First Test Wiki Category');
         $this->click('Save', '#wiki-page-edit form');
         $this->seeSuccess();
 

@@ -106,7 +106,7 @@ Assets::register($this);
 
                 <?php $category = $form->field($model->page, 'parent_page_id')->label(false) ?>
                 <?= $displayFieldCategory
-                    ? $category->widget(WikiPagePicker::class, ['model' => $model->page])
+                    ? $category->widget(WikiPagePicker::class, ['model' => $model->page, 'maxInput' => 30])
                     : $category->hiddenInput() ?>
 
                 <?= $form->field($model, 'isPublic')->widget(ContentVisibilitySelect::class, [
