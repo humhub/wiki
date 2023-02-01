@@ -82,6 +82,7 @@ humhub.module('wiki.CategoryListView', function(module, require, $) {
 
     CategoryListView.prototype.startDropItem = function (event, ui) {
         ui.item.show().addClass('wiki-current-dropping-page');
+        ui.helper.height(ui.item.children('.page-title').outerHeight());
         this.clearStyle('wiki-list-item-selected');
         this.$.addClass('wiki-page-is-dropping');
         $('.wiki-page-list').each(function() {
