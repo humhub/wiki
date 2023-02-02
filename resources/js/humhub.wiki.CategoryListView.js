@@ -41,6 +41,7 @@ humhub.module('wiki.CategoryListView', function(module, require, $) {
             items: '[data-page-id]',
             helper: 'clone',
             placeholder: 'ui-sortable-drop-area',
+            create: $.proxy(this.fixer, this),
             change: $.proxy(this.changePosition, this),
             over: $.proxy(this.overList, this),
             out: $.proxy(this.clearDroppablePlaceholder, this),
@@ -141,17 +142,42 @@ humhub.module('wiki.CategoryListView', function(module, require, $) {
         fixListIndent(ui.item);
     }
 
+    // Initialize and get a fixer element to help sort item under the last root item when it has children
+    CategoryListView.prototype.fixer = function () {
+        const className = 'wiki-category-list-sort-fixer';
+        let fixer = this.$.children('.' + className);
+        if (fixer.length) {
+            return fixer;
+        }
+
+        fixer = $('<li data-page-id>').addClass(className);
+        this.$.append(fixer);
+
+        return fixer;
+    }
+
+    CategoryListView.prototype.refreshFixer = function () {
+        this.$.append(this.fixer());
+    }
+
     CategoryListView.prototype.dropItem = function (event, ui) {
-        var $item = ui.item;
-        var pageId = $item.data('page-id');
+        const $item = ui.item;
+        const pageId = $item.data('page-id');
 
-        var parent = $item.parents('.wiki-category-list-item').first();
-        var targetId = parent.length ? parent.data('page-id') : null;
+        const parent = $item.parents('.wiki-category-list-item').first();
+        const targetId = parent.length ? parent.data('page-id') : null;
+        let index = $item.index();
 
-        var data = {
+        const fixerIndex = this.fixer().index();
+        if (index > fixerIndex) {
+            index = fixerIndex;
+            this.refreshFixer();
+        }
+
+        const data = {
             'ItemDrop[id]': pageId,
             'ItemDrop[targetId]': targetId,
-            'ItemDrop[index]': $item.index()
+            'ItemDrop[index]': index
         };
 
         this.stopDropItem();
