@@ -54,7 +54,7 @@ class Assets extends AssetBundle
         $view->registerJsConfig([
             'wiki' => [
                 'text' => [
-                    'pageindex' => Yii::t('WikiModule.base', 'Page index')
+                    'pageindex' => Yii::t('WikiModule.base', 'Table of Contents')
                 ]
             ],
             'wiki.linkExtension' => [
