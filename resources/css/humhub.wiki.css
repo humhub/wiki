@@ -9,8 +9,7 @@
   margin: 10px 0 10px 0;
 }
 .layout-content-container .wiki-bg {
-  padding: 440px 0 150px;
-  background-image: url('../wiki-bg.jpg');
+  padding: 150px 0 150px;
   background-repeat: no-repeat;
   background-position: center 100px;
 }
