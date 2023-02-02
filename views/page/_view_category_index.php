@@ -11,7 +11,7 @@ use humhub\modules\wiki\widgets\CategoryListItem;
     <div class="wiki-sub-pages<?= $hasContent && Helper::isEnterpriseTheme() ? ' hidden-lg' : '' ?>">
         <ul class="wiki-page-list">
             <?= CategoryListItem::widget([
-                'title' => $page->title,
+                'title' => Yii::t('WikiModule.base', 'Subpages'),
                 'pages' => $page->findChildren()->all(),
                 'showDrag' => false,
                 'showAddPage' => false,

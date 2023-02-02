@@ -20,6 +20,8 @@ use humhub\modules\wiki\helpers\Url;
 
 <h1 class="wiki-page-title"><?= Html::encode($page->title) ?></h1>
 
+<?= $this->render('_view_category_index', ['page' => $page, 'hasContent' => $content !== '']) ?>
+
 <?php if (!empty($content)) : ?>
     <div class="markdown-render" data-ui-widget="wiki.Page"  data-ui-init="1" style="display:none">
         <?= WikiRichText::output($content, ['id' => 'wiki-page-richtext']) ?>
