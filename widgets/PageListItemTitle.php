@@ -84,8 +84,8 @@ class PageListItemTitle extends Widget
         if ($this->titleInfo === null &&
             $this->showNumFoldedSubpages &&
             ($this->maxLevel !== null && $this->level === $this->maxLevel) &&
-            ($subpagesCount = $this->page->findChildren()->count())) {
-            $this->titleInfo = Yii::t('WikiModule.base', '({n,plural,=1{+1 subpage}other{+{count} subpages}})', ['n' => $subpagesCount, 'count' => $subpagesCount]);
+            $this->page->childrenCount) {
+            $this->titleInfo = Yii::t('WikiModule.base', '({n,plural,=1{+1 subpage}other{+{count} subpages}})', ['n' => $this->page->childrenCount, 'count' => $this->page->childrenCount]);
         }
 
         return $this->render('pageListItemTitle', [

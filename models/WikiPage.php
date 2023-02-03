@@ -31,6 +31,7 @@ use yii\db\Expression;
  * @property-read WikiPage|null $categoryPage
  * @property-read WikiPageRevision $latestRevision
  * @property-read bool $isCategory
+ * @property-read int $childrenCount
  *
  */
 class WikiPage extends ContentActiveRecord implements Searchable
@@ -66,7 +67,12 @@ class WikiPage extends ContentActiveRecord implements Searchable
     /**
      * @var bool Cached result from $this->getIsCategory()
      */
-    public $is_category;
+    protected $_isCategory;
+
+    /**
+     * @var int Cached result from $this->getChildrenCount()
+     */
+    protected $_childrenCount;
 
     /**
      * @return string the associated database table name
@@ -377,6 +383,23 @@ class WikiPage extends ContentActiveRecord implements Searchable
         return static::find()->andWhere(['parent_page_id' => $this->id])->readable()->orderBy('sort_order ASC, title ASC');
     }
 
+    public function getChildrenCount(): int
+    {
+        if (isset($this->_childrenCount)) {
+            return $this->_childrenCount;
+        }
+
+        /* @var WikiPage[] $subpages */
+        $subpages = $this->findChildren()->all();
+
+        $this->_childrenCount = count($subpages);
+        foreach ($subpages as $subpage) {
+            $this->_childrenCount += $subpage->getChildrenCount();
+        }
+
+        return $this->_childrenCount;
+    }
+
     public function getCategoryPage()
     {
         return $this->hasOne(static::class, ['id' => 'parent_page_id']);
@@ -435,16 +458,16 @@ class WikiPage extends ContentActiveRecord implements Searchable
 
     public function getIsCategory(): bool
     {
-        if (isset($this->is_category)) {
-            return $this->is_category;
+        if (isset($this->_isCategory)) {
+            return $this->_isCategory;
         }
 
         if ($this->isNewRecord) {
             return false;
         }
 
-        $this->is_category = $this->findChildren()->exists();
+        $this->_isCategory = $this->findChildren()->exists();
 
-        return $this->is_category;
+        return $this->_isCategory;
     }
 }
