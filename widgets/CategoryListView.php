@@ -103,9 +103,13 @@ class CategoryListView extends JsWidget
      */
     public function getAttributes()
     {
-        return [
-            'class' => 'wiki-page-list'
-        ];
+        $attrs = ['class' => 'wiki-page-list'];
+
+        if ($this->isFolded()) {
+            $attrs['style'] = 'display:none';
+        }
+
+        return $attrs;
     }
 
     public function getData()
@@ -115,6 +119,17 @@ class CategoryListView extends JsWidget
             'icon-page' => 'fa fa-file-text-o',
             'icon-category' => 'fa fa-caret-down',
         ];
+    }
+
+    private function getParent(): ?WikiPage
+    {
+        return $this->parentCategoryId ? WikiPage::findOne($this->parentCategoryId) : null;
+    }
+
+    private function isFolded(): bool
+    {
+        $parent = $this->getParent();
+        return $parent && $parent->isFolded();
     }
 
 }
