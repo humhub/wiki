@@ -275,7 +275,7 @@ class WikiMenu extends WallEntryControls
                     'icon' => 'fa-list-alt',
                 ]);
             case static::LINK_EDIT:
-                return $this->canEdit ? new MenuLink([
+                return $this->canEdit && !empty($this->object->latestRevision->content) ? new MenuLink([
                     'label' => Yii::t('WikiModule.base', 'Edit'),
                     'url' => Url::toWikiEdit($this->object),
                     'icon' => 'fa-pencil',

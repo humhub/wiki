@@ -142,11 +142,11 @@ class PageController extends BaseController
     /**
      * Returns a revision for the given page, either by a given revisionid or the latest.
      *
-     * @param $page
-     * @param $revisionId
+     * @param WikiPage $page
+     * @param int|null $revisionId
      * @return WikiPageRevision|null
      */
-    private function getRevision($page, $revisionId = null)
+    private function getRevision(WikiPage $page, $revisionId = null)
     {
         $revision = null;
         if ($revisionId != null) {

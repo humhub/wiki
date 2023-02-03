@@ -3,6 +3,38 @@
 @screen-small-max: @screen-lg - 1; // 1199px
 
 @info: #21A1B3;
+@text-color-main: #555;
+
+@text-color-black: #000;
+@text-color-darkgrey: #AEAEAE;
+@text-color-grey: #7A7A7A;
+@text-color-red: #ec4332;
+@text-color-orange: #ff8a00;
+@text-color-green: #4cc159;
+@text-color-purple: #7880dd;
+@text-color-blue: #00a8e6;
+
+@bg-color-white: #fff;
+@bg-color-lightgreen: #d4fcbc;
+@bg-color-pink: #fbb6c2;
+
+@border-color-black: #000;
+@border-color-grey: #AEAEAE;
+@border-color-milk: #eee;
+@border-color-silver: #ddd;
+@border-radius: 4px;
+
+.border-radius(@radius: @border-radius) {
+  border-radius: @radius;
+}
+.border-radius-left() {
+  border-top-left-radius: @border-radius;
+  border-bottom-left-radius: @border-radius;
+}
+.border-radius-right() {
+  border-top-right-radius: @border-radius;
+  border-bottom-right-radius: @border-radius;
+}
 
 .layout-content-container {
   .wiki-welcome {
@@ -34,7 +66,7 @@
     float: left;
     font-size: 13px;
     font-weight: 600;
-    color: #000;
+    color: @text-color-black;
     .fa {
       font-size: 18px;
     }
@@ -50,8 +82,8 @@
 
   .wiki-page-index {
     max-width: 300px;
-    border: 1px solid #eee;
-    border-radius: 4px;
+    border: 1px solid @border-color-milk;
+    .border-radius();
     padding: 3px 5px;
     margin: 30px 0;
     .nav {
@@ -64,14 +96,14 @@
           color: @info !important;
           > span {
             font-weight: 600;
-            color: #000 !important;
+            color: @text-color-black !important;
             margin-right: 10px;
           }
         }
         &:first-child a {
           font-size: 14px;
           font-weight: 600;
-          color: #000 !important;
+          color: @text-color-black !important;
         }
       }
     }
@@ -118,7 +150,7 @@
     .wiki-page-title {
       font-size: 28px;
       font-weight: 500;
-      color: #000;
+      color: @text-color-black;
       clear: both;
       i.fa {
         margin-right: 4px;
@@ -132,18 +164,17 @@
     .wiki-headline {
       padding-bottom: 20px;
       margin-bottom: 10px;
-      border-bottom: 1px solid #eeeeee;
+      border-bottom: 1px solid @border-color-milk;
 
       .label {
         margin-left:2px;
       }
 
-      .wiki-page-path, .wiki-content-info {
+      .wiki-page-path {
         a {
           color: @info;
-
           &:hover {
-            color: #000;
+            color: @text-color-black;
           }
         }
       }
@@ -167,7 +198,7 @@
     }
 
     .wiki-sub-pages {
-      border: 1px solid #ddd;
+      border: 1px solid @border-color-silver;
       padding: 15px 0;
       margin-bottom: 10px;
 
@@ -182,7 +213,7 @@
       a, span.page-title-info {
         font-size: 13px;
         font-weight: 500;
-        color: #555;
+        color: @text-color-main;
       }
       a {
         color: @info;
@@ -197,7 +228,7 @@
       span.page-title-text {
         display: inline-block;
         margin-bottom: 10px;
-        color: #000;
+        color: @text-color-black;
         font-weight: 600;
       }
     }
@@ -205,34 +236,39 @@
 
   .wiki-page-list-row-details {
     *&, a, .time {
-      color: #7A7A7A;
+      color: @text-color-grey;
       font-size: 12px;
     }
   }
 
   .wiki-content {
     .wiki-content-info {
-      margin-top:5px;
+      a {
+        color: @text-color-main;
+        &:hover {
+          color: @info;
+        }
+      }
     }
 
     [data-wiki-page] {
-      color: #4cc159 !important;
+      color: @text-color-green !important;
     }
 
     [data-wiki-page="#"] {
-      color: #ec4332 !important;
+      color: @text-color-red !important;
     }
 
     .social-controls, .social-controls a {
       font-size: 11px;
-      color: #AEAEAE;
+      color: @text-color-darkgrey;
       margin-bottom: 10px;
     }
 
     .wall-entry-controls {
       .like {
         font-size: 11px;
-        color: #AEAEAE;
+        color: @text-color-darkgrey;
       }
     }
 
@@ -274,15 +310,15 @@
         }
         &:hover {
           border-color: @info;
-          border-radius: 4px;
+          .border-radius();
           .wiki-category-add {
             display: inline-block;
           }
         }
         .wiki-page-control {
-          color: #999999;
+          color: @text-color-grey;
           &.wiki-category-add {
-            color: #000;
+            color: @text-color-black;
             margin-left: 8px;
           }
         }
@@ -300,7 +336,7 @@
         }
         .fa-file-text-o {
           font-size: 11px;
-          color: #AEAEAE;
+          color: @text-color-darkgrey;
           margin: 0 5px;
         }
       }
@@ -310,7 +346,7 @@
       list-style: none;
       margin-left: 22px;
       padding-left: 0;
-      border-left: 1px dashed #AEAEAE;
+      border-left: 1px dashed @border-color-grey;
       &.wiki-page-history-with-diff {
         li {
           padding-left: 56px;
@@ -322,7 +358,7 @@
         position: relative;
         &:first-child::before {
           content: '';
-          background: #FFF;
+          background: @bg-color-white;
           display: block;
           position: absolute;
           top: 0;
@@ -338,7 +374,7 @@
 
         h5 {
           margin-bottom: 0;
-          color: #000;
+          color: @text-color-black;
           font-size: 13px;
         }
 
@@ -347,7 +383,7 @@
           left: 2px;
           top: 38px;
           letter-spacing: 1px;
-          border-top: 1px dashed #AEAEAE;
+          border-top: 1px dashed @border-color-grey;
           input[type=radio] {
             position: relative;
             right: -27px;
@@ -356,7 +392,7 @@
         }
 
         .wiki-author-link {
-          color: #AEAEAE;
+          color: @text-color-darkgrey;
           text-decoration: underline;
         }
 
@@ -380,12 +416,12 @@
     &.wiki-page-diff {
       ins {
         text-decoration: none;
-        background-color: #d4fcbc;
+        background-color: @bg-color-lightgreen;
       }
       del {
         text-decoration: line-through;
-        background-color: #fbb6c2;
-        color: #555;
+        background-color: @bg-color-pink;
+        color: @text-color-main;
       }
     }
   }
@@ -401,28 +437,28 @@
 
   .wiki-content {
     .new {
-      color: #4cc159;
+      color: @text-color-green;
     }
 
     .delete {
-      color: #ec4332;
+      color: @text-color-red;
     }
 
     .history {
-      color: #ff8a00;
+      color: @text-color-orange;
     }
 
     .fa-link {
-      color: #7880dd;
+      color: @text-color-purple;
       margin-right:4px;
     }
 
     .edit {
-      color: #00a8e6;
+      color: @text-color-blue;
     }
 
     .back {
-      color: #555555;
+      color: @text-color-main;
     }
   }
 }
@@ -437,7 +473,7 @@
   margin-bottom: 10px;
   padding: 10px 10px;
   h3 {
-    color: #000;
+    color: @text-color-black;
     float: left;
     font-size: 28px;
     white-space: nowrap;
@@ -498,10 +534,10 @@
   margin-left: 4px;
   max-width: 168px;
   input[name=keyword] {
-    background: #F3F3F3;
+    background: @bg-color-white;
     font-size: 13px;
     border: none;
-    color: #AEAEAE;
+    color: @text-color-darkgrey;
     padding-left: 26px;
     height: 36px;
     min-height: 36px;
@@ -516,7 +552,7 @@
       box-shadow: none;
     }
     i.fa {
-      color: #7A7A7A !important;
+      color: @text-color-grey !important;
       margin-top: 6px;
     }
   }
@@ -532,8 +568,8 @@
   //       in order to see only blue borders around first parent
   //.wiki-parent-target-category {
   //  > .page-title {
-  //    border-top: 1px solid #AEAEAE;
-  //    border-bottom: 1px solid #AEAEAE;
+  //    border-top: 1px solid @border-color-grey;
+  //    border-bottom: 1px solid @border-color-grey;
   //  }
   //}
   .wiki-current-target-category {
@@ -559,13 +595,13 @@
     }
   }
   .ui-sortable-drop-area {
-    border-bottom: 2px solid #000;
+    border-bottom: 2px solid @border-color-black;
     margin-top: -6px;
     margin-bottom: -2px;
   }
   .drag-icon {
     visibility: hidden;
-    color: #AEAEAE;
+    color: @text-color-darkgrey;
     .fa {
       font-size: 11px;
     }
@@ -618,7 +654,7 @@
     h3 {
       font-size: 28px;
       font-weight: 600;
-      color: #000;
+      color: @text-color-black;
       padding: 0;
       margin: 5px 0;
       .fa {
@@ -649,7 +685,7 @@
 
   .wiki-content ul.wiki-page-list {
     .page-title:hover {
-      border-radius: 0;
+      .border-radius(0);
     }
   }
 
@@ -671,14 +707,14 @@
       margin-left: 0;
       margin-right: 0;
       .page-title:hover {
-        border-radius: 4px;
+        .border-radius();
       }
     }
     .wiki-page-content-header {
-      border-bottom: 1px solid #EDEDED;
-      padding: 14px 8px 20px 8px;
+      border-bottom: 1px solid @border-color-milk;
+      padding: 14px 8px 20px;
       h3 {
-        color: #555;
+        color: @text-color-main;
         font-weight: normal;
         text-transform: none;
         font-size: 12px;
@@ -730,7 +766,7 @@
         a {
           display: block;
           &:hover {
-            color: #000;
+            color: @text-color-black;
           }
         }
       }
@@ -743,12 +779,10 @@
         }
         &:first-child {
           padding-left: 12px;
-          border-top-left-radius: 4px;
-          border-bottom-left-radius: 4px;
+          .border-radius-left();
         }
         &:last-child {
-          border-top-right-radius: 4px;
-          border-bottom-right-radius: 4px;
+          .border-radius-right();
         }
       }
     }
@@ -786,12 +820,12 @@
 }
 
 .wiki-preview {
-  border: 1px solid lighten(#bababa, 20%);
-  border-radius: 4px;
+  border: 1px solid lighten(@border-color-grey, 20%);
+  .border-radius();
   padding: 10px;
 
   .wiki-preview-content {
-    margin-bottom:10px;
+    margin-bottom: 10px;
   }
 }
 

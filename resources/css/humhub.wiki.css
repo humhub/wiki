@@ -106,17 +106,15 @@
 .layout-content-container .wiki-page-content .wiki-headline {
   padding-bottom: 20px;
   margin-bottom: 10px;
-  border-bottom: 1px solid #eeeeee;
+  border-bottom: 1px solid #eee;
 }
 .layout-content-container .wiki-page-content .wiki-headline .label {
   margin-left: 2px;
 }
-.layout-content-container .wiki-page-content .wiki-headline .wiki-page-path a,
-.layout-content-container .wiki-page-content .wiki-headline .wiki-content-info a {
+.layout-content-container .wiki-page-content .wiki-headline .wiki-page-path a {
   color: #21A1B3;
 }
-.layout-content-container .wiki-page-content .wiki-headline .wiki-page-path a:hover,
-.layout-content-container .wiki-page-content .wiki-headline .wiki-content-info a:hover {
+.layout-content-container .wiki-page-content .wiki-headline .wiki-page-path a:hover {
   color: #000;
 }
 .layout-content-container .wiki-page-content hr.wiki-headline-seperator {
@@ -173,8 +171,11 @@
   color: #7A7A7A;
   font-size: 12px;
 }
-.layout-content-container .wiki-content .wiki-content-info {
-  margin-top: 5px;
+.layout-content-container .wiki-content .wiki-content-info a {
+  color: #555;
+}
+.layout-content-container .wiki-content .wiki-content-info a:hover {
+  color: #21A1B3;
 }
 .layout-content-container .wiki-content [data-wiki-page] {
   color: #4cc159 !important;
@@ -235,7 +236,7 @@
   display: inline-block;
 }
 .layout-content-container .wiki-content ul.wiki-page-list .page-title .wiki-page-control {
-  color: #999999;
+  color: #7A7A7A;
 }
 .layout-content-container .wiki-content ul.wiki-page-list .page-title .wiki-page-control.wiki-category-add {
   color: #000;
@@ -273,7 +274,7 @@
 }
 .layout-content-container .wiki-content ul.wiki-page-history li:first-child::before {
   content: '';
-  background: #FFF;
+  background: #fff;
   display: block;
   position: absolute;
   top: 0;
@@ -353,7 +354,7 @@
   color: #00a8e6;
 }
 .layout-content-container .wiki-content .back {
-  color: #555555;
+  color: #555;
 }
 @media (max-width: 768px) {
   .wiki-page-content {
@@ -425,7 +426,7 @@
   max-width: 168px;
 }
 .wiki-search-form input[name=keyword] {
-  background: #F3F3F3;
+  background: #fff;
   font-size: 13px;
   border: none;
   color: #AEAEAE;
@@ -567,8 +568,8 @@
     border-radius: 4px;
   }
   .wiki-page-sidebar .wiki-page-content-header {
-    border-bottom: 1px solid #EDEDED;
-    padding: 14px 8px 20px 8px;
+    border-bottom: 1px solid #eee;
+    padding: 14px 8px 20px;
   }
   .wiki-page-sidebar .wiki-page-content-header h3 {
     color: #555;
@@ -661,7 +662,7 @@
   }
 }
 .wiki-preview {
-  border: 1px solid #ededed;
+  border: 1px solid #e1e1e1;
   border-radius: 4px;
   padding: 10px;
 }
