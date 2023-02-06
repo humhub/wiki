@@ -65,6 +65,9 @@ humhub.module('wiki.CategoryListView', function(module, require, $) {
         const parent = ui.placeholder.closest('.wiki-page-list').parent();
         parent.addClass('wiki-current-target-category')
             .parents('.wiki-category-list-item:eq(0)').addClass('wiki-parent-target-category');
+        if (parent.is(':hidden')) {
+            parent.closest('.wiki-parent-target-category').addClass('wiki-current-target-category');
+        }
         if (ui.placeholder.index() === 0 && ui.placeholder.parent().children('li').length > 1) {
             parent.addClass('wiki-current-target-category-over');
         }
@@ -87,7 +90,7 @@ humhub.module('wiki.CategoryListView', function(module, require, $) {
         this.clearStyle('wiki-list-item-selected');
         this.$.addClass('wiki-page-is-dropping');
         $('.wiki-page-list').each(function() {
-            if ($(this).find('li').length === 0) {
+            if ($(this).is(':hidden') || $(this).find('li').length === 0) {
                 $(this).addClass('wiki-page-list-droppable-target');
             }
         });

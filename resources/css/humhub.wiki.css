@@ -202,6 +202,10 @@
   bottom: 9px;
   position: absolute;
   width: 100%;
+  display: block !important;
+}
+.layout-content-container .wiki-content ul.wiki-page-list.wiki-page-list-droppable-target li {
+  display: none !important;
 }
 .layout-content-container .wiki-content ul.wiki-page-list.wiki-page-list-droppable-target .ui-sortable-drop-area {
   margin-top: 10px !important;
