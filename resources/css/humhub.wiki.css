@@ -6,7 +6,12 @@
   font-size: 14px;
   font-weight: 200;
   line-height: 24px;
-  margin: 10px 0 10px 0;
+  margin: 10px 100px;
+}
+@media (max-width: 768px) {
+  .layout-content-container .wiki-welcome h2 {
+    margin: 10px;
+  }
 }
 .layout-content-container .wiki-bg {
   padding: 150px 0 150px;

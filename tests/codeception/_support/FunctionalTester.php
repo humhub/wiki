@@ -89,19 +89,15 @@ class FunctionalTester extends \FunctionalTester
 
     public function seeInitPageWithCreateOption()
     {
-        $this->see('Create a Wiki Page');
-        $this->see('No pages created yet.');
-        $this->see('So it\'s on you.');
-        $this->see('Create the first page now.');
+        $this->see('There are no entries yet :(');
+        $this->see('Get your very own knowledge base off the ground by being the first one to create a Wiki page!');
         $this->see('Let\'s go!');
     }
 
     public function seeInitPageWithoutCreateOption()
     {
-        $this->see('Create a Wiki Page');
-        $this->see('No pages created yet');
-        $this->dontSee('So it\'s on you.');
-        $this->dontSee('Create the first page now.');
+        $this->see('There are no entries yet :(');
+        $this->dontSee('Get your very own knowledge base off the ground by being the first one to create a Wiki page!');
         $this->dontSee('Let\'s go!');
     }
 
