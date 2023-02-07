@@ -403,6 +403,7 @@ humhub.module('wiki.CategoryListView', function(module, require, $) {
             items: '[data-page-id]',
             helper: 'clone',
             placeholder: 'ui-sortable-drop-area',
+            tolerance: 'pointer',
             create: $.proxy(this.fixer, this),
             change: $.proxy(this.changePosition, this),
             over: $.proxy(this.overList, this),
