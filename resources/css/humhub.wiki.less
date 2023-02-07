@@ -63,9 +63,7 @@
   }
 
   .wiki-page-path {
-    float: left;
-    width: 100%;
-    padding-right: 80px;
+    padding-right: 8px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -78,8 +76,7 @@
   }
 
   .wiki-menu {
-    margin-top: 9px;
-    float: right;
+    white-space: nowrap;
     .btn-group {
       margin-left: 4px;
     }
@@ -170,6 +167,10 @@
       padding-bottom: 20px;
       margin-bottom: 10px;
       border-bottom: 1px solid @border-color-milk;
+      .wiki-headline-top {
+        display: flex;
+        justify-content: space-between;
+      }
 
       .label {
         margin-left:2px;

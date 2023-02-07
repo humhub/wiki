@@ -21,19 +21,19 @@ if (empty($buttons)) {
 ?>
 
 <div class="wiki-headline">
-    <?= WikiPath::widget(['page' => $page]) ?>
+    <div class="wiki-headline-top">
+        <?= WikiPath::widget(['page' => $page]) ?>
+        <?= WikiMenu::widget([
+            'object' => $page,
+            'buttons' => $buttons,
+            'revision' => $revision ?? null
+        ]) ?>
+    </div>
 
     <?php if (!isset($displayTitle) || $displayTitle) : ?>
-        <div class="wiki-page-title pull-left"><?= Html::encode($page->title) ?></div>
+        <div class="wiki-page-title"><?= Html::encode($page->title) ?></div>
     <?php endif; ?>
 
-    <?= WikiMenu::widget([
-        'object' => $page,
-        'buttons' => $buttons,
-        'revision' => $revision ?? null
-    ]) ?>
-
-    <div class="clearfix"></div>
     <div class="wiki-content-info">
         <small>
             <?= Yii::t('WikiModule.base', 'Created by {author}', ['author' => Html::containerLink($page->content->createdBy)]) . ', ' ?>

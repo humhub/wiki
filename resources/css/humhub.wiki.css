@@ -19,9 +19,7 @@
   }
 }
 .layout-content-container .wiki-page-path {
-  float: left;
-  width: 100%;
-  padding-right: 80px;
+  padding-right: 8px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -33,8 +31,7 @@
   font-size: 18px;
 }
 .layout-content-container .wiki-menu {
-  margin-top: 9px;
-  float: right;
+  white-space: nowrap;
 }
 .layout-content-container .wiki-menu .btn-group {
   margin-left: 4px;
@@ -112,6 +109,10 @@
   padding-bottom: 20px;
   margin-bottom: 10px;
   border-bottom: 1px solid #eee;
+}
+.layout-content-container .wiki-page-content .wiki-headline .wiki-headline-top {
+  display: flex;
+  justify-content: space-between;
 }
 .layout-content-container .wiki-page-content .wiki-headline .label {
   margin-left: 2px;
