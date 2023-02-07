@@ -36,16 +36,17 @@ Assets::register($this);
             ]) ?>
 
             <div class="wiki-headline">
-                <?= WikiPath::widget(['page' => $model->page]) ?>
-                <?php if (!$requireConfirmation) : ?>
-                    <?= WikiMenu::widget([
-                        'object' => $model->page,
-                        'buttons' => $model->page->isNewRecord ? [] : WikiMenu::LINK_EDIT_SAVE,
-                        'edit' => true
-                    ]) ?>
-                <?php endif; ?>
-                <div class="wiki-page-title pull-left"><?= $model->getTitle() ?></div>
-                <div class="clearfix"></div>
+                <div class="wiki-headline-top">
+                    <?= WikiPath::widget(['page' => $model->page]) ?>
+                    <?php if (!$requireConfirmation) : ?>
+                        <?= WikiMenu::widget([
+                            'object' => $model->page,
+                            'buttons' => $model->page->isNewRecord ? [] : WikiMenu::LINK_EDIT_SAVE,
+                            'edit' => true
+                        ]) ?>
+                    <?php endif; ?>
+                </div>
+                <div class="wiki-page-title"><?= $model->getTitle() ?></div>
             </div>
 
             <?php $form = ActiveForm::begin(
