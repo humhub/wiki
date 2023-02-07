@@ -20,7 +20,7 @@ use humhub\modules\wiki\helpers\Url;
 
 <h1 class="wiki-page-title"><?= Html::encode($page->title) ?></h1>
 
-<?= $this->render('_view_category_index', ['page' => $page, 'hasContent' => $content !== '']) ?>
+<?= $this->render('_view_category_index', ['page' => $page]) ?>
 
 <?php if (!empty($content)) : ?>
     <div class="markdown-render" data-ui-widget="wiki.Page" data-ui-init style="display:none">

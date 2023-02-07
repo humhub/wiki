@@ -5,10 +5,9 @@ use humhub\modules\wiki\models\WikiPage;
 use humhub\modules\wiki\widgets\CategoryListItem;
 
 /* @var $page WikiPage */
-/* @var $hasContent bool */
 ?>
 <?php if ($page->isCategory): ?>
-    <div class="wiki-sub-pages<?= $hasContent && Helper::isEnterpriseTheme() ? ' hidden-lg' : '' ?>">
+    <div class="wiki-sub-pages<?= Helper::isEnterpriseTheme() ? ' hidden-lg' : '' ?>">
         <ul class="wiki-page-list">
             <?= CategoryListItem::widget([
                 'title' => Yii::t('WikiModule.base', 'Subpages'),
