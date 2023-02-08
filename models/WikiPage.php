@@ -42,6 +42,8 @@ class WikiPage extends ContentActiveRecord implements Searchable
     const SCENARIO_ADMINISTER = 'admin';
     const SCENARIO_EDIT = 'edit';
 
+    const CACHE_CHILDREN_COUNT_KEY = 'wikiChildrenCount_%s';
+
     /**
      * @inheritdoc
      */
@@ -68,11 +70,6 @@ class WikiPage extends ContentActiveRecord implements Searchable
      * @var bool Cached result from $this->getIsCategory()
      */
     protected $_isCategory;
-
-    /**
-     * @var int Cached result from $this->getChildrenCount()
-     */
-    protected $_childrenCount;
 
     /**
      * @return string the associated database table name
@@ -176,11 +173,38 @@ class WikiPage extends ContentActiveRecord implements Searchable
             WikiPageEditedActivity::instance()->from(Yii::$app->user->getIdentity())->about($this)->create();
         }
 
+        if ($insert || array_key_exists('parent_page_id', $changedAttributes)) {
+            $this->flushChildrenCountCache();
+        }
+
         parent::afterSave($insert, $changedAttributes);
 
         if ($insert) {
             $this->sortOnTop();
         }
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function updateAttributes($attributes)
+    {
+        $updated = parent::updateAttributes($attributes);
+
+        if ($updated && array_key_exists('parent_page_id', $attributes)) {
+            $this->flushChildrenCountCache();
+        }
+
+        return $updated;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function afterDelete()
+    {
+        $this->flushChildrenCountCache();
+        parent::afterDelete();
     }
 
     /**
@@ -385,19 +409,56 @@ class WikiPage extends ContentActiveRecord implements Searchable
 
     public function getChildrenCount(): int
     {
-        if (isset($this->_childrenCount)) {
-            return $this->_childrenCount;
+        if ($this->isNewRecord) {
+            return 0;
+        }
+
+        $childrenCount = Yii::$app->cache->get($this->getChildrenCountCacheKey());
+        $childrenCount = $childrenCount[$this->getChildrenCountCacheKey('access')][$this->id] ?? null;
+
+        if ($childrenCount !== null) {
+            return $childrenCount;
         }
 
         /* @var WikiPage[] $subpages */
         $subpages = $this->findChildren()->all();
 
-        $this->_childrenCount = count($subpages);
+        $childrenCount = count($subpages);
         foreach ($subpages as $subpage) {
-            $this->_childrenCount += $subpage->getChildrenCount();
+            $childrenCount += $subpage->getChildrenCount();
         }
 
-        return $this->_childrenCount;
+        $this->setChildrenCountCache($childrenCount);
+
+        return $childrenCount;
+    }
+
+    protected function getChildrenCountCacheKey(?string $type = null): string
+    {
+        if ($type === 'access') {
+            return $this->content->container->canAccessPrivateContent() ? 'private' : 'public';
+        }
+
+        return sprintf(static::CACHE_CHILDREN_COUNT_KEY, $this->content->contentcontainer_id);
+    }
+
+    protected function setChildrenCountCache(int $newCount): bool
+    {
+        $cacheID = $this->getChildrenCountCacheKey();
+        $childrenCount = Yii::$app->cache->get($cacheID);
+
+        if (!is_array($childrenCount)) {
+            $childrenCount = [];
+        }
+
+        $childrenCount[$this->getChildrenCountCacheKey('access')][$this->id] = $newCount;
+
+        return Yii::$app->cache->set($cacheID, $childrenCount, Yii::$app->settings->get('cache.expireTime'));
+    }
+
+    protected function flushChildrenCountCache(): bool
+    {
+        return Yii::$app->cache->delete($this->getChildrenCountCacheKey());
     }
 
     public function getCategoryPage()
