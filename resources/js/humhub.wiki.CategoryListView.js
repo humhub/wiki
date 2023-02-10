@@ -42,18 +42,31 @@ humhub.module('wiki.CategoryListView', function(module, require, $) {
             helper: 'clone',
             placeholder: 'ui-sortable-drop-area',
             tolerance: 'pointer',
+            sort: $.proxy(this.sort, this),
             create: $.proxy(this.fixer, this),
-            change: $.proxy(this.changePosition, this),
+            change: $.proxy(this.updatePlaceholderStyle, this),
             over: $.proxy(this.overList, this),
             out: $.proxy(this.clearDroppablePlaceholder, this),
             start: $.proxy(this.startDropItem, this),
             stop: $.proxy(this.stopDropItem, this),
-            receive: $.proxy(this.beforeDropItem, this),
             update: $.proxy(this.dropItem, this)
         });
     };
 
-    CategoryListView.prototype.changePosition = function () {
+    CategoryListView.prototype.sort = function (event, ui) {
+        const isLastItem = ui.placeholder.parent().children('li:not(.ui-sortable-helper)').length - 1 === ui.placeholder.index();
+        const cursorX = ui.position.left + ui.helper.find('.drag-icon').position().left;
+        const parentX = parseInt(ui.placeholder.parent().prev('.page-title').css('padding-left'));
+        const cursorIsOverParent = cursorX - this.indent.level < parentX;
+
+        if (isLastItem && cursorIsOverParent) {
+            ui.placeholder.parent().parent().after(ui.placeholder);
+            this.updateTargetStyle(ui.placeholder);
+            this.updatePlaceholderStyle();
+        }
+    }
+
+    CategoryListView.prototype.updatePlaceholderStyle = function () {
         const dropArea = $('.ui-sortable-drop-area');
         const indent = this.$.is(dropArea.parent()) ? 0
             : parseInt(dropArea.parent().prev('.page-title').css('padding-left'))
@@ -62,14 +75,18 @@ humhub.module('wiki.CategoryListView', function(module, require, $) {
     }
 
     CategoryListView.prototype.overList = function (event, ui) {
+        this.updateTargetStyle(ui.placeholder);
+    }
+
+    CategoryListView.prototype.updateTargetStyle = function (placeholder) {
         this.clearDroppablePlaceholder();
-        const parent = ui.placeholder.closest('.wiki-page-list').parent();
+        const parent = placeholder.closest('.wiki-page-list').parent();
         parent.addClass('wiki-current-target-category')
             .parents('.wiki-category-list-item:eq(0)').addClass('wiki-parent-target-category');
         if (parent.is(':hidden')) {
             parent.closest('.wiki-parent-target-category').addClass('wiki-current-target-category');
         }
-        if (ui.placeholder.index() === 0 && ui.placeholder.parent().children('li').length > 1) {
+        if (placeholder.index() === 0 && placeholder.parent().children('li').length > 1) {
             parent.addClass('wiki-current-target-category-over');
         }
     }
@@ -103,6 +120,9 @@ humhub.module('wiki.CategoryListView', function(module, require, $) {
             .clearStyle('wiki-page-list-droppable-target')
             .clearStyle('wiki-page-is-dropping');
         $('.wiki-category-list-item .page-current').parent().addClass('wiki-list-item-selected');
+        if (typeof ui !== 'undefined') {
+            this.fixListIndent(ui.item)
+        }
     }
 
     CategoryListView.prototype.updateIcons = function () {
@@ -130,20 +150,17 @@ humhub.module('wiki.CategoryListView', function(module, require, $) {
         });
     }
 
-    CategoryListView.prototype.beforeDropItem = function (event, ui) {
-        var that = this;
-        var fixListIndent = function ($item) {
-            var $list = $item.closest('.wiki-page-list');
-            if ($list.length) {
-                var title = $list.prev('.page-title');
-                var indent = title.length ? parseInt(title.css('padding-left')) + that.indent.level : that.indent.default;
-                $item.children('.page-title').css('padding-left', indent + 'px');
-                $item.children('.wiki-page-list').children('li').each(function () {
-                    fixListIndent($(this));
-                });
-            }
+    CategoryListView.prototype.fixListIndent = function (item) {
+        const list = item.closest('.wiki-page-list');
+        if (list.length) {
+            const that = this;
+            const title = list.prev('.page-title');
+            const indent = title.length ? parseInt(title.css('padding-left')) + this.indent.level : this.indent.default;
+            item.children('.page-title').css('padding-left', indent + 'px');
+            item.children('.wiki-page-list').children('li').each(function () {
+                that.fixListIndent($(this));
+            });
         }
-        fixListIndent(ui.item);
     }
 
     // Initialize and get a fixer element to help sort item under the last root item when it has children
