@@ -404,7 +404,7 @@ humhub.module('wiki.CategoryListView', function(module, require, $) {
             helper: 'clone',
             placeholder: 'ui-sortable-drop-area',
             tolerance: 'pointer',
-            sort: $.proxy(this.sort, this),
+            sort: $.proxy(this.fixSort, this),
             create: $.proxy(this.fixer, this),
             change: $.proxy(this.updatePlaceholderStyle, this),
             over: $.proxy(this.overList, this),
@@ -413,18 +413,36 @@ humhub.module('wiki.CategoryListView', function(module, require, $) {
             stop: $.proxy(this.stopDropItem, this),
             update: $.proxy(this.dropItem, this)
         });
-    };
+    }
 
-    CategoryListView.prototype.sort = function (event, ui) {
-        const isLastItem = ui.placeholder.parent().children('li:not(.ui-sortable-helper)').length - 1 === ui.placeholder.index();
+    CategoryListView.prototype.fixSort = function (event, ui) {
+        this.fixPlaceholderPositionY(event, ui);
+        this.fixPlaceholderPositionX(event, ui);
+    }
+
+    CategoryListView.prototype.fixPlaceholderPositionX = function (event, ui) {
+        const itemCount = ui.placeholder.parent().children('li:not(.ui-sortable-helper)').length;
+        const isLastItem = itemCount > 1 && itemCount - 1 === ui.placeholder.index();
         const cursorX = ui.position.left + ui.helper.find('.drag-icon').position().left;
         const parentX = parseInt(ui.placeholder.parent().prev('.page-title').css('padding-left'));
         const cursorIsOverParent = cursorX - this.indent.level < parentX;
 
         if (isLastItem && cursorIsOverParent) {
+            // Move placeholder to parent category up
             ui.placeholder.parent().parent().after(ui.placeholder);
             this.updateTargetStyle(ui.placeholder);
             this.updatePlaceholderStyle();
+        }
+    }
+
+    CategoryListView.prototype.fixPlaceholderPositionY = function (event, ui) {
+        const deltaPosition = event.pageY - ui.placeholder.offset().top;
+        const isWrongPosition = Math.abs(deltaPosition) > ui.item.outerHeight() / 2;
+
+        if (isWrongPosition) {
+            deltaPosition > 0
+                ? ui.placeholder.next().after(ui.placeholder) // Move placeholder down
+                : ui.placeholder.prev().before(ui.placeholder); // Move placeholder up
         }
     }
 
@@ -552,7 +570,7 @@ humhub.module('wiki.CategoryListView', function(module, require, $) {
         let index = $item.index();
 
         const fixerIndex = this.fixer().index();
-        if (index > fixerIndex) {
+        if (index > fixerIndex && $item.parent().is(this.$)) {
             index = fixerIndex;
             this.refreshFixer();
         }
