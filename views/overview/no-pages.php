@@ -24,7 +24,7 @@ humhub\modules\wiki\assets\Assets::register($this);
 
                 <div class="text-center wiki-welcome">
                     <h1><?= Yii::t('WikiModule.base', 'There are no entries yet :(') ?></h1>
-                    <?php if (!$canCreatePage): ?>
+                    <?php if ($canCreatePage): ?>
                         <h2><?= Yii::t('WikiModule.base', 'Get your very own knowledge base off the ground by being the first one to create a Wiki page! Gather information, facilitate knowledge transfer and make it available to your users in the easiest way possible.') ?></h2>
                         <br>
                         <p>`
