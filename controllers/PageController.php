@@ -118,7 +118,6 @@ class PageController extends BaseController
     {
         $page = $this->getWikiPage($title);
 
-        $page = WikiPage::find()->contentContainer($this->contentContainer)->readable()->where(['title' => $title])->one();
         if (!$page) {
             throw new HttpException(404, 'Wiki page not found!');
         }
@@ -270,13 +269,11 @@ class PageController extends BaseController
      * @throws \yii\base\Exception
      * @throws \yii\base\InvalidConfigException
      */
-    public function actionHistory()
+    public function actionHistory(int $id)
     {
         if (!$this->canViewHistory()) {
             throw new HttpException(403, Yii::t('WikiModule.base', 'Permission denied. You have no rights to view the history.'));
         }
-
-        $id = Yii::$app->request->get('id');
 
         $page = $this->getWikiPage($id);
 
@@ -314,7 +311,7 @@ class PageController extends BaseController
      * @throws \yii\db\StaleObjectException
      * @throws \Throwable
      */
-    public function actionDelete($id)
+    public function actionDelete(int $id)
     {
         $page = $this->getWikiPage($id);
 
@@ -335,7 +332,7 @@ class PageController extends BaseController
      * @throws HttpException
      * @throws \yii\base\InvalidConfigException
      */
-    public function actionRevert($id, $toRevision)
+    public function actionRevert(int $id, $toRevision)
     {
         $page = $this->getWikiPage($id);
 
@@ -392,7 +389,7 @@ class PageController extends BaseController
         return $this->asJson($output);
     }
 
-    public function actionEntry($id = null)
+    public function actionEntry(int $id = null)
     {
         if ($page = $this->getWikiPage($id)) {
             $revision = $this->getRevision($page);
