@@ -130,7 +130,7 @@ class WikiPage extends ContentActiveRecord implements Searchable
             'title' => 'Title',
             'is_home' => Yii::t('WikiModule.base', 'Is homepage'),
             'admin_only' => Yii::t('WikiModule.base', 'Protected'),
-            'parent_page_id' => Yii::t('WikiModule.base', 'Category'),
+            'parent_page_id' => Yii::t('WikiModule.base', 'Parent Page'),
             'is_container_menu' => $isSpaceContainer
                 ? Yii::t('WikiModule.base', 'Show in Space menu')
                 : Yii::t('WikiModule.base', 'Show in Profile menu'),

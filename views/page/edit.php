@@ -91,6 +91,10 @@ Assets::register($this);
 
                 <?= $form->field($model->revision, 'content')->widget(WikiEditor::class)->label(false) ?>
 
+                <?php $category = $form->field($model->page, 'parent_page_id') ?>
+                <?= $displayFieldCategory
+                    ? $category->widget(WikiPagePicker::class, ['model' => $model->page, 'maxInput' => 30])
+                    : $category->hiddenInput() ?>
 
                 <?= $form->beginCollapsibleFields('Advanced settings'); ?>
 
@@ -104,11 +108,6 @@ Assets::register($this);
                 <?= $form->field($model->page, 'is_home')->checkbox([
                     'title' => Yii::t('WikiModule.base', 'Overwrite the wiki index start page?'),
                     'disabled' => $model->isDisabledField('is_home')]); ?>
-
-                <?php $category = $form->field($model->page, 'parent_page_id')->label(false) ?>
-                <?= $displayFieldCategory
-                    ? $category->widget(WikiPagePicker::class, ['model' => $model->page, 'maxInput' => 30])
-                    : $category->hiddenInput() ?>
 
                 <?= $form->field($model, 'isPublic')->widget(ContentVisibilitySelect::class, [
                     'readonly' => $model->isDisabledField('isPublic')]); ?>
