@@ -382,6 +382,7 @@
   }
 }
 .wiki-page-content-header {
+  display: flex;
   margin-bottom: 10px;
   padding: 10px 10px;
 }
@@ -409,18 +410,13 @@
 .wiki-page-content-header .wiki-page-content-header-actions .btn {
   margin-bottom: 4px;
 }
-@media (max-width: 1199px) {
-  .wiki-page-content-header {
-    display: flex;
-  }
-  .wiki-page-content-header .wiki-search-form {
-    width: 100%;
-    max-width: none;
-    margin-right: 50px !important;
-  }
-  .wiki-page-content-header .wiki-page-content-header-actions {
-    white-space: nowrap;
-  }
+.wiki-page-content-header .wiki-search-form {
+  width: 100%;
+  max-width: none;
+  margin-right: 50px !important;
+}
+.wiki-page-content-header .wiki-page-content-header-actions {
+  white-space: nowrap;
 }
 @media (max-width: 991px) {
   .wiki-page-content-header .wiki-search-form {
@@ -429,7 +425,7 @@
 }
 @media (max-width: 479px) {
   .wiki-page-content-header {
-    display: block;
+    display: block !important;
   }
   .wiki-page-content-header .wiki-search-form {
     width: auto;
@@ -531,8 +527,14 @@
   padding: 0 4px;
 }
 .wiki-page-sidebar .wiki-page-content-header {
+  display: block;
   padding: 3px 0 0;
   border: none;
+}
+@media (max-width: 1199px) {
+  .wiki-page-sidebar .wiki-page-content-header {
+    display: flex;
+  }
 }
 .wiki-page-sidebar .wiki-page-content-header h3 {
   font-size: 28px;
