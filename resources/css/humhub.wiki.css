@@ -232,10 +232,10 @@
   padding-bottom: 6px;
 }
 .layout-content-container .wiki-content ul.wiki-page-list .wiki-list-item-selected {
-  background: rgba(33, 161, 179, 0.06);
+  background: var(--background-color-highlight-soft);
 }
 .layout-content-container .wiki-content ul.wiki-page-list .wiki-list-item-selected > .page-title {
-  background: rgba(33, 161, 179, 0.12);
+  background: var(--background-color-highlight);
 }
 .layout-content-container .wiki-content ul.wiki-page-list .page-title {
   padding-top: 4px;
