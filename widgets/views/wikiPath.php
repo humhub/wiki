@@ -14,9 +14,11 @@ use humhub\widgets\Link;
 ?>
 <div class="wiki-page-path">
     <?= Link::to('', Url::toHome($page->content->container))->icon('home')->id('wiki_index') ?>
+    <span class="wiki-page-path-categories">
     <?php foreach ($path as $categoryPage) : ?>
         / <?= $categoryPage instanceof WikiPage
             ? Link::to($categoryPage->title, Url::toWiki($categoryPage))
             : '<span>' . $categoryPage . '</span>' ?>
     <?php endforeach; ?>
+    </span>
 </div>

@@ -35,6 +35,11 @@
 .layout-content-container .wiki-page-path .fa {
   font-size: 18px;
 }
+@media only screen and (max-width: 520px) {
+  .layout-content-container .wiki-page-path .wiki-page-path-categories {
+    display: none;
+  }
+}
 .layout-content-container .wiki-menu {
   white-space: nowrap;
 }
