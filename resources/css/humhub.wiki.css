@@ -192,6 +192,9 @@
   color: #7A7A7A;
   font-size: 12px;
 }
+.layout-content-container .wiki-content .wiki-content-info {
+  margin-top: 5px;
+}
 .layout-content-container .wiki-content .wiki-content-info a {
   color: #555;
 }
