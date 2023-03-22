@@ -33,7 +33,7 @@
   color: #000;
 }
 .layout-content-container .wiki-page-path .fa {
-  font-size: 18px;
+  font-size: 28px;
 }
 @media only screen and (max-width: 520px) {
   .layout-content-container .wiki-page-path .wiki-page-path-categories {
@@ -104,7 +104,7 @@
   margin-bottom: 10px;
 }
 .layout-content-container .wiki-page-content .wiki-page-title {
-  font-size: 28px;
+  font-size: 1.75em;
   font-weight: 500;
   color: #000;
   clear: both;
@@ -116,7 +116,7 @@
   padding: 0 30px 30px;
 }
 .layout-content-container .wiki-page-content .wiki-headline {
-  padding-bottom: 20px;
+  padding-bottom: 8px;
   margin-bottom: 10px;
   border-bottom: 1px solid #eee;
 }
