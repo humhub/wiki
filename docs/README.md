@@ -2,7 +2,7 @@
 
 # Wiki
 
-Collect and share information with your very own Wiki. 
+Create and edit pages with this powerful tool. Compile a collaborative knowledge base, display information and share it with your network.
 
 ## Overview
 

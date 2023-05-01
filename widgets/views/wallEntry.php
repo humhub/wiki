@@ -15,7 +15,7 @@ $wikiUrl = Url::toWiki($wiki);
 ?>
 <div>
     <div class="wiki-preview">
-        <div class="wiki-preview-content">
+        <div class="wiki-preview-content" data-ui-markdown>
             <?php if(!empty($content)) : ?>
                 <?= WikiRichText::output($content, ['maxLength' => 500, 'exclude' => ['anchor']]) ?>
             <?php else: ?>

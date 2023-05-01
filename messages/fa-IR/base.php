@@ -36,6 +36,7 @@ return [
     '<strong>Warning!</strong><br><br>Another user has updated this page since you have started editing it. Please confirm that you want to overwrite those changes.<br>:linkToCompare' => '',
     '<strong>Wiki</strong> link' => '',
     'Add Page' => '',
+    'Advanced settings' => '',
     'Are you really sure? All existing category page assignments will be removed!' => '',
     'Category' => '',
     'Choose a Wiki Page' => '',

@@ -96,7 +96,7 @@ Assets::register($this);
                     ? $category->widget(WikiPagePicker::class, ['model' => $model->page, 'maxInput' => 30])
                     : $category->hiddenInput() ?>
 
-                <?= $form->beginCollapsibleFields('Advanced settings'); ?>
+                <?= $form->beginCollapsibleFields(Yii::t('WikiModule.base', 'Advanced settings')); ?>
 
                 <?php if (!$model->canAdminister()) : ?>
                     <div class="alert alert-info">

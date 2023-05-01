@@ -11,6 +11,7 @@ return array (
   'Add Page' => 'Dodaj stronę',
   'Adds a wiki to this space.' => 'Dodaje wiki do tej strefy.',
   'Adds a wiki to your profile.' => 'Dodaje wiki do Twojego profilu.',
+  'Advanced settings' => 'Zaawansowane ustawienia',
   'Are you really sure? All existing category page assignments will be removed!' => 'Jesteś pewien? Wszystkie połączenia z tą kategorią zostaną usunięte!',
   'Back' => 'Wstecz',
   'Back to page' => 'Powrót do strony',

@@ -64,6 +64,7 @@ return [
     'Wiki page' => 'Wikiside',
     'by' => 'av',
     '<strong>Warning!</strong><br><br>Another user has updated this page since you have started editing it. Please confirm that you want to overwrite those changes.<br>:linkToCompare' => '',
+    'Advanced settings' => '',
     'Compare changes' => '',
     'Default wiki settings' => '',
     'Discard my changes' => '',

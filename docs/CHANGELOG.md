@@ -1,6 +1,9 @@
 Changelog
 =========
 
+1.9.0 (May 1, 2023)
+-------------------
+- Enh #258: Fix creating of page with same title used for soft deleted page
 
 1.9.0-beta.1 (November 7, 2022)
 -------------------------------
