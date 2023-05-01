@@ -3,9 +3,9 @@
     "name": "Wiki",
     "description": "Collect and share information with your very own Wiki.",
     "keywords": ["wiki"],
-    "version": "1.9.0-beta.1",
+    "version": "1.9.0-beta.2",
     "humhub": {
-        "minVersion": "1.13"
+        "minVersion": "1.14"
     },
     "homepage": "https://github.com/humhub/wiki",
     "authors": [
@@ -20,8 +20,8 @@
         }
     ],
     "screenshots": [
-        "assets/screen1.PNG", 
-        "assets/screen2.PNG", 
+        "assets/screen1.PNG",
+        "assets/screen2.PNG",
         "assets/screen3.PNG",
         "assets/screen4.PNG",
         "assets/screen5.PNG",
