@@ -5,6 +5,7 @@ namespace humhub\modules\wiki\models;
 use humhub\modules\content\components\ActiveQueryContent;
 use humhub\modules\content\components\ContentActiveRecord;
 use humhub\modules\content\components\ContentContainerActiveRecord;
+use humhub\modules\content\models\Content;
 use humhub\modules\search\interfaces\Searchable;
 use humhub\modules\space\models\Space;
 use humhub\modules\wiki\activities\WikiPageEditedActivity;
@@ -235,9 +236,14 @@ class WikiPage extends ContentActiveRecord implements Searchable
             $query->andWhere(['!=', 'wiki_page.id', $this->id]);
         }
         $query->andWhere(['wiki_page.title' => $this->title]);
+        $page = $query->one();
 
-        if ($query->count() != 0) {
-            $this->addError('title', Yii::t('WikiModule.base', 'Page title already in use!'));
+        if ($page instanceof WikiPage) {
+            if ($page->content->state === Content::STATE_DELETED) {
+                $this->addError('title', Yii::t('WikiModule.base', 'Page title already in use for a deleted page!'));
+            } else {
+                $this->addError('title', Yii::t('WikiModule.base', 'Page title already in use!'));
+            }
         }
     }
 
