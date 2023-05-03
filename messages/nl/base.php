@@ -1,7 +1,7 @@
 <?php
 return array (
   '<strong>Confirm</strong> page reverting' => '<strong>Bevestig</strong> het terugzetten van de pagina',
-  '<strong>Create</strong> new page' => '<strong>Maak</strong> nieuwe pagina',
+  '<strong>Create</strong> new page' => '<strong>Maak</strong>een nieuwe wiki-pagina',
   '<strong>Edit</strong> page' => '<strong>Bewerk</strong> pagina',
   '<strong>Index</strong>' => '<strong>Inhoudsopgave</strong>',
   '<strong>Page</strong> history' => '<strong>Pagina</strong> geschiedenis',
