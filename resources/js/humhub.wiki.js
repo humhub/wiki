@@ -99,6 +99,9 @@ humhub.module('wiki', function(module, require, $) {
             scrollTop: $anchor.offset().top - view.getContentTop()
         }, 200);
 
+        $('.current-anchor-header').removeClass('current-anchor-header');
+        $anchor.addClass('current-anchor-header');
+
         if(history && history.replaceState) {
             history.replaceState(null, null, '#'+$anchor.attr('id'));
         }

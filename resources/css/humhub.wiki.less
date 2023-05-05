@@ -4,6 +4,7 @@
 @screen-mobile: 520px;
 
 @info: #21A1B3;
+@warning: #FFC107;
 @text-color-main: #555;
 
 @text-color-black: #000;
@@ -134,6 +135,12 @@
         padding-left: 50px;
       }
     }
+  }
+
+  .current-anchor-header {
+    background: fade(@warning, 10%);
+    width: fit-content;
+    .border-radius();
   }
 
   #wiki-page-edit {

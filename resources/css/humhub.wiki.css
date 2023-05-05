@@ -87,6 +87,11 @@
 .layout-content-container .wiki-page-index .wiki-page-index-sub-section .header-anchor {
   padding-left: 50px;
 }
+.layout-content-container .current-anchor-header {
+  background: rgba(255, 193, 7, 0.1);
+  width: fit-content;
+  border-radius: 4px;
+}
 .layout-content-container #wiki-page-edit .ProseMirror-menubar-wrapper {
   z-index: 8;
 }
