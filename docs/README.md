@@ -1,5 +1,3 @@
-[![Test Status](https://github.com/humhub/humhub-modules-wiki/workflows/PHP%20Codeception%20Tests/badge.svg)](https://github.com/humhub/humhub-modules-wiki/actions)
-
 # Wiki
 
 Create and edit pages with this powerful tool. Compile a collaborative knowledge base, display information and share it with your network.
