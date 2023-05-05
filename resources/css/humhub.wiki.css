@@ -250,6 +250,10 @@
   padding-bottom: 4px;
   border: 1px solid transparent;
   display: flex;
+  cursor: pointer;
+}
+.layout-content-container .wiki-content ul.wiki-page-list .page-title .fa[class*="fa-caret"] {
+  cursor: default;
 }
 .layout-content-container .wiki-content ul.wiki-page-list .page-title > div {
   white-space: nowrap;

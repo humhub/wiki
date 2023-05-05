@@ -16,6 +16,12 @@ humhub.module('wiki.CategoryListView', function(module, require, $) {
     };
 
     CategoryListView.prototype.init = function() {
+        this.initFoldingSubpages();
+        this.initSorting();
+        this.initPageTitleLink();
+    }
+
+    CategoryListView.prototype.initFoldingSubpages = function() {
         this.$.on('click', '.fa-caret-down, .fa-caret-right', function() {
             var $icon = $(this);
             var $pageList = $icon.parent().parent().siblings('.wiki-page-list');
@@ -32,7 +38,9 @@ humhub.module('wiki.CategoryListView', function(module, require, $) {
                 }
             });
         });
+    }
 
+    CategoryListView.prototype.initSorting = function() {
         this.$.find('.wiki-page-list').add(this.$).sortable({
             delay: view.isSmall() ? DELAY_DRAG_SMALL_DEVICES : null,
             handle: '.drag-icon',
@@ -50,6 +58,23 @@ humhub.module('wiki.CategoryListView', function(module, require, $) {
             start: $.proxy(this.startDropItem, this),
             stop: $.proxy(this.stopDropItem, this),
             update: $.proxy(this.dropItem, this)
+        });
+    }
+
+    CategoryListView.prototype.initPageTitleLink = function() {
+        this.$.on('click', '.page-title', function (e) {
+            if (e.target !== this && !$(e.target).hasClass('page-title-text')) {
+                return;
+            }
+            const subPagesList = $(this).next('ul.wiki-page-list');
+            if (subPagesList.length && subPagesList.is(':hidden')) {
+                // Unfold subpages
+                $(this).find('.fa-caret-right').trigger('click');
+            }
+            if (e.target === this) {
+                // Open URL of the page
+                $(this).find('a.page-title-text').trigger('click');
+            }
         });
     }
 
