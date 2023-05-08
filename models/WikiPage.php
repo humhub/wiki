@@ -216,7 +216,10 @@ class WikiPage extends ContentActiveRecord implements Searchable
         $pages = static::find()
             ->contentContainer($this->content->container)
             ->andWhere(['!=', static::tableName() . '.id', $this->id])
-            ->orderBy(['sort_order' => SORT_ASC, 'title' => SORT_ASC]);
+            ->orderBy([[
+                static::tableName() . '.sort_order' => SORT_ASC,
+                static::tableName() . '.title' => SORT_ASC
+            ]]);
 
         if (empty($this->parent_page_id)) {
             $pages->andWhere(['IS', 'parent_page_id', new Expression('NULL')]);
@@ -410,7 +413,11 @@ class WikiPage extends ContentActiveRecord implements Searchable
      */
     public function findChildren()
     {
-        return static::find()->andWhere(['parent_page_id' => $this->id])->readable()->orderBy('sort_order ASC, title ASC');
+        return static::find()->andWhere(['parent_page_id' => $this->id])->readable()
+            ->orderBy([
+                static::tableName() . '.sort_order' => SORT_ASC,
+                static::tableName() . '.title' => SORT_ASC
+            ]);
     }
 
     public function getChildrenCount(): int
@@ -481,7 +488,10 @@ class WikiPage extends ContentActiveRecord implements Searchable
     {
         return static::find()->contentContainer($container)
             ->readable()
-            ->orderBy('sort_order ASC, title ASC');
+            ->orderBy([
+                static::tableName() . '.sort_order' => SORT_ASC,
+                static::tableName() . '.title' => SORT_ASC
+            ]);
     }
 
     /**
@@ -495,7 +505,10 @@ class WikiPage extends ContentActiveRecord implements Searchable
         return static::find()
             ->contentContainer($container)
             ->andWhere(['wiki_page.parent_page_id' => $categoryId])
-            ->orderBy('sort_order ASC, title ASC');
+            ->orderBy([
+                static::tableName() . '.sort_order' => SORT_ASC,
+                static::tableName() . '.title' => SORT_ASC
+            ]);
     }
 
     public function afterMove(ContentContainerActiveRecord $container = null) {
