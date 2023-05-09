@@ -239,7 +239,7 @@ class WikiPage extends ContentActiveRecord implements Searchable
         $page = $query->one();
 
         if ($page instanceof WikiPage) {
-            if ($page->content->state === Content::STATE_DELETED) {
+            if ($page->content->getStateService()->isDeleted()) {
                 $this->addError('title', Yii::t('WikiModule.base', 'Page title already in use for a deleted page!'));
             } else {
                 $this->addError('title', Yii::t('WikiModule.base', 'Page title already in use!'));
