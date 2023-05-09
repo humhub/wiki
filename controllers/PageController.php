@@ -74,6 +74,11 @@ class PageController extends BaseController
             throw new HttpException(404, 'Wiki page not found!');
         }
 
+        if ($page->isCategory) {
+            // Unfold category on view it
+            $this->updateFoldingState($page->id, 0);
+        }
+
         $revision = $this->getRevision($page, $revisionId);
 
         // There is no revision for this page.

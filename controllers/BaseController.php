@@ -12,6 +12,7 @@ use humhub\modules\wiki\helpers\Helper;
 use humhub\modules\wiki\models\WikiPage;
 use humhub\modules\wiki\permissions\AdministerPages;
 use humhub\modules\wiki\permissions\ViewHistory;
+use Yii;
 use yii\web\NotFoundHttpException;
 
 
@@ -97,5 +98,25 @@ abstract class BaseController extends ContentContainerController
         }
 
         return $this->render($normalView, $params);
+    }
+
+    public function updateFoldingState(int $wikiPageId, int $state)
+    {
+        if (Yii::$app->user->isGuest) {
+            return;
+        }
+
+        if (empty($wikiPageId)) {
+            return;
+        }
+
+        $userSettings = Yii::$app->user->getIdentity()->getSettings();
+        $foldingStateParamName = 'wiki.foldedCategory.' . $wikiPageId;
+
+        if ($state) {
+            $userSettings->set($foldingStateParamName, true);
+        } else {
+            $userSettings->delete($foldingStateParamName);
+        }
     }
 }

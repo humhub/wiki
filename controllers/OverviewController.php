@@ -9,7 +9,6 @@ namespace humhub\modules\wiki\controllers;
 
 use humhub\modules\wiki\helpers\Url;
 use humhub\modules\wiki\models\WikiPage;
-use Yii;
 use yii\data\ActiveDataProvider;
 
 
@@ -117,23 +116,8 @@ class OverviewController extends BaseController
         ]);
     }
 
-    public function actionUpdateFoldingState(int $categoryId)
+    public function actionUpdateFoldingState(int $categoryId, int $state)
     {
-        if (Yii::$app->user->isGuest) {
-            return;
-        }
-
-        if (empty($categoryId)) {
-            return;
-        }
-
-        $userSettings = Yii::$app->user->getIdentity()->getSettings();
-        $foldingStateParamName = 'wiki.foldedCategory.' . $categoryId;
-
-        if (Yii::$app->request->get('state')) {
-            $userSettings->set($foldingStateParamName, true);
-        } else {
-            $userSettings->delete($foldingStateParamName);
-        }
+        $this->updateFoldingState($categoryId, $state);
     }
 }
