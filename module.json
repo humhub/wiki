@@ -3,7 +3,7 @@
     "name": "Wiki",
     "description": "Collect and share information with your very own Wiki.",
     "keywords": ["wiki"],
-    "version": "1.9.0",
+    "version": "1.9.1",
     "humhub": {
         "minVersion": "1.14"
     },
