@@ -29,13 +29,19 @@ class Helper
 
         $title = Yii::$app->request->get('title');
         if (!empty($title)) {
-            $currentPage = WikiPage::findOne(['title' => $title]);
+            $currentPage = WikiPage::find()
+                ->where([WikiPage::tableName() . '.title' => $title])
+                ->contentContainer($page->content->container)
+                ->one();
             return $currentPage && $currentPage->id == $page->id;
         }
 
         $id = Yii::$app->request->get('id', Yii::$app->request->get('categoryId'));
         if (!empty($id)) {
-            $currentPage = WikiPage::findOne($id);
+            $currentPage = WikiPage::find()
+                ->where([WikiPage::tableName() . '.id' => $id])
+                ->contentContainer($page->content->container)
+                ->one();
             return $currentPage && $currentPage->id == $page->id;
         }
 

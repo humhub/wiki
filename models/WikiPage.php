@@ -216,10 +216,10 @@ class WikiPage extends ContentActiveRecord implements Searchable
         $pages = static::find()
             ->contentContainer($this->content->container)
             ->andWhere(['!=', static::tableName() . '.id', $this->id])
-            ->orderBy([[
+            ->orderBy([
                 static::tableName() . '.sort_order' => SORT_ASC,
                 static::tableName() . '.title' => SORT_ASC
-            ]]);
+            ]);
 
         if (empty($this->parent_page_id)) {
             $pages->andWhere(['IS', 'parent_page_id', new Expression('NULL')]);
