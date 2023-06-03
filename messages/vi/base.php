@@ -68,6 +68,7 @@ return [
     'Overwrite the wiki index start page?' => '',
     'Page index' => '',
     'Page not found' => '',
+    'Page title already in use for a deleted page!' => '',
     'Pages in this category' => '',
     'Pages without category' => '',
     'Parent category' => '',

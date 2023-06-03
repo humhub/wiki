@@ -72,6 +72,7 @@ return [
     'Discard my changes' => '',
     'Overwrite' => '',
     'Overwrite all changes made by :userName on :dateTime.' => '',
+    'Page title already in use for a deleted page!' => '',
     'Parent category' => '',
     'Print this wiki page' => '',
     'Show in Profile menu' => '',
