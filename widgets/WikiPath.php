@@ -39,7 +39,9 @@ class WikiPath extends Widget
 
         $pathCharsCount = 0;
         while ($page) {
-            $pathCharsCount += strlen($page->title);
+            if (is_string($page->title)) {
+                $pathCharsCount += strlen($page->title);
+            }
             $path[] = $page->isNewRecord ? Yii::t('WikiModule.base', 'New Page') : $page;
             $page = $page->categoryPage;
         }
