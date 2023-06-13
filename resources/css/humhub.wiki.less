@@ -94,7 +94,9 @@
   }
 
   .wiki-page-index {
-    max-width: 300px;
+    @media (min-width: @screen-xs) {
+      width: 50%;
+    }
     border: 1px solid @border-color-milk;
     .border-radius();
     padding: 3px 5px;
@@ -122,7 +124,6 @@
     }
 
     .wiki-page-index-section, .wiki-page-index-sub-section {
-      white-space: nowrap;
       .header-anchor {
         text-overflow: ellipsis;
         overflow:hidden;
@@ -337,11 +338,6 @@
         cursor: pointer;
         .fa[class*="fa-caret"] {
           cursor: default;
-        }
-        > div {
-          white-space: nowrap;
-          overflow: hidden;
-          text-overflow: ellipsis;
         }
         &:hover {
           border-color: @info;
