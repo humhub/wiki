@@ -52,7 +52,6 @@ class Events
                 'label' => Html::encode($containerMenuWikiPage->title),
                 'url' => $containerMenuWikiPage->getUrl(),
                 'icon' => 'file-text-o',
-                'isActive' => MenuLink::isActiveState('wiki', 'page', 'view') && Yii::$app->request->get('title') == $containerMenuWikiPage->title,
                 'sortOrder' => $containerMenuWikiPage->container_menu_order,
             ]));
         }
