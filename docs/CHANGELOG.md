@@ -1,6 +1,10 @@
 Changelog
 =========
 
+1.9.1 (Unreleased)
+-------------------
+- Enh #269: Fix permission to edit wiki page from stream
+
 1.9.0 (May 1, 2023)
 -------------------
 - Enh #258: Fix creating of page with same title used for soft deleted page
@@ -230,4 +234,3 @@ Changelog
 1.1.10 - March 14, 2018
 ------------------------
 - Enh: Added Page count configuration
-

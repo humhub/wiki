@@ -8,6 +8,7 @@ use humhub\modules\content\components\ContentContainerActiveRecord;
 use humhub\modules\content\models\Content;
 use humhub\modules\search\interfaces\Searchable;
 use humhub\modules\space\models\Space;
+use humhub\modules\user\models\User;
 use humhub\modules\wiki\activities\WikiPageEditedActivity;
 use humhub\modules\wiki\helpers\Url;
 use humhub\modules\wiki\permissions\AdministerPages;
@@ -181,8 +182,21 @@ class WikiPage extends ContentActiveRecord implements Searchable
      */
     public function canEditWikiPage()
     {
-        // Can edit
-        return $this->content->canEdit() || (!$this->admin_only &&  $this->content->container->can(EditPages::class));
+        return $this->content->canEdit();
+    }
+
+    /**
+     * Additional checking for Content->canEdit() when user has no permission "Administer pages"
+     *
+     * @param User|null $user
+     * @return bool
+     * @throws \yii\base\InvalidConfigException
+     */
+    public function canEdit(User $user = null): bool
+    {
+        return !$this->isNewRecord &&
+            !$this->admin_only &&
+            $this->content->container->getPermissionManager($user)->can(EditPages::class);
     }
 
     /**
