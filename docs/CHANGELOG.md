@@ -4,6 +4,7 @@ Changelog
 1.9.1 (Unreleased)
 -------------------
 - Enh #269: Fix permission to edit wiki page from stream
+- Fix #272: Don't use the deprecated rich text param `maxLength`
 
 1.9.0 (May 1, 2023)
 -------------------
