@@ -1,7 +1,7 @@
 <?php
 return array (
   '<strong>Confirm</strong> page reverting' => '<strong>Bevestig</strong> het terugzetten van de pagina',
-  '<strong>Create</strong> new page' => '<strong>Maak</strong> nieuwe pagina',
+  '<strong>Create</strong> new page' => '<strong>Maak</strong>een nieuwe wiki-pagina',
   '<strong>Edit</strong> page' => '<strong>Bewerk</strong> pagina',
   '<strong>Index</strong>' => '<strong>Inhoudsopgave</strong>',
   '<strong>Page</strong> history' => '<strong>Pagina</strong> geschiedenis',
@@ -55,6 +55,7 @@ return array (
   'Page not editable!' => 'Pagina is niet aanpasbaar.',
   'Page not found' => 'Pagina niet gevonden',
   'Page not found.' => 'Pagina niet gevonden.',
+  'Page title already in use for a deleted page!' => 'Paginatitel is al in gebruik voor een verwijderde pagina!',
   'Page title already in use!' => 'Paginakop reeds in gebruik',
   'Pages in this category' => 'Pagina\'s in deze categorie',
   'Pages without category' => 'Pagina\'s zonder categorie',

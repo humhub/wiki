@@ -17,7 +17,7 @@ $wikiUrl = Url::toWiki($wiki);
     <div class="wiki-preview">
         <div class="wiki-preview-content" data-ui-markdown>
             <?php if(!empty($content)) : ?>
-                <?= WikiRichText::output($content, ['maxLength' => 500, 'exclude' => ['anchor']]) ?>
+                <?= WikiRichText::preview($content, 500, ['exclude' => ['anchor']]) ?>
             <?php else: ?>
                 <?= Yii::t('WikiModule.base', 'This page is empty.') ?>
             <?php endif; ?>

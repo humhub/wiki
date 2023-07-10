@@ -64,6 +64,7 @@ return [
     'Page not editable!' => '',
     'Page not found' => '',
     'Page not found.' => '',
+    'Page title already in use for a deleted page!' => '',
     'Pages in this category' => '',
     'Pages without category' => '',
     'Parent category' => '',
