@@ -29,10 +29,9 @@ class CategoryListItem extends Widget
      */
     public $title;
 
-    /**
-     * @var string
-     */
-    public $icon;
+    public ?string $icon = null;
+    public ?string $iconPage = null;
+    public ?string $iconCategory = null;
 
     /**
      * @var WikiPage[]
@@ -113,6 +112,8 @@ class CategoryListItem extends Widget
 
         return $this->render('categoryListItem', [
             'icon' => $this->icon,
+            'iconPage' => $this->iconPage,
+            'iconCategory' => $this->iconCategory,
             'title' => $this->title,
             'pages' => $this->pages,
             'hideTitle' => $this->hideTitle,

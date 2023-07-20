@@ -9,7 +9,9 @@ use humhub\modules\wiki\widgets\PageListItemTitle;
 /* @var $contentContainer ContentContainerActiveRecord */
 /* @var $pages WikiPage[] */
 /* @var $title string */
-/* @var $icon string */
+/* @var $icon string|null */
+/* @var $iconPage string|null */
+/* @var $iconCategory string|null */
 /* @var $category WikiPage */
 /* @var $hideTitle bool */
 /* @var $showAddPage bool */
@@ -44,7 +46,8 @@ use humhub\modules\wiki\widgets\PageListItemTitle;
                     'showNumFoldedSubpages' => $showNumFoldedSubpages,
                     'level' => $level + 1,
                     'levelIndent' => $levelIndent,
-                    'maxLevel' => $maxLevel
+                    'maxLevel' => $maxLevel,
+                    'icon' => $page->isCategory ? $iconCategory : $iconPage
                 ]) ?>
                 <?php if ($page->isCategory) : ?>
                     <?= CategoryListView::widget([

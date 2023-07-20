@@ -18,6 +18,9 @@ use humhub\modules\wiki\widgets\CategoryListItem;
                 'contentContainer' => $page->content->container,
                 'levelIndent' => 20,
                 'maxLevel' => 1,
+                'icon' => false,
+                'iconPage' => 'file-o',
+                'iconCategory' => 'files-o'
             ])?>
         </ul>
     </div>

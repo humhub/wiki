@@ -1,6 +1,7 @@
 <?php
 
 use humhub\libs\Html;
+use humhub\modules\ui\icon\widgets\Icon;
 use humhub\modules\wiki\models\WikiPage;
 use humhub\widgets\Button;
 use humhub\modules\wiki\helpers\Url;
@@ -17,7 +18,7 @@ use humhub\modules\wiki\helpers\Url;
 <?= Html::beginTag('div', $options) ?>
     <div>
         <?= Button::asLink()->icon('arrows')->cssClass('wiki-page-control drag-icon')->visible($page && $showDrag) ?>
-        <i class="fa <?= $icon ?>"></i> <?= Html::tag($url ? 'a' : 'span', Html::encode($title), ['href' => $url, 'class' => 'page-title-text']) ?>
+        <?= ($icon ? Icon::get($icon) . ' ' : '') . Html::tag($url ? 'a' : 'span', Html::encode($title), ['href' => $url, 'class' => 'page-title-text']) ?>
         <?php if ($titleInfo) : ?>
             <span class="page-title-info"><?= $titleInfo ?></span>
         <?php endif; ?>

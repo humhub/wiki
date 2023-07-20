@@ -232,8 +232,15 @@
       ul.wiki-page-list {
         margin-bottom: 0;
         padding-left: 2px;
-        .page-title:hover {
-          border-color: transparent;
+        .page-title {
+          .fa {
+            font-size: 11px;
+            color: @text-color-darkgrey;
+            margin: 0 5px;
+          }
+          &:hover {
+            border-color: transparent;
+          }
         }
       }
 
@@ -364,11 +371,6 @@
         }
         .fa-caret-right {
            margin: 0 8px 0 7px;
-        }
-        .fa-file-text-o {
-          font-size: 11px;
-          color: @text-color-darkgrey;
-          margin: 0 5px;
         }
       }
     }
