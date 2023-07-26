@@ -168,7 +168,7 @@
 }
 .layout-content-container .wiki-page-content .wiki-sub-pages ul.wiki-page-list .page-title .fa {
   font-size: 11px;
-  color: #AEAEAE;
+  color: #555;
   margin: 0 5px;
 }
 .layout-content-container .wiki-page-content .wiki-sub-pages ul.wiki-page-list .page-title:hover {
@@ -509,7 +509,7 @@
 #category_list_view .drag-icon .fa {
   font-size: 11px;
 }
-#category_list_view:hover .drag-icon {
+#category_list_view .page-title:hover .drag-icon {
   visibility: visible;
   cursor: move;
 }
@@ -524,6 +524,9 @@
 .wiki-page-sidebar #category_list_view.wiki-page-list .page-title {
   padding-left: 12px;
   padding-right: 12px;
+}
+.wiki-page-sidebar #category_list_view.wiki-page-list .page-title:not(.page-is-category) .page-title-text {
+  padding-left: 24px;
 }
 .wiki-page-sidebar #category_list_view.wiki-page-list.wiki-page-is-dropping ul.wiki-page-list:not(.wiki-page-list-droppable-target) {
   padding-top: 25px;

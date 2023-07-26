@@ -30,9 +30,9 @@ class PageListItemTitle extends Widget
     public $titleInfo;
 
     public $icon;
-    public $iconPage = 'fa-file-text-o';
-    public $iconCategoryOpened = 'fa-caret-down';
-    public $iconCategoryFolded = 'fa-caret-right';
+    public $iconPage;
+    public $iconCategoryOpened = 'caret-down';
+    public $iconCategoryFolded = 'caret-right';
 
     /**
      * @var bool

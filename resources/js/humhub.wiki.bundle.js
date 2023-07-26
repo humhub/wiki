@@ -546,9 +546,8 @@ humhub.module('wiki.CategoryListView', function(module, require, $) {
     }
 
     CategoryListView.prototype.updateIcons = function () {
-        var that = this;
-        var iconPageSelector = '.' + that.data('icon-page').replace(' ', '.');
-        var iconCategorySelector = '.' + that.data('icon-category').replace(' ', '.');
+        const that = this;
+        const hasIconPage = that.data('icon-page') !== undefined;
 
         $('.page-title').each(function () {
             var hasChildren = $(this).next('ul.wiki-page-list').find('li.wiki-category-list-item').length;
@@ -556,16 +555,22 @@ humhub.module('wiki.CategoryListView', function(module, require, $) {
 
             if (hasChildren && !isCategory) {
                 $(this).addClass('page-is-category');
-                $(this).find(iconPageSelector)
-                    .after('<i class="' + that.data('icon-category') + '"></i>')
-                    .remove();
+                const iconCategoryHtml = '<i class="' + that.data('icon-category') + '"></i> ';
+                if (hasIconPage) {
+                    $(this).find('.' + that.data('icon-page').replace(' ', '.'))
+                        .after(iconCategoryHtml).remove();
+                } else {
+                    $(this).find('.page-title-text').before(iconCategoryHtml);
+                }
             }
 
             if (!hasChildren && isCategory) {
                 $(this).removeClass('page-is-category');
-                $(this).find(iconCategorySelector)
-                    .after('<i class="' + that.data('icon-page') + '"></i>')
-                    .remove();
+                const iconCategory = $(this).find('.' + that.data('icon-category').replace(' ', '.'));
+                if (hasIconPage) {
+                    iconCategory.after('<i class="' + that.data('icon-page') + '"></i>');
+                }
+                iconCategory.remove();
             }
         });
     }

@@ -235,7 +235,7 @@
         .page-title {
           .fa {
             font-size: 11px;
-            color: @text-color-darkgrey;
+            color: @text-color-main;
             margin: 0 5px;
           }
           &:hover {
@@ -595,14 +595,6 @@
       font-weight: 600;
     }
   }
-  // Temp: don't show grey borders around top parent category
-  //       in order to see only blue borders around first parent
-  //.wiki-parent-target-category {
-  //  > .page-title {
-  //    border-top: 1px solid @border-color-grey;
-  //    border-bottom: 1px solid @border-color-grey;
-  //  }
-  //}
   .wiki-current-target-category {
     > .page-title {
       border-color: @info;
@@ -637,7 +629,7 @@
       font-size: 11px;
     }
   }
-  &:hover {
+  .page-title:hover {
     .drag-icon {
       visibility: visible;
       cursor: move;
@@ -656,6 +648,11 @@
     .page-title {
       padding-left: 12px;
       padding-right: 12px;
+      &:not(.page-is-category) {
+        .page-title-text {
+          padding-left: 24px;
+        }
+      }
     }
     &.wiki-page-is-dropping {
       ul.wiki-page-list:not(.wiki-page-list-droppable-target) {
