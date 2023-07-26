@@ -32,12 +32,12 @@
   font-weight: 600;
   color: #000;
 }
-.layout-content-container .wiki-page-path .fa {
-  font-size: 28px;
-}
 @media only screen and (max-width: 520px) {
   .layout-content-container .wiki-page-path .wiki-page-path-categories {
     display: none;
+  }
+  .layout-content-container .wiki-page-path .fa {
+    font-size: 28px;
   }
 }
 .layout-content-container .wiki-menu {
@@ -128,6 +128,7 @@
 .layout-content-container .wiki-page-content .wiki-headline .wiki-headline-top {
   display: flex;
   justify-content: space-between;
+  align-items: center;
 }
 .layout-content-container .wiki-page-content .wiki-headline .label {
   margin-left: 2px;
