@@ -356,7 +356,7 @@
           border-color: @info;
           .border-radius();
           .wiki-category-add {
-            display: inline-block;
+            visibility: visible;
           }
         }
         .wiki-page-control {
@@ -367,7 +367,8 @@
           }
         }
         .wiki-category-add {
-          display: none;
+          display: inline-block;
+          visibility: hidden;
         }
         .fa {
           font-size: 14px;
@@ -657,6 +658,12 @@
       &:not(.page-is-category) {
         .page-title-text {
           padding-left: 24px;
+        }
+      }
+      > div {
+        display: flex;
+        > i.fa {
+          padding: 5px 2px;
         }
       }
     }
