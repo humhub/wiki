@@ -34,27 +34,19 @@ class WikiPath extends Widget
      */
     private function getPagePath(): array
     {
-        $page = $this->page;
+        $page = $this->page->categoryPage;
         $path = [];
 
-        $pathCharsCount = 0;
         while ($page) {
-            if (is_string($page->title)) {
-                $pathCharsCount += strlen($page->title);
-            }
-            $path[] = $page->isNewRecord ? Yii::t('WikiModule.base', 'New Page') : $page;
+            $path[] = $page;
             $page = $page->categoryPage;
         }
 
+
         $pathLength = count($path);
-        if ($pathLength > 3 && $pathCharsCount > 50) {
-            foreach ($path as $p => $page) {
-                if ($p > 2 && $p < $pathLength - 1) {
-                    unset($path[$p]);
-                } elseif ($p === 2) {
-                    $path[$p] = '...';
-                }
-            }
+        if ($pathLength > 4) {
+            $path = array_slice($path, 0, 4);
+            $path[] = '...';
         }
 
         return array_reverse($path);

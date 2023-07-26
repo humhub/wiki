@@ -40,6 +40,11 @@
     font-size: 28px;
   }
 }
+@media only screen and (max-width: 1199px) {
+  .layout-content-container .wiki-page-path .wiki-page-path-first-categories {
+    display: none;
+  }
+}
 .layout-content-container .wiki-menu {
   white-space: nowrap;
 }

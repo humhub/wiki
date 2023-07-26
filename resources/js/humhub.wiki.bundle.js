@@ -315,26 +315,7 @@ humhub.module('wiki.Form', function(module, require, $) {
                 }
             });
         }
-
-        this.initFieldTitle();
     };
-
-    Form.prototype.initFieldTitle = function () {
-        const crumb = $('.wiki-page-path').children('a, span').last();
-        if (!crumb.length) {
-            return;
-        }
-        const initTitle = crumb.html();
-
-        this.$.find('#wikipage-title').on('keyup', function () {
-            let title = $(this).val().trim();
-            if (title === '') {
-                title = initTitle;
-            }
-
-            crumb.html(title);
-        });
-    }
 
     Form.prototype.getRichtextMenu = function() {
         if(!this.$menu) {
@@ -375,6 +356,7 @@ humhub.module('wiki.Form', function(module, require, $) {
 
     module.export = Form;
 });
+
 humhub.module('wiki.CategoryListView', function(module, require, $) {
     var Widget = require('ui.widget').Widget;
     var client = require('client');
