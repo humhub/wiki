@@ -681,6 +681,7 @@
     .page-title {
       padding-left: 12px;
       padding-right: 12px;
+      transition: background 1s ease;
       &:not(.page-is-category) {
         .page-title-text {
           padding-left: 24px;
@@ -698,6 +699,9 @@
           padding: 5px 2px;
         }
       }
+      &.wiki-page-dropped {
+        background: fade(@warning, 12%);
+      }
     }
     &.wiki-page-is-dropping {
       ul.wiki-page-list:not(.wiki-page-list-droppable-target) {
@@ -709,10 +713,11 @@
           border-color: transparent !important;
         }
       }
-      .page-title:hover {
-        .wiki-category-add {
-          display: none;
-        }
+      .wiki-category-add {
+        display: none;
+      }
+      .drag-icon {
+        visibility: hidden;
       }
     }
   }

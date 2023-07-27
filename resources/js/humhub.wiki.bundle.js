@@ -396,7 +396,7 @@ humhub.module('wiki.CategoryListView', function(module, require, $) {
 
     CategoryListView.prototype.indent = {
         default: 12,
-        level: 40,
+        level: 17,
     };
 
     CategoryListView.prototype.init = function() {
@@ -616,6 +616,7 @@ humhub.module('wiki.CategoryListView', function(module, require, $) {
     CategoryListView.prototype.dropItem = function (event, ui) {
         const $item = ui.item;
         const pageId = $item.data('page-id');
+        const pageTitle = $item.children('.page-title');
 
         const parent = $item.parents('.wiki-category-list-item').first();
         const targetId = parent.length ? parent.data('page-id') : null;
@@ -635,14 +636,17 @@ humhub.module('wiki.CategoryListView', function(module, require, $) {
 
         this.stopDropItem();
         this.updateIcons();
+        pageTitle.addClass('wiki-page-dropped');
 
         client.post(this.options.dropUrl, {data: data}).then(function (response) {
             if (!response.success) {
                 $item.closest('.category_list_view, .wiki-page-list').sortable('cancel');
             }
+            pageTitle.removeClass('wiki-page-dropped');
         }).catch(function (e) {
             module.log.error(e, true);
             $item.closest('.category_list_view, .wiki-page-list').sortable('cancel');
+            pageTitle.removeClass('wiki-page-dropped');
         });
     };
 
