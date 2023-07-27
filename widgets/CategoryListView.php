@@ -59,7 +59,7 @@ class CategoryListView extends JsWidget
     /**
      * @var int Text indent for level of the sub-category
      */
-    public $levelIndent = 40;
+    public $levelIndent = 17;
 
     /**
      * @var int|null Max level deep to load sub-pages, null - to load all levels
