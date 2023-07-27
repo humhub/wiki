@@ -155,9 +155,9 @@ humhub.module('wiki.Page', function(module, require, $) {
                 that.$.fadeIn('slow');
             }
 
-            that.initHeaderEditIcons();
             that.buildIndex();
             that.initAnchor();
+            that.initHeaderEditIcons();
         });
     };
 
@@ -189,7 +189,13 @@ humhub.module('wiki.Page', function(module, require, $) {
             '<div class="wiki-page-header-wrapper">$1</div>'));
 
         this.$.find('h1,h2,h3').each(function () {
-            $(this).append(' <a href="' + editUrl + '" class="header-edit-link"><i class="fa fa-pencil"></i></a>');
+            const anchor = $(this).find('a.header-anchor');
+            const editIconLink = '<a href="' + editUrl + '" class="header-edit-link"><i class="fa fa-pencil"></i></a>';
+            if (anchor.length) {
+                anchor.before(editIconLink + ' ');
+            } else {
+                $(this).append(' ' +editIconLink);
+            }
         });
     }
 
@@ -211,8 +217,8 @@ humhub.module('wiki.Page', function(module, require, $) {
         var hasHeadLine = false;
         var headerLevel = 1;
         var headerNum = [];
-        var minLevel = $('#wiki-page-richtext').find('h1').length ? 1 : 2;
-        $('#wiki-page-richtext').children('h1,h2').each(function() {
+        var minLevel = this.$.find('#wiki-page-richtext h1').length ? 1 : 2;
+        this.$.find('#wiki-page-richtext').find('h1,h2').each(function() {
             hasHeadLine = true;
 
             var $header = $(this).clone();
