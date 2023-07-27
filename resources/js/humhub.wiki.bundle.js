@@ -155,6 +155,7 @@ humhub.module('wiki.Page', function(module, require, $) {
                 that.$.fadeIn('slow');
             }
 
+            that.initHeaderEditIcons();
             that.buildIndex();
             that.initAnchor();
         });
@@ -174,6 +175,23 @@ humhub.module('wiki.Page', function(module, require, $) {
             wikiView.toAnchor($(this).attr('href'));
         });
     };
+
+    Page.prototype.initHeaderEditIcons = function() {
+        const editUrl = this.data('edit-url');
+
+        if (editUrl === undefined) {
+            return;
+        }
+
+        // Wrap header + content below(before next header) into a block,
+        // in order to make the header-edit-link visible only on hover the block
+        this.$.html(this.$.html().replace(/(<h([1-3]).*?>.+?<\/h\2>([\s\S]*?(?=<h[1-3]|$)))/ig,
+            '<div class="wiki-page-header-wrapper">$1</div>'));
+
+        this.$.find('h1,h2,h3').each(function () {
+            $(this).append(' <a href="' + editUrl + '" class="header-edit-link"><i class="fa fa-pencil"></i></a>');
+        });
+    }
 
     Page.prototype.buildIndex = function() {
         var $list = $('<ul class="nav nav-pills nav-stacked">');
@@ -274,6 +292,7 @@ humhub.module('wiki.Page', function(module, require, $) {
 
     module.export = Page;
 });
+
 humhub.module('wiki.Form', function(module, require, $) {
     var Widget = require('ui.widget').Widget;
     var wikiView = require('wiki');

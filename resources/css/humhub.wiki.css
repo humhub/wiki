@@ -454,6 +454,24 @@
     white-space: normal;
   }
 }
+.wiki-page-header-wrapper p:last-child {
+  margin: 0 0 1.2em;
+}
+.wiki-page-header-wrapper:last-child p:last-child {
+  margin: 0;
+}
+.wiki-page-header-wrapper a.header-edit-link {
+  display: none;
+  color: #555 !important;
+}
+.wiki-page-header-wrapper:hover .header-edit-link {
+  display: inline;
+}
+.wiki-page-header-wrapper h1:hover a,
+.wiki-page-header-wrapper h2:hover a,
+.wiki-page-header-wrapper h3:hover a {
+  display: inline !important;
+}
 .wiki-search-form {
   float: right;
   position: relative;
