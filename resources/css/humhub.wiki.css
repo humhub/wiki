@@ -538,6 +538,10 @@
   visibility: visible;
   cursor: move;
 }
+#category_list_view ul .drag-icon .fa {
+  position: relative;
+  left: -23px;
+}
 .wiki-page-sidebar {
   padding-right: 0;
   position: relative;
