@@ -1,8 +1,9 @@
 Changelog
 =========
 
-1.9.1 (Unreleased)
--------------------
+2.0.0-beta.1 (July 28, 2023)
+----------------------------
+- Enh #249: Redesign 
 - Enh #269: Fix permission to edit wiki page from stream
 - Fix #272: Don't use the deprecated rich text param `maxLength`
 
