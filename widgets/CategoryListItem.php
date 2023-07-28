@@ -29,10 +29,9 @@ class CategoryListItem extends Widget
      */
     public $title;
 
-    /**
-     * @var string
-     */
-    public $icon;
+    public ?string $icon = null;
+    public ?string $iconPage = null;
+    public ?string $iconCategory = null;
 
     /**
      * @var WikiPage[]
@@ -60,6 +59,11 @@ class CategoryListItem extends Widget
     public $showDrag;
 
     /**
+     * @var bool
+     */
+    public $showNumFoldedSubpages;
+
+    /**
      * @var bool|null
      */
     private static $canAdminister = null;
@@ -70,15 +74,34 @@ class CategoryListItem extends Widget
     public static $canCreate = null;
 
     /**
+     * @var int Level of the sub-category
+     */
+    public $level = 0;
+
+    /**
+     * @var int Text indent for level of the sub-category
+     */
+    public $levelIndent = 40;
+
+    /**
+     * @var int|null Max level deep to load sub-pages, null - to load all levels
+     */
+    public $maxLevel;
+
+    /**
      * @inheritdoc
      */
     public function run()
     {
-        if($this->showDrag === null) {
+        if ($this->maxLevel !== null && $this->level > $this->maxLevel) {
+            return '';
+        }
+
+        if ($this->showDrag === null) {
             $this->showDrag = $this->canAdminister();
         }
 
-        if($this->showAddPage === null) {
+        if ($this->showAddPage === null) {
             $this->showAddPage = $this->canCreate();
         }
 
@@ -89,13 +112,20 @@ class CategoryListItem extends Widget
 
         return $this->render('categoryListItem', [
             'icon' => $this->icon,
+            'iconPage' => $this->iconPage,
+            'iconCategory' => $this->iconCategory,
             'title' => $this->title,
             'pages' => $this->pages,
             'hideTitle' => $this->hideTitle,
             'showAddPage' => $this->showAddPage,
             'showDrag' => $this->showDrag,
+            'showNumFoldedSubpages' => $this->showNumFoldedSubpages,
             'contentContainer' => $this->contentContainer,
             'category' => $this->category,
+            'level' => $this->level,
+            'levelIndent' => $this->levelIndent,
+            'maxLevel' => $this->maxLevel,
+            'displaySubPages' => $this->maxLevel === null || $this->level < $this->maxLevel
         ]);
     }
 

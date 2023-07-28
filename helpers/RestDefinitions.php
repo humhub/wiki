@@ -28,7 +28,6 @@ class RestDefinitions
             'title' => $page->title,
             'is_home' => $page->is_home,
             'admin_only' => $page->admin_only,
-            'is_category' => $page->is_category,
             'parent_page_id' => $page->parent_page_id,
             'permalink' => static::getPagePermalink($page),
             'latest_revision' => static::getWikiPageRevision($page->latestRevision),

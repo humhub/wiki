@@ -9,19 +9,8 @@
 namespace humhub\modules\wiki\widgets;
 
 
-use humhub\components\Widget;
 use humhub\libs\Html;
-use humhub\modules\content\components\ContentContainerActiveRecord;
-use humhub\modules\content\widgets\PermaLink;
-use humhub\modules\wiki\helpers\Url;
-use humhub\modules\wiki\models\WikiPage;
-use humhub\modules\wiki\models\WikiPageRevision;
-use humhub\modules\wiki\permissions\AdministerPages;
-use humhub\modules\wiki\permissions\CreatePage;
-use humhub\modules\wiki\permissions\ViewHistory;
 use humhub\widgets\JsWidget;
-use humhub\widgets\Link;
-use Yii;
 
 class WikiContent extends JsWidget
 {
@@ -31,7 +20,7 @@ class WikiContent extends JsWidget
     public $cssClass;
     public $title;
     public $titleIcon;
-    public $cols = 9;
+    public $cols = 12;
 
     public function init()
     {
@@ -64,6 +53,6 @@ class WikiContent extends JsWidget
     {
         $icon = $this->titleIcon ? Html::tag('i', '', ['class' => 'fa '.$this->titleIcon]) : '';
 
-        return empty($this->title) ? '' : Html::tag('h1', (empty($icon)) ? $this->title : $icon.' '.$this->title).'<hr>';
+        return empty($this->title) ? '' : Html::tag('h1', (empty($icon)) ? $this->title : $icon.' '.$this->title);
     }
 }

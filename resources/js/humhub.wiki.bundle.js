@@ -3,6 +3,7 @@ humhub.module('wiki', function(module, require, $) {
     var event = require('event');
     var view = require('ui.view');
     var client = require('client');
+    var loader = require('ui.loader');
 
     var stickyElementSettings = [];
 
@@ -15,18 +16,22 @@ humhub.module('wiki', function(module, require, $) {
     Content.prototype.init = function() {
         $(window).off('scroll.wiki').on('scroll.wiki', function () {
             $.each(stickyElementSettings, function(index, setting) {
-                var sticky = $(window).scrollTop() + view.getContentTop() > setting.$trigger.offset().top;
-                var canStick = setting.condition ? setting.condition.call() : true;
+                let sticky = $(window).scrollTop() + view.getContentTop() > setting.$trigger.offset().top;
+                const canStick = setting.condition ? setting.condition.call() : true;
 
                 sticky = sticky && canStick;
 
-                var topMenu = setting.$node.data('menu-top');
-                var shiftTopMenuPosition = topMenu && topMenu.length ? topMenu.height() : 0;
-                var menuCss = {'position': 'relative', 'top': '0'};
+                const topMenu = setting.$node.data('menu-top');
+                const shiftTopMenuPosition = topMenu && topMenu.length ? topMenu.height() : 0;
+                const menuCss = {position: 'relative', top: '0', left: 'initial'};
+                const positionMode = setting.$node.parent().css('display') === 'flex' ? 'fixed' : 'sticky';
 
                 if (sticky) {
-                    menuCss.position = 'sticky';
+                    menuCss.position = positionMode;
                     menuCss.top = (view.getContentTop() + shiftTopMenuPosition) + 'px';
+                    if (positionMode === 'fixed') {
+                        menuCss.left = setting.$node.offset().left;
+                    }
                 }
 
                 setting.$node.css(menuCss);
@@ -38,7 +43,50 @@ humhub.module('wiki', function(module, require, $) {
                 }
             });
         });
+
+        const menu = this.$.find('.wiki-menu');
+        if (menu.length) {
+            registerStickyElement(menu, this.$, {
+                call: () => $(window).width() < 768
+            });
+        }
     };
+
+    Content.prototype.loader = function (show) {
+        var $loader = this.$.find('.wiki-menu');
+        if (show === false) {
+            loader.reset($loader);
+            return;
+        }
+
+        loader.set($loader, {
+            'size': '8px',
+            'css': {padding: 0, width: '60px'}
+        });
+    };
+
+    Content.prototype.reloadEntry = function (entry) {
+        if (!entry) {
+            return;
+        }
+
+        var content = entry.parent('[data-ui-widget="wiki.Content"]');
+        content.loader();
+
+        return client.get(entry.data('entry-url')).then(function (response) {
+            if (response.output) {
+                content.$.html(response.output);
+                content.$.find('[data-ui-widget]').each(function () {
+                    Widget.instance($(this));
+                });
+            }
+            return response;
+        }).catch(function (err) {
+            module.log.error(err, true);
+        }).finally(function () {
+            content.loader(false);
+        });
+    }
 
     var toAnchor = function(anchor) {
         var $anchor = $('#'+$.escapeSelector(anchor.substr(1, anchor.length)));
@@ -50,6 +98,9 @@ humhub.module('wiki', function(module, require, $) {
         $('html, body').animate({
             scrollTop: $anchor.offset().top - view.getContentTop()
         }, 200);
+
+        $('.current-anchor-header').removeClass('current-anchor-header');
+        $anchor.addClass('current-anchor-header');
 
         if(history && history.replaceState) {
             history.replaceState(null, null, '#'+$anchor.attr('id'));
@@ -84,8 +135,10 @@ humhub.module('wiki', function(module, require, $) {
         unload: unload
     })
 });
+
 humhub.module('wiki.Page', function(module, require, $) {
     var Widget = require('ui.widget').Widget;
+    var wikiView = require('wiki');
 
     /**
      * This widget represents a wiki page and wraps the actual page content.
@@ -101,12 +154,129 @@ humhub.module('wiki.Page', function(module, require, $) {
             } else {
                 that.$.fadeIn('slow');
             }
+
+            that.buildIndex();
+            that.initAnchor();
+            that.initHeaderEditIcons();
         });
     };
 
     Page.print = function() {
         window.print();
     }
+
+    Page.prototype.initAnchor = function() {
+        if (window.location.hash) {
+            wikiView.toAnchor(window.location.hash);
+        }
+
+        $('.wiki-content').find('.header-anchor').on('click', function(evt) {
+            evt.preventDefault();
+            wikiView.toAnchor($(this).attr('href'));
+        });
+    };
+
+    Page.prototype.initHeaderEditIcons = function() {
+        const editUrl = this.data('edit-url');
+
+        if (editUrl === undefined) {
+            return;
+        }
+
+        // Wrap header + content below(before next header) into a block,
+        // in order to make the header-edit-link visible only on hover the block
+        this.$.html(this.$.html().replace(/(<h([1-3]).*?>.+?<\/h\2>([\s\S]*?(?=<h[1-3]|$)))/ig,
+            '<div class="wiki-page-header-wrapper">$1</div>'));
+
+        this.$.find('h1,h2,h3').each(function () {
+            const anchor = $(this).find('a.header-anchor');
+            const editIconLink = '<a href="' + editUrl + '" class="header-edit-link"><i class="fa fa-pencil"></i></a>';
+            if (anchor.length) {
+                anchor.before(editIconLink + ' ');
+            } else {
+                $(this).append(' ' +editIconLink);
+            }
+        });
+    }
+
+    Page.prototype.buildIndex = function() {
+        var $list = $('<ul class="nav nav-pills nav-stacked">');
+
+        var $listHeader = $('<li><a href="#">'+wikiView.text('pageindex')+'</li></a>').on('click', function(evt) {
+            evt.preventDefault();
+            var $siblings = $(this).siblings(':not(.nav-divider)');
+            if ($siblings.first().is(':visible')) {
+                $siblings.hide();
+            } else {
+                $siblings.show();
+            }
+        });
+
+        $list.append($listHeader);
+
+        var hasHeadLine = false;
+        var headerLevel = 1;
+        var headerNum = [];
+        var minLevel = this.$.find('#wiki-page-richtext h1').length ? 1 : 2;
+        this.$.find('#wiki-page-richtext').find('h1,h2').each(function() {
+            hasHeadLine = true;
+
+            var $header = $(this).clone();
+            var $anchor = $header.find('.header-anchor').clone();
+            $anchor.show();
+
+            $header.find('.header-anchor').remove();
+            var text = $header.text();
+
+            if (!text || !text.trim().length) {
+                return;
+            }
+
+            var currentHeaderLevel = $header.is('h2') ? (minLevel === 2 ? 1 : 2) : 1;
+            if (currentHeaderLevel !== headerLevel) {
+                if (currentHeaderLevel > headerLevel) {
+                    headerNum[currentHeaderLevel] = 0;
+                }
+                headerLevel = currentHeaderLevel;
+            }
+
+            if (typeof(headerNum[headerLevel]) === 'undefined') {
+                headerNum[headerLevel] = 0;
+            }
+
+            headerNum[headerLevel]++;
+
+            var numberString = '';
+            for (var i = 1; i <= headerLevel; i++) {
+                numberString += (i > 1 ? '.' : '') + (headerNum[i] ?? 1);
+            }
+
+            $anchor.text(text).prepend('<span>' + numberString + '</span>');
+
+            var $li = $('<li>');
+
+            var cssClass = currentHeaderLevel === 1 ? 'wiki-page-index-section' : 'wiki-page-index-sub-section';
+
+            $li.addClass(cssClass);
+
+            $anchor.on('click', function(evt) {
+                evt.preventDefault();
+                wikiView.toAnchor($anchor.attr('href'));
+            });
+            $li.append($anchor);
+            $list.append($li);
+        });
+
+        if (hasHeadLine) {
+            var firstHeader = this.$.find('h1, h2').first();
+            if (firstHeader.length) {
+                firstHeader.before($list);
+            } else {
+                this.$.prepend($list);
+            }
+            $list.wrap('<div class="wiki-page-index"></div>')
+        }
+    };
 
     /**
      * Compare HTML content of two blocks
@@ -128,118 +298,10 @@ humhub.module('wiki.Page', function(module, require, $) {
 
     module.export = Page;
 });
-humhub.module('wiki.Menu', function(module, require, $) {
-    var Widget = require('ui.widget').Widget;
-    var wikiView = require('wiki');
-    var event = require('event');
-    var view = require('ui.view');
 
-    /**
-     * This widget represents the wiki menu
-     */
-    var Menu = Widget.extend();
-
-    Menu.prototype.init = function() {
-        var that = this;
-
-        if(!view.isSmall()) {
-            wikiView.registerStickyElement(this.$, $('.wiki-content'), function() {
-                return that.$.height() < $(window).height() - view.getContentTop();
-            });
-        }
-
-        if($('.wiki-page-content').length) {
-            this.buildIndex();
-            this.initAnchor();
-        }
-
-        event.off('humhub:content:afterMove.wiki').on('humhub:content:afterMove.wiki', function() {
-            if(that.$.find('#wiki_index').length) {
-                that.$.find('#wiki_index').click();
-            }
-        });
-    };
-
-    Menu.prototype.initAnchor = function() {
-        if(window.location.hash) {
-            wikiView.toAnchor(window.location.hash);
-        }
-
-        $('.wiki-content').find('.header-anchor').on('click', function(evt) {
-            evt.preventDefault();
-            wikiView.toAnchor($(this).attr('href'));
-        });
-    };
-
-    Menu.prototype.buildIndex = function() {
-        var that = this;
-
-        var $list = $('<ul class="nav nav-pills nav-stacked">');
-
-        var $listHeader = $('<li><a href="#"><i class="fa fa-list-ol"></i> '+wikiView.text('pageindex')+'</li></a>').on('click', function(evt) {
-            evt.preventDefault();
-            var $siblings = $(this).siblings(':not(.nav-divider)');
-            if($siblings.first().is(':visible')) {
-                $siblings.hide();
-            } else {
-                $siblings.show();
-            }
-            if (that.$.css('position') === 'sticky') {
-                var topMenu = that.$.data('menu-top');
-                var shiftTopMenuPosition = topMenu && topMenu.length ? topMenu.height() : 0;
-                that.$.css('top', (view.getContentTop() + shiftTopMenuPosition) + 'px');
-            }
-        });
-
-        $list.append($listHeader);
-
-        var hasHeadLine = false;
-        $('#wiki-page-richtext').children('h1,h2').each(function() {
-            hasHeadLine = true;
-
-            var $header = $(this).clone();
-            var $anchor = $header.find('.header-anchor').clone();
-            $anchor.show();
-
-            $header.find('.header-anchor').remove();
-            var text = $header.text();
-
-            if(!text || !text.trim().length) {
-                return;
-            }
-
-            $anchor.text($header.text());
-
-            var $li = $('<li>');
-
-            var cssClass = $header.is('h2') ? 'wiki-menu-sub-section' : 'wiki-menu-section';
-
-            $li.addClass(cssClass);
-
-            $anchor.prepend('<i class="fa fa-caret-right"></i>');
-            $anchor.on('click', function(evt) {
-                evt.preventDefault();
-                wikiView.toAnchor($anchor.attr('href'));
-            });
-            $li.append($anchor);
-            $list.append($li);
-
-        });
-
-        if(hasHeadLine) {
-            $list.append('<li class="nav-divider"></li>');
-            $('.wiki-page-content').before($list);
-            $list.wrap('<div class="col-lg-3 col-md-3 col-sm-3 wiki-menu wiki-menu-top"></div>')
-            this.$.data('menu-top', $list.parent());
-        }
-    };
-
-    module.export = Menu;
-});
 humhub.module('wiki.Form', function(module, require, $) {
     var Widget = require('ui.widget').Widget;
     var wikiView = require('wiki');
-    var modal = require('ui.modal');
     var additions = require('ui.additions');
 
     /**
@@ -319,6 +381,7 @@ humhub.module('wiki.Form', function(module, require, $) {
 
     module.export = Form;
 });
+
 humhub.module('wiki.CategoryListView', function(module, require, $) {
     var Widget = require('ui.widget').Widget;
     var client = require('client');
@@ -331,13 +394,24 @@ humhub.module('wiki.CategoryListView', function(module, require, $) {
 
     var DELAY_DRAG_SMALL_DEVICES = 250;
 
+    CategoryListView.prototype.indent = {
+        default: 12,
+        level: 17,
+    };
+
     CategoryListView.prototype.init = function() {
-        this.$.find('.fa-caret-square-o-down, .fa-caret-square-o-right').on('click', function() {
+        this.initFoldingSubpages();
+        this.initSorting();
+        this.initPageTitleLink();
+    }
+
+    CategoryListView.prototype.initFoldingSubpages = function() {
+        this.$.on('click', '.fa-caret-down, .fa-caret-right', function() {
             var $icon = $(this);
-            var $pageList = $icon.parent().siblings('.wiki-page-list');
+            var $pageList = $icon.parent().parent().siblings('.wiki-page-list');
             $pageList.slideToggle('fast', function() {
-                var newIconClass = ($pageList.is(':visible')) ? 'fa-caret-square-o-down' : 'fa-caret-square-o-right';
-                $icon.removeClass('fa-caret-square-o-down fa-caret-square-o-right').addClass(newIconClass);
+                var newIconClass = ($pageList.is(':visible')) ? 'fa-caret-down' : 'fa-caret-right';
+                $icon.removeClass('fa-caret-down fa-caret-right').addClass(newIconClass);
                 // Update folding state of the Category for current User
                 var $categoryId = $icon.closest('.wiki-category-list-item[data-page-id]').data('page-id');
                 if ($categoryId) {
@@ -348,57 +422,237 @@ humhub.module('wiki.CategoryListView', function(module, require, $) {
                 }
             });
         });
+    }
 
-        this.$.sortable({
-            delay: (view.isSmall()) ? DELAY_DRAG_SMALL_DEVICES : null,
+    CategoryListView.prototype.initSorting = function() {
+        this.$.find('.wiki-page-list').add(this.$).sortable({
+            delay: view.isSmall() ? DELAY_DRAG_SMALL_DEVICES : null,
             handle: '.drag-icon',
-            items: '.wiki-category-list-item[data-page-id]',
+            cursor: 'move',
+            connectWith: '.wiki-page-list',
+            items: '[data-page-id]',
             helper: 'clone',
+            placeholder: 'ui-sortable-drop-area',
+            tolerance: 'pointer',
+            sort: $.proxy(this.fixSort, this),
+            create: $.proxy(this.fixer, this),
+            change: $.proxy(this.updatePlaceholderStyle, this),
+            over: $.proxy(this.overList, this),
+            out: $.proxy(this.clearDroppablePlaceholder, this),
+            start: $.proxy(this.startDropItem, this),
+            stop: $.proxy(this.stopDropItem, this),
             update: $.proxy(this.dropItem, this)
         });
+    }
 
-        this.$.find('.wiki-page-list').sortable({
-            delay: (view.isSmall()) ? DELAY_DRAG_SMALL_DEVICES : null,
-            handle: '.drag-icon',
-            connectWith: '.wiki-page-list:not(#category_list_view)',
-            helper: 'clone',
-            update: $.proxy(this.dropItem, this)
+    CategoryListView.prototype.initPageTitleLink = function() {
+        this.$.on('click', '.page-title', function (e) {
+            if (e.target !== this && !$(e.target).hasClass('page-title-text')) {
+                return;
+            }
+            const subPagesList = $(this).next('ul.wiki-page-list');
+            if (subPagesList.length && subPagesList.is(':hidden')) {
+                // Unfold subpages
+                $(this).find('.fa-caret-right').trigger('click');
+            }
+            if (e.target === this) {
+                // Open URL of the page
+                $(this).find('a.page-title-text').trigger('click');
+            }
         });
+    }
 
-        if(view.isNormal()) {
-            this.$.find('.page-title, .page-category-title').hover(function() {
-                $(this).find('.wiki-page-control:not(.drag-icon)').show();
-            }, function() {
-                $(this).find('.wiki-page-control:not(.drag-icon)').hide();
+    CategoryListView.prototype.fixSort = function (event, ui) {
+        this.fixPlaceholderPositionY(event, ui);
+        this.fixPlaceholderPositionX(event, ui);
+    }
+
+    CategoryListView.prototype.fixPlaceholderPositionX = function (event, ui) {
+        const itemCount = ui.placeholder.parent().children('li:not(.ui-sortable-helper)').length;
+        const isLastItem = itemCount > 1 && itemCount - 1 === ui.placeholder.index();
+        const cursorX = ui.position.left + ui.helper.find('.drag-icon').position().left;
+        const parentX = parseInt(ui.placeholder.parent().prev('.page-title').css('padding-left'));
+        const cursorIsOverParent = cursorX - this.indent.level < parentX;
+
+        if (isLastItem && cursorIsOverParent) {
+            // Move placeholder to parent category up
+            ui.placeholder.parent().parent().after(ui.placeholder);
+            this.updateTargetStyle(ui.placeholder);
+            this.updatePlaceholderStyle();
+        }
+    }
+
+    CategoryListView.prototype.fixPlaceholderPositionY = function (event, ui) {
+        const deltaPosition = event.pageY - ui.placeholder.offset().top;
+        const isWrongPosition = Math.abs(deltaPosition) > ui.item.outerHeight() / 2;
+
+        if (isWrongPosition) {
+            deltaPosition > 0
+                ? ui.placeholder.next().after(ui.placeholder) // Move placeholder down
+                : ui.placeholder.prev().before(ui.placeholder); // Move placeholder up
+        }
+    }
+
+    CategoryListView.prototype.updatePlaceholderStyle = function () {
+        const dropArea = $('.ui-sortable-drop-area');
+        const indent = this.$.is(dropArea.parent()) ? 0
+            : parseInt(dropArea.parent().prev('.page-title').css('padding-left'))
+                + this.indent.level * 2 - this.indent.default - 8
+        dropArea.css('margin-left', indent + 'px');
+    }
+
+    CategoryListView.prototype.overList = function (event, ui) {
+        this.updateTargetStyle(ui.placeholder);
+    }
+
+    CategoryListView.prototype.updateTargetStyle = function (placeholder) {
+        this.clearDroppablePlaceholder();
+        const parent = placeholder.closest('.wiki-page-list').parent();
+        parent.addClass('wiki-current-target-category')
+            .parents('.wiki-category-list-item:eq(0)').addClass('wiki-parent-target-category');
+        if (parent.is(':hidden')) {
+            parent.closest('.wiki-parent-target-category').addClass('wiki-current-target-category');
+        }
+        if (placeholder.index() === 0 && placeholder.parent().children('li').length > 1) {
+            parent.addClass('wiki-current-target-category-over');
+        }
+    }
+
+    CategoryListView.prototype.clearStyle = function (className) {
+        $('.' + className).removeClass(className);
+        return this;
+    }
+
+    CategoryListView.prototype.clearDroppablePlaceholder = function () {
+        return this.clearStyle('wiki-current-target-category')
+            .clearStyle('wiki-current-target-category-over')
+            .clearStyle('wiki-parent-target-category');
+    }
+
+    CategoryListView.prototype.startDropItem = function (event, ui) {
+        ui.item.show().addClass('wiki-current-dropping-page');
+        ui.helper.height(ui.item.children('.page-title').outerHeight());
+        this.clearStyle('wiki-list-item-selected');
+        this.$.addClass('wiki-page-is-dropping');
+        $('.wiki-page-list').each(function() {
+            if ($(this).is(':hidden') || $(this).find('li').length === 0) {
+                $(this).addClass('wiki-page-list-droppable-target');
+            }
+        });
+    }
+
+    CategoryListView.prototype.stopDropItem = function (event, ui) {
+        this.clearDroppablePlaceholder()
+            .clearStyle('wiki-current-dropping-page')
+            .clearStyle('wiki-page-list-droppable-target')
+            .clearStyle('wiki-page-is-dropping');
+        $('.wiki-category-list-item .page-current').parent().addClass('wiki-list-item-selected');
+        if (typeof ui !== 'undefined') {
+            this.fixListIndent(ui.item)
+        }
+    }
+
+    CategoryListView.prototype.updateIcons = function () {
+        const that = this;
+        const hasIconPage = that.data('icon-page') !== undefined;
+
+        $('.page-title').each(function () {
+            var hasChildren = $(this).next('ul.wiki-page-list').find('li.wiki-category-list-item').length;
+            var isCategory = $(this).hasClass('page-is-category');
+
+            if (hasChildren && !isCategory) {
+                $(this).addClass('page-is-category');
+                const iconCategoryHtml = '<i class="' + that.data('icon-category') + '"></i> ';
+                if (hasIconPage) {
+                    $(this).find('.' + that.data('icon-page').replace(' ', '.'))
+                        .after(iconCategoryHtml).remove();
+                } else {
+                    $(this).find('.page-title-text').before(iconCategoryHtml);
+                }
+            }
+
+            if (!hasChildren && isCategory) {
+                $(this).removeClass('page-is-category');
+                const iconCategory = $(this).find('.' + that.data('icon-category').replace(' ', '.'));
+                if (hasIconPage) {
+                    iconCategory.after('<i class="' + that.data('icon-page') + '"></i>');
+                }
+                iconCategory.remove();
+            }
+        });
+    }
+
+    CategoryListView.prototype.fixListIndent = function (item) {
+        const list = item.closest('.wiki-page-list');
+        if (list.length) {
+            const that = this;
+            const title = list.prev('.page-title');
+            const indent = title.length ? parseInt(title.css('padding-left')) + this.indent.level : this.indent.default;
+            item.children('.page-title').css('padding-left', indent + 'px');
+            item.children('.wiki-page-list').children('li').each(function () {
+                that.fixListIndent($(this));
             });
         }
-    };
+    }
+
+    // Initialize and get a fixer element to help sort item under the last root item when it has children
+    CategoryListView.prototype.fixer = function () {
+        const className = 'wiki-category-list-sort-fixer';
+        let fixer = this.$.children('.' + className);
+        if (fixer.length) {
+            return fixer;
+        }
+
+        fixer = $('<li data-page-id>').addClass(className);
+        this.$.append(fixer);
+
+        return fixer;
+    }
+
+    CategoryListView.prototype.refreshFixer = function () {
+        this.$.append(this.fixer());
+    }
 
     CategoryListView.prototype.dropItem = function (event, ui) {
-        var $item = ui.item;
-        var pageId = $item.data('page-id');
+        const $item = ui.item;
+        const pageId = $item.data('page-id');
+        const pageTitle = $item.children('.page-title');
 
-        var targetId = $item.is('.wiki-category-list-item') ? null : $item.closest('.wiki-category-list-item').data('page-id');
+        const parent = $item.parents('.wiki-category-list-item').first();
+        const targetId = parent.length ? parent.data('page-id') : null;
+        let index = $item.index();
 
-        var data = {
+        const fixerIndex = this.fixer().index();
+        if (index > fixerIndex && $item.parent().is(this.$)) {
+            index = fixerIndex;
+            this.refreshFixer();
+        }
+
+        const data = {
             'ItemDrop[id]': pageId,
             'ItemDrop[targetId]': targetId,
-            'ItemDrop[index]': $item.index()
+            'ItemDrop[index]': index
         };
+
+        this.stopDropItem();
+        this.updateIcons();
+        pageTitle.addClass('wiki-page-dropped');
 
         client.post(this.options.dropUrl, {data: data}).then(function (response) {
             if (!response.success) {
                 $item.closest('.category_list_view, .wiki-page-list').sortable('cancel');
-                module.log.error('', true);
             }
+            pageTitle.removeClass('wiki-page-dropped');
         }).catch(function (e) {
             module.log.error(e, true);
             $item.closest('.category_list_view, .wiki-page-list').sortable('cancel');
+            pageTitle.removeClass('wiki-page-dropped');
         });
     };
 
     module.export = CategoryListView;
 });
+
 humhub.module('wiki.linkExtension', function (module, require, $) {
     var richtext = require('ui.richtext.prosemirror');
     var Widget = require('ui.widget').Widget;
@@ -725,6 +979,81 @@ humhub.module('wiki.History', function(module, require, $) {
     }
 
     module.export = History;
+});
+humhub.module('wiki.Sidebar', function(module, require, $) {
+    const Widget = require('ui.widget').Widget;
+
+    const Sidebar = Widget.extend();
+
+    Sidebar.prototype.init = function() {
+        const that = this;
+        const sidebar = this.$;
+        const wrapper = sidebar.parent();
+        const content = sidebar.next();
+        const padding = sidebar.outerWidth() - sidebar.width() + content.outerWidth() - content.width();
+
+        sidebar.resizable({
+            minWidth: wrapper.width() * 0.25,
+            maxWidth: wrapper.width() * 0.75,
+            handles: 'e',
+            resize: function() {
+                content.width(wrapper.width() - sidebar.width() - padding);
+            },
+            stop: function() {
+                const sidebarWidth = (sidebar.outerWidth() / wrapper.outerWidth() * 100).toFixed(2);
+                that.setWidth(sidebarWidth);
+                that.setCache(sidebarWidth);
+            }
+        });
+    }
+
+    Sidebar.prototype.setWidth = function(sidebarWidth) {
+        if (sidebarWidth) {
+            this.$.css('width', sidebarWidth + '%');
+            this.$.next().css('width', (100 - sidebarWidth) + '%');
+        }
+    }
+
+    Sidebar.prototype.getCache = function() {
+        let cache = localStorage.getItem(this.cacheName());
+        return  cache ? JSON.parse(cache) : {};
+    }
+
+    Sidebar.prototype.setCache = function(sidebarWidth) {
+        const cache = this.getCache();
+        cache[this.key()] = sidebarWidth;
+
+        localStorage.setItem(this.cacheName(), JSON.stringify(cache));
+    }
+
+    Sidebar.prototype.cacheName = function() {
+        return this.$.data('resizable-key');
+    }
+
+    Sidebar.prototype.key = function() {
+        return this.$.data('container-id');
+    }
+
+    module.export = Sidebar;
+});
+humhub.module('wiki.ListTable', function(module, require, $) {
+    const Widget = require('ui.widget').Widget;
+
+    const ListTable = Widget.extend();
+
+    ListTable.prototype.init = function() {
+        this.$.find('.table > tbody > tr > td').on('click', function(e) {
+            if ($(e.target).prop('tagName') === 'A') {
+                return;
+            }
+            const link = $(this).find('.wiki-page-list-row-title a');
+            if (link.length) {
+                location.href = link.attr('href');
+            }
+        });
+    };
+
+    module.export = ListTable;
 });
 /**
  * htmldiff.js a diff algorithm that understands HTML, and produces HTML in the browser.

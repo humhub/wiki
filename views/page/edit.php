@@ -4,12 +4,15 @@ use humhub\libs\Html;
 use humhub\modules\content\components\ContentContainerActiveRecord;
 use humhub\modules\ui\form\widgets\ContentVisibilitySelect;
 use humhub\modules\ui\view\components\View;
+use humhub\modules\wiki\assets\Assets;
 use humhub\modules\wiki\models\forms\PageEditForm;
 use humhub\modules\wiki\widgets\WikiEditor;
 use humhub\modules\ui\form\widgets\ActiveForm;
 use humhub\modules\wiki\widgets\WikiLinkModal;
-use humhub\modules\wiki\widgets\WikiMenu;
 use humhub\modules\wiki\widgets\WikiContent;
+use humhub\modules\wiki\widgets\WikiMenu;
+use humhub\modules\wiki\widgets\WikiPagePicker;
+use humhub\modules\wiki\widgets\WikiPath;
 use humhub\widgets\Button;
 use humhub\modules\topic\widgets\TopicPicker;
 
@@ -17,29 +20,40 @@ use humhub\modules\topic\widgets\TopicPicker;
 /* @var $model PageEditForm */
 /* @var $contentContainer ContentContainerActiveRecord */
 /* @var $requireConfirmation bool */
+/* @var $displayFieldCategory bool */
 /* @var $diffUrl string */
 /* @var $discardChangesUrl string */
 
-humhub\modules\wiki\assets\Assets::register($this);
-
-$canAdminister = $model->canAdminister();
-
+Assets::register($this);
 ?>
 <div class="panel panel-default">
     <div class="panel-body">
-        <div class="row <?= $model->page->is_category ? 'wiki-category-page-edit' : '' ?>">
+        <div class="row<?= $model->page->isCategory ? ' wiki-category-page-edit' : '' ?>">
 
             <?php WikiContent::begin([
-                'title' => $model->getTitle(),
                 'id' => 'wiki-page-edit',
-                'cols' => $requireConfirmation ? 12 : 9,
+                'cssClass' => 'wiki-page-content'
             ]) ?>
+
+            <div class="wiki-headline">
+                <div class="wiki-headline-top">
+                    <?= WikiPath::widget(['page' => $model->page]) ?>
+                    <?php if (!$requireConfirmation) : ?>
+                        <?= WikiMenu::widget([
+                            'object' => $model->page,
+                            'buttons' => $model->page->isNewRecord ? [] : WikiMenu::LINK_EDIT_SAVE,
+                            'edit' => true
+                        ]) ?>
+                    <?php endif; ?>
+                </div>
+                <div class="wiki-page-title"><?= $model->getTitle() ?></div>
+            </div>
 
             <?php $form = ActiveForm::begin(
                 ['enableClientValidation' => false, 'options' => [
                     'data-ui-widget' => 'wiki.Form',
                     'data-change-category-confirm' => Yii::t('WikiModule.base', 'Are you really sure? All existing category page assignments will be removed!'),
-                    'data-is-category' => $model->page->is_category,
+                    'data-is-category' => $model->page->isCategory,
                     'data-ui-init' => '1'],
                     'acknowledge' => true
                 ]
@@ -77,10 +91,14 @@ $canAdminister = $model->canAdminister();
 
                 <?= $form->field($model->revision, 'content')->widget(WikiEditor::class)->label(false) ?>
 
+                <?php $category = $form->field($model->page, 'parent_page_id') ?>
+                <?= $displayFieldCategory
+                    ? $category->widget(WikiPagePicker::class, ['model' => $model->page, 'maxInput' => 30])
+                    : $category->hiddenInput() ?>
 
                 <?= $form->beginCollapsibleFields(Yii::t('WikiModule.base', 'Advanced settings')); ?>
 
-                <?php if (!$canAdminister) : ?>
+                <?php if (!$model->canAdminister()) : ?>
                     <div class="alert alert-info">
                         <?= Yii::t('WikiModule.base',
                             'In order to edit all fields, you need the permission to administer wiki pages.'); ?>
@@ -90,12 +108,6 @@ $canAdminister = $model->canAdminister();
                 <?= $form->field($model->page, 'is_home')->checkbox([
                     'title' => Yii::t('WikiModule.base', 'Overwrite the wiki index start page?'),
                     'disabled' => $model->isDisabledField('is_home')]); ?>
-
-                <?= $form->field($model->page, 'is_category')->checkbox(['disabled' => $model->isDisabledField('is_category')]); ?>
-
-                <?= $form->field($model->page, 'parent_page_id')
-                    ->dropDownList($model->getCategoryList())
-                    ->label($model->page->is_category ? Yii::t('WikiModule.base', 'Parent category') : null); ?>
 
                 <?= $form->field($model, 'isPublic')->widget(ContentVisibilitySelect::class, [
                     'readonly' => $model->isDisabledField('isPublic')]); ?>
@@ -123,10 +135,6 @@ $canAdminister = $model->canAdminister();
             <?php ActiveForm::end(); ?>
 
             <?php WikiContent::end() ?>
-
-            <?php if (!$requireConfirmation) : ?>
-                <?= WikiMenu::widget(['page' => $model->page, 'edit' => true]) ?>
-            <?php endif; ?>
 
         </div>
     </div>

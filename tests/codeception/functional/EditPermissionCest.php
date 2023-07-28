@@ -8,7 +8,6 @@
 
 namespace wiki\functional;
 
-use Yii;
 use wiki\FunctionalPermissionTest;
 use wiki\FunctionalTester;
 use humhub\libs\BasePermission;
@@ -31,7 +30,8 @@ class EditPermissionCest extends FunctionalPermissionTest
         $I->amAdmin(true);
         $I->enableModule($space->guid, 'wiki');
 
-        $I->createCategoy($space, 'Admin Category', 'Admin Category content');
+        $category = $I->createWiki($space, 'Admin Category', 'Admin Category content');
+        $I->createWiki($space, 'Wiki Page', 'Wiki page content', ['category' => $category->id]);
 
         $I->loginBySpaceUserGroup(Space::USERGROUP_MEMBER, '/wiki/overview');
 
@@ -42,20 +42,19 @@ class EditPermissionCest extends FunctionalPermissionTest
 
         $I->seeCategory('Admin Category');
         $I->click('Admin Category');
-        $I->seeInMenu('Edit page');
+        $I->seeInMenu('Edit');
         $I->dontSeeInMenu('Delete');
 
-        $I->click('Edit page');
+        $I->click('Edit');
 
         $I->seeElement('#wikipage-title:disabled');
         $I->dontSee('#wikipage-parent_page_id');
         $I->seeElement('#wikipage-is_home:disabled');
         $I->seeElement('#wikipage-admin_only:disabled');
-        $I->seeElement('#wikipage-is_category:disabled');
         $I->seeElement('#pageeditform-ispublic:disabled');
 
         $I->fillField('WikiPageRevision[content]', 'Changed content');
-        $I->click('Save', '#wiki-page-edit');
+        $I->saveWiki();
 
         $I->see('Changed content', '.wiki-page-content');
     }
@@ -71,13 +70,14 @@ class EditPermissionCest extends FunctionalPermissionTest
         $I->amAdmin(true);
         $I->enableModule($space->guid, 'wiki');
 
-        $category = $I->createCategoy($space, 'Admin Category', 'Admin Category content', ['admin_only' => 1]);
-        $I->seeInMenu('Edit page');
+        $category = $I->createWiki($space, 'Admin Category', 'Admin Category content', ['admin_only' => 1]);
+        $I->seeInMenu('Edit');
+        $I->createWiki($space, 'Wiki Page', 'Wiki page content', ['category' => $category->id]);
 
         $I->loginBySpaceUserGroup(Space::USERGROUP_MEMBER, '/wiki/overview');
         $I->seeCategory('Admin Category');
         $I->click('Admin Category');
-        $I->dontSeeInMenu('Edit page');
+        $I->dontSeeInMenu('Edit');
         $I->dontSeeInMenu('Delete');
         $I->amOnSpace($space->guid, '/wiki/page/edit', ['id' => $category->id]);
         $I->seeResponseCodeIs(403);

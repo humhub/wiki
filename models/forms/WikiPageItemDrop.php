@@ -13,7 +13,6 @@ use humhub\modules\content\components\ContentContainerActiveRecord;
 use humhub\modules\wiki\models\WikiPage;
 use yii\db\ActiveQuery;
 use yii\db\Expression;
-use yii\web\HttpException;
 
 class WikiPageItemDrop extends ItemDrop
 {
@@ -29,38 +28,25 @@ class WikiPageItemDrop extends ItemDrop
     public $contentContainer;
 
     /**
-     * @return ActiveQuery
-     * @throws HttpException
-     * @throws \yii\base\Exception
+     * @inheritdoc
      */
-    protected function getSortItemsQuery()
+    protected function getSortItemsQuery(): ActiveQuery
     {
-        /* @var $model \humhub\modules\wiki\models\WikiPage */
-        $model = $this->getModel();
+        $parentFilter = $this->targetId
+            ? [$this->getTableName() . '.parent_page_id' => $this->targetId]
+            : ['IS', $this->getTableName() . '.parent_page_id', new Expression('NULL')];
 
-        if($model->is_category) {
-            return WikiPage::findCategories($this->contentContainer);
-        } else if($this->targetId) {
-            $target = WikiPage::findOne(['id' => $this->targetId]);
-            if(!$target->is_category) {
-                throw new HttpException(400);
-            }
-            return $target->findChildren();
-        }
-
-        return WikiPage::findUnsorted($this->contentContainer);
+        return WikiPage::find()
+            ->contentContainer($this->contentContainer)
+            ->readable()
+            ->orderBy($this->getTableName() . '.sort_order')
+            ->andWhere(['!=', $this->getTableName() . '.id', $this->id])
+            ->andWhere($parentFilter);
     }
 
     protected function updateTarget()
     {
-        /* @var $model \humhub\modules\wiki\models\WikiPage */
-        $model = $this->getModel();
-
-        if($model->is_category) {
-            return;
-        }
-
-        $targetId = $this->targetId ? $this->targetId : new Expression('NULL');
+        $targetId = $this->targetId ?: new Expression('NULL');
         $this->getModel()->updateAttributes(['parent_page_id' => $targetId]);
     }
 }

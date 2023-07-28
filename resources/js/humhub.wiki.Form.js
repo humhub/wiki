@@ -1,7 +1,6 @@
 humhub.module('wiki.Form', function(module, require, $) {
     var Widget = require('ui.widget').Widget;
     var wikiView = require('wiki');
-    var modal = require('ui.modal');
     var additions = require('ui.additions');
 
     /**

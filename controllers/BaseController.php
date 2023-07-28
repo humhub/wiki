@@ -8,9 +8,12 @@
 namespace humhub\modules\wiki\controllers;
 
 use humhub\modules\content\components\ContentContainerController;
+use humhub\modules\wiki\helpers\Helper;
 use humhub\modules\wiki\models\WikiPage;
 use humhub\modules\wiki\permissions\AdministerPages;
 use humhub\modules\wiki\permissions\ViewHistory;
+use Yii;
+use yii\web\NotFoundHttpException;
 
 
 /**
@@ -19,11 +22,6 @@ use humhub\modules\wiki\permissions\ViewHistory;
  */
 abstract class BaseController extends ContentContainerController
 {
-
-    /**
-     * @inheritdoc
-     */
-    public $hideSidebar = true;
 
     /**
      * @return boolean can create new wiki site
@@ -72,11 +70,53 @@ abstract class BaseController extends ContentContainerController
     }
 
     /**
-     * @return bool
-     * @throws \yii\base\Exception
+     * Render a content with sidebar when current theme is "Enterprise" or produced from it
+     *
+     * @param array|string $views 0 - View without sidebar, 1 - View with sidebar(if not set then use view from 0 key)
+     * @param array $params
+     * @return string
+     * @throws NotFoundHttpException|\yii\base\InvalidConfigException
      */
-    protected function hasCategoryPages()
+    protected function renderSidebarContent($views, array $params = []): string
     {
-        return (WikiPage::find()->contentContainer($this->contentContainer)->andWhere(['is_category' => 1])->count() > 0);
+        if (is_string($views)) {
+            $normalView = $sidebarView = $views;
+        } elseif (is_array($views) && isset($views[0])) {
+            $normalView = $views[0];
+            $sidebarView = $views[1] ?? $normalView;
+        } else {
+            throw new NotFoundHttpException();
+        }
+
+        if (Helper::isEnterpriseTheme()) {
+            return $this->render('@wiki/views/common/sidebar-content', [
+                'contentContainer' => $this->contentContainer,
+                'canCreate' => $this->canCreatePage(),
+                'hideSidebarOnSmallScreen' => $params['hideSidebarOnSmallScreen'] ?? true,
+                'content' => $this->renderPartial($sidebarView, $params),
+            ]);
+        }
+
+        return $this->render($normalView, $params);
+    }
+
+    public function updateFoldingState(int $wikiPageId, int $state)
+    {
+        if (Yii::$app->user->isGuest) {
+            return;
+        }
+
+        if (empty($wikiPageId)) {
+            return;
+        }
+
+        $userSettings = Yii::$app->user->getIdentity()->getSettings();
+        $foldingStateParamName = 'wiki.foldedCategory.' . $wikiPageId;
+
+        if ($state) {
+            $userSettings->set($foldingStateParamName, true);
+        } else {
+            $userSettings->delete($foldingStateParamName);
+        }
     }
 }

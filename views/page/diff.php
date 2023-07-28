@@ -20,7 +20,7 @@ humhub\modules\wiki\assets\Assets::register($this);
         <div class="row">
             <?php WikiContent::begin(['cssClass' => 'wiki-page-content wiki-page-diff']) ?>
 
-            <?= $this->render('_view_header', ['page' => $page]) ?>
+            <?= $this->render('_view_header', ['page' => $page, 'buttons' => WikiMenu::LINK_REVERT]) ?>
 
             <div class="row">
                 <div class="col-xs-6">
@@ -65,8 +65,6 @@ humhub\modules\wiki\assets\Assets::register($this);
             </div>
 
             <?php WikiContent::end() ?>
-
-            <?= WikiMenu::widget(['page' => $page]) ?>
         </div>
     </div>
 </div>

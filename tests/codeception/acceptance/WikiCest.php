@@ -22,7 +22,7 @@ class WikiCest
         $I->amAdmin();
         $I->enableModule(1, 'wiki');
         $I->click('Wiki', '.layout-nav-container');
-        $I->waitForText('No pages created yet.', 15);
+        $I->waitForText('Get your very own knowledge base off the ground by being the first one to create a Wiki page!', 15);
         $I->click('Let\'s go!');
 
         $I->createWikiEntries();
@@ -41,7 +41,7 @@ class WikiCest
         $I->amOnUser1Profile();
 
         $I->click('Wiki', '.layout-nav-container');
-        $I->waitForText('No pages created yet.', 15);
+        $I->waitForText('Get your very own knowledge base off the ground by being the first one to create a Wiki page!', 15);
         $I->click('Let\'s go!');
 
         $I->createWikiEntries();
@@ -68,7 +68,7 @@ class WikiCest
 
         $I->amOnUser1Profile();
         $I->click('Wiki', '.layout-nav-container');
-        $I->waitForText('No pages created yet.', 15);
+        $I->waitForText('Get your very own knowledge base off the ground by being the first one to create a Wiki page!', 15);
         $I->click('Let\'s go!');
 
         $I->createWikiPages('Profile');
@@ -77,7 +77,7 @@ class WikiCest
 
         $I->amOnUser1Profile();
         $I->click('Wiki', '.layout-nav-container');
-        $I->waitForText('Index', null, '.wiki-content');
+        $I->waitForText('Wiki', null, '.wiki-content');
         $I->see('First Public Profile Wiki Page', '.wiki-page-list');
         $I->dontSee('First Private Profile Wiki Page', '.wiki-page-list');
     }
@@ -94,7 +94,7 @@ class WikiCest
         $I->amUser1(true);
         $I->enableModule(2, 'wiki');
         $I->click('Wiki', '.layout-nav-container');
-        $I->waitForText('No pages created yet.', 15);
+        $I->waitForText('Get your very own knowledge base off the ground by being the first one to create a Wiki page!', 15);
         $I->click('Let\'s go!');
 
         $I->createWikiPages('Space');
@@ -103,7 +103,7 @@ class WikiCest
 
         $I->amOnSpace(2);
         $I->click('Wiki', '.layout-nav-container');
-        $I->waitForText('Index', null, '.wiki-content');
+        $I->waitForText('Wiki', null, '.wiki-content');
         $I->see('First Public Space Wiki Page', '.wiki-page-list');
         $I->dontSee('First Private Space Wiki Page', '.wiki-page-list');
     }
@@ -115,10 +115,11 @@ class WikiCest
         $I->amUser1(true);
         $I->enableModule(2, 'wiki');
         $I->click('Wiki', '.layout-nav-container');
-        $I->waitForText('No pages created yet.', 15);
+        $I->waitForText('Get your very own knowledge base off the ground by being the first one to create a Wiki page!', 15);
         $I->click('Let\'s go!');
 
         $I->createWikiPages('Space');
+        $I->amOnSpace(2);
 
         $I->showWikiPageInContainerMenu('First Public Space Wiki Page', '#space-main-menu');
         $I->showWikiPageInContainerMenu('First Private Space Wiki Page', '#space-main-menu');
@@ -133,10 +134,11 @@ class WikiCest
         $I->amOnUser1Profile();
 
         $I->click('Wiki', '.layout-nav-container');
-        $I->waitForText('No pages created yet.', 15);
+        $I->waitForText('Get your very own knowledge base off the ground by being the first one to create a Wiki page!', 15);
         $I->click('Let\'s go!');
 
         $I->createWikiPages('Profile');
+        $I->amOnProfile();
 
         $I->showWikiPageInContainerMenu('First Public Profile Wiki Page', '.profile-content .left-navigation');
         $I->showWikiPageInContainerMenu('First Private Profile Wiki Page', '.profile-content .left-navigation');

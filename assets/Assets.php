@@ -8,10 +8,11 @@
 
 namespace humhub\modules\wiki\assets;
 
-use humhub\modules\wiki\helpers\Url;
-use Yii;
-use humhub\modules\ui\view\components\View;
+use humhub\assets\JqueryWidgetAsset;
 use humhub\components\assets\AssetBundle;
+use humhub\modules\wiki\helpers\Url;
+use humhub\modules\ui\view\components\View;
+use Yii;
 
 class Assets extends AssetBundle
 {
@@ -38,6 +39,13 @@ class Assets extends AssetBundle
     ];
 
     /**
+     * @inheritdoc
+     */
+    public $depends = [
+        JqueryWidgetAsset::class,
+    ];
+
+    /**
      * @param View $view
      * @return AssetBundle
      */
@@ -46,7 +54,7 @@ class Assets extends AssetBundle
         $view->registerJsConfig([
             'wiki' => [
                 'text' => [
-                    'pageindex' => Yii::t('WikiModule.base', 'Page index')
+                    'pageindex' => Yii::t('WikiModule.base', 'Table of Contents')
                 ]
             ],
             'wiki.linkExtension' => [

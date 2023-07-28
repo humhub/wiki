@@ -4,6 +4,7 @@ namespace humhub\modules\wiki\controllers;
 
 use Yii;
 use yii\base\Exception;
+use yii\base\InvalidArgumentException;
 use yii\web\HttpException;
 use humhub\components\access\ControllerAccess;
 use humhub\modules\wiki\helpers\HeadlineExtractor;
@@ -63,14 +64,19 @@ class PageController extends BaseController
      */
     public function actionView($title = null, $revisionId = null)
     {
-        $page = WikiPage::find()->contentContainer($this->contentContainer)->readable()->where(['title' => $title])->one();
+        $page = $this->getWikiPage($title);
 
-        if(!$page && $this->canCreatePage()) {
+        if (!$page && $this->canCreatePage()) {
             return $this->redirect(Url::toWikiCreateByTitle($this->contentContainer, $title));
         }
 
-        if(!$page) {
+        if (!$page) {
             throw new HttpException(404, 'Wiki page not found!');
+        }
+
+        if ($page->isCategory) {
+            // Unfold category on view it
+            $this->updateFoldingState($page->id, 0);
         }
 
         $revision = $this->getRevision($page, $revisionId);
@@ -81,12 +87,12 @@ class PageController extends BaseController
             return $this->redirect(Url::toWikiCreateByTitle($this->contentContainer, $title));
         }
 
-        if(!$revision) {
+        if (!$revision) {
             $page->delete();
             throw new HttpException(404, 'Wiki page revision not found!');
         }
 
-        return $this->render('view', [
+        return $this->renderSidebarContent('view', [
             'page' => $page,
             'revision' => $revision,
             'homePage' => $this->getHomePage(),
@@ -115,24 +121,25 @@ class PageController extends BaseController
      */
     public function actionDiff(string $title, int $revision1, int $revision2)
     {
-        $page = WikiPage::find()->contentContainer($this->contentContainer)->readable()->where(['title' => $title])->one();
-        if(!$page) {
+        $page = $this->getWikiPage($title);
+
+        if (!$page) {
             throw new HttpException(404, 'Wiki page not found!');
         }
 
         $revision1 = $this->getRevision($page, $revision1);
-        if(!$revision1) {
+        if (!$revision1) {
             $page->delete();
             throw new HttpException(404, 'Wiki page revision 1 not found!');
         }
 
         $revision2 = $this->getRevision($page, $revision2);
-        if(!$revision2) {
+        if (!$revision2) {
             $page->delete();
             throw new HttpException(404, 'Wiki page revision 2 not found!');
         }
 
-        return $this->render('diff', [
+        return $this->renderSidebarContent('diff', [
             'page' => $page,
             'revision1' => $revision1,
             'revision2' => $revision2,
@@ -142,11 +149,11 @@ class PageController extends BaseController
     /**
      * Returns a revision for the given page, either by a given revisionid or the latest.
      *
-     * @param $page
-     * @param $revisionId
+     * @param WikiPage $page
+     * @param int|null $revisionId
      * @return WikiPageRevision|null
      */
-    private function getRevision($page, $revisionId = null)
+    private function getRevision(WikiPage $page, $revisionId = null)
     {
         $revision = null;
         if ($revisionId != null) {
@@ -169,9 +176,9 @@ class PageController extends BaseController
      */
     public function actionEdit($id = null, $title = null, $categoryId = null)
     {
-        $form = (new PageEditForm(['container' => $this->contentContainer]))->forPage($id,$title,$categoryId);
+        $form = (new PageEditForm(['container' => $this->contentContainer]))->forPage($id, $title, $categoryId);
 
-        if($form->load(Yii::$app->request->post()) && $form->save()) {
+        if ($form->load(Yii::$app->request->post()) && $form->save()) {
             $this->view->saved();
             return $this->redirect(Url::toWiki($form->page));
         }
@@ -182,6 +189,7 @@ class PageController extends BaseController
             'contentContainer' => $this->contentContainer,
             'canAdminister' => $this->canAdminister(),
             'requireConfirmation' => $form->hasErrors('confirmOverwriting'),
+            'displayFieldCategory' => !$form->page->isNewRecord || !$form->page->categoryPage
         ];
 
         if ($params['requireConfirmation']) {
@@ -193,7 +201,7 @@ class PageController extends BaseController
             ]);
         }
 
-        return $this->render('edit', $params);
+        return $this->renderSidebarContent('edit', $params);
     }
 
     /**
@@ -204,8 +212,8 @@ class PageController extends BaseController
      */
     public function actionDiffEditing(int $id)
     {
-        /* @var WikiPage $page */
-        $page = WikiPage::find()->contentContainer($this->contentContainer)->readable()->where(['wiki_page.id' => $id])->one();
+        $page = $this->getWikiPage($id);
+
         if (!$page) {
             throw new HttpException(404, 'Wiki page not found!');
         }
@@ -235,12 +243,13 @@ class PageController extends BaseController
      * @throws HttpException
      * @throws \Throwable
      */
-    public function actionHeadlines($id) {
+    public function actionHeadlines($id)
+    {
         if (intval($id) === 0) {
             return $this->asJson([]);
         }
 
-        $page = WikiPage::find()->contentContainer($this->contentContainer)->readable()->where(['wiki_page.id' => $id])->one();
+        $page = $this->getWikiPage($id);
 
         if (!$page) {
             return $this->asJson([]);
@@ -252,7 +261,7 @@ class PageController extends BaseController
     public function actionSort()
     {
         $dropModel = new WikiPageItemDrop(['contentContainer' => $this->contentContainer]);
-        if($dropModel->load(Yii::$app->request->post()) && $dropModel->save()) {
+        if ($dropModel->load(Yii::$app->request->post()) && $dropModel->save()) {
             return $this->asJson(['success' => true]);
         }
 
@@ -265,15 +274,13 @@ class PageController extends BaseController
      * @throws \yii\base\Exception
      * @throws \yii\base\InvalidConfigException
      */
-    public function actionHistory()
+    public function actionHistory(int $id)
     {
         if (!$this->canViewHistory()) {
             throw new HttpException(403, Yii::t('WikiModule.base', 'Permission denied. You have no rights to view the history.'));
         }
 
-        $id = Yii::$app->request->get('id');
-
-        $page = WikiPage::find()->contentContainer($this->contentContainer)->readable()->where(['wiki_page.id' => $id])->one();
+        $page = $this->getWikiPage($id);
 
         if ($page === null) {
             throw new HttpException(404, Yii::t('WikiModule.base', 'Page not found.'));
@@ -291,7 +298,7 @@ class PageController extends BaseController
 
         $revisions = $query->all();
 
-        return $this->render('history', [
+        return $this->renderSidebarContent('history', [
             'page' => $page,
             'revisions' => $revisions,
             'pagination' => $pagination,
@@ -309,9 +316,9 @@ class PageController extends BaseController
      * @throws \yii\db\StaleObjectException
      * @throws \Throwable
      */
-    public function actionDelete($id)
+    public function actionDelete(int $id)
     {
-        $page = WikiPage::find()->contentContainer($this->contentContainer)->where(['wiki_page.id' => $id])->one();
+        $page = $this->getWikiPage($id);
 
         if (!$page) {
             throw new HttpException(404, Yii::t('WikiModule.base', 'Page not found.'));
@@ -330,9 +337,9 @@ class PageController extends BaseController
      * @throws HttpException
      * @throws \yii\base\InvalidConfigException
      */
-    public function actionRevert($id, $toRevision)
+    public function actionRevert(int $id, $toRevision)
     {
-        $page = WikiPage::find()->contentContainer($this->contentContainer)->readable()->where(['wiki_page.id' => $id])->one();
+        $page = $this->getWikiPage($id);
 
         if (!$page) {
             throw new HttpException(404, Yii::t('WikiModule.base', 'Page not found.'));
@@ -347,7 +354,7 @@ class PageController extends BaseController
             'wiki_page_id' => $page->id
         ]);
 
-        if(!$revision) {
+        if (!$revision) {
             throw new HttpException(404, 'Revision not found!');
         }
 
@@ -365,6 +372,48 @@ class PageController extends BaseController
         ]);
     }
 
+    public function actionPickerSearch($keyword, $id = null)
+    {
+        $pages = WikiPage::find()
+            ->contentContainer($this->contentContainer)
+            ->readable()
+            ->andWhere(['like', 'wiki_page.title', $keyword]);
+        if ($id) {
+            $pages->andWhere(['!=', 'wiki_page.id', $id]);
+        }
+
+        $output = [];
+        foreach ($pages->all() as $page) {
+            /* @var WikiPage $page */
+            $output[] = [
+                'id' => $page->id,
+                'text' => $page->title,
+            ];
+        }
+
+        return $this->asJson($output);
+    }
+
+    public function actionEntry(int $id = null)
+    {
+        if ($page = $this->getWikiPage($id)) {
+            $revision = $this->getRevision($page);
+            return $this->asJson([
+                'output' => $this->renderAjax('_view_body', [
+                    'page' => $page,
+                    'revision' => $revision,
+                    'canEdit' => $page->canEditWikiPage(),
+                    'content' => $revision->content,
+                ]),
+            ]);
+        }
+
+        return $this->asJson([
+            'success' => false,
+            'error' => 'No page found!'
+        ]);
+    }
+
     /**
      * @param WikiPage $page
      * @return boolean can edit given wiki site?
@@ -374,4 +423,34 @@ class PageController extends BaseController
     {
         return $page->canEditWikiPage();
     }
+
+    /**
+     * @param string|int $id
+     * @return WikiPage|null
+     */
+    private function getWikiPage($id): ?WikiPage
+    {
+        $query = WikiPage::find()->contentContainer($this->contentContainer)->readable();
+        if (is_string($id)) {
+            $query->andWhere(['wiki_page.title' => $id]);
+        } elseif (is_integer($id)) {
+            $query->andWhere(['wiki_page.id' => $id]);
+        } else {
+            throw new InvalidArgumentException('Invalid $id parameter given!');
+        }
+
+        /** @var WikiPage|null $wikiPage */
+        $wikiPage = $query->one();
+
+        if ($wikiPage) {
+            $this->view->setPageTitle(Yii::t('WikiModule.base', 'Wiki'), true);
+            $this->view->setPageTitle($wikiPage->title . ' - Wiki', true);
+            $this->view->meta->setContent($wikiPage);
+            $this->view->meta->setImages($wikiPage->fileManager->findAll());
+        }
+
+        return $wikiPage;
+    }
+
+
 }

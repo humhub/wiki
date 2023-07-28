@@ -1,67 +1,56 @@
 <?php
 
-use humhub\libs\Helpers;
 use humhub\libs\Html;
-use humhub\modules\topic\models\Topic;
-use humhub\modules\topic\widgets\TopicLabel;
 use humhub\modules\ui\icon\widgets\Icon;
-use humhub\widgets\Label;
+use humhub\modules\wiki\helpers\Url;
+use humhub\modules\wiki\models\WikiPage;
+use humhub\modules\wiki\models\WikiPageRevision;
+use humhub\modules\wiki\widgets\WikiMenu;
+use humhub\modules\wiki\widgets\WikiPath;
 use humhub\widgets\Link;
 use humhub\widgets\TimeAgo;
 
-/* @var $this \humhub\modules\ui\view\components\View */
-/* @var $page \humhub\modules\wiki\models\WikiPage */
+/* @var $page WikiPage */
+/* @var $revision WikiPageRevision */
+/* @var $buttons array|string */
+/* @var $displayTitle bool */
 
-$icon = $page->is_category ? 'file-word-o' : 'file-text-o';
-
-if ($page->is_home) {
-    $icon = 'home';
+if (empty($buttons)) {
+    $buttons = WikiMenu::LINK_EDIT;
 }
 ?>
 
-<h1 class="wiki-headline">
-    <?= Icon::get($icon) ?>
-    <span class="wiki-page-title"><?= Html::encode($page->title) ?></span>
+<div class="wiki-headline">
+    <div class="wiki-headline-top">
+        <?= WikiPath::widget(['page' => $page]) ?>
+        <?= WikiMenu::widget([
+            'object' => $page,
+            'buttons' => $buttons,
+            'revision' => $revision ?? null
+        ]) ?>
+    </div>
 
-    <?php if ($page->is_home) : ?>
-        <?= Label::success()->icon('fa-home')->tooltip(Yii::t('ContentModule.widgets_views_label', 'Home'))->right() ?>
+    <?php if (!isset($displayTitle) || $displayTitle) : ?>
+        <div class="wiki-page-title"><?= Html::encode($page->title) ?></div>
     <?php endif; ?>
 
-    <?php if ($page->content->isPublic()) : ?>
-        <?= Label::info()->tooltip(Yii::t('ContentModule.widgets_views_label', 'Public'))->icon('fa-globe')->right() ?>
-    <?php endif; ?>
+    <div class="wiki-content-info">
+        <small>
+            <?= Yii::t('WikiModule.base', 'Created by {author}', ['author' => Html::containerLink($page->content->createdBy)]) . ', ' ?>
+            <?= Yii::t('WikiModule.base', 'last update {dateTime}', ['dateTime' => TimeAgo::widget(['timestamp' => $page->content->updated_at])]) ?>
+            <?= Link::to('(' . Yii::t('WikiModule.base', 'History') . ')', Url::toWikiHistory($page)) ?>
+        </small>
 
-    <?php if ($page->admin_only) : ?>
-        <?= Label::defaultType()->icon('fa-lock')->tooltip(Yii::t('ContentModule.widgets_views_label', 'Protected'))->right() ?>
-    <?php endif; ?>
-
-    <?php if ($page->categoryPage) : ?>
-        <?= Label::primary(Helpers::truncateText($page->categoryPage->title, 30))
-            ->withLink(Link::to(null, $page->categoryPage->getUrl()))->right() ?>
-    <?php endif; ?>
-
-    <?= Icon::get('print', ['htmlOptions' => [
-            'title' => Yii::t('WikiModule.base', 'Print this wiki page'),
-            'data-action-click' => 'wiki.Page.print',
-            'class' => 'wiki-icon-print'
-        ]]) ?>
-</h1>
-
-<div class="wiki-content-info clearfix">
-    <small>
-        <?= trim(Yii::t('WikiModule.base', 'Last updated ')) . ' ' . TimeAgo::widget(['timestamp' => $page->content->updated_at]) ?>
-
-        <?php if ($page->content->updatedBy !== null): ?>
-            <?= Yii::t('WikiModule.base', 'by') ?>
-            <strong>
-                <a href="<?= $page->content->updatedBy->getUrl() ?>" style="color:<?= $this->theme->variable('info') ?>"
-                   data-contentcontainer-id="<?= $page->content->updatedBy->contentcontainer_id ?>">
-                    <?= Html::encode($page->content->updatedBy->displayName) ?>
-                </a>
-            </strong>
+        <?php if ($page->is_home) : ?>
+            <?= Icon::get('home')->tooltip(Yii::t('ContentModule.widgets_views_label', 'Home'))->color('success') ?>
         <?php endif; ?>
 
-    </small>
-</div>
+        <?php if ($page->content->isPublic()) : ?>
+            <?= Icon::get('globe')->tooltip(Yii::t('ContentModule.widgets_views_label', 'Public'))->color('info') ?>
+        <?php endif; ?>
 
-<hr class="wiki-headline-seperator">
+        <?php if ($page->admin_only) : ?>
+            <?= Icon::get('lock')->tooltip(Yii::t('ContentModule.widgets_views_label', 'Protected')) ?>
+        <?php endif; ?>
+    </div>
+</div>

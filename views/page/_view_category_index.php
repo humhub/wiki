@@ -1,34 +1,27 @@
 <?php
 
+use humhub\modules\wiki\helpers\Helper;
+use humhub\modules\wiki\models\WikiPage;
 use humhub\modules\wiki\widgets\CategoryListItem;
 
-/* @var $this \humhub\modules\ui\view\components\View */
-/* @var $page \humhub\modules\wiki\models\WikiPage */
-
-$icon = $page->is_category ? 'fa-file-word-o' : 'fa-file-text-o';
-
-$pages = $page->findChildren()->all();
+/* @var $page WikiPage */
 ?>
-
-<?php if ($page->is_category): ?>
-    <div class="wiki-sub-pages" style="background-color:<?= $this->theme->variable('background-color-secondary') ?>">
+<?php if ($page->isCategory): ?>
+    <div class="wiki-sub-pages<?= Helper::isEnterpriseTheme() ? ' hidden-lg' : '' ?>">
         <ul class="wiki-page-list">
-            <?php if(!empty($pages)) : ?>
-                <?= CategoryListItem::widget([
-                    'title' => Yii::t('WikiModule.base', 'Pages in this category'),
-                    'pages' => $pages,
-                    'showDrag' => false,
-                    'showAddPage' => false,
-                    'contentContainer' => $page->content->container,
-                    'icon' => 'fa-list-ol'
-                ])?>
-            <?php else : ?>
-                <div class="page-category-title" style="margin-bottom:0">
-                    <i class="fa fa-list-ol"></i> <?= Yii::t('WikiModule.base', 'There are no pages in this category') ?>
-                </div>
-            <?php endif; ?>
+            <?= CategoryListItem::widget([
+                'title' => Yii::t('WikiModule.base', 'Subpages'),
+                'pages' => $page->findChildren()->all(),
+                'showDrag' => false,
+                'showAddPage' => false,
+                'showNumFoldedSubpages' => true,
+                'contentContainer' => $page->content->container,
+                'levelIndent' => 20,
+                'maxLevel' => 1,
+                'icon' => false,
+                'iconPage' => 'file-text-o',
+                'iconCategory' => 'folder'
+            ]) ?>
         </ul>
     </div>
-<?php else: ?>
-    <hr>
 <?php endif; ?>

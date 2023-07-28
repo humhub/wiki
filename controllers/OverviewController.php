@@ -7,10 +7,9 @@
 
 namespace humhub\modules\wiki\controllers;
 
-use Yii;
-use yii\data\Pagination;
 use humhub\modules\wiki\helpers\Url;
 use humhub\modules\wiki\models\WikiPage;
+use yii\data\ActiveDataProvider;
 
 
 /**
@@ -39,7 +38,7 @@ class OverviewController extends BaseController
      * @return OverviewController|string|\yii\console\Response|\yii\web\Response
      * @throws \yii\base\Exception
      */
-    public function actionListCategories()
+    public function actionListCategories($hideSidebarOnSmallScreen = false)
     {
         if (!$this->hasPages()) {
             return $this->render('no-pages', [
@@ -49,31 +48,76 @@ class OverviewController extends BaseController
             ]);
         }
 
-        return $this->render('list-categories', [
-            'homePage' => $this->getHomePage(),
+        $views = ['last-edited'];
+        if (!$hideSidebarOnSmallScreen) {
+            array_unshift($views, 'list-categories');
+        }
+
+        return $this->renderSidebarContent($views, [
             'contentContainer' => $this->contentContainer,
             'canCreate' => $this->canCreatePage(),
+            'dataProvider' => $this->getLastEditedDataProvider(),
+            'hideSidebarOnSmallScreen' => $hideSidebarOnSmallScreen,
         ]);
-
     }
 
-    public function actionUpdateFoldingState(int $categoryId)
+    public function actionLastEdited()
     {
-        if (Yii::$app->user->isGuest) {
-            return;
-        }
+        return $this->actionListCategories(true);
+    }
 
-        if (empty($categoryId)) {
-            return;
-        }
+    private function getLastEditedDataProvider(): ActiveDataProvider
+    {
+        return new ActiveDataProvider([
+            'query' => WikiPage::find()
+                ->contentContainer($this->contentContainer)
+                ->readable(),
+            'pagination' => ['pageSize' => 10],
+            'sort' => [
+                'attributes' => [
+                    'title',
+                    'updated_at' => [
+                        'asc' => ['content.updated_at' => SORT_ASC],
+                        'desc' => ['content.updated_at' => SORT_DESC],
+                    ],
+                ],
+                'defaultOrder' => [
+                    'updated_at' => SORT_DESC,
+                ],
+            ],
+        ]);
+    }
 
-        $userSettings = Yii::$app->user->getIdentity()->getSettings();
-        $foldingStateParamName = 'wiki.foldedCategory.' . $categoryId;
+    public function actionSearch($keyword)
+    {
+        $dataProvider = new ActiveDataProvider([
+            'query' => WikiPage::find()
+                ->contentContainer($this->contentContainer)
+                ->readable()
+                ->andWhere(['LIKE', 'title', $keyword]),
+            'pagination' => ['pageSize' => 10],
+            'sort' => [
+                'attributes' => [
+                    'title',
+                    'updated_at' => [
+                        'asc' => ['content.updated_at' => SORT_ASC],
+                        'desc' => ['content.updated_at' => SORT_DESC],
+                    ],
+                ],
+                'defaultOrder' => [
+                    'updated_at' => SORT_DESC,
+                ],
+            ],
+        ]);
 
-        if (Yii::$app->request->get('state')) {
-            $userSettings->set($foldingStateParamName, true);
-        } else {
-            $userSettings->delete($foldingStateParamName);
-        }
+        return $this->renderSidebarContent('search', [
+            'contentContainer' => $this->contentContainer,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+
+    public function actionUpdateFoldingState(int $categoryId, int $state)
+    {
+        $this->updateFoldingState($categoryId, $state);
     }
 }

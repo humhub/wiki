@@ -9,13 +9,13 @@
 namespace wiki\functional;
 
 use humhub\libs\BasePermission;
+use humhub\modules\space\models\Space;
 use humhub\modules\wiki\permissions\AdministerPages;
 use humhub\modules\wiki\permissions\CreatePage;
 use humhub\modules\wiki\permissions\EditPages;
 use wiki\FunctionalPermissionTest;
 use wiki\FunctionalTester;
 use Yii;
-use humhub\modules\space\models\Space;
 
 class CreatePermissionCest extends FunctionalPermissionTest
 {
@@ -39,12 +39,13 @@ class CreatePermissionCest extends FunctionalPermissionTest
         $I->assertSpaceAccessFalse(Space::USERGROUP_MEMBER, '/wiki/page/edit');
 
         $I->amAdmin(true);
-        $I->createCategoy($space->guid, 'Private Wiki', 'My private wiki content');
+        $category = $I->createWiki($space, 'Private Wiki', 'My private wiki content');
+        $I->createWiki($space, 'Wiki Page', 'Wiki page content', ['category' => $category->id]);
 
         $I->loginBySpaceUserGroup(Space::USERGROUP_MEMBER, '/wiki/overview');
 
-        $I->see('Private Wiki', '.page-category-title');
-        $I->click('Private Wiki', '.page-category-title');
+        $I->seeCategory('Private Wiki');
+        $I->click('Private Wiki', '.page-title');
 
         $I->seeInMenu('Index');
         $I->seeInMenu('Page History');
@@ -80,15 +81,14 @@ class CreatePermissionCest extends FunctionalPermissionTest
         $I->dontSeeElement('#pageeditform-topics:disabled');
         $I->seeElement('#wikipage-is_home:disabled');
         $I->seeElement('#wikipage-admin_only:disabled');
-        $I->seeElement('#wikipage-is_category:disabled');
         $I->seeElement('#pageeditform-ispublic:disabled');
 
         $I->see('In order to edit all fields, you need the permission to administer wiki pages.');
 
         $I->createWiki($space->guid, 'My own wiki', 'My own wiki content');
 
-        $I->seeInMenu('Edit page');
-        $I->click('Edit page');
+        $I->seeInMenu('Edit');
+        $I->click('Edit');
 
         // Since I'am the content owner I can change the title
         $I->dontSee('#wikipage-title:disabled');
@@ -109,7 +109,8 @@ class CreatePermissionCest extends FunctionalPermissionTest
         $I->amAdmin(true);
         $I->enableModule($space->guid, 'wiki');
 
-        $category = $I->createCategoy($space, 'Admin Category', 'Admin Category content');
+        $category = $I->createWiki($space, 'Admin Category', 'Admin Category content');
+        $I->createWiki($space, 'Wiki Page', 'Wiki page content', ['category' => $category->id]);
 
         $I->loginBySpaceUserGroup(Space::USERGROUP_MEMBER, '/wiki/overview');
 

@@ -597,10 +597,6 @@ definitions:
         type: integer
         format: int64
         example: 1
-      is_category:
-        type: integer
-        format: int64
-        example: 0
       parent_page_id:
         type: integer
         format: int64
@@ -668,10 +664,6 @@ definitions:
               format: int64
               example: 0
             admin_only:
-              type: integer
-              format: int64
-              example: 0
-            is_category:
               type: integer
               format: int64
               example: 0
