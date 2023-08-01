@@ -26,7 +26,7 @@ return array (
   'Edit' => 'Bearbeiten',
   'Edit page' => 'Seite bearbeiten',
   'Edited at' => 'Bearbeitet am',
-  'Get your very own knowledge base off the ground by being the first one to create a Wiki page! Gather information, facilitate knowledge transfer and make it available to your users in the easiest way possible.' => '',
+  'Get your very own knowledge base off the ground by being the first one to create a Wiki page! Gather information, facilitate knowledge transfer and make it available to your users in the easiest way possible.' => 'Erstelle als Erster eine Wiki Seite! Sammle Informationen, bereite sie auf und teile sie auf einfachste Weise mit anderen Nutzern.',
   'Go back' => 'Zurück',
   'Headline' => 'Überschrift',
   'Here you can configure default settings the wiki module.' => 'Hier kannst du die Standard-Einstellungen für das Wiki-Modul bearbeiten.',
