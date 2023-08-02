@@ -1,7 +1,7 @@
 Changelog
 =========
 
-2.0.1 (Unreleased)
+2.0.0 (Unreleased)
 ----------------------------
 - Enh #270: Rename soft deleted wiki page automatically on creating new page with same name
 
