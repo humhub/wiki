@@ -30,7 +30,7 @@ class EditPageLink extends WallEntryControlLink
      */
     public function getLabel()
     {
-        return Yii::t('WikiModule.base', 'Edit Page');
+        return Yii::t('ContentModule.base', 'Edit');
     }
 
     /**
