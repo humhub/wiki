@@ -300,7 +300,6 @@ class WikiPage extends ContentActiveRecord implements Searchable
      */
     public function validateTitle($attribute, $params)
     {
-
         if (strpos($this->title, "/") !== false || strpos($this->title, ")") !== false || strpos($this->title, "(") !== false) {
             $this->addError('title', Yii::t('WikiModule.base', 'Invalid character in page title!'));
         }
@@ -313,8 +312,9 @@ class WikiPage extends ContentActiveRecord implements Searchable
         $page = $query->one();
 
         if ($page instanceof WikiPage) {
-            if ($page->content->state === Content::STATE_DELETED) {
-                $this->addError('title', Yii::t('WikiModule.base', 'Page title already in use for a deleted page!'));
+            if ($page->content->getStateService()->isDeleted()) {
+                $page->title = 'conflict' . $page->id . '-' . $page->title;
+                $page->save();
             } else {
                 $this->addError('title', Yii::t('WikiModule.base', 'Page title already in use!'));
             }
