@@ -1,6 +1,10 @@
 Changelog
 =========
 
+2.0.0-beta.2 (Unreleased)
+----------------------------
+- Enh #277: Fix visibility of "Delete" link on wall entry
+
 2.0.0-beta.1 (July 28, 2023)
 ----------------------------
 - Enh #249: Redesign 

@@ -1,5 +1,6 @@
 <?php
 
+use humhub\modules\content\widgets\WallEntryControls;
 use humhub\modules\space\widgets\Menu;
 use humhub\modules\user\widgets\ProfileMenu;
 
@@ -14,5 +15,6 @@ return [
         ['class' => Menu::class, 'event' => Menu::EVENT_INIT, 'callback' => ['humhub\modules\wiki\Events', 'onSpaceMenuInit']],
         ['class' => ProfileMenu::class, 'event' => ProfileMenu::EVENT_INIT, 'callback' => ['humhub\modules\wiki\Events', 'onProfileMenuInit']],
         ['class' => 'humhub\modules\rest\Module', 'event' => 'restApiAddRules', 'callback' => ['humhub\modules\wiki\Events', 'onRestApiAddRules']],
+        ['class' => WallEntryControls::class, 'event' => WallEntryControls::EVENT_INIT, 'callback' => ['humhub\modules\wiki\Events', 'onWallEntryControlsInit']],
     ],
 ];

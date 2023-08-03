@@ -146,7 +146,7 @@ class PageEditForm extends Model
             throw new HttpException(403);
         }
 
-        if($this->page && !$this->page->canEditWikiPage()) {
+        if($this->page && !$this->page->canEditContent()) {
             throw new HttpException(403);
         }
 

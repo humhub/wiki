@@ -121,7 +121,7 @@ class WikiMenu extends WallEntryControls
         }
 
         if ($this->object) {
-            $this->canEdit = $this->object->canEditWikiPage();
+            $this->canEdit = $this->object->canEditContent();
             $this->canDelete = !$this->object->isNewRecord && $this->canAdminister();
         }
 
@@ -133,6 +133,7 @@ class WikiMenu extends WallEntryControls
         ]);
         if ($this->edit) {
             $this->wallEntryWidget->renderOptions->disableControlsEntryTopics();
+            $this->wallEntryWidget->renderOptions->disableControlsEntry(EditPageLink::class);
         }
 
         parent::init();
