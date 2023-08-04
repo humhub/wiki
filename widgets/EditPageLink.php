@@ -11,6 +11,7 @@ use humhub\modules\content\widgets\WallEntryControlLink;
 use humhub\modules\wiki\helpers\Url;
 use humhub\modules\wiki\models\WikiPage;
 use Yii;
+use yii\helpers\Html;
 
 /**
  * The "Edit Page" link is used in wall entry context menu only when user
@@ -28,17 +29,14 @@ class EditPageLink extends WallEntryControlLink
     /**
      * @inheritdoc
      */
-    public function getLabel()
-    {
-        return Yii::t('ContentModule.base', 'Edit');
-    }
+    public $options = ['class' => 'stream-entry-edit-link'];
 
     /**
      * @inheritdoc
      */
-    public function getActionUrl()
+    public function getLabel()
     {
-        return Url::toWikiEdit($this->record);
+        return Yii::t('ContentModule.base', 'Edit');
     }
 
     /**
@@ -49,5 +47,13 @@ class EditPageLink extends WallEntryControlLink
         return $this->record->isNewRecord || // Exclude new Wiki Page
             $this->record->content->canEdit() || // User with permission "Administer pages" already can edit it completely
             !$this->record->canEditContent(); // Permission "Edit pages" is required for this "Edit Page" link
+    }
+
+    /**
+     * @inheritdoc
+     */
+    protected function renderLink()
+    {
+        return Html::a($this->renderLinkText(), Url::toWikiEdit($this->record), $this->options);
     }
 }
