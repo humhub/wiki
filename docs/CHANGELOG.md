@@ -5,6 +5,7 @@ Changelog
 ----------------------------
 - Enh #270: Rename soft deleted wiki page automatically on creating new page with same name
 - Enh #277: Fix visibility of "Delete" link on wall entry
+- Fix #274: Fix left indent of sub-pages on default theme
 
 2.0.0-beta.1 (July 28, 2023)
 ----------------------------
