@@ -344,19 +344,24 @@
       }
 
       .page-title {
-        padding-top: 4px;
-        padding-bottom: 4px;
+        padding: 4px 12px;
         border: 1px solid transparent;
+        .border-radius();
         display: flex;
         cursor: pointer;
+        transition: background 1s ease;
         .fa[class*="fa-caret"] {
           cursor: default;
         }
         &:hover {
           border-color: @info;
-          .border-radius();
           .wiki-category-add {
             display: block;
+          }
+        }
+        &:not(.page-is-category) {
+          .page-title-text {
+            padding-left: 24px;
           }
         }
         .wiki-page-control {
@@ -377,6 +382,38 @@
         }
         .fa-caret-right {
            margin: 0 8px 0 7px;
+        }
+        > div {
+          display: flex;
+          overflow: hidden;
+          .page-title-text {
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+          }
+          > i.fa {
+            padding: 5px 2px;
+          }
+        }
+        &.wiki-page-dropped {
+          background: fade(@warning, 12%);
+        }
+      }
+      &.wiki-page-is-dropping {
+        ul.wiki-page-list:not(.wiki-page-list-droppable-target) {
+          padding-top: 25px;
+          margin-top: -25px;
+        }
+        li:not(.wiki-current-target-category-over) {
+          > .page-title:hover {
+            border-color: transparent !important;
+          }
+        }
+        .wiki-category-add {
+          display: none !important;
+        }
+        .drag-icon {
+          visibility: hidden !important;;
         }
       }
     }
@@ -681,44 +718,6 @@
     .page-title {
       padding-left: 12px;
       padding-right: 12px;
-      transition: background 1s ease;
-      &:not(.page-is-category) {
-        .page-title-text {
-          padding-left: 24px;
-        }
-      }
-      > div {
-        display: flex;
-        overflow: hidden;
-        .page-title-text {
-          overflow: hidden;
-          white-space: nowrap;
-          text-overflow: ellipsis;
-        }
-        > i.fa {
-          padding: 5px 2px;
-        }
-      }
-      &.wiki-page-dropped {
-        background: fade(@warning, 12%);
-      }
-    }
-    &.wiki-page-is-dropping {
-      ul.wiki-page-list:not(.wiki-page-list-droppable-target) {
-        padding-top: 25px;
-        margin-top: -25px;
-      }
-      li:not(.wiki-current-target-category-over) {
-        > .page-title:hover {
-          border-color: transparent !important;
-        }
-      }
-      .wiki-category-add {
-        display: none;
-      }
-      .drag-icon {
-        visibility: hidden;
-      }
     }
   }
 
