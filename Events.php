@@ -4,12 +4,14 @@ namespace humhub\modules\wiki;
 
 use humhub\libs\Html;
 use humhub\modules\content\components\ContentContainerActiveRecord;
+use humhub\modules\content\widgets\WallEntryControls;
 use humhub\modules\space\widgets\Menu;
 use humhub\modules\ui\menu\MenuLink;
 use humhub\modules\ui\menu\widgets\LeftNavigation;
 use humhub\modules\user\widgets\ProfileMenu;
 use humhub\modules\wiki\models\DefaultSettings;
 use humhub\modules\wiki\models\WikiPage;
+use humhub\modules\wiki\widgets\EditPageLink;
 use Yii;
 
 /**
@@ -105,5 +107,19 @@ class Events
             ['pattern' => 'wiki/revision/<id:\d+>/revert', 'route' => 'wiki/rest/revision/revert', 'verb' => 'PATCH'],
 
         ], 'wiki');
+    }
+
+    /**
+     * Display the "Edit Page" link in wall entry context menu when user
+     * has no permission "Administer pages" but has permission "Edit pages"
+     */
+    public static function onWallEntryControlsInit($event)
+    {
+        /* @var WallEntryControls $wallEntryControls */
+        $wallEntryControls = $event->sender;
+
+        if ($wallEntryControls->object instanceof WikiPage) {
+            $wallEntryControls->addWidget(EditPageLink::class, ['record' => $wallEntryControls->object], ['sortOrder' => 100]);
+        }
     }
 }

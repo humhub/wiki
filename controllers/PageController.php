@@ -99,7 +99,7 @@ class PageController extends BaseController
             'contentContainer' => $this->contentContainer,
             'content' => $revision->content,
             'canViewHistory' => $this->canViewHistory(),
-            'canEdit' => $this->canEdit($page),
+            'canEdit' => $page->canEditContent(),
             'canAdminister' => $this->canAdminister(),
             'canCreatePage' => $this->canCreatePage()
         ]);
@@ -345,7 +345,7 @@ class PageController extends BaseController
             throw new HttpException(404, Yii::t('WikiModule.base', 'Page not found.'));
         }
 
-        if (!$page->canEditWikiPage()) {
+        if (!$page->canEditContent()) {
             throw new HttpException(403, Yii::t('WikiModule.base', 'Page not editable!'));
         }
 
@@ -402,7 +402,7 @@ class PageController extends BaseController
                 'output' => $this->renderAjax('_view_body', [
                     'page' => $page,
                     'revision' => $revision,
-                    'canEdit' => $page->canEditWikiPage(),
+                    'canEdit' => $page->canEditContent(),
                     'content' => $revision->content,
                 ]),
             ]);
@@ -412,16 +412,6 @@ class PageController extends BaseController
             'success' => false,
             'error' => 'No page found!'
         ]);
-    }
-
-    /**
-     * @param WikiPage $page
-     * @return boolean can edit given wiki site?
-     * @throws \yii\base\InvalidConfigException
-     */
-    public function canEdit($page)
-    {
-        return $page->canEditWikiPage();
     }
 
     /**

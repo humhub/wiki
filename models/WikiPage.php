@@ -240,26 +240,20 @@ class WikiPage extends ContentActiveRecord implements Searchable
     /**
      * Internal edit logic for wiki pages.
      *
+     * @param User|null $user
      * @return bool
      * @throws \Throwable
      * @throws \yii\base\Exception
      * @throws \yii\base\InvalidConfigException
      * @throws \yii\db\IntegrityException
      */
-    public function canEditWikiPage()
+    public function canEditContent(User $user = null): bool
     {
-        return $this->content->canEdit();
-    }
+        if ($this->content->canEdit()) {
+            return true;
+        }
 
-    /**
-     * Additional checking for Content->canEdit() when user has no permission "Administer pages"
-     *
-     * @param User|null $user
-     * @return bool
-     * @throws \yii\base\InvalidConfigException
-     */
-    public function canEdit(User $user = null): bool
-    {
+        // Additional checking when user has no permission "Administer pages"
         return !$this->isNewRecord &&
             !$this->admin_only &&
             $this->content->container->getPermissionManager($user)->can(EditPages::class);
