@@ -42,6 +42,11 @@ class WikiPagePicker extends BasePicker
     public $model;
 
     /**
+     * @var bool
+     */
+    public $disabled = false;
+
+    /**
      * @inheritdoc
      */
     public function init()
@@ -67,6 +72,10 @@ class WikiPagePicker extends BasePicker
 
         if ($this->maxSelection) {
             $result['maximum-selected'] = Yii::t('WikiModule.base', 'This field only allows a maximum 1 page.');
+        }
+
+        if ($this->disabled) {
+            $result['disabled'] = true;
         }
 
         return $result;

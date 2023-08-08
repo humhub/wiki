@@ -93,7 +93,11 @@ Assets::register($this);
 
                 <?php $category = $form->field($model->page, 'parent_page_id') ?>
                 <?= $displayFieldCategory
-                    ? $category->widget(WikiPagePicker::class, ['model' => $model->page, 'maxInput' => 30])
+                    ? $category->widget(WikiPagePicker::class, [
+                        'model' => $model->page,
+                        'maxInput' => 30,
+                        'disabled' => $model->isDisabledField('parent_page_id')
+                    ])
                     : $category->hiddenInput() ?>
 
                 <?= $form->beginCollapsibleFields(Yii::t('WikiModule.base', 'Advanced settings')); ?>
