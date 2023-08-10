@@ -27,7 +27,7 @@ humhub\modules\wiki\assets\Assets::register($this);
                     <?php if ($canCreatePage): ?>
                         <h2><?= Yii::t('WikiModule.base', 'Get your very own knowledge base off the ground by being the first one to create a Wiki page! Gather information, facilitate knowledge transfer and make it available to your users in the easiest way possible.') ?></h2>
                         <br>
-                        <p>`
+                        <p>
                             <?= Button::info( Yii::t('WikiModule.base', 'Let\'s go!'))->link(Url::toWikiCreate($contentContainer)) ?>
                         </p>
                     <?php endif; ?>
