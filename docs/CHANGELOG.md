@@ -7,6 +7,7 @@ Changelog
 - Enh #277: Fix visibility of "Delete" link on wall entry
 - Fix #274: Fix left indent of sub-pages on default theme
 - Enh #278: Update font-size for categories and last edited page
+- Enh #285: Use CSS variables for colors
 
 2.0.0-beta.1 (July 28, 2023)
 ----------------------------
