@@ -772,3 +772,6 @@
     padding: 0;
   }
 }
+.select2-container--humhub.select2-container--disabled .select2-selection--multiple .select2-selection__choice {
+  background: #999;
+}
