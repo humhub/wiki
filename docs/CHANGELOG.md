@@ -1,6 +1,10 @@
 Changelog
 =========
 
+2.1.0 (Unreleased)
+------------------------------
+- Enh #286: Remove option "disabled" from Wiki Page Picker
+
 2.0.0-beta.3 (August 11, 2023)
 ------------------------------
 - Enh #270: Rename soft deleted wiki page automatically on creating new page with same name
