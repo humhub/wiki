@@ -1,7 +1,7 @@
 Changelog
 =========
 
-2.0.0-beta.2 (August 11, 2023)
+2.0.0-beta.3 (August 11, 2023)
 ------------------------------
 - Enh #270: Rename soft deleted wiki page automatically on creating new page with same name
 - Enh #277: Fix visibility of "Delete" link on wall entry
