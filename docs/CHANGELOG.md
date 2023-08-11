@@ -6,6 +6,8 @@ Changelog
 - Enh #270: Rename soft deleted wiki page automatically on creating new page with same name
 - Enh #277: Fix visibility of "Delete" link on wall entry
 - Fix #274: Fix left indent of sub-pages on default theme
+- Enh #278: Update font-size for categories and last edited page
+- Enh #279: Improve text of wiki wall stream entry
 - Fix #281: Disable "Parent Page" when user has no permission to edit it
 
 2.0.0-beta.1 (July 28, 2023)

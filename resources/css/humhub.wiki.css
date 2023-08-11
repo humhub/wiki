@@ -252,7 +252,7 @@
   border: none !important;
 }
 .layout-content-container .wiki-content ul.wiki-page-list li {
-  font-size: 16px;
+  font-size: 14px;
   padding-bottom: 6px;
 }
 .layout-content-container .wiki-content ul.wiki-page-list .wiki-list-item-selected {
@@ -310,7 +310,7 @@
   text-overflow: ellipsis;
 }
 .layout-content-container .wiki-content ul.wiki-page-list .page-title > div > i.fa {
-  padding: 5px 2px;
+  padding: 3px 2px;
 }
 .layout-content-container .wiki-content ul.wiki-page-list .page-title.wiki-page-dropped {
   background: rgba(255, 193, 7, 0.12);
@@ -691,8 +691,8 @@
   color: #21A1B3;
 }
 .wiki-page-list-table .table-responsive table .wiki-page-list-row-title {
-  font-size: 16px;
-  font-weight: 600;
+  font-size: 14px;
+  font-weight: 500;
 }
 .wiki-page-list-table .table-responsive table .wiki-page-list-row-title a {
   display: block;

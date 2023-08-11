@@ -8,8 +8,11 @@
 
 namespace humhub\modules\wiki\widgets;
 
+use humhub\libs\Helpers;
+use humhub\modules\content\widgets\richtext\converter\BaseRichTextConverter;
 use humhub\modules\content\widgets\stream\WallStreamModuleEntryWidget;
 use humhub\modules\wiki\helpers\Url;
+use humhub\modules\wiki\models\WikiPage;
 
 /**
  * @inheritdoc
@@ -35,6 +38,12 @@ class WallEntry extends WallStreamModuleEntryWidget
      * @var bool
      */
     public $disabledWallEntryControls = false;
+
+    /**
+     * @inheritdoc
+     * @var WikiPage $model
+     */
+    public $model;
 
     /**
      * @inerhitdoc
@@ -72,7 +81,18 @@ class WallEntry extends WallStreamModuleEntryWidget
             return '';
         }
 
-        return $this->render('wallEntry', ['wiki' => $this->model, 'content' => $revision->content, 'justEdited' => $this->renderOptions->isJustEdited()]);
+        $content = $revision->content;
+        if (!empty($content)) {
+            $content = Helpers::truncateText($content, 500);
+            // Cleanup a broken link or image in the end after truncation
+            $content = preg_replace('/!?\[.+?\]\([^\)]*?\.\.\.$/', '...', $content);
+            $content = WikiRichText::output($content, [BaseRichTextConverter::OPTION_EXCLUDE => ['anchor']]);
+        }
+
+        return $this->render('wallEntry', [
+            'wiki' => $this->model,
+            'content' => $content
+        ]);
     }
 
     /**
