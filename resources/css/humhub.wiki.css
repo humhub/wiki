@@ -32,6 +32,9 @@
   font-weight: 600;
   color: #000;
 }
+.layout-content-container .wiki-page-path.wiki-page-path-length-0 .fa {
+  font-size: 28px;
+}
 @media only screen and (max-width: 520px) {
   .layout-content-container .wiki-page-path .wiki-page-path-categories {
     display: none;

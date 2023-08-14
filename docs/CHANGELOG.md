@@ -1,6 +1,10 @@
 Changelog
 =========
 
+2.0.1 (Unrelased)
+------------------------------
+- Fix #287: Force home icon to big size when no crumbs
+
 2.0.0-beta.3 (August 11, 2023)
 ------------------------------
 - Enh #270: Rename soft deleted wiki page automatically on creating new page with same name
