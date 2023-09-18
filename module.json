@@ -1,7 +1,7 @@
 {
     "id": "wiki",
     "name": "Wiki",
-    "description": "Collect and share information with your very own Wiki.",
+    "description": "Create and edit pages with this powerful tool. Build a collaborative knowledge base, view and share information with your colleagues.",
     "keywords": ["wiki"],
     "version": "2.0.1",
     "humhub": {
