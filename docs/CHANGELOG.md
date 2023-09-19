@@ -1,8 +1,8 @@
 Changelog
 =========
 
-2.0.1 (Unrelased)
-------------------------------
+2.0.1 (September 19, 2023)
+--------------------------
 - Fix #287: Force home icon to big size when no crumbs
 
 2.0.0-beta.3 (August 11, 2023)
