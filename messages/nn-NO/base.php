@@ -57,7 +57,6 @@ return [
     'Page not editable!' => '',
     'Page not found' => '',
     'Page not found.' => '',
-    'Page title already in use for a deleted page!' => '',
     'Page title already in use!' => '',
     'Parent Page' => '',
     'Permission denied. You have no rights to view the history.' => '',
