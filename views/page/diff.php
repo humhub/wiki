@@ -20,7 +20,11 @@ humhub\modules\wiki\assets\Assets::register($this);
         <div class="row">
             <?php WikiContent::begin(['cssClass' => 'wiki-page-content wiki-page-diff']) ?>
 
-            <?= $this->render('_view_header', ['page' => $page, 'buttons' => WikiMenu::LINK_REVERT]) ?>
+            <?= $this->render('_view_header', [
+                'page' => $page,
+                'buttons' => WikiMenu::LINK_REVERT,
+                'revision' => $revision1
+            ]) ?>
 
             <div class="row">
                 <div class="col-xs-6">
