@@ -25,7 +25,10 @@ use humhub\modules\wiki\permissions\ViewHistory;
  */
 class PageController extends BaseController
 {
-    public function getAccessRules()
+    /**
+     * @inheritdoc
+     */
+    protected function getAccessRules()
     {
         return [
             [ControllerAccess::RULE_POST => ['sort', 'delete', 'revert']],

@@ -5,6 +5,7 @@ Changelog
 ----------------------
 - Enh #291: Tests for `next` version
 - Fix #294: Fix reverting of old page version
+- Fix #295: Fix visibility of the method `Controller::getAccessRules()`
 
 2.0.1 (September 19, 2023)
 --------------------------
