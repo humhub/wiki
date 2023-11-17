@@ -682,10 +682,12 @@ definitions:
         PageEditForm:
           type: object
           properties:
-            is_public:
-              type: integer
-              format: int64
+            isPublic:
+              type: boolean
               example: 0
+            hidden:
+              type: boolean
+              example: 1
             topics:
               type: array
               description: Topic id's

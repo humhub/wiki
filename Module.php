@@ -7,8 +7,10 @@ use humhub\modules\content\components\ContentContainerActiveRecord;
 use humhub\modules\content\components\ContentContainerModule;
 use humhub\modules\space\models\Space;
 use humhub\modules\user\models\User;
+use humhub\modules\wiki\models\DefaultSettings;
 use humhub\modules\wiki\models\WikiPage;
 use Yii;
+use yii\helpers\Url;
 
 class Module extends ContentContainerModule
 {
@@ -41,6 +43,14 @@ class Module extends ContentContainerModule
             Space::class,
             User::class,
         ];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getConfigUrl()
+    {
+        return Url::to(['/wiki/config']);
     }
 
     /**
@@ -106,6 +116,16 @@ class Module extends ContentContainerModule
     public function getContentClasses(): array
     {
         return [WikiPage::class];
+    }
+
+    public function getContentHiddenGlobalDefault(): bool
+    {
+        return $this->settings->get('contentHiddenGlobalDefault', false);
+    }
+
+    public function getContentHiddenDefault(ContentContainerActiveRecord $contentContainer): bool
+    {
+        return (new DefaultSettings(['contentContainer' => $contentContainer]))->contentHiddenDefault;
     }
 
 }
