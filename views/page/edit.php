@@ -2,6 +2,7 @@
 
 use humhub\libs\Html;
 use humhub\modules\content\components\ContentContainerActiveRecord;
+use humhub\modules\ui\form\widgets\ContentHiddenCheckbox;
 use humhub\modules\ui\form\widgets\ContentVisibilitySelect;
 use humhub\modules\ui\view\components\View;
 use humhub\modules\wiki\assets\Assets;
@@ -126,6 +127,8 @@ Assets::register($this);
                     <?= $form->field($model->page, 'container_menu_order')->textInput([
                         'disabled' => $model->isDisabledField('container_menu_order')]); ?>
                 </div>
+
+                <?= $form->field($model, 'hidden')->widget(ContentHiddenCheckbox::class) ?>
 
                 <?= $form->endCollapsibleFields(); ?>
 

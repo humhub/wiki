@@ -1,13 +1,14 @@
 <?php
 
-
 namespace humhub\modules\wiki\models\forms;
 
+use humhub\modules\content\components\ContentContainerActiveRecord;
 use humhub\modules\content\models\Content;
 use humhub\modules\topic\models\Topic;
 use humhub\modules\topic\permissions\AddTopic;
-use humhub\modules\ui\icon\widgets\Icon;
+use humhub\modules\wiki\models\WikiPage;
 use humhub\modules\wiki\models\WikiPageRevision;
+use humhub\modules\wiki\Module;
 use humhub\modules\wiki\permissions\AdministerPages;
 use humhub\modules\wiki\widgets\WikiRichText;
 use Yii;
@@ -15,8 +16,6 @@ use yii\base\Model;
 use yii\db\Expression;
 use yii\helpers\ArrayHelper;
 use yii\web\HttpException;
-use humhub\modules\content\components\ContentContainerActiveRecord;
-use humhub\modules\wiki\models\WikiPage;
 
 class PageEditForm extends Model
 {
@@ -56,6 +55,11 @@ class PageEditForm extends Model
     public $isPublic;
 
     /**
+     * @var bool
+     */
+    public $hidden;
+
+    /**
      * @var
      */
     public $topics = [];
@@ -67,7 +71,7 @@ class PageEditForm extends Model
     {
         return [
             ['topics', 'safe'],
-            [['isPublic', 'confirmOverwriting', 'backOverwriting'], 'integer'],
+            [['isPublic', 'confirmOverwriting', 'backOverwriting', 'hidden'], 'boolean'],
             ['latestRevisionNumber', 'validateLatestRevisionNumber']
         ];
     }
@@ -121,10 +125,13 @@ class PageEditForm extends Model
      */
     public function scenarios()
     {
+        $editFields = ['latestRevisionNumber', 'confirmOverwriting', 'backOverwriting', 'hidden'];
+
         $scenarios = parent::scenarios();
         $scenarios[WikiPage::SCENARIO_CREATE] = ['topics'];
-        $scenarios[WikiPage::SCENARIO_EDIT] =  $this->page->isOwner() ? ['topics', 'latestRevisionNumber', 'confirmOverwriting', 'backOverwriting'] : ['latestRevisionNumber', 'confirmOverwriting', 'backOverwriting'];
-        $scenarios[WikiPage::SCENARIO_ADMINISTER] = ['topics', 'isPublic', 'latestRevisionNumber', 'confirmOverwriting', 'backOverwriting'];
+        $scenarios[WikiPage::SCENARIO_EDIT] =  $this->page->isOwner() ? array_merge(['topics'], $editFields) : $editFields;
+        $scenarios[WikiPage::SCENARIO_ADMINISTER] = array_merge(['topics', 'isPublic'], $editFields);
+
         return $scenarios;
     }
 
@@ -173,6 +180,7 @@ class PageEditForm extends Model
         $this->isPublic = $this->getPageVisibility($category);
         $this->revision = $this->page->createRevision();
         $this->latestRevisionNumber = $this->getLatestRevisionNumber();
+        $this->hidden = $this->getPageHiddenStreamEntry();
 
         return $this;
     }
@@ -191,6 +199,17 @@ class PageEditForm extends Model
         }
 
         return $this->page->content->visibility;
+    }
+
+    private function getPageHiddenStreamEntry(): bool
+    {
+        if ($this->page->isNewRecord) {
+            /** @var Module $module */
+            $module = Yii::$app->getModule('wiki');
+            return $module->getContentHiddenDefault($this->page->content->container);
+        }
+
+        return $this->page->content->hidden;
     }
 
     public function setScenario($value)
@@ -214,8 +233,12 @@ class PageEditForm extends Model
             return false;
         }
 
-        if($this->isPublic !== null) {
+        if ($this->isPublic !== null) {
             $this->page->content->visibility = $this->isPublic ? Content::VISIBILITY_PUBLIC : Content::VISIBILITY_PRIVATE;
+        }
+
+        if ($this->hidden !== null) {
+            $this->page->content->hidden = $this->hidden;
         }
 
         return WikiPage::getDb()->transaction(function($db) {
