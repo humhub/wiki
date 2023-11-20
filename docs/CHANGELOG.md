@@ -1,8 +1,8 @@
 Changelog
 =========
 
-2.0.2 (Unreleased)
-----------------------
+2.0.2 (November 20, 2023)
+-------------------------
 - Enh #291: Tests for `next` version
 - Fix #294: Fix reverting of old page version
 - Fix #295: Fix visibility of the method `Controller::getAccessRules()`
