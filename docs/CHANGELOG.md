@@ -1,6 +1,10 @@
 Changelog
 =========
 
+2.0.3 (Unreleased)
+-------------------------
+- Enh #302: Fix undefined updater
+
 2.0.2 (November 20, 2023)
 -------------------------
 - Enh #291: Tests for `next` version
