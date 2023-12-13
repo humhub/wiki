@@ -14,16 +14,16 @@
 
 namespace humhub\modules\wiki\models;
 
-use humhub\components\SettingsManager;
 use humhub\modules\content\components\ContentContainerActiveRecord;
 use humhub\modules\content\components\ContentContainerSettingsManager;
+use humhub\modules\wiki\Module;
 use Yii;
 use yii\base\Model;
-use yii\helpers\Url;
 
 class DefaultSettings extends Model
 {
     const SETTING_MODULE_LABEL = 'defaults.moduleLabel';
+    const SETTING_CONTENT_HIDDEN_DEFAULT = 'contentHiddenDefault';
 
     /**
      * @var ContentContainerActiveRecord
@@ -35,22 +35,32 @@ class DefaultSettings extends Model
      */
     public $module_label;
 
-    public $module;
+    /**
+     * @var bool
+     */
+    public bool $contentHiddenDefault = false;
 
+    /**
+     * @var Module
+     */
+    public $module;
 
     public function init()
     {
         $this->module = Yii::$app->getModule('wiki');
+
         $this->module_label = $this->getSettings()->get(
             self::SETTING_MODULE_LABEL,
             Yii::t('WikiModule.base', 'Wiki')
         );
+
+        $this->contentHiddenDefault = $this->getSettings()->get(
+            self::SETTING_CONTENT_HIDDEN_DEFAULT,
+            $this->module->getContentHiddenGlobalDefault()
+        );
     }
 
-    /**
-     * @return SettingsManager
-     */
-    private function getSettings()
+    private function getSettings(): ContentContainerSettingsManager
     {
         return $this->module->settings->contentContainer($this->contentContainer);
     }
@@ -62,6 +72,7 @@ class DefaultSettings extends Model
     {
         return [
             [['module_label'], 'string'],
+            [['contentHiddenDefault'], 'boolean'],
         ];
     }
 
@@ -72,12 +83,15 @@ class DefaultSettings extends Model
         ];
     }
 
-    public function save()
+    public function save(): bool
     {
-        $this->getSettings()->set(
-            self::SETTING_MODULE_LABEL,
-            $this->module_label
-        );
+        if (!$this->validate()) {
+            return false;
+        }
+
+        $this->getSettings()->set(self::SETTING_MODULE_LABEL, $this->module_label);
+        $this->getSettings()->set(self::SETTING_CONTENT_HIDDEN_DEFAULT, $this->contentHiddenDefault);
+
         return true;
     }
 

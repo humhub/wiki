@@ -1,12 +1,20 @@
 Changelog
 =========
 
-2.0.2 (Unreleased)
-----------------------
+2.0.4 (Unreleased)
+------------------
+- Enh #299: Use the custom module name in the overview page, page title and sidebar
+
+2.0.3 (November 28, 2023)
+-------------------------
+- Enh #302: Fix undefined updater
+
+2.0.2 (November 20, 2023)
+-------------------------
 - Enh #291: Tests for `next` version
 - Fix #294: Fix reverting of old page version
 - Fix #295: Fix visibility of the method `Controller::getAccessRules()`
-- Enh #299: Use the custom module name in the overview page, page title and sidebar
+- Enh #298: Allow hide wiki page in stream
 
 2.0.1 (September 19, 2023)
 --------------------------
