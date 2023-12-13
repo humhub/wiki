@@ -1,8 +1,9 @@
 Changelog
 =========
 
-2.0.4 (Unreleased)
-------------------
+2.1.0 (Unreleased)
+------------------------------
+- Enh #286: Remove option "disabled" from Wiki Page Picker
 - Enh #299: Use the custom module name in the overview page, page title and sidebar
 
 2.0.3 (November 28, 2023)
