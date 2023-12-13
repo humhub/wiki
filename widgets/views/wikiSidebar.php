@@ -7,8 +7,8 @@
 
 use humhub\libs\Html;
 use humhub\modules\content\components\ContentContainerActiveRecord;
-use humhub\modules\ui\icon\widgets\Icon;
 use humhub\modules\wiki\helpers\Url;
+use humhub\modules\wiki\models\DefaultSettings;
 use humhub\modules\wiki\widgets\CategoryListView;
 use humhub\modules\wiki\widgets\WikiContent;
 use humhub\modules\wiki\widgets\WikiSearchForm;
@@ -18,13 +18,16 @@ use humhub\widgets\Link;
 /* @var $options array */
 /* @var $contentContainer ContentContainerActiveRecord */
 /* @var $canCreate bool */
+
+$settings = new DefaultSettings(['contentContainer' => $contentContainer]);
 ?>
+
 <?= Html::beginTag('div', $options) ?>
 <div class="panel panel-default">
     <div class="panel-body">
         <?php WikiContent::begin(['cssClass' => 'wiki-page-content']) ?>
         <div class="wiki-page-content-header">
-            <h3><?= Link::to(Yii::t('WikiModule.base', 'Wiki'), Url::toLastEdited($contentContainer)) ?></h3>
+            <h3><?= Link::to(Html::encode($settings->module_label), Url::toLastEdited($contentContainer)) ?></h3>
             <?= Button::info()->icon('fa-plus')->link(Url::toWikiCreate($contentContainer))->cssClass('btn-add-page')->sm() ?>
             <?= WikiSearchForm::widget(['contentContainer' => $contentContainer]) ?>
             <div class="wiki-page-content-header-actions">

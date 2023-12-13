@@ -30,7 +30,7 @@ use yii\data\ActiveDataProvider;
                 return Html::tag('strong', Link::to($model->title, Url::toWiki($model)), ['class' => 'wiki-page-list-row-title'])
                     . '<div class="wiki-page-list-row-details">'
                     . TimeAgo::widget(['timestamp' => $model->content->updated_at])
-                    . ' &middot; ' . Html::encode($model->content->updatedBy->displayName)
+                    . ($model->content->updatedBy ? ' &middot; ' . Html::encode($model->content->updatedBy->displayName) : '')
                     . ' &middot; ' . Link::to(Yii::t('WikiModule.base', 'show changes'), Url::toWikiHistory($model))
                     . '</div>';
             }

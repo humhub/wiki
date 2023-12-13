@@ -2,13 +2,11 @@
 
 namespace humhub\modules\wiki\controllers;
 
-use Yii;
-use yii\base\Exception;
-use yii\base\InvalidArgumentException;
-use yii\web\HttpException;
 use humhub\components\access\ControllerAccess;
+use humhub\libs\Html;
 use humhub\modules\wiki\helpers\HeadlineExtractor;
 use humhub\modules\wiki\helpers\Url;
+use humhub\modules\wiki\models\DefaultSettings;
 use humhub\modules\wiki\models\forms\PageEditForm;
 use humhub\modules\wiki\models\forms\WikiPageItemDrop;
 use humhub\modules\wiki\models\WikiPage;
@@ -17,6 +15,10 @@ use humhub\modules\wiki\permissions\AdministerPages;
 use humhub\modules\wiki\permissions\CreatePage;
 use humhub\modules\wiki\permissions\EditPages;
 use humhub\modules\wiki\permissions\ViewHistory;
+use Yii;
+use yii\base\Exception;
+use yii\base\InvalidArgumentException;
+use yii\web\HttpException;
 
 /**
  * PageController
@@ -25,7 +27,10 @@ use humhub\modules\wiki\permissions\ViewHistory;
  */
 class PageController extends BaseController
 {
-    public function getAccessRules()
+    /**
+     * @inheritdoc
+     */
+    protected function getAccessRules()
     {
         return [
             [ControllerAccess::RULE_POST => ['sort', 'delete', 'revert']],
@@ -433,8 +438,9 @@ class PageController extends BaseController
         $wikiPage = $query->one();
 
         if ($wikiPage) {
-            $this->view->setPageTitle(Yii::t('WikiModule.base', 'Wiki'), true);
-            $this->view->setPageTitle($wikiPage->title . ' - Wiki', true);
+            $settings = new DefaultSettings(['contentContainer' => $this->contentContainer]);
+            $this->view->setPageTitle(Html::encode($settings->module_label), true);
+            $this->view->setPageTitle($wikiPage->title, true);
             $this->view->meta->setContent($wikiPage);
             $this->view->meta->setImages($wikiPage->fileManager->findAll());
         }

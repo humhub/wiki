@@ -14,15 +14,11 @@
 
 namespace humhub\modules\wiki\controllers;
 
-
-use Yii;
 use humhub\modules\admin\permissions\ManageSpaces;
-use humhub\modules\wiki\permissions\AdministerPages;
 use humhub\modules\content\components\ContentContainerController;
-use yii\data\ActiveDataProvider;
-use yii\helpers\Url;
-use yii\web\HttpException;
 use humhub\modules\wiki\models\DefaultSettings;
+use humhub\modules\wiki\permissions\AdministerPages;
+use Yii;
 
 class ContainerConfigController extends ContentContainerController
 {
@@ -37,7 +33,7 @@ class ContainerConfigController extends ContentContainerController
     /**
      * @inheritdoc
      */
-    public function getAccessRules()
+    protected function getAccessRules()
     {
         return [
           ['permission' => [ManageSpaces::class, AdministerPages::class]]

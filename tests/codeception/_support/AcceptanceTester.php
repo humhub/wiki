@@ -275,6 +275,7 @@ class AcceptanceTester extends \AcceptanceTester
         $this->click('Edit', '.wiki-menu');
         $this->waitForText('Advanced settings');
         $this->jsShow('.form-collapsible-fields.closed fieldset');
+        $this->wait(1);
         $this->click('[for="wikipage-is_container_menu"]');
         $this->fillField('#wikipage-container_menu_order', 100);
         $this->click('Save', '#wiki-page-edit form');
