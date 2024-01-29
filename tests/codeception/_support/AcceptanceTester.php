@@ -37,15 +37,10 @@ class AcceptanceTester extends \AcceptanceTester
     {
         $this->amOnRoute(['/user/account/edit-modules']);
         $this->waitForText('Enable');
+        $this->click('.enable-module-wiki');
 
-        if(version_compare(Yii::$app->version  ,'1.4-dev', '<')) {
-            // Note: this only works if no other profile module is installed
-            $this->click('Enable');
-        } else {
-            $this->click('.enable-module-wiki');
-        }
-
-        $this->waitForText('Activated', null, '.disable-module-wiki');
+        $buttonText = version_compare(Yii::$app->version, '1.16', '<') ? 'Activated' : 'Enabled';
+        $this->waitForText($buttonText, null, '.disable-module-wiki');
     }
 
     /**
