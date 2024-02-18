@@ -66,6 +66,7 @@ return [
     'by' => 'przez',
     '{userName} edited the Wiki page "{wikiPageTitle}".' => '{userName} edytował stronę wiki "{wikiPageTitle}".',
     '({n,plural,=1{+1 subpage}other{+{count} subpages}})' => '',
+    '<strong>Wiki</strong> module configuration' => '',
     'Child page cannot be used as parent page!' => '',
     'Create new page' => '',
     'Create page' => '',

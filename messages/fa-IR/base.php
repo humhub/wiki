@@ -31,6 +31,7 @@ return [
     '({n,plural,=1{+1 subpage}other{+{count} subpages}})' => '',
     '<strong>Warning!</strong><br><br>Another user has updated this page since you have started editing it. Please confirm that you want to overwrite those changes.<br>:linkToCompare' => '',
     '<strong>Wiki</strong> link' => '',
+    '<strong>Wiki</strong> module configuration' => '',
     'Add Page' => '',
     'Advanced settings' => '',
     'Are you really sure? All existing category page assignments will be removed!' => '',

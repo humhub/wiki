@@ -52,6 +52,7 @@ return [
     'by' => 'luonut',
     '({n,plural,=1{+1 subpage}other{+{count} subpages}})' => '',
     '<strong>Warning!</strong><br><br>Another user has updated this page since you have started editing it. Please confirm that you want to overwrite those changes.<br>:linkToCompare' => '',
+    '<strong>Wiki</strong> module configuration' => '',
     'Advanced settings' => '',
     'Child page cannot be used as parent page!' => '',
     'Compare changes' => '',

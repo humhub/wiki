@@ -84,4 +84,5 @@ return [
     'last update {dateTime}' => 'utolsó frissítés: {dateTime}',
     'show changes' => 'változások megjelenítése',
     '{userName} edited the Wiki page "{wikiPageTitle}".' => '{userName} szerkesztette a "{wikiPageTitle}" Wiki-oldalt.',
+    '<strong>Wiki</strong> module configuration' => '',
 ];

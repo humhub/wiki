@@ -84,4 +84,5 @@ return [
     'last update {dateTime}' => 'dernière mise à jour {dateTime}',
     'show changes' => 'afficher les modifications',
     '{userName} edited the Wiki page "{wikiPageTitle}".' => '{userName} a modifié la page "{wikiPageTitle}" du wiki.',
+    '<strong>Wiki</strong> module configuration' => '',
 ];

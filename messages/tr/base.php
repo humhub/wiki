@@ -27,6 +27,7 @@ return [
     'Wiki page' => 'Wiki sayfası',
     '({n,plural,=1{+1 subpage}other{+{count} subpages}})' => '',
     '<strong>Warning!</strong><br><br>Another user has updated this page since you have started editing it. Please confirm that you want to overwrite those changes.<br>:linkToCompare' => '',
+    '<strong>Wiki</strong> module configuration' => '',
     'Adds a wiki to this space.' => '',
     'Adds a wiki to your profile.' => '',
     'Are you really sure? All existing category page assignments will be removed!' => '',
