@@ -5,6 +5,7 @@ Changelog
 ------------------------------
 - Enh #286: Remove option "disabled" from Wiki Page Picker
 - Enh #299: Use the custom module name in the overview page, page title and sidebar
+- Fix #316: History page crashes if an author of a revision was deleted
 
 2.0.3 (November 28, 2023)
 -------------------------
