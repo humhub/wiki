@@ -1,11 +1,12 @@
 Changelog
 =========
 
-2.1.0 (Unreleased)
-------------------------------
+2.1.0 (March 14, 2024)
+----------------------
 - Enh #286: Remove option "disabled" from Wiki Page Picker
 - Enh #299: Use the custom module name in the overview page, page title and sidebar
 - Fix #316: History page crashes if an author of a revision was deleted
+- Fix #317: Space configuration checks permissions insufficiently
 
 2.0.3 (November 28, 2023)
 -------------------------
