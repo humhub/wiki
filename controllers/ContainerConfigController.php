@@ -14,30 +14,22 @@
 
 namespace humhub\modules\wiki\controllers;
 
-use humhub\modules\admin\permissions\ManageSpaces;
 use humhub\modules\content\components\ContentContainerController;
+use humhub\modules\content\components\ContentContainerControllerAccess;
+use humhub\modules\space\models\Space;
+use humhub\modules\user\models\User;
 use humhub\modules\wiki\models\DefaultSettings;
-use humhub\modules\wiki\permissions\AdministerPages;
 use Yii;
 
 class ContainerConfigController extends ContentContainerController
 {
-    /**
-     * @inheritdoc
-     */
-    public function init()
-    {
-        parent::init();
-    }
 
     /**
      * @inheritdoc
      */
     protected function getAccessRules()
     {
-        return [
-          ['permission' => [ManageSpaces::class, AdministerPages::class]]
-        ];
+        return [[ContentContainerControllerAccess::RULE_USER_GROUP_ONLY => [Space::USERGROUP_ADMIN, User::USERGROUP_SELF]]];
     }
 
     public function actionIndex()
