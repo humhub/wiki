@@ -46,7 +46,7 @@ class WikiMenu extends WallEntryControls
 
     const BLOCK_START = [self::LINK_HOME, self::LINK_INDEX];
 
-    const BLOCK_PAGE_VIEW =  [self::LINK_EDIT, self::LINK_HISTORY, self::LINK_PERMA, self::LINK_PRINT];
+    const BLOCK_PAGE_VIEW =  [self::LINK_EDIT, self::LINK_HISTORY, self::LINK_PERMA, self::LINK_PRINT, self::LINK_MOVE];
 
     const BLOCK_REVISION_VIEW =  [self::LINK_REVERT, self::LINK_REVERT_GO_BACK, self::LINK_PRINT];
 

@@ -3,7 +3,7 @@
     "name": "Wiki",
     "description": "Create and edit pages with this powerful tool. Build a collaborative knowledge base, view and share information with your colleagues.",
     "keywords": ["wiki"],
-    "version": "2.1.0",
+    "version": "2.1.1",
     "humhub": {
         "minVersion": "1.15"
     },
