@@ -1,6 +1,10 @@
 Changelog
 =========
 
+2.1.1 (Unreleased)
+----------------------
+- Enh #318: Add menu item "Move content" on wiki view page
+
 2.1.0 (March 14, 2024)
 ----------------------
 - Enh #286: Remove option "disabled" from Wiki Page Picker
