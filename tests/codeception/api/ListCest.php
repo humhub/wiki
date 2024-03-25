@@ -7,17 +7,6 @@ use tests\codeception\_support\HumHubApiTestCest;
 
 class ListCest extends HumHubApiTestCest
 {
-    public function testEmptyList(ApiTester $I)
-    {
-        if (!$this->isRestModuleEnabled()) {
-            return;
-        }
-
-        $I->wantTo('see empty wiki pages list');
-        $I->amAdmin();
-        $I->seePaginationWikiPagesResponse('wiki', []);
-    }
-
     public function testFilledList(ApiTester $I)
     {
         if (!$this->isRestModuleEnabled()) {
@@ -35,6 +24,17 @@ class ListCest extends HumHubApiTestCest
         $I->createWikiPage('3. Wiki page of the sub-category', 'Sample content for the third wiki page of the sub-category.', ['parentPageId' => 4]);
         $I->createWikiPage('Home wiki page', 'Sample content for home wiki page.', ['isHome' => 1]);
         $I->seePaginationWikiPagesResponse('wiki', [1, 2, 3, 4, 5, 6, 7, 8]);
+    }
+
+    public function testEmptyList(ApiTester $I)
+    {
+        if (!$this->isRestModuleEnabled()) {
+            return;
+        }
+
+        $I->wantTo('see empty wiki pages list');
+        $I->amAdmin();
+        $I->seePaginationWikiPagesResponse('wiki', []);
     }
 
     public function testListByContainer(ApiTester $I)
