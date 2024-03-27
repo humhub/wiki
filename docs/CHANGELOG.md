@@ -4,6 +4,7 @@ Changelog
 2.1.1 (Unreleased)
 ----------------------
 - Enh #318: Add menu item "Move content" on wiki view page
+- Fix #321: Allow saving Wiki pages from the console
 
 2.1.0 (March 14, 2024)
 ----------------------
