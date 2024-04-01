@@ -19,6 +19,11 @@ class Module extends ContentContainerModule
      */
     public $pageSize = 30;
 
+    /**
+     * @var int Maximum number of H3 type titles, after which they are hidden in the Table of Contents (TOC)
+     */
+    public $tocMaxH3 = 20;
+
     public $resourcesPath = 'resources';
 
     /**

@@ -86,14 +86,16 @@
   font-weight: 600;
   color: var(--text-color-highlight) !important;
 }
-.layout-content-container .wiki-page-index .wiki-page-index-section .header-anchor,
-.layout-content-container .wiki-page-index .wiki-page-index-sub-section .header-anchor {
+.layout-content-container .wiki-page-index .wiki-page-index-section .header-anchor {
   text-overflow: ellipsis;
   overflow: hidden;
   padding-left: 20px;
 }
-.layout-content-container .wiki-page-index .wiki-page-index-sub-section .header-anchor {
+.layout-content-container .wiki-page-index .wiki-page-index-section-level2 .header-anchor {
   padding-left: 50px;
+}
+.layout-content-container .wiki-page-index .wiki-page-index-section-level3 .header-anchor {
+  padding-left: 80px;
 }
 .layout-content-container .current-anchor-header {
   background: var(--background-color-highlight);

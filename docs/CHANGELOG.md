@@ -5,6 +5,7 @@ Changelog
 ----------------------
 - Enh #318: Add menu item "Move content" on wiki view page
 - Fix #321: Allow saving Wiki pages from the console
+- Enh #319: Add H3 titles to the Table Of Contents (TOC)
 
 2.1.0 (March 14, 2024)
 ----------------------
