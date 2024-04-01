@@ -9,16 +9,16 @@
 namespace wiki\functional;
 
 use Codeception\Util\Locator;
-use humhub\modules\wiki\helpers\Url;
-use humhub\modules\wiki\permissions\ViewHistory;
-use Yii;
-use wiki\FunctionalPermissionTest;
-use wiki\FunctionalTester;
 use humhub\libs\BasePermission;
+use humhub\modules\space\models\Space;
+use humhub\modules\wiki\helpers\Url;
 use humhub\modules\wiki\permissions\AdministerPages;
 use humhub\modules\wiki\permissions\CreatePage;
 use humhub\modules\wiki\permissions\EditPages;
-use humhub\modules\space\models\Space;
+use humhub\modules\wiki\permissions\ViewHistory;
+use wiki\FunctionalPermissionTest;
+use wiki\FunctionalTester;
+use Yii;
 use yii\web\Response;
 
 class RevertCest extends FunctionalPermissionTest
@@ -48,7 +48,7 @@ class RevertCest extends FunctionalPermissionTest
 
         $space->permissionManager->setGroupState(Space::USERGROUP_MEMBER, ViewHistory::class, BasePermission::STATE_ALLOW);
 
-        $I->amOnSpace($space->guid, '/wiki/page/view', ['title' => $category->title]);
+        $I->amOnSpace($space->guid, '/wiki/page/view', ['id' => $category->id, 'title' => $category->title]);
         $I->seeInMenu('Page History');
         $I->click('Page History');
 
@@ -74,7 +74,7 @@ class RevertCest extends FunctionalPermissionTest
 
         $I->loginBySpaceUserGroup(Space::USERGROUP_MEMBER, '/wiki/overview');
 
-        $I->amOnSpace($space->guid, '/wiki/page/view', ['title' => $category->title]);
+        $I->amOnSpace($space->guid, '/wiki/page/view', ['id' => $category->id, 'title' => $category->title]);
         $I->click('Page History');
 
         $I->see('Page history', '.wiki-page-title');
@@ -86,7 +86,7 @@ class RevertCest extends FunctionalPermissionTest
 
         $space->permissionManager->setGroupState(Space::USERGROUP_MEMBER, EditPages::class, BasePermission::STATE_ALLOW);
 
-        $I->amOnSpace($space->guid, '/wiki/page/view', ['title' => $category->title]);
+        $I->amOnSpace($space->guid, '/wiki/page/view', ['id' => $category->id, 'title' => $category->title]);
         $I->click('Page History');
         $I->click(Locator::elementAt('.wiki-page-view-link', 2));
         $I->seeInCurrentUrl('revisionId');
