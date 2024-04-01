@@ -1,4 +1,4 @@
-humhub.module('wiki.Page', function(module, require, $) {
+humhub.module('wiki.Page', function (module, require, $) {
     var Widget = require('ui.widget').Widget;
     var wikiView = require('wiki');
 
@@ -7,9 +7,9 @@ humhub.module('wiki.Page', function(module, require, $) {
      */
     var Page = Widget.extend();
 
-    Page.prototype.init = function() {
+    Page.prototype.init = function () {
         var that = this;
-        this.$.find('#wiki-page-richtext').on('afterInit', function() {
+        this.$.find('#wiki-page-richtext').on('afterInit', function () {
             $(this).data('inited-richtext', true);
             if (that.$.data('diff')) {
                 compareBlocks($(that.$.data('diff')).find('#wiki-page-richtext'), $(this));
@@ -23,22 +23,22 @@ humhub.module('wiki.Page', function(module, require, $) {
         });
     };
 
-    Page.print = function() {
+    Page.print = function () {
         window.print();
     }
 
-    Page.prototype.initAnchor = function() {
+    Page.prototype.initAnchor = function () {
         if (window.location.hash) {
             wikiView.toAnchor(window.location.hash);
         }
 
-        $('.wiki-content').find('.header-anchor').on('click', function(evt) {
+        $('.wiki-content').find('.header-anchor').on('click', function (evt) {
             evt.preventDefault();
             wikiView.toAnchor($(this).attr('href'));
         });
     };
 
-    Page.prototype.initHeaderEditIcons = function() {
+    Page.prototype.initHeaderEditIcons = function () {
         const editUrl = this.data('edit-url');
 
         if (editUrl === undefined) {
@@ -56,15 +56,15 @@ humhub.module('wiki.Page', function(module, require, $) {
             if (anchor.length) {
                 anchor.before(editIconLink + ' ');
             } else {
-                $(this).append(' ' +editIconLink);
+                $(this).append(' ' + editIconLink);
             }
         });
     }
 
-    Page.prototype.buildIndex = function() {
+    Page.prototype.buildIndex = function () {
         var $list = $('<ul class="nav nav-pills nav-stacked">');
 
-        var $listHeader = $('<li><a href="#">'+wikiView.text('pageindex')+'</li></a>').on('click', function(evt) {
+        var $listHeader = $('<li><a href="#">' + wikiView.text('pageindex') + '</li></a>').on('click', function (evt) {
             evt.preventDefault();
             var $siblings = $(this).siblings(':not(.nav-divider)');
             if ($siblings.first().is(':visible')) {
@@ -80,7 +80,8 @@ humhub.module('wiki.Page', function(module, require, $) {
         var headerLevel = 1;
         var headerNum = [];
         var minLevel = this.$.find('#wiki-page-richtext h1').length ? 1 : 2;
-        this.$.find('#wiki-page-richtext').find('h1,h2').each(function() {
+        var showh3 = this.$.find('#wiki-page-richtext h3').length <= module.config.tocMaxH3;
+        this.$.find('#wiki-page-richtext').find('h1,h2' + (showh3 ? ',h3' : '')).each(function () {
             hasHeadLine = true;
 
             var $header = $(this).clone();
@@ -94,7 +95,13 @@ humhub.module('wiki.Page', function(module, require, $) {
                 return;
             }
 
-            var currentHeaderLevel = $header.is('h2') ? (minLevel === 2 ? 1 : 2) : 1;
+            var currentHeaderLevel = 1;
+            if ($header.is('h2')) {
+                currentHeaderLevel = minLevel === 2 ? 1 : 2;
+            } else if ($header.is('h3')) {
+                currentHeaderLevel = minLevel === 2 ? 2 : 3;
+            }
+
             if (currentHeaderLevel !== headerLevel) {
                 if (currentHeaderLevel > headerLevel) {
                     headerNum[currentHeaderLevel] = 0;
@@ -102,7 +109,7 @@ humhub.module('wiki.Page', function(module, require, $) {
                 headerLevel = currentHeaderLevel;
             }
 
-            if (typeof(headerNum[headerLevel]) === 'undefined') {
+            if (typeof (headerNum[headerLevel]) === 'undefined') {
                 headerNum[headerLevel] = 0;
             }
 
@@ -117,11 +124,11 @@ humhub.module('wiki.Page', function(module, require, $) {
 
             var $li = $('<li>');
 
-            var cssClass = currentHeaderLevel === 1 ? 'wiki-page-index-section' : 'wiki-page-index-sub-section';
+            var cssClass = 'wiki-page-index-section wiki-page-index-section-level' + currentHeaderLevel;
 
             $li.addClass(cssClass);
 
-            $anchor.on('click', function(evt) {
+            $anchor.on('click', function (evt) {
                 evt.preventDefault();
                 wikiView.toAnchor($anchor.attr('href'));
             });
@@ -130,7 +137,7 @@ humhub.module('wiki.Page', function(module, require, $) {
         });
 
         if (hasHeadLine) {
-            var firstHeader = this.$.find('h1, h2').first();
+            var firstHeader = this.$.find('h1, h2' + (showh3 ? ',h3' : '')).first();
             if (firstHeader.length) {
                 firstHeader.before($list);
             } else {
@@ -143,8 +150,8 @@ humhub.module('wiki.Page', function(module, require, $) {
     /**
      * Compare HTML content of two blocks
      */
-    var compareBlocks = function(oldBlock, newBlock) {
-        var interval = setInterval(function() {
+    var compareBlocks = function (oldBlock, newBlock) {
+        var interval = setInterval(function () {
             if (!oldBlock.length || oldBlock.data('inited-richtext')) {
                 var fixImgRegExp = new RegExp('(<img .+?)data-ui-gallery=".+?"(.+?>)', 'g');
                 var oldHtml = oldBlock.length ? oldBlock.html().replace(fixImgRegExp, '$1$2') : '';
