@@ -10,8 +10,9 @@ namespace humhub\modules\wiki\assets;
 
 use humhub\assets\JqueryWidgetAsset;
 use humhub\components\assets\AssetBundle;
-use humhub\modules\wiki\helpers\Url;
 use humhub\modules\ui\view\components\View;
+use humhub\modules\wiki\helpers\Url;
+use humhub\modules\wiki\Module;
 use Yii;
 
 class Assets extends AssetBundle
@@ -51,11 +52,17 @@ class Assets extends AssetBundle
      */
     public static function register($view)
     {
+        /** @var Module $module */
+        $module = Yii::$app->getModule('wiki');
+
         $view->registerJsConfig([
             'wiki' => [
                 'text' => [
                     'pageindex' => Yii::t('WikiModule.base', 'Table of Contents')
-                ]
+                ],
+            ],
+            'wiki.Page' => [
+                'tocMaxH3' => $module->tocMaxH3,
             ],
             'wiki.linkExtension' => [
                 'text' => [
