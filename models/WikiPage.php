@@ -87,6 +87,14 @@ class WikiPage extends ContentActiveRecord implements Searchable
     }
 
     /**
+     * @return string the associated database table name
+     */
+    public static function tableName()
+    {
+        return 'wiki_page';
+    }
+
+    /**
      * @param ContentContainerActiveRecord $container
      * @param int $categoryId
      * @return ActiveQueryContent
@@ -251,14 +259,6 @@ class WikiPage extends ContentActiveRecord implements Searchable
     }
 
     /**
-     * @return string the associated database table name
-     */
-    public static function tableName()
-    {
-        return 'wiki_page';
-    }
-
-    /**
      * @inheritdoc
      */
     public function updateAttributes($attributes)
@@ -346,22 +346,6 @@ class WikiPage extends ContentActiveRecord implements Searchable
     {
         if (strpos($this->title, "/") !== false || strpos($this->title, ")") !== false || strpos($this->title, "(") !== false) {
             $this->addError('title', Yii::t('WikiModule.base', 'Invalid character in page title!'));
-        }
-
-        $query = self::find()->contentContainer($this->content->container);
-        if (!$this->isNewRecord) {
-            $query->andWhere(['!=', 'wiki_page.id', $this->id]);
-        }
-        $query->andWhere(['wiki_page.title' => $this->title]);
-        $page = $query->one();
-
-        if ($page instanceof WikiPage) {
-            if ($page->content->getStateService()->isDeleted()) {
-                $page->title = 'conflict' . $page->id . '-' . $page->title;
-                $page->save();
-            } else {
-                $this->addError('title', Yii::t('WikiModule.base', 'Page title already in use!'));
-            }
         }
     }
 

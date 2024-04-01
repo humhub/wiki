@@ -1,6 +1,10 @@
 Changelog
 =========
 
+Unreleased
+----------------------
+- Enh #256: Allow Wiki pages with the same name #256
+
 2.1.1 (Unreleased)
 ----------------------
 - Enh #318: Add menu item "Move content" on wiki view page
