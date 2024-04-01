@@ -3,12 +3,13 @@ Changelog
 
 Unreleased
 ----------------------
-- Enh #256: Allow Wiki pages with the same name #256
+- Enh #256: Allow Wiki pages with the same name
 
-2.1.1 (Unreleased)
-----------------------
+2.1.1 (April 1, 2024)
+---------------------
 - Enh #318: Add menu item "Move content" on wiki view page
 - Fix #321: Allow saving Wiki pages from the console
+- Enh #319: Add H3 titles to the Table Of Contents (TOC)
 
 2.1.0 (March 14, 2024)
 ----------------------
