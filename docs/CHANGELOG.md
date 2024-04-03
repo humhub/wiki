@@ -3,7 +3,7 @@ Changelog
 
 2.2.0 (Unreleased)
 ---------------------
-- Fix #: Update to new search indexing
+- Fix #325: Update to new search indexing
 
 2.1.1 (April 1, 2024)
 ---------------------
