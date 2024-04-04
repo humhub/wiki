@@ -3,6 +3,7 @@
 namespace humhub\modules\wiki\models;
 
 use humhub\components\ActiveRecord;
+use humhub\modules\content\services\ContentSearchService;
 use humhub\modules\user\models\User;
 use Yii;
 
@@ -93,7 +94,8 @@ class WikiPageRevision extends ActiveRecord
         WikiPageRevision::updateAll(['is_latest' => 0], 'wiki_page_id=:wikiPageId AND id!=:selfId', [':wikiPageId' => $this->wiki_page_id, ':selfId' => $this->id]);
 
         try {
-            Yii::$app->search->update(WikiPage::findOne(['id' => $this->wiki_page_id]));
+            $wikiPage = WikiPage::findOne(['id' => $this->wiki_page_id]);
+            (new ContentSearchService($wikiPage->content))->update();
         } catch (\Throwable $e) {
             Yii::error($e);
         }
