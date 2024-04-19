@@ -3,9 +3,9 @@
     "name": "Wiki",
     "description": "Create and edit pages with this powerful tool. Build a collaborative knowledge base, view and share information with your colleagues.",
     "keywords": ["wiki"],
-    "version": "2.1.1",
+    "version": "2.2.0",
     "humhub": {
-        "minVersion": "1.15"
+        "minVersion": "1.16"
     },
     "homepage": "https://github.com/humhub/wiki",
     "authors": [
