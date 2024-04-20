@@ -4,10 +4,7 @@
 namespace humhub\modules\wiki\widgets;
 
 
-use humhub\libs\Html;
 use humhub\modules\content\components\ContentContainerActiveRecord;
-use humhub\modules\content\widgets\richtext\AbstractRichText;
-use humhub\modules\content\widgets\richtext\RichText;
 use humhub\modules\ui\form\widgets\JsInputWidget;
 use humhub\modules\wiki\models\WikiPage;
 use yii\helpers\StringHelper;
@@ -60,10 +57,18 @@ class WikiSearchInput extends JsInputWidget
     public function loadItems()
     {
         /** @var WikiPage[] $pages */
-        $pages = WikiPage::find()->contentContainer($this->contentContainer)->readable()->all();
+        $pages = WikiPage::find()
+            ->contentContainer($this->contentContainer)
+            ->readable()
+            ->orderBy([
+                'parent_page_id' => SORT_ASC,
+                'sort_order' => SORT_ASC,
+            ])
+            ->all();
         foreach ($pages as $page) {
             $this->items[$page->id] = StringHelper::truncate(
-                Html::encode($page->title) . ' - ' . RichText::convert($page->latestRevision->content, AbstractRichText::FORMAT_SHORTTEXT),
+                ($page->categoryPage ? $page->categoryPage->title . ' -> ' : '') .
+                $page->title,
                 250,
                 ' [...]'
             );
