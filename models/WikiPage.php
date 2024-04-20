@@ -119,7 +119,6 @@ class WikiPage extends ContentActiveRecord implements Searchable
         return [
             ['title', 'required'],
             ['title', 'string', 'max' => 255],
-            ['title', 'validateTitle'],
             ['parent_page_id', 'validateParentPage'],
             [['is_home', 'admin_only', 'is_container_menu', 'container_menu_order'], 'integer']
         ];
@@ -334,22 +333,6 @@ class WikiPage extends ContentActiveRecord implements Searchable
 
         return parent::beforeDelete();
     }
-
-    /**
-     * Title field validator
-     *
-     * @param string $attribute
-     * @param array $params
-     * @throws \yii\base\Exception
-     */
-    public function validateTitle($attribute, $params)
-    {
-        if (strpos($this->title, "/") !== false || strpos($this->title, ")") !== false || strpos($this->title, "(") !== false) {
-            $this->addError('title', Yii::t('WikiModule.base', 'Invalid character in page title!'));
-        }
-    }
-
-    // Searchable Attributes / Informations
 
     public function validateParentPage()
     {
