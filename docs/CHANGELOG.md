@@ -1,9 +1,10 @@
 Changelog
 =========
 
-Unreleased
-----------------------
+2.3.0 (April 22, 2024)
+---------------------
 - Enh #256: Allow Wiki pages with the same name
+- Enh #256: Allow more special characters in page titles
 
 2.2.0 (April 4, 2024)
 ---------------------
