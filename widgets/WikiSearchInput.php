@@ -4,10 +4,10 @@
 namespace humhub\modules\wiki\widgets;
 
 
-use humhub\libs\Html;
 use humhub\modules\content\components\ContentContainerActiveRecord;
 use humhub\modules\ui\form\widgets\JsInputWidget;
 use humhub\modules\wiki\models\WikiPage;
+use yii\helpers\StringHelper;
 use yii\helpers\Url;
 
 class WikiSearchInput extends JsInputWidget
@@ -56,9 +56,22 @@ class WikiSearchInput extends JsInputWidget
      */
     public function loadItems()
     {
-        $pages = WikiPage::find()->contentContainer($this->contentContainer)->readable()->all();
+        /** @var WikiPage[] $pages */
+        $pages = WikiPage::find()
+            ->contentContainer($this->contentContainer)
+            ->readable()
+            ->orderBy([
+                'parent_page_id' => SORT_ASC,
+                'sort_order' => SORT_ASC,
+            ])
+            ->all();
         foreach ($pages as $page) {
-            $this->items[$page->id] = Html::encode($page->title);
+            $this->items[$page->id] = StringHelper::truncate(
+                ($page->categoryPage ? $page->categoryPage->title . ' -> ' : '') .
+                $page->title,
+                250,
+                ' [...]'
+            );
         }
 
         return $this->items;

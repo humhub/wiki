@@ -15,10 +15,14 @@ use humhub\modules\wiki\permissions\AdministerPages;
 use humhub\modules\wiki\permissions\CreatePage;
 use humhub\modules\wiki\permissions\EditPages;
 use humhub\modules\wiki\permissions\ViewHistory;
+use Throwable;
 use Yii;
 use yii\base\Exception;
 use yii\base\InvalidArgumentException;
+use yii\base\InvalidConfigException;
+use yii\db\StaleObjectException;
 use yii\web\HttpException;
+use yii\web\Response;
 
 /**
  * PageController
@@ -28,23 +32,8 @@ use yii\web\HttpException;
 class PageController extends BaseController
 {
     /**
-     * @inheritdoc
-     */
-    protected function getAccessRules()
-    {
-        return [
-            [ControllerAccess::RULE_POST => ['sort', 'delete', 'revert']],
-            [ControllerAccess::RULE_PERMISSION => [AdministerPages::class], 'actions' => ['sort', 'delete']],
-            [ControllerAccess::RULE_PERMISSION => [CreatePage::class, EditPages::class, AdministerPages::class], 'actions' => ['edit']],
-            [ControllerAccess::RULE_PERMISSION => [EditPages::class, AdministerPages::class], 'actions' => ['revert']],
-            [ControllerAccess::RULE_PERMISSION => [ViewHistory::class], 'actions' => ['history']],
-            [ControllerAccess::RULE_PERMISSION => [ViewHistory::class], 'actions' => ['history']],
-        ];
-    }
-
-    /**
-     * @return $this|\yii\web\Response
-     * @throws \yii\base\Exception
+     * @return $this|Response
+     * @throws Exception
      */
     public function actionIndex()
     {
@@ -53,7 +42,7 @@ class PageController extends BaseController
 
     /**
      * @return string
-     * @throws \yii\base\Exception
+     * @throws Exception
      */
     public function actionList()
     {
@@ -61,18 +50,18 @@ class PageController extends BaseController
     }
 
     /**
-     * @return string|\yii\web\Response
-     * @throws \yii\base\Exception
-     * @throws \yii\base\InvalidConfigException
-     * @throws \yii\db\StaleObjectException
-     * @throws \Throwable
+     * @return string|Response
+     * @throws Exception
+     * @throws InvalidConfigException
+     * @throws StaleObjectException
+     * @throws Throwable
      */
-    public function actionView($title = null, $revisionId = null)
+    public function actionView(int $id = null, $revisionId = null)
     {
-        $page = $this->getWikiPage($title);
+        $page = $this->getWikiPage($id);
 
         if (!$page && $this->canCreatePage()) {
-            return $this->redirect(Url::toWikiCreateByTitle($this->contentContainer, $title));
+            return $this->redirect(Url::toWikiEdit($page));
         }
 
         if (!$page) {
@@ -89,7 +78,7 @@ class PageController extends BaseController
         // There is no revision for this page.
         if (!$revision && $this->canCreatePage()) {
             $page->delete();
-            return $this->redirect(Url::toWikiCreateByTitle($this->contentContainer, $title));
+            return $this->redirect(Url::toWikiEdit($page));
         }
 
         if (!$revision) {
@@ -110,23 +99,72 @@ class PageController extends BaseController
         ]);
     }
 
+    /**
+     * @param int $id
+     * @return WikiPage|null
+     * @throws Exception
+     * @throws Throwable
+     */
+    private function getWikiPage($id): ?WikiPage
+    {
+        if (!is_int($id)) {
+            throw new InvalidArgumentException('Invalid $id parameter given!');
+        }
+
+        $wikiPage = WikiPage::find()
+            ->contentContainer($this->contentContainer)
+            ->readable()
+            ->andWhere(['wiki_page.id' => $id])
+            ->one();
+
+        if ($wikiPage) {
+            $settings = new DefaultSettings(['contentContainer' => $this->contentContainer]);
+            $this->view->setPageTitle(Html::encode($settings->module_label), true);
+            $this->view->setPageTitle($wikiPage->title, true);
+            $this->view->meta->setContent($wikiPage);
+            $this->view->meta->setImages($wikiPage->fileManager->findAll());
+        }
+
+        return $wikiPage;
+    }
+
+    /**
+     * Returns a revision for the given page, either by a given revisionid or the latest.
+     *
+     * @param WikiPage $page
+     * @param int|null $revisionId
+     * @return WikiPageRevision|null
+     */
+    private function getRevision(WikiPage $page, $revisionId = null)
+    {
+        $revision = null;
+        if ($revisionId != null) {
+            $revision = WikiPageRevision::findOne(['wiki_page_id' => $page->id, 'revision' => $revisionId]);
+        }
+
+        if (!$revision) {
+            $revision = $page->latestRevision;
+        }
+
+        return $revision;
+    }
 
     /**
      * Compare two revisions of a Wiki page
      *
-     * @param string $title Wiki page title
+     * @param int $id Wiki page ID
      * @param int $revision1 Id of revision 1
      * @param int $revision2 Id of revision 2
      * @return string
      * @throws Exception
      * @throws HttpException
-     * @throws \Throwable
-     * @throws \yii\base\InvalidConfigException
-     * @throws \yii\db\StaleObjectException
+     * @throws Throwable
+     * @throws InvalidConfigException
+     * @throws StaleObjectException
      */
-    public function actionDiff(string $title, int $revision1, int $revision2)
+    public function actionDiff(int $id, int $revision1, int $revision2)
     {
-        $page = $this->getWikiPage($title);
+        $page = $this->getWikiPage($id);
 
         if (!$page) {
             throw new HttpException(404, 'Wiki page not found!');
@@ -152,32 +190,11 @@ class PageController extends BaseController
     }
 
     /**
-     * Returns a revision for the given page, either by a given revisionid or the latest.
-     *
-     * @param WikiPage $page
-     * @param int|null $revisionId
-     * @return WikiPageRevision|null
-     */
-    private function getRevision(WikiPage $page, $revisionId = null)
-    {
-        $revision = null;
-        if ($revisionId != null) {
-            $revision = WikiPageRevision::findOne(['wiki_page_id' => $page->id, 'revision' => $revisionId]);
-        }
-
-        if (!$revision) {
-            $revision = $page->latestRevision;
-        }
-
-        return $revision;
-    }
-
-    /**
-     * @return $this|string|\yii\web\Response
+     * @return $this|string|Response
      * @throws HttpException
-     * @throws \yii\base\Exception
-     * @throws \yii\base\InvalidConfigException
-     * @throws \Throwable
+     * @throws Exception
+     * @throws InvalidConfigException
+     * @throws Throwable
      */
     public function actionEdit($id = null, $title = null, $categoryId = null)
     {
@@ -246,7 +263,7 @@ class PageController extends BaseController
      * @return mixed
      * @throws Exception
      * @throws HttpException
-     * @throws \Throwable
+     * @throws Throwable
      */
     public function actionHeadlines($id)
     {
@@ -276,8 +293,8 @@ class PageController extends BaseController
     /**
      * @return string
      * @throws HttpException
-     * @throws \yii\base\Exception
-     * @throws \yii\base\InvalidConfigException
+     * @throws Exception
+     * @throws InvalidConfigException
      */
     public function actionHistory(int $id)
     {
@@ -314,12 +331,12 @@ class PageController extends BaseController
     }
 
     /**
-     * @return $this|\yii\web\Response
+     * @return $this|Response
      * @throws HttpException
-     * @throws \yii\base\Exception
-     * @throws \yii\base\InvalidConfigException
-     * @throws \yii\db\StaleObjectException
-     * @throws \Throwable
+     * @throws Exception
+     * @throws InvalidConfigException
+     * @throws StaleObjectException
+     * @throws Throwable
      */
     public function actionDelete(int $id)
     {
@@ -337,10 +354,10 @@ class PageController extends BaseController
     /**
      * @param int $id
      * @param int $toRevision
-     * @return $this|\yii\web\Response
+     * @return $this|Response
      * @throws Exception
      * @throws HttpException
-     * @throws \yii\base\InvalidConfigException
+     * @throws InvalidConfigException
      */
     public function actionRevert(int $id, $toRevision)
     {
@@ -420,32 +437,18 @@ class PageController extends BaseController
     }
 
     /**
-     * @param string|int $id
-     * @return WikiPage|null
+     * @inheritdoc
      */
-    private function getWikiPage($id): ?WikiPage
+    protected function getAccessRules()
     {
-        $query = WikiPage::find()->contentContainer($this->contentContainer)->readable();
-        if (is_string($id)) {
-            $query->andWhere(['wiki_page.title' => $id]);
-        } elseif (is_integer($id)) {
-            $query->andWhere(['wiki_page.id' => $id]);
-        } else {
-            throw new InvalidArgumentException('Invalid $id parameter given!');
-        }
-
-        /** @var WikiPage|null $wikiPage */
-        $wikiPage = $query->one();
-
-        if ($wikiPage) {
-            $settings = new DefaultSettings(['contentContainer' => $this->contentContainer]);
-            $this->view->setPageTitle(Html::encode($settings->module_label), true);
-            $this->view->setPageTitle($wikiPage->title, true);
-            $this->view->meta->setContent($wikiPage);
-            $this->view->meta->setImages($wikiPage->fileManager->findAll());
-        }
-
-        return $wikiPage;
+        return [
+            [ControllerAccess::RULE_POST => ['sort', 'delete', 'revert']],
+            [ControllerAccess::RULE_PERMISSION => [AdministerPages::class], 'actions' => ['sort', 'delete']],
+            [ControllerAccess::RULE_PERMISSION => [CreatePage::class, EditPages::class, AdministerPages::class], 'actions' => ['edit']],
+            [ControllerAccess::RULE_PERMISSION => [EditPages::class, AdministerPages::class], 'actions' => ['revert']],
+            [ControllerAccess::RULE_PERMISSION => [ViewHistory::class], 'actions' => ['history']],
+            [ControllerAccess::RULE_PERMISSION => [ViewHistory::class], 'actions' => ['history']],
+        ];
     }
 
 

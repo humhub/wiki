@@ -62,7 +62,7 @@ class Url extends \yii\helpers\Url
     {
         $rev1 = $revision1 ? $revision1->revision : null;
         $rev2 = $revision2 ? $revision2->revision : null;
-        return static::to([static::ROUTE_WIKI_DIFF, 'title' => $page->title, 'revision1' => $rev1, 'revision2' => $rev2, 'container' => $page->content->container]);
+        return static::to([static::ROUTE_WIKI_DIFF, 'id' => $page->id, 'revision1' => $rev1, 'revision2' => $rev2, 'container' => $page->content->container]);
     }
 
     public static function toWikiDiffEditing(WikiPage $page)
@@ -72,7 +72,7 @@ class Url extends \yii\helpers\Url
 
     public static function toWikiRevertRevision(WikiPage $page, $revision)
     {
-        if($revision instanceof  WikiPageRevision) {
+        if ($revision instanceof WikiPageRevision) {
             $revision = $revision->revision;
         }
 
@@ -82,6 +82,11 @@ class Url extends \yii\helpers\Url
     public static function toWikiCreateForCategory(WikiPage $page)
     {
         return static::wikiEdit($page->content->container, null, $page->id);
+    }
+
+    private static function wikiEdit(ContentContainerActiveRecord $container, $id = null, $categoryId = null)
+    {
+        return static::to([static::ROUTE_WIKI_EDIT, 'id' => $id, 'container' => $container, 'categoryId' => $categoryId]);
     }
 
     public static function toWikiCreate(ContentContainerActiveRecord $container, $categoryId = null)
@@ -94,16 +99,6 @@ class Url extends \yii\helpers\Url
         return static::wikiEdit($page->content->container, $page->id);
     }
 
-    public static function toWikiCreateByTitle(ContentContainerActiveRecord $container, $title = null, $categoryId = null)
-    {
-        return static::to([static::ROUTE_WIKI_EDIT, 'title' => $title, 'container' => $container, 'categoryId' => $categoryId]);
-    }
-
-    private static function wikiEdit(ContentContainerActiveRecord $container, $id = null, $categoryId = null)
-    {
-        return static::to([static::ROUTE_WIKI_EDIT, 'id' => $id, 'container' => $container, 'categoryId' => $categoryId]);
-    }
-
     /**
      * @param WikiPage $page
      * @param WikiPageRevision $revision
@@ -112,18 +107,12 @@ class Url extends \yii\helpers\Url
     public static function toWiki(WikiPage $page, WikiPageRevision $revision = null)
     {
         $rev = $revision ? $revision->revision : null;
-        return static::to([static::ROUTE_WIKI_PAGE, 'title' => $page->title, 'revisionId' => $rev, 'container' => $page->content->container]);
+        return static::to([static::ROUTE_WIKI_PAGE, 'id' => $page->id, 'title' => $page->title, 'revisionId' => $rev, 'container' => $page->content->container]);
     }
 
     public static function toWikiDelete(WikiPage $page)
     {
         return static::to([static::ROUTE_WIKI_DELETE, 'id' => $page->id, 'container' => $page->content->container]);
-    }
-
-    public static function toWikiByTitle($title, ContentContainerActiveRecord $container, WikiPageRevision  $revision = null)
-    {
-        $rev = $revision ? $revision->revision : null;
-        return static::to([static::ROUTE_WIKI_PAGE, 'title' => $title, 'revision' => $rev, 'container' => $container]);
     }
 
     public static function toExtractTitles()

@@ -1,6 +1,10 @@
 Changelog
 =========
 
+Unreleased
+----------------------
+- Enh #256: Allow Wiki pages with the same name
+
 2.2.0 (April 4, 2024)
 ---------------------
 - Fix #325: Update to new search indexing
