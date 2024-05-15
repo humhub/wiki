@@ -59,11 +59,6 @@ class PageController extends BaseController
     public function actionView(int $id = null, $revisionId = null)
     {
         $page = $this->getWikiPage($id);
-
-        if (!$page && $this->canCreatePage()) {
-            return $this->redirect(Url::toWikiEdit($page));
-        }
-
         if (!$page) {
             throw new HttpException(404, 'Wiki page not found!');
         }
@@ -74,13 +69,6 @@ class PageController extends BaseController
         }
 
         $revision = $this->getRevision($page, $revisionId);
-
-        // There is no revision for this page.
-        if (!$revision && $this->canCreatePage()) {
-            $page->delete();
-            return $this->redirect(Url::toWikiEdit($page));
-        }
-
         if (!$revision) {
             $page->delete();
             throw new HttpException(404, 'Wiki page revision not found!');
@@ -111,6 +99,7 @@ class PageController extends BaseController
             throw new InvalidArgumentException('Invalid $id parameter given!');
         }
 
+        /** @var WikiPage $wikiPage */
         $wikiPage = WikiPage::find()
             ->contentContainer($this->contentContainer)
             ->readable()
