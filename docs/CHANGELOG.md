@@ -3,7 +3,7 @@ Changelog
 
 Unreleased
 ---------------------
-- Fix: Type error when viewing a pending delete page
+- Fix #328: Type error when viewing a pending delete page
 
 2.3.0 (April 22, 2024)
 ---------------------
