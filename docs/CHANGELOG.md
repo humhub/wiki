@@ -1,6 +1,10 @@
 Changelog
 =========
 
+Unreleased
+---------------------
+- Fix #328: Type error when viewing a pending delete page
+
 2.3.0 (April 22, 2024)
 ---------------------
 - Enh #256: Allow Wiki pages with the same name
