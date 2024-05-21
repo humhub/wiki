@@ -1,7 +1,7 @@
 Changelog
 =========
 
-Unreleased
+2.3.1 (May 21, 2024)
 ---------------------
 - Fix #328: Type error when viewing a pending delete page
 - Fix #329: Old URLs don't work since version 2.3.0
