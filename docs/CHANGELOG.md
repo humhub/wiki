@@ -4,6 +4,7 @@ Changelog
 Unreleased
 ---------------------
 - Fix #328: Type error when viewing a pending delete page
+- Fix: Old URLs don't work since version 2.3.0
 
 2.3.0 (April 22, 2024)
 ---------------------

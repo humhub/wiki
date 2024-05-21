@@ -18,7 +18,6 @@ use humhub\modules\wiki\permissions\ViewHistory;
 use Throwable;
 use Yii;
 use yii\base\Exception;
-use yii\base\InvalidArgumentException;
 use yii\base\InvalidConfigException;
 use yii\db\StaleObjectException;
 use yii\web\HttpException;
@@ -96,7 +95,7 @@ class PageController extends BaseController
     private function getWikiPage($id): ?WikiPage
     {
         if (!is_int($id)) {
-            throw new InvalidArgumentException('Invalid $id parameter given!');
+            return null;
         }
 
         /** @var WikiPage $wikiPage */
