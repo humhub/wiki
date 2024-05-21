@@ -11,6 +11,7 @@ namespace humhub\modules\wiki\components;
 use humhub\components\ContentContainerUrlRuleInterface;
 use humhub\modules\content\components\ContentContainerActiveRecord;
 use humhub\modules\wiki\models\WikiPage;
+use Yii;
 use yii\base\Component;
 use yii\base\Exception;
 use yii\web\UrlManager;
@@ -42,10 +43,16 @@ class WikiPageUrlRule extends Component implements UrlRuleInterface, ContentCont
 
             if ((string)$id === $parts[1]) { // the value after wiki/ doesn't contain other char than numbers
                 $wikiPage = $query->andWhere(['wiki_page.id' => $id])->one();
-            } elseif (count($parts) === 2) { // Fallback for old URLs (without ID)
-                $title = $parts[1];
-                /* @var $wikiPage WikiPage */
-                $wikiPage = $query->andWhere(['wiki_page.title' => $title])->one();
+            } else {
+                if (count($parts) === 2) { // Fallback for old URLs without ID
+                    $title = $parts[1];
+                } else { // Fallback for old URLs with `/page/view?title=`
+                    $title = Yii::$app->request->get('title');
+                }
+                if ($title) {
+                    /* @var $wikiPage WikiPage */
+                    $wikiPage = $query->andWhere(['wiki_page.title' => $title])->one();
+                }
             }
 
             if ($wikiPage !== null) {
