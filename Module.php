@@ -24,8 +24,6 @@ class Module extends ContentContainerModule
      */
     public $tocMaxH3 = 20;
 
-    public $resourcesPath = 'resources';
-
     /**
      * @inheritdoc
      */
