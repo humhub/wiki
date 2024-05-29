@@ -1,6 +1,10 @@
 Changelog
 =========
 
+2.4.0 (Unreleased)
+-------------------------
+- Fix #330: Update module resources path
+
 2.3.1 (May 21, 2024)
 ---------------------
 - Fix #328: Type error when viewing a pending delete page
