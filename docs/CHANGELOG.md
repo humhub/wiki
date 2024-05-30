@@ -1,6 +1,10 @@
 Changelog
 =========
 
+2.3.2 (Unreleased)
+---------------------
+- Enh #322: Use content searching
+
 2.3.1 (May 21, 2024)
 ---------------------
 - Fix #328: Type error when viewing a pending delete page
