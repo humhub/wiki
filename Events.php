@@ -34,13 +34,17 @@ class Events
             return;
         }
 
-        $settings = new DefaultSettings(['contentContainer' => $container]);
-        $menu->addEntry(new MenuLink([
-            'label' => Html::encode($settings->module_label),
-            'url' => $container->createUrl('/wiki/page'),
-            'icon' => 'book',
-            'isActive' => MenuLink::isActiveState('wiki'),
-        ]));
+        $hideNavigationEntry = Yii::$app->getModule('wiki')->settings->contentContainer($container)->get('hideNavigationEntry');
+
+        if (!$hideNavigationEntry) {
+            $settings = new DefaultSettings(['contentContainer' => $container]);
+            $menu->addEntry(new MenuLink([
+                'label' => Html::encode($settings->module_label),
+                'url' => $container->createUrl('/wiki/page'),
+                'icon' => 'book',
+                'isActive' => MenuLink::isActiveState('wiki'),
+            ]));
+        }
 
         // Display Wiki pages with option "Show in Space/Profile menu"
         $containerMenuWikiPages = WikiPage::find()
@@ -53,6 +57,7 @@ class Events
             $menu->addEntry(new MenuLink([
                 'label' => Html::encode($containerMenuWikiPage->title),
                 'url' => $containerMenuWikiPage->getUrl(),
+                'isActive' => MenuLink::isActiveState('wiki', 'page', 'view', ['id' => $containerMenuWikiPage->id]),
                 'icon' => 'file-text-o',
                 'sortOrder' => $containerMenuWikiPage->container_menu_order,
             ]));
