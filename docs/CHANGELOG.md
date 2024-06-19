@@ -1,6 +1,10 @@
 Changelog
 =========
 
+2.3.2 (Unreleased)
+---------------------
+- Enh #333: Added config option `Hide Navigation Entry`
+
 2.3.1 (May 21, 2024)
 ---------------------
 - Fix #328: Type error when viewing a pending delete page
