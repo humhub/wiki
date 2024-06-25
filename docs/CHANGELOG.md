@@ -1,6 +1,10 @@
 Changelog
 =========
 
+2.3.3 (Unreleased)
+---------------------
+- Enh #336: Display page visibility icon
+
 2.3.2 (June 25, 2024)
 ---------------------
 - Enh #322: Use content searching
