@@ -1,7 +1,7 @@
 Changelog
 =========
 
-2.3.2 (Unreleased)
+2.3.2 (June 25, 2024)
 ---------------------
 - Enh #322: Use content searching
 
