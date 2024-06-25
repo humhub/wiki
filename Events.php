@@ -57,7 +57,8 @@ class Events
             $menu->addEntry(new MenuLink([
                 'label' => Html::encode($containerMenuWikiPage->title),
                 'url' => $containerMenuWikiPage->getUrl(),
-                'isActive' => MenuLink::isActiveState('wiki', 'page', 'view', ['id' => $containerMenuWikiPage->id]),
+                // @TODO: change to use 4th argument of `isActiveState` after v17 release
+                'isActive' => $containerMenuWikiPage->id == Yii::$app->request->get('id') && MenuLink::isActiveState('wiki', 'page', 'view'),
                 'icon' => 'file-text-o',
                 'sortOrder' => $containerMenuWikiPage->container_menu_order,
             ]));
