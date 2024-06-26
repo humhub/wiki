@@ -31,7 +31,7 @@ class Assets extends AssetBundle
     public $forceCopy = false;
 
     public $css = [
-        'css/humhub.wiki.min.css'
+        'css/humhub.wiki.min.css',
     ];
 
     public $js = [
@@ -43,7 +43,7 @@ class Assets extends AssetBundle
      * @inheritdoc
      */
     public $depends = [
-        JqueryWidgetAsset::class
+        JqueryWidgetAsset::class,
     ];
 
     /**
