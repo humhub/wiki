@@ -35,6 +35,8 @@ Assets::register($this);
                 'type' => ContentHiddenCheckbox::TYPE_CONTENTCONTAINER,
             ]) ?>
 
+            <?= $form->field($model, 'hideNavigationEntry')->checkbox() ?>
+
             <?= Button::primary(Yii::t('base', 'Save'))->submit() ?>
 
         <?php ActiveForm::end(); ?>

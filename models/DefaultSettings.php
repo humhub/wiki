@@ -24,6 +24,7 @@ class DefaultSettings extends Model
 {
     const SETTING_MODULE_LABEL = 'defaults.moduleLabel';
     const SETTING_CONTENT_HIDDEN_DEFAULT = 'contentHiddenDefault';
+    const SETTING_HIDE_NAVIGATION_ENTRY = 'hideNavigationEntry';
 
     /**
      * @var ContentContainerActiveRecord
@@ -39,6 +40,8 @@ class DefaultSettings extends Model
      * @var bool
      */
     public bool $contentHiddenDefault = false;
+
+    public bool $hideNavigationEntry = false;
 
     /**
      * @var Module
@@ -56,8 +59,14 @@ class DefaultSettings extends Model
 
         $this->contentHiddenDefault = $this->getSettings()->get(
             self::SETTING_CONTENT_HIDDEN_DEFAULT,
-            $this->module->getContentHiddenGlobalDefault()
+            $this->module->contentHiddenGlobalDefault
         );
+
+        $this->hideNavigationEntry = $this->getSettings()->get(
+            self::SETTING_HIDE_NAVIGATION_ENTRY,
+            $this->module->hideNavigationEntryDefault
+        );
+
     }
 
     private function getSettings(): ContentContainerSettingsManager
@@ -72,7 +81,7 @@ class DefaultSettings extends Model
     {
         return [
             [['module_label'], 'string'],
-            [['contentHiddenDefault'], 'boolean'],
+            [['contentHiddenDefault', 'hideNavigationEntry'], 'boolean'],
         ];
     }
 
@@ -80,9 +89,9 @@ class DefaultSettings extends Model
     {
         return [
             'module_label' => Yii::t('WikiModule.base', 'Module name'),
+            'hideNavigationEntry' => Yii::t('WikiModule.base', 'Hide Navigation Entry')
         ];
     }
-
     public function save(): bool
     {
         if (!$this->validate()) {
@@ -91,6 +100,7 @@ class DefaultSettings extends Model
 
         $this->getSettings()->set(self::SETTING_MODULE_LABEL, $this->module_label);
         $this->getSettings()->set(self::SETTING_CONTENT_HIDDEN_DEFAULT, $this->contentHiddenDefault);
+        $this->getSettings()->set(self::SETTING_HIDE_NAVIGATION_ENTRY, $this->hideNavigationEntry);
 
         return true;
     }

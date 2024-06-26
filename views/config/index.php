@@ -21,6 +21,8 @@ use yii\bootstrap\ActiveForm;
             'type' => ContentHiddenCheckbox::TYPE_GLOBAL,
         ]) ?>
 
+        <?= $form->field($model, 'hideNavigationEntryDefault')->checkbox() ?>
+
         <?= Button::save()->submit() ?>
         <?php ActiveForm::end() ?>
     </div>
