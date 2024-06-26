@@ -1,8 +1,9 @@
 Changelog
 =========
 
-2.3.3 (TBD)
------------
+2.3.3 (Unreleased)
+---------------------
+- Enh #336: Display page visibility icon
 - Enh #333: Added config option `Hide Navigation Entry`
 
 2.3.2 (June 25, 2024)

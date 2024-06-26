@@ -317,6 +317,12 @@
 .layout-content-container .wiki-content ul.wiki-page-list .page-title > div > i.fa {
   padding: 3px 2px;
 }
+.layout-content-container .wiki-content ul.wiki-page-list .page-title .page-title-icon {
+  margin-left: 8px;
+}
+.layout-content-container .wiki-content ul.wiki-page-list .page-title .page-title-icon .page-title-icon-visibility {
+  color: var(--text-color-soft2);
+}
 .layout-content-container .wiki-content ul.wiki-page-list .page-title.wiki-page-dropped {
   background: rgba(255, 193, 7, 0.12);
 }

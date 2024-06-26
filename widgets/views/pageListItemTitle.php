@@ -9,6 +9,7 @@ use humhub\modules\wiki\helpers\Url;
 /* @var $page WikiPage */
 /* @var $icon string */
 /* @var $title string */
+/* @var $titleIcon Icon|string|null */
 /* @var $titleInfo string */
 /* @var $url string */
 /* @var $showDrag bool */
@@ -23,6 +24,9 @@ use humhub\modules\wiki\helpers\Url;
             <span class="page-title-info"><?= $titleInfo ?></span>
         <?php endif; ?>
     </div>
+    <?php if ($titleIcon) : ?>
+        <span class="page-title-icon"><?= Icon::get($titleIcon) ?></span>
+    <?php endif; ?>
     <?php if ($page && $showAddPage) : ?>
         <?= Button::asLink(null, Url::toWikiCreateForCategory($page))->icon('fa-plus')
             ->cssClass('wiki-page-control tt wiki-category-add')
