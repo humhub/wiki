@@ -1,10 +1,13 @@
 Changelog
 =========
 
+2.3.3 (TBD)
+-----------
+- Enh #333: Added config option `Hide Navigation Entry`
+
 2.3.2 (June 25, 2024)
 ---------------------
 - Enh #322: Use content searching
-- Enh #333: Added config option `Hide Navigation Entry`
 
 2.3.1 (May 21, 2024)
 ---------------------
