@@ -31,7 +31,7 @@ class Assets extends AssetBundle
     public $forceCopy = false;
 
     public $css = [
-        'css/humhub.wiki.min.css',
+        'css/humhub.wiki.min.css'
     ];
 
     public $js = [
