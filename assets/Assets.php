@@ -43,7 +43,7 @@ class Assets extends AssetBundle
      * @inheritdoc
      */
     public $depends = [
-        JqueryWidgetAsset::class,
+        JqueryWidgetAsset::class
     ];
 
     /**
