@@ -34,7 +34,7 @@ class WikiListTable extends JsWidget
     {
         return $this->render('wikiListTable', [
             'dataProvider' => $this->dataProvider,
-            'options' => $this->getOptions()
+            'options' => $this->getOptions(),
         ]);
     }
 

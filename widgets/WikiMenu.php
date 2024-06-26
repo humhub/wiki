@@ -23,36 +23,36 @@ use Yii;
 
 class WikiMenu extends WallEntryControls
 {
-    const LINK_HOME = 'home';
-    const LINK_INDEX = 'index';
+    public const LINK_HOME = 'home';
+    public const LINK_INDEX = 'index';
 
-    const LINK_EDIT = 'edit';
-    const LINK_HISTORY = 'history';
-    const LINK_PERMA = 'perma';
-    const LINK_PRINT = 'print';
+    public const LINK_EDIT = 'edit';
+    public const LINK_HISTORY = 'history';
+    public const LINK_PERMA = 'perma';
+    public const LINK_PRINT = 'print';
 
-    const LINK_EDIT_CANCEL = 'edit_cancel';
-    const LINK_EDIT_SAVE = 'edit_save';
-    const LINK_EDIT_DELETE = 'edit_delete';
+    public const LINK_EDIT_CANCEL = 'edit_cancel';
+    public const LINK_EDIT_SAVE = 'edit_save';
+    public const LINK_EDIT_DELETE = 'edit_delete';
 
-    const LINK_BACK_TO_PAGE = 'back_to_page';
+    public const LINK_BACK_TO_PAGE = 'back_to_page';
 
-    const LINK_REVERT = 'revert';
-    const LINK_REVERT_GO_BACK = 'revert_go_back';
+    public const LINK_REVERT = 'revert';
+    public const LINK_REVERT_GO_BACK = 'revert_go_back';
 
-    const LINK_MOVE = 'move';
+    public const LINK_MOVE = 'move';
 
-    const LINK_NEW = 'new';
+    public const LINK_NEW = 'new';
 
-    const BLOCK_START = [self::LINK_HOME, self::LINK_INDEX];
+    public const BLOCK_START = [self::LINK_HOME, self::LINK_INDEX];
 
-    const BLOCK_PAGE_VIEW =  [self::LINK_EDIT, self::LINK_HISTORY, self::LINK_PERMA, self::LINK_PRINT, self::LINK_MOVE];
+    public const BLOCK_PAGE_VIEW =  [self::LINK_EDIT, self::LINK_HISTORY, self::LINK_PERMA, self::LINK_PRINT, self::LINK_MOVE];
 
-    const BLOCK_REVISION_VIEW =  [self::LINK_REVERT, self::LINK_REVERT_GO_BACK, self::LINK_PRINT];
+    public const BLOCK_REVISION_VIEW =  [self::LINK_REVERT, self::LINK_REVERT_GO_BACK, self::LINK_PRINT];
 
-    const BLOCK_EDIT =  [self::LINK_EDIT_SAVE, self::LINK_EDIT_CANCEL, self::LINK_EDIT_DELETE, self::LINK_MOVE];
+    public const BLOCK_EDIT =  [self::LINK_EDIT_SAVE, self::LINK_EDIT_CANCEL, self::LINK_EDIT_DELETE, self::LINK_MOVE];
 
-    const BLOCK_BOTTOM =  [self::LINK_NEW];
+    public const BLOCK_BOTTOM =  [self::LINK_NEW];
 
     /**
      * @inheritdoc
@@ -145,7 +145,7 @@ class WikiMenu extends WallEntryControls
     public function getAttributes()
     {
         return [
-            'class' => 'btn-group dropdown-navigation'
+            'class' => 'btn-group dropdown-navigation',
         ];
     }
 
@@ -165,9 +165,9 @@ class WikiMenu extends WallEntryControls
     {
         if ($this->edit) {
             $this->blocks = [static::BLOCK_EDIT, static::BLOCK_START];
-        } else if ($this->object && (!$this->revision || $this->revision->is_latest)) {
+        } elseif ($this->object && (!$this->revision || $this->revision->is_latest)) {
             $this->blocks = [static::BLOCK_START, static::BLOCK_PAGE_VIEW, static::BLOCK_BOTTOM];
-        } else if ($this->object && $this->revision) {
+        } elseif ($this->object && $this->revision) {
             $this->blocks = [static::BLOCK_START, static::BLOCK_REVISION_VIEW, static::BLOCK_BOTTOM];
         } else {
             $this->blocks = [static::BLOCK_START, static::BLOCK_BOTTOM];
@@ -385,7 +385,7 @@ class WikiMenu extends WallEntryControls
     }
 
     /**
-     * @return boolean can create new wiki site
+     * @return bool can create new wiki site
      * @throws \yii\base\InvalidConfigException
      */
     public function canCreatePage(): bool
@@ -394,7 +394,7 @@ class WikiMenu extends WallEntryControls
     }
 
     /**
-     * @return boolean can view wiki page history?
+     * @return bool can view wiki page history?
      * @throws \yii\base\InvalidConfigException
      */
     public function canViewHistory(): bool
@@ -403,7 +403,7 @@ class WikiMenu extends WallEntryControls
     }
 
     /**
-     * @return boolean can manage wiki sites?
+     * @return bool can manage wiki sites?
      * @throws \yii\base\InvalidConfigException
      */
     public function canAdminister(): bool

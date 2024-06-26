@@ -33,17 +33,17 @@ abstract class ItemDrop extends Model
     public $modelClass;
 
     /**
-     * @var integer
+     * @var int
      */
     public $index;
 
     /**
-     * @var integer
+     * @var int
      */
     public $id;
 
     /**
-     * @var integer
+     * @var int
      */
     public $targetId;
 
@@ -53,7 +53,7 @@ abstract class ItemDrop extends Model
     public function rules()
     {
         return [
-            [['id', 'index', 'targetId'], 'integer']
+            [['id', 'index', 'targetId'], 'integer'],
         ];
     }
 
@@ -123,7 +123,7 @@ abstract class ItemDrop extends Model
      */
     protected function beginTransaction()
     {
-        return call_user_func($this->modelClass.'::getDb')->beginTransaction();
+        return call_user_func($this->modelClass . '::getDb')->beginTransaction();
     }
 
     protected function validateIndex($newIndex, $itemsToSort)
@@ -131,8 +131,8 @@ abstract class ItemDrop extends Model
         // make sure no invalid index is given
         if ($newIndex < 0) {
             return 0;
-        } else if ($newIndex >= count($itemsToSort) + 1) {
-           return count($itemsToSort) - 1;
+        } elseif ($newIndex >= count($itemsToSort) + 1) {
+            return count($itemsToSort) - 1;
         }
 
         return $newIndex;
@@ -151,7 +151,7 @@ abstract class ItemDrop extends Model
     protected function getTableName()
     {
         /* @var $schema TableSchema */
-        $schema = call_user_func($this->modelClass.'::getTableSchema');
+        $schema = call_user_func($this->modelClass . '::getTableSchema');
         return $schema->fullName;
     }
 
@@ -172,12 +172,12 @@ abstract class ItemDrop extends Model
      */
     protected function loadModel()
     {
-        return call_user_func($this->modelClass.'::findOne', ['id' => $this->id]);
+        return call_user_func($this->modelClass . '::findOne', ['id' => $this->id]);
     }
 
     /**
      * @return ActiveQuery
      */
-    protected abstract function getSortItemsQuery(): ActiveQuery;
-    protected abstract function updateTarget();
+    abstract protected function getSortItemsQuery(): ActiveQuery;
+    abstract protected function updateTarget();
 }

@@ -12,26 +12,25 @@ use humhub\modules\content\helpers\ContentContainerHelper;
 use humhub\modules\wiki\models\WikiPage;
 use humhub\modules\wiki\models\WikiPageRevision;
 
-
 /**
  * Class Url
  */
 class Url extends \yii\helpers\Url
 {
-    const ROUTE_HOME = '/wiki/overview/index';
-    const ROUTE_OVERVIEW = '/wiki/overview/list-categories';
-    const ROUTE_LAST_EDITED = '/wiki/overview/last-edited';
-    const ROUTE_SEARCH = '/wiki/overview/search';
-    const ROUTE_UPDATE_FOLDING_STATE = '/wiki/overview/update-folding-state';
-    const ROUTE_WIKI_PAGE = '/wiki/page/view';
-    const ROUTE_WIKI_ENTRY = '/wiki/page/entry';
-    const ROUTE_WIKI_EDIT = '/wiki/page/edit';
-    const ROUTE_WIKI_DELETE = '/wiki/page/delete';
-    const ROUTE_WIKI_HISTORY = '/wiki/page/history';
-    const ROUTE_WIKI_DIFF = '/wiki/page/diff';
-    const ROUTE_WIKI_DIFF_EDITING = '/wiki/page/diff-editing';
-    const ROUTE_WIKI_REVERT = '/wiki/page/revert';
-    const ROUTE_EXTRACT_TITLES = '/wiki/page/headlines';
+    public const ROUTE_HOME = '/wiki/overview/index';
+    public const ROUTE_OVERVIEW = '/wiki/overview/list-categories';
+    public const ROUTE_LAST_EDITED = '/wiki/overview/last-edited';
+    public const ROUTE_SEARCH = '/wiki/overview/search';
+    public const ROUTE_UPDATE_FOLDING_STATE = '/wiki/overview/update-folding-state';
+    public const ROUTE_WIKI_PAGE = '/wiki/page/view';
+    public const ROUTE_WIKI_ENTRY = '/wiki/page/entry';
+    public const ROUTE_WIKI_EDIT = '/wiki/page/edit';
+    public const ROUTE_WIKI_DELETE = '/wiki/page/delete';
+    public const ROUTE_WIKI_HISTORY = '/wiki/page/history';
+    public const ROUTE_WIKI_DIFF = '/wiki/page/diff';
+    public const ROUTE_WIKI_DIFF_EDITING = '/wiki/page/diff-editing';
+    public const ROUTE_WIKI_REVERT = '/wiki/page/revert';
+    public const ROUTE_EXTRACT_TITLES = '/wiki/page/headlines';
 
     public static function toHome(ContentContainerActiveRecord $container)
     {

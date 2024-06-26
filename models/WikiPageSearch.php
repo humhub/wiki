@@ -1,8 +1,6 @@
 <?php
 
-
 namespace humhub\modules\wiki\models;
-
 
 use humhub\modules\content\components\ContentContainerActiveRecord;
 use Yii;
@@ -39,7 +37,7 @@ class WikiPageSearch extends Model
         return [
             'title' => Yii::t('WikiModule.base', 'Choose a Wiki Page'),
             'anchor' => Yii::t('WikiModule.base', 'Headline'),
-            'label' => Yii::t('WikiModule.base', 'Label')
+            'label' => Yii::t('WikiModule.base', 'Label'),
         ];
     }
 
@@ -49,7 +47,7 @@ class WikiPageSearch extends Model
     public function rules()
     {
         return [
-            [['title', 'anchor'], 'safe']
+            [['title', 'anchor'], 'safe'],
         ];
     }
 

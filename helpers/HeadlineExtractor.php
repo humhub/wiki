@@ -37,6 +37,6 @@ class HeadlineExtractor extends Parser
         } catch (\Exception $e) {
             Yii::error($e);
         }
-        return $this->renderAbsy($block['content']) ."\n";
+        return $this->renderAbsy($block['content']) . "\n";
     }
 }

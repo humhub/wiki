@@ -1,8 +1,6 @@
 <?php
 
-
 namespace humhub\modules\wiki\widgets;
-
 
 use humhub\modules\content\widgets\richtext\extensions\link\LinkParserBlock;
 use humhub\modules\content\widgets\richtext\extensions\link\RichTextLinkExtension;
@@ -25,7 +23,7 @@ class WikiRichTextLinkExtension extends RichTextLinkExtension
     /**
      * @inheritdoc
      */
-    public function onBeforeOutput(ProsemirrorRichText $richtext, string $output) : string
+    public function onBeforeOutput(ProsemirrorRichText $richtext, string $output): string
     {
         $output = $this->parseWikiLinks($richtext->edit, $output);
         return $this->parseInternalLinks($richtext->edit, $output);
@@ -36,8 +34,8 @@ class WikiRichTextLinkExtension extends RichTextLinkExtension
      */
     public function parseWikiLinks(bool $isEdit, string $output)
     {
-        return static::replace($output, function(RichTextLinkExtensionMatch $match) use($isEdit) {
-            return $this->toWikiLink($isEdit, $match->getText(),  WikiPage::findOne(['id' => $match->getExtensionId()]), null, $match->getTitle());
+        return static::replace($output, function (RichTextLinkExtensionMatch $match) use ($isEdit) {
+            return $this->toWikiLink($isEdit, $match->getText(), WikiPage::findOne(['id' => $match->getExtensionId()]), null, $match->getTitle());
         });
     }
 
@@ -49,7 +47,7 @@ class WikiRichTextLinkExtension extends RichTextLinkExtension
      */
     private function parseInternalLinks(bool $isEdit, string $output)
     {
-        return preg_replace_callback(static::getLinkPattern(), function($match) use($isEdit) {
+        return preg_replace_callback(static::getLinkPattern(), function ($match) use ($isEdit) {
             $url = $match[2];
 
             if(empty($url)) {
@@ -66,7 +64,7 @@ class WikiRichTextLinkExtension extends RichTextLinkExtension
                     $guid = str_replace('file-guid-', '', $url);
                     $file = File::findOne(['guid' => $guid]);
                     if ($file !== null) {
-                        return '['.$match[1].']('.$file->getUrl([], true).')';
+                        return '[' . $match[1] . '](' . $file->getUrl([], true) . ')';
                     }
                 }
             }
@@ -95,26 +93,26 @@ class WikiRichTextLinkExtension extends RichTextLinkExtension
             $url = $isEdit ? $page->id : Url::toWiki($page);
 
             if($anchor) {
-                $url .= '#'. urlencode($anchor);
+                $url .= '#' . urlencode($anchor);
             }
 
             return $this->toWikiLink($isEdit, $label, $url, $page->title);
         }
 
-        return RichTextLinkExtension::buildLink($label,'wiki:'. $page, $title );
+        return RichTextLinkExtension::buildLink($label, 'wiki:' . $page, $title);
     }
 
     /**
      * @inheritdoc
      */
-    public function onBeforeConvertLink(LinkParserBlock $linkBlock) : void
+    public function onBeforeConvertLink(LinkParserBlock $linkBlock): void
     {
         $wikiId = $this->cutExtensionKeyFromUrl($linkBlock->getUrl());
 
         $page = WikiPage::findOne(['id' => $wikiId]);
 
         if(!$page) {
-            $linkBlock->setResult('['.$linkBlock->getParsedText().']');
+            $linkBlock->setResult('[' . $linkBlock->getParsedText() . ']');
             return;
         }
 

@@ -10,9 +10,6 @@ return [
     'modules' => ['wiki'],
     'fixtures' => [
         'default',
-        'wiki' => 'humhub\modules\wiki\tests\codeception\fixtures\WikiPageFixture'
-    ]
+        'wiki' => 'humhub\modules\wiki\tests\codeception\fixtures\WikiPageFixture',
+    ],
 ];
-
-
-

@@ -16,7 +16,6 @@ use humhub\modules\user\models\User;
  */
 class EditPages extends \humhub\libs\BasePermission
 {
-
     /**
      * @inheritdoc
      */
@@ -27,7 +26,7 @@ class EditPages extends \humhub\libs\BasePermission
         Space::USERGROUP_MEMBER,
         User::USERGROUP_SELF,
     ];
-    
+
     /**
      * @inheritdoc
      */

@@ -31,7 +31,7 @@ class Assets extends AssetBundle
     public $forceCopy = false;
 
     public $css = [
-        'css/humhub.wiki.min.css'
+        'css/humhub.wiki.min.css',
     ];
 
     public $js = [
@@ -58,7 +58,7 @@ class Assets extends AssetBundle
         $view->registerJsConfig([
             'wiki' => [
                 'text' => [
-                    'pageindex' => Yii::t('WikiModule.base', 'Table of Contents')
+                    'pageindex' => Yii::t('WikiModule.base', 'Table of Contents'),
                 ],
             ],
             'wiki.Page' => [
@@ -66,9 +66,9 @@ class Assets extends AssetBundle
             ],
             'wiki.linkExtension' => [
                 'text' => [
-                    'pageNotFound' => Yii::t('WikiModule.base', 'Page not found')
+                    'pageNotFound' => Yii::t('WikiModule.base', 'Page not found'),
                 ],
-                'extractTitleUrl' => Url::toExtractTitles()
+                'extractTitleUrl' => Url::toExtractTitles(),
             ],
             'humhub.wiki.CategoryListView' => [
                 'updateFoldingStateUrl' => Url::toUpdateFoldingState(),

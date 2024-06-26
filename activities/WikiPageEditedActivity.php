@@ -17,7 +17,6 @@ use humhub\modules\activity\components\BaseActivity;
  */
 class WikiPageEditedActivity extends BaseActivity
 {
-
     /**
      * @inheritdoc
      */

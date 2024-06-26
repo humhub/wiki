@@ -21,7 +21,6 @@ use Yii;
  */
 class Events
 {
-
     /**
      * Initialize Space/Profile menu items
      *

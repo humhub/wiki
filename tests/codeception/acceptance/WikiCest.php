@@ -12,7 +12,6 @@ use wiki\AcceptanceTester;
 
 class WikiCest
 {
-
     /**
      * @param AcceptanceTester $I
      * @throws \Exception

@@ -8,7 +8,6 @@
 
 namespace humhub\modules\wiki\widgets;
 
-
 use humhub\components\Widget;
 use humhub\modules\content\components\ContentContainerActiveRecord;
 use humhub\modules\user\models\User;
@@ -125,7 +124,7 @@ class CategoryListItem extends Widget
             'level' => $this->level,
             'levelIndent' => $this->levelIndent,
             'maxLevel' => $this->maxLevel,
-            'displaySubPages' => $this->maxLevel === null || $this->level < $this->maxLevel
+            'displaySubPages' => $this->maxLevel === null || $this->level < $this->maxLevel,
         ]);
     }
 

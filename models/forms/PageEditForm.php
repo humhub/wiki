@@ -72,7 +72,7 @@ class PageEditForm extends Model
         return [
             ['topics', 'safe'],
             [['isPublic', 'confirmOverwriting', 'backOverwriting', 'hidden'], 'boolean'],
-            ['latestRevisionNumber', 'validateLatestRevisionNumber']
+            ['latestRevisionNumber', 'validateLatestRevisionNumber'],
         ];
     }
 
@@ -113,7 +113,7 @@ class PageEditForm extends Model
         if (!$this->isNewPage()) {
             $labels['confirmOverwriting'] = Yii::t('WikiModule.base', 'Overwrite all changes made by :userName on :dateTime.', [
                 ':dateTime' => Yii::$app->formatter->asDate($this->page->content->updated_at, 'medium') . ' - ' . Yii::$app->formatter->asTime($this->page->content->updated_at, 'short'),
-                ':userName' => $this->page->content->updatedBy ? $this->page->content->updatedBy->displayName : ''
+                ':userName' => $this->page->content->updatedBy ? $this->page->content->updatedBy->displayName : '',
             ]);
         }
 
@@ -241,7 +241,7 @@ class PageEditForm extends Model
             $this->page->content->hidden = $this->hidden;
         }
 
-        return WikiPage::getDb()->transaction(function($db) {
+        return WikiPage::getDb()->transaction(function ($db) {
             if ($this->page->save()) {
                 $this->revision->wiki_page_id = $this->page->id;
 
@@ -313,7 +313,7 @@ class PageEditForm extends Model
     }
 
     /**
-     * @return boolean can create new wiki site
+     * @return bool can create new wiki site
      * @throws \yii\base\InvalidConfigException
      */
     public function canCreatePage()
@@ -322,7 +322,7 @@ class PageEditForm extends Model
     }
 
     /**
-     * @return boolean can manage wiki sites?
+     * @return bool can manage wiki sites?
      * @throws \yii\base\InvalidConfigException
      */
     public function canAdminister()
