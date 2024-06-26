@@ -12,6 +12,10 @@ use humhub\modules\wiki\models\WikiPage;
 use Yii;
 use yii\helpers\Url;
 
+/**
+ * @property-read bool $contentHiddenGlobalDefault
+ * @property-read bool $hideNavigationEntryDefault
+ */
 class Module extends ContentContainerModule
 {
     /**
@@ -126,6 +130,11 @@ class Module extends ContentContainerModule
     public function getContentHiddenGlobalDefault(): bool
     {
         return $this->settings->get('contentHiddenGlobalDefault', false);
+    }
+
+    public function getHideNavigationEntryDefault(): bool
+    {
+        return $this->settings->get('hideNavigationEntryDefault', false);
     }
 
     public function getContentHiddenDefault(ContentContainerActiveRecord $contentContainer): bool
