@@ -9,6 +9,7 @@ namespace humhub\modules\wiki\widgets;
 
 use humhub\components\Widget;
 use humhub\modules\content\models\Content;
+use humhub\modules\ui\icon\widgets\Icon;
 use humhub\modules\wiki\helpers\Helper;
 use humhub\modules\wiki\models\WikiPage;
 use Yii;
@@ -117,7 +118,7 @@ class PageListItemTitle extends Widget
         return $options;
     }
 
-    public function getVisibilityIcon(): ?string
+    public function getVisibilityIcon(): ?Icon
     {
         if (!$this->page instanceof WikiPage) {
             return null;
@@ -128,7 +129,8 @@ class PageListItemTitle extends Widget
             return null;
         }
 
-        return $content->visibility === Content::VISIBILITY_PUBLIC ? 'globe' : 'lock';
+        return Icon::get($content->visibility === Content::VISIBILITY_PUBLIC ? 'globe' : 'lock')
+            ->class('page-title-icon-visibility');
     }
 
 }
