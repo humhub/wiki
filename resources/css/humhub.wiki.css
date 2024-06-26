@@ -520,10 +520,17 @@
   background: #F3F3F3;
   font-size: 13px;
   border: none;
-  color: var(--text-color-soft2);
+  color: var(--text-color-main);
   padding-left: 26px;
   height: 36px;
   min-height: 36px;
+}
+.wiki-search-form input[name=keyword]::placeholder {
+  color: var(--text-color-secondary) !important;
+  opacity: 1;
+}
+.wiki-search-form input[name=keyword]:not(:placeholder-shown) + button[type=submit] i.fa {
+  color: var(--text-color-main) !important;
 }
 .wiki-search-form button[type=submit] {
   position: absolute;

@@ -718,10 +718,19 @@
     background: @bg-color-input;
     font-size: 13px;
     border: none;
-    color: @text-color-control;
+    color: var(--text-color-main);
     padding-left: 26px;
     height: 36px;
     min-height: 36px;
+    &::placeholder {
+      color: var(--text-color-secondary) !important;
+      opacity: 1;
+    }
+    &:not(:placeholder-shown) + button[type=submit] {
+      i.fa {
+        color: var(--text-color-main) !important;
+      }
+    }
   }
 
   button[type=submit] {
