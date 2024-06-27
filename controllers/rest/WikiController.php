@@ -132,7 +132,7 @@ class WikiController extends BaseContentController
         $formParams = [
             'id' => $id,
             'targetId' => $targetPage->id,
-            'index' => isset($requestParams['index']) ? $requestParams['index'] : 0
+            'index' => isset($requestParams['index']) ? $requestParams['index'] : 0,
         ];
         $moveModel = new WikiPageItemDrop(['contentContainer' => $page->content->container]);
         if($moveModel->load($formParams, '') && $moveModel->save()) {
@@ -171,7 +171,7 @@ class WikiController extends BaseContentController
 
         if ($moveForm->hasErrors()) {
             return $this->returnError(422, 'Validation failed', [
-                'errors' => $moveForm->getErrors()
+                'errors' => $moveForm->getErrors(),
             ]);
         } else {
             Yii::error('Could not move wiki page.', 'api');

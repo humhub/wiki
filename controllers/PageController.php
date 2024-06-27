@@ -82,7 +82,7 @@ class PageController extends BaseController
             'canViewHistory' => $this->canViewHistory(),
             'canEdit' => $page->canEditContent(),
             'canAdminister' => $this->canAdminister(),
-            'canCreatePage' => $this->canCreatePage()
+            'canCreatePage' => $this->canCreatePage(),
         ]);
     }
 
@@ -199,7 +199,7 @@ class PageController extends BaseController
             'contentContainer' => $this->contentContainer,
             'canAdminister' => $this->canAdminister(),
             'requireConfirmation' => $form->hasErrors('confirmOverwriting'),
-            'displayFieldCategory' => !$form->page->isNewRecord || !$form->page->categoryPage
+            'displayFieldCategory' => !$form->page->isNewRecord || !$form->page->categoryPage,
         ];
 
         if ($params['requireConfirmation']) {
@@ -361,7 +361,7 @@ class PageController extends BaseController
 
         $revision = WikiPageRevision::findOne([
             'revision' => $toRevision,
-            'wiki_page_id' => $page->id
+            'wiki_page_id' => $page->id,
         ]);
 
         if (!$revision) {
@@ -378,7 +378,7 @@ class PageController extends BaseController
 
         return $this->asJson([
             'success' => 1,
-            'redirect' => Url::toWiki($page)
+            'redirect' => Url::toWiki($page),
         ]);
     }
 
@@ -420,7 +420,7 @@ class PageController extends BaseController
 
         return $this->asJson([
             'success' => false,
-            'error' => 'No page found!'
+            'error' => 'No page found!',
         ]);
     }
 

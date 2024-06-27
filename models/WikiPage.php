@@ -20,14 +20,14 @@ use yii\db\Expression;
  * This is the model class for table "wiki_page".
  *
  * The followings are the available columns in table 'wiki_page':
- * @property integer $id
+ * @property int $id
  * @property string $title
- * @property integer $is_home
- * @property integer $admin_only
- * @property integer $parent_page_id
- * @property integer $sort_order
- * @property integer $is_container_menu
- * @property integer $container_menu_order
+ * @property int $is_home
+ * @property int $admin_only
+ * @property int $parent_page_id
+ * @property int $sort_order
+ * @property int $is_container_menu
+ * @property int $container_menu_order
  *
  * @property-read WikiPage|null $categoryPage
  * @property-read WikiPageRevision $latestRevision
@@ -37,10 +37,10 @@ use yii\db\Expression;
  */
 class WikiPage extends ContentActiveRecord implements Searchable
 {
-    const SCENARIO_CREATE = 'create';
-    const SCENARIO_ADMINISTER = 'admin';
-    const SCENARIO_EDIT = 'edit';
-    const CACHE_CHILDREN_COUNT_KEY = 'wikiChildrenCount_%s';
+    public const SCENARIO_CREATE = 'create';
+    public const SCENARIO_ADMINISTER = 'admin';
+    public const SCENARIO_EDIT = 'edit';
+    public const CACHE_CHILDREN_COUNT_KEY = 'wikiChildrenCount_%s';
     public $moduleId = 'wiki';
     /**
      * @inheritdoc
@@ -82,7 +82,7 @@ class WikiPage extends ContentActiveRecord implements Searchable
             ->readable()
             ->orderBy([
                 static::tableName() . '.sort_order' => SORT_ASC,
-                static::tableName() . '.title' => SORT_ASC
+                static::tableName() . '.title' => SORT_ASC,
             ]);
     }
 
@@ -107,7 +107,7 @@ class WikiPage extends ContentActiveRecord implements Searchable
             ->andWhere(['wiki_page.parent_page_id' => $categoryId])
             ->orderBy([
                 static::tableName() . '.sort_order' => SORT_ASC,
-                static::tableName() . '.title' => SORT_ASC
+                static::tableName() . '.title' => SORT_ASC,
             ]);
     }
 
@@ -120,7 +120,7 @@ class WikiPage extends ContentActiveRecord implements Searchable
             ['title', 'required'],
             ['title', 'string', 'max' => 255],
             ['parent_page_id', 'validateParentPage'],
-            [['is_home', 'admin_only', 'is_container_menu', 'container_menu_order'], 'integer']
+            [['is_home', 'admin_only', 'is_container_menu', 'container_menu_order'], 'integer'],
         ];
 
     }
@@ -239,7 +239,7 @@ class WikiPage extends ContentActiveRecord implements Searchable
             ->andWhere(['!=', static::tableName() . '.id', $this->id])
             ->orderBy([
                 static::tableName() . '.sort_order' => SORT_ASC,
-                static::tableName() . '.title' => SORT_ASC
+                static::tableName() . '.title' => SORT_ASC,
             ]);
 
         if (empty($this->parent_page_id)) {
@@ -457,7 +457,7 @@ class WikiPage extends ContentActiveRecord implements Searchable
         return static::find()->andWhere(['parent_page_id' => $this->id])->readable()
             ->orderBy([
                 static::tableName() . '.sort_order' => SORT_ASC,
-                static::tableName() . '.title' => SORT_ASC
+                static::tableName() . '.title' => SORT_ASC,
             ]);
     }
 

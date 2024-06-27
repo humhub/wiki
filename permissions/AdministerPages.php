@@ -16,7 +16,6 @@ use humhub\modules\user\models\User;
  */
 class AdministerPages extends \humhub\libs\BasePermission
 {
-
     /**
      * @inheritdoc
      */
@@ -26,7 +25,7 @@ class AdministerPages extends \humhub\libs\BasePermission
         Space::USERGROUP_MODERATOR,
         User::USERGROUP_SELF,
     ];
-    
+
     /**
      * @inheritdoc
      */

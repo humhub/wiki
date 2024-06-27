@@ -29,9 +29,9 @@ class AcceptanceTester extends \AcceptanceTester
 {
     use _generated\AcceptanceTesterActions;
 
-   /**
-    * Define custom actions here
-    */
+    /**
+     * Define custom actions here
+     */
 
     public function enableWikiOnProfile()
     {
@@ -111,7 +111,7 @@ class AcceptanceTester extends \AcceptanceTester
          */
         $this->click('First Sub Page');
 
-        $this->waitForText('My Sub Page', null,'.wiki-content');
+        $this->waitForText('My Sub Page', null, '.wiki-content');
         $this->click('Edit');
         $this->waitForElementVisible('#wiki-page-edit');
         $this->jsShow('.form-collapsible-fields.closed fieldset');
@@ -127,7 +127,7 @@ class AcceptanceTester extends \AcceptanceTester
 
         $this->click('Wiki', '.layout-nav-container');
 
-        $this->waitForText('My Sub Page', null,'.wiki-content');
+        $this->waitForText('My Sub Page', null, '.wiki-content');
 
         /**
          * Move Category

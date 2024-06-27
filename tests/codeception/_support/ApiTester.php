@@ -1,4 +1,5 @@
 <?php
+
 namespace wiki;
 
 use humhub\modules\wiki\helpers\RestDefinitions;

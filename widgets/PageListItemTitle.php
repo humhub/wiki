@@ -108,7 +108,7 @@ class PageListItemTitle extends Widget
     {
         $options = [
             'class' => 'page-title' . ($this->page && $this->page->isCategory ? ' page-is-category' : ''),
-            'style' => 'padding-left:' . (12 + $this->level * $this->levelIndent) .'px',
+            'style' => 'padding-left:' . (12 + $this->level * $this->levelIndent) . 'px',
         ];
 
         if (Helper::isCurrentPage($this->page)) {
