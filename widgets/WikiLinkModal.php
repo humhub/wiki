@@ -1,8 +1,6 @@
 <?php
 
-
 namespace humhub\modules\wiki\widgets;
-
 
 use humhub\widgets\Button;
 use humhub\widgets\Modal;
@@ -22,7 +20,7 @@ class WikiLinkModal extends Modal
     {
         $this->header = Yii::t('WikiModule.base', '<strong>Wiki</strong> link');
         $this->body = $this->render('wikiLinkModal', ['contentContainer' => $this->contentContainer]);
-        $this->footer = Button::save()->action('wiki.linkExtension.setEditorLink')->loader(false).ModalButton::cancel();
+        $this->footer = Button::save()->action('wiki.linkExtension.setEditorLink')->loader(false) . ModalButton::cancel();
         parent::init();
     }
 

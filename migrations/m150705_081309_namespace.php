@@ -6,7 +6,6 @@ use humhub\modules\wiki\models\WikiPageRevision;
 
 class m150705_081309_namespace extends Migration
 {
-
     public function up()
     {
         $this->renameClass('WikiPage', WikiPage::className());

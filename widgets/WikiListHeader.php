@@ -37,7 +37,7 @@ class WikiListHeader extends Widget
             'icon' => $this->icon,
             'title' => $this->title,
             'contentContainer' => $this->contentContainer,
-            'canCreate' => $this->contentContainer->permissionManager->can(CreatePage::class)
+            'canCreate' => $this->contentContainer->permissionManager->can(CreatePage::class),
         ]);
     }
 }

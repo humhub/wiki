@@ -5,7 +5,6 @@ use yii\db\Migration;
 
 class m141004_022835_initial extends Migration
 {
-
     public function up()
     {
         $this->createTable('wiki_page', array(
@@ -13,7 +12,7 @@ class m141004_022835_initial extends Migration
             'title' => 'varchar(255) NOT NULL',
             'is_home' => 'tinyint(4) NOT NULL DEFAULT 0',
             'admin_only' => 'tinyint(4) NOT NULL DEFAULT 0',
-                ), '');
+        ), '');
 
         $this->createTable('wiki_page_revision', array(
             'id' => 'pk',
@@ -22,7 +21,7 @@ class m141004_022835_initial extends Migration
             'wiki_page_id' => 'int(11) NOT NULL',
             'user_id' => 'int(11) NOT NULL',
             'content' => 'TEXT NULL',
-                ), '');
+        ), '');
     }
 
     public function down()

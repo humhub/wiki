@@ -6,6 +6,7 @@ Changelog
 - Enh #336: Display page visibility icon
 - Enh #333: Added config option `Hide Navigation Entry`
 - Fix #337: Change search input color
+- Enh #338: Use PHP CS Fixer
 
 2.3.2 (June 25, 2024)
 ---------------------

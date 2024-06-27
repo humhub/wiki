@@ -12,7 +12,6 @@ use wiki\FunctionalTester;
 
 class FirstAccessCest
 {
-
     /**
      * @param FunctionalTester $I
      */

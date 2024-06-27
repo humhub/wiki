@@ -23,7 +23,6 @@ use Yii;
 
 class ContainerConfigController extends ContentContainerController
 {
-
     /**
      * @inheritdoc
      */
@@ -41,7 +40,7 @@ class ContainerConfigController extends ContentContainerController
         }
 
         return $this->render('@wiki/views/common/defaultConfig', [
-            'model' => $model
+            'model' => $model,
         ]);
     }
 }

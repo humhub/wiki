@@ -8,7 +8,6 @@
 
 namespace humhub\modules\wiki\widgets;
 
-
 use humhub\modules\content\components\ContentContainerActiveRecord;
 use humhub\modules\wiki\models\WikiPage;
 use humhub\widgets\JsWidget;
@@ -94,7 +93,7 @@ class CategoryListView extends JsWidget
             'showDrag' => $this->showDrag,
             'level' => $this->level,
             'levelIndent' => $this->levelIndent,
-            'maxLevel' => $this->maxLevel
+            'maxLevel' => $this->maxLevel,
         ]);
     }
 

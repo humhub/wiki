@@ -17,7 +17,6 @@ use humhub\modules\user\models\User;
  */
 class ViewPages extends \humhub\libs\BasePermission
 {
-
     /**
      * @inheritdoc
      */
@@ -31,7 +30,7 @@ class ViewPages extends \humhub\libs\BasePermission
         User::USERGROUP_FRIEND,
         User::USERGROUP_USER,
     ];
-    
+
     /**
      * @inheritdoc
      */

@@ -24,7 +24,6 @@ use yii\web\UrlRuleInterface;
  */
 class WikiPageUrlRule extends Component implements UrlRuleInterface, ContentContainerUrlRuleInterface
 {
-
     /**
      * @inheritdoc
      * @throws Exception
