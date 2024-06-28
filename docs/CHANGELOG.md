@@ -1,7 +1,7 @@
 Changelog
 =========
 
-2.3.3 (Unreleased)
+2.3.3 (June 28, 2024)
 ---------------------
 - Enh #336: Display page visibility icon
 - Enh #333: Added config option `Hide Navigation Entry`
