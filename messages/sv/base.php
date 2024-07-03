@@ -83,4 +83,7 @@ return [
     'show changes' => 'visa ändringar',
     '{userName} edited the Wiki page "{wikiPageTitle}".' => '{userName} redigerade Wiki-sidan "{wikiPageTitle}".',
     '<strong>Wiki</strong> module configuration' => '',
+    'Hide Navigation Entries of this module globally by default' => '',
+    'Hide Navigation Entry' => '',
+    'No wiki pages found.' => '',
 ];

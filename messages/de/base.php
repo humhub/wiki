@@ -83,4 +83,7 @@ return [
     'last update {dateTime}' => 'letztes Update {dateTime}',
     'show changes' => 'Änderungen anzeigen',
     '{userName} edited the Wiki page "{wikiPageTitle}".' => '{userName} hat die Wiki-Seite "{wikiPageTitle}" bearbeitet.',
+    'Hide Navigation Entries of this module globally by default' => '',
+    'Hide Navigation Entry' => '',
+    'No wiki pages found.' => '',
 ];

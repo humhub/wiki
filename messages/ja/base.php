@@ -83,4 +83,7 @@ return [
     'last update {dateTime}' => '最終更新日 {dateTime}',
     'show changes' => '変更を表示する',
     '{userName} edited the Wiki page "{wikiPageTitle}".' => '{userName}さんがWikiページ "{wikiPageTitle}"を編集しました。',
+    'Hide Navigation Entries of this module globally by default' => '',
+    'Hide Navigation Entry' => '',
+    'No wiki pages found.' => '',
 ];
