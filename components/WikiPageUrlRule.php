@@ -77,7 +77,7 @@ class WikiPageUrlRule extends Component implements UrlRuleInterface, ContentCont
                 // Replace special characters from the title with the specified replacement
                 $specialChars = [
                     '/', '?', '&', '=', '#', '%', '\\', '+', ':', ';', '@', '!',
-                    '$', '^', '|', '{', '}', '[', ']', '`', '"', "'", '<', '>', '~'
+                    '$', '^', '|', '{', '}', '[', ']', '`', '"', "'", '<', '>', '~',
                 ];
                 $replacement = '-';
                 $safeTitle = str_replace($specialChars, $replacement, $safeTitle);
