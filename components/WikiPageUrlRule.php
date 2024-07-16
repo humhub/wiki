@@ -70,9 +70,22 @@ class WikiPageUrlRule extends Component implements UrlRuleInterface, ContentCont
     {
         if ($route === 'wiki/page/view' && isset($params['id'])) {
             $url = $containerUrlPath . '/wiki/' . $params['id'];
+
             if (!empty($params['title'])) {
-                $url .= '/' . urlencode($params['title']);
+                // Replace spaces with _
+                $safeTitle = str_replace(' ', '_', $params['title']);
+                // Replace special characters from the title with the specified replacement
+                $specialChars = [
+                    '/', '?', '&', '=', '#', '%', '\\', '+', ':', ';', '@', '!',
+                    '$', '^', '|', '{', '}', '[', ']', '`', '"', "'", '<', '>', '~'
+                ];
+                $replacement = '-';
+                $safeTitle = str_replace($specialChars, $replacement, $safeTitle);
+                // Trim the replacement character from the beginning and end of the string
+                $safeTitle = trim($safeTitle, $replacement);
+                $url .= '/' . urlencode($safeTitle);
             }
+
             unset($params['id'], $params['title']);
 
             if (!empty($params) && ($query = http_build_query($params)) !== '') {
