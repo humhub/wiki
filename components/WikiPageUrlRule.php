@@ -14,6 +14,7 @@ use humhub\modules\wiki\models\WikiPage;
 use Yii;
 use yii\base\Component;
 use yii\base\Exception;
+use yii\helpers\BaseInflector;
 use yii\web\UrlManager;
 use yii\web\UrlRuleInterface;
 
@@ -72,18 +73,7 @@ class WikiPageUrlRule extends Component implements UrlRuleInterface, ContentCont
             $url = $containerUrlPath . '/wiki/' . $params['id'];
 
             if (!empty($params['title'])) {
-                // Replace spaces with _
-                $safeTitle = str_replace(' ', '_', $params['title']);
-                // Replace special characters from the title with the specified replacement
-                $specialChars = [
-                    '/', '?', '&', '=', '#', '%', '\\', '+', ':', ';', '@', '!',
-                    '$', '^', '|', '{', '}', '[', ']', '`', '"', "'", '<', '>', '~',
-                ];
-                $replacement = '-';
-                $safeTitle = str_replace($specialChars, $replacement, $safeTitle);
-                // Trim the replacement character from the beginning and end of the string
-                $safeTitle = trim($safeTitle, $replacement);
-                $url .= '/' . urlencode($safeTitle);
+                $url .= '/' . BaseInflector::slug($params['title']);
             }
 
             unset($params['id'], $params['title']);
