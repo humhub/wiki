@@ -1,6 +1,10 @@
 Changelog
 =========
 
+Unreleased
+---------------------
+- Fix #341: Controller not found if the Wiki title contains a slash and URL title param cleanup
+
 2.3.3 (June 28, 2024)
 ---------------------
 - Enh #336: Display page visibility icon
