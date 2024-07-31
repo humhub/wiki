@@ -3,7 +3,7 @@ Changelog
 
 2.3.5 (Unreleased)
 ---------------------
-- Fix #341: Fix searching from other content containers
+- Fix #344: Fix searching from other content containers
 
 2.3.4 (July 30, 2024)
 ---------------------
