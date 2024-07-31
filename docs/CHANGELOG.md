@@ -1,6 +1,10 @@
 Changelog
 =========
 
+2.3.5 (Unreleased)
+---------------------
+- Fix #345: Move child pages to the top level after deleting a parent page
+
 2.3.4 (July 30, 2024)
 ---------------------
 - Fix #341: Controller not found if the Wiki title contains a slash and URL title param cleanup
