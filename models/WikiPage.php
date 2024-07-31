@@ -104,6 +104,7 @@ class WikiPage extends ContentActiveRecord implements Searchable
     {
         return static::find()
             ->contentContainer($container)
+            ->readable()
             ->andWhere(['wiki_page.parent_page_id' => $categoryId])
             ->orderBy([
                 static::tableName() . '.sort_order' => SORT_ASC,
@@ -281,6 +282,20 @@ class WikiPage extends ContentActiveRecord implements Searchable
     }
 
     /**
+     * @inheritdoc
+     */
+    public function afterSoftDelete()
+    {
+        $this->updateChildrenAfterDelete();
+        parent::afterSoftDelete();
+    }
+
+    private function updateChildrenAfterDelete()
+    {
+        WikiPage::updateAll(['parent_page_id' => $this->parent_page_id], ['parent_page_id' => $this->id]);
+    }
+
+    /**
      * Internal edit logic for wiki pages.
      *
      * @param User|null $user
@@ -325,11 +340,16 @@ class WikiPage extends ContentActiveRecord implements Searchable
         return $rev;
     }
 
+    /**
+     * @inheritdoc
+     */
     public function beforeDelete()
     {
         foreach ($this->revisions as $revision) {
             $revision->delete();
         }
+
+        $this->updateChildrenAfterDelete();
 
         return parent::beforeDelete();
     }
