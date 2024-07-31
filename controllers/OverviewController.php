@@ -92,6 +92,7 @@ class OverviewController extends BaseController
     {
         $searchRequest = new SearchRequest([
             'contentType' => WikiPage::class,
+            'contentContainer' => [$this->contentContainer->guid],
             'pageSize' => 10,
         ]);
 

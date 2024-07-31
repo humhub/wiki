@@ -3,6 +3,7 @@ Changelog
 
 2.3.5 (Unreleased)
 ---------------------
+- Fix #344: Fix searching from other content containers
 - Fix #345: Move child pages to the top level after deleting a parent page
 
 2.3.4 (July 30, 2024)
