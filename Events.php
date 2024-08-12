@@ -8,7 +8,9 @@ use humhub\modules\content\widgets\WallEntryControls;
 use humhub\modules\space\widgets\Menu;
 use humhub\modules\ui\menu\MenuLink;
 use humhub\modules\ui\menu\widgets\LeftNavigation;
+use humhub\modules\user\models\User;
 use humhub\modules\user\widgets\ProfileMenu;
+use humhub\modules\wiki\helpers\RestDefinitions;
 use humhub\modules\wiki\models\DefaultSettings;
 use humhub\modules\wiki\models\WikiPage;
 use humhub\modules\wiki\widgets\EditPageLink;
@@ -112,6 +114,20 @@ class Events
             ['pattern' => 'wiki/revision/<id:\d+>/revert', 'route' => 'wiki/rest/revision/revert', 'verb' => 'PATCH'],
 
         ], 'wiki');
+    }
+
+    public static function onUserDefinitionsInitAllUserData($event)
+    {
+        if (!($event->result['user'] instanceof User) || !is_array($event->result['data'])) {
+            return;
+        }
+
+        $event->result['data']['wiki'] = array_map(function ($page) {
+            return RestDefinitions::getWikiPage($page);
+        }, WikiPage::find()
+            ->joinWith('content')
+            ->andWhere(['content.created_by' => $event->result['user']->id])
+            ->all());
     }
 
     /**
