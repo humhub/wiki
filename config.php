@@ -15,7 +15,7 @@ return [
         ['class' => Menu::class, 'event' => Menu::EVENT_INIT, 'callback' => ['humhub\modules\wiki\Events', 'onSpaceMenuInit']],
         ['class' => ProfileMenu::class, 'event' => ProfileMenu::EVENT_INIT, 'callback' => ['humhub\modules\wiki\Events', 'onProfileMenuInit']],
         ['class' => 'humhub\modules\rest\Module', 'event' => 'restApiAddRules', 'callback' => ['humhub\modules\wiki\Events', 'onRestApiAddRules']],
-        ['class' => 'humhub\modules\rest\definitions\UserDefinitions', 'event' => 'initAllUserData', 'callback' => ['humhub\modules\wiki\Events', 'onUserDefinitionsInitAllUserData']],
+        ['class' => 'humhub\modules\legal\services\ExportService', 'event' => 'collectUserData', 'callback' => ['humhub\modules\wiki\Events', 'onLegalExportServiceCollectUserData']],
         ['class' => WallEntryControls::class, 'event' => WallEntryControls::EVENT_INIT, 'callback' => ['humhub\modules\wiki\Events', 'onWallEntryControlsInit']],
     ],
 ];

@@ -3,7 +3,7 @@ Changelog
 
 2.3.6 (Unreleased)
 ----------------------
-- Fix #348: Return all user data for REST API module
+- Fix #348: Collect user data for Legal module
 
 2.3.5 (August 7, 2024)
 ----------------------

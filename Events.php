@@ -8,7 +8,6 @@ use humhub\modules\content\widgets\WallEntryControls;
 use humhub\modules\space\widgets\Menu;
 use humhub\modules\ui\menu\MenuLink;
 use humhub\modules\ui\menu\widgets\LeftNavigation;
-use humhub\modules\user\models\User;
 use humhub\modules\user\widgets\ProfileMenu;
 use humhub\modules\wiki\helpers\RestDefinitions;
 use humhub\modules\wiki\models\DefaultSettings;
@@ -116,18 +115,17 @@ class Events
         ], 'wiki');
     }
 
-    public static function onUserDefinitionsInitAllUserData($event)
+    public static function onLegalExportServiceCollectUserData($event)
     {
-        if (!($event->result['user'] instanceof User) || !is_array($event->result['data'])) {
-            return;
-        }
+        /* @var \humhub\modules\legal\services\ExportService $service */
+        $service = $event->sender;
 
-        $event->result['data']['wiki'] = array_map(function ($page) {
+        $service->addData('wiki', array_map(function ($page) {
             return RestDefinitions::getWikiPage($page);
         }, WikiPage::find()
             ->joinWith('content')
-            ->andWhere(['content.created_by' => $event->result['user']->id])
-            ->all());
+            ->andWhere(['content.created_by' => $service->user->id])
+            ->all()));
     }
 
     /**
