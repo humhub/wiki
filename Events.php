@@ -117,14 +117,15 @@ class Events
 
     public static function onLegalExportServiceCollectUserData($event)
     {
-        /* @var \humhub\modules\legal\services\ExportService $service */
-        $service = $event->sender;
+        if (!$event instanceof \humhub\modules\legal\events\UserDataCollectionEvent) {
+            return;
+        }
 
-        $service->addData('wiki', array_map(function ($page) {
+        $event->addUserData('wiki', array_map(function ($page) {
             return RestDefinitions::getWikiPage($page);
         }, WikiPage::find()
             ->joinWith('content')
-            ->andWhere(['content.created_by' => $service->user->id])
+            ->andWhere(['content.created_by' => $event->user->id])
             ->all()));
     }
 
