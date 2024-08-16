@@ -5,6 +5,7 @@ namespace humhub\modules\wiki;
 use humhub\libs\Html;
 use humhub\modules\content\components\ContentContainerActiveRecord;
 use humhub\modules\content\widgets\WallEntryControls;
+use humhub\modules\legal\events\UserDataCollectionEvent;
 use humhub\modules\space\widgets\Menu;
 use humhub\modules\ui\menu\MenuLink;
 use humhub\modules\ui\menu\widgets\LeftNavigation;
@@ -115,13 +116,9 @@ class Events
         ], 'wiki');
     }
 
-    public static function onLegalExportServiceCollectUserData($event)
+    public static function onLegalModuleUserDataExport(UserDataCollectionEvent $event)
     {
-        if (!$event instanceof \humhub\modules\legal\events\UserDataCollectionEvent) {
-            return;
-        }
-
-        $event->addUserData('wiki', array_map(function ($page) {
+        $event->addExportData('wiki', array_map(function ($page) {
             return RestDefinitions::getWikiPage($page);
         }, WikiPage::find()
             ->joinWith('content')
