@@ -1,6 +1,10 @@
 Changelog
 =========
 
+2.3.6 (Unreleased)
+----------------------
+- Fix #348: Collect user data for Legal module
+
 2.3.5 (August 7, 2024)
 ----------------------
 - Fix #344: Fix searching from other content containers

@@ -5,10 +5,12 @@ namespace humhub\modules\wiki;
 use humhub\libs\Html;
 use humhub\modules\content\components\ContentContainerActiveRecord;
 use humhub\modules\content\widgets\WallEntryControls;
+use humhub\modules\legal\events\UserDataCollectionEvent;
 use humhub\modules\space\widgets\Menu;
 use humhub\modules\ui\menu\MenuLink;
 use humhub\modules\ui\menu\widgets\LeftNavigation;
 use humhub\modules\user\widgets\ProfileMenu;
+use humhub\modules\wiki\helpers\RestDefinitions;
 use humhub\modules\wiki\models\DefaultSettings;
 use humhub\modules\wiki\models\WikiPage;
 use humhub\modules\wiki\widgets\EditPageLink;
@@ -112,6 +114,16 @@ class Events
             ['pattern' => 'wiki/revision/<id:\d+>/revert', 'route' => 'wiki/rest/revision/revert', 'verb' => 'PATCH'],
 
         ], 'wiki');
+    }
+
+    public static function onLegalModuleUserDataExport(UserDataCollectionEvent $event)
+    {
+        $event->addExportData('wiki', array_map(function ($page) {
+            return RestDefinitions::getWikiPage($page);
+        }, WikiPage::find()
+            ->joinWith('content')
+            ->andWhere(['content.created_by' => $event->user->id])
+            ->all()));
     }
 
     /**
