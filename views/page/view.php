@@ -17,7 +17,6 @@ Assets::register($this);
     <div class="panel-body">
         <div class="row">
             <?php WikiContent::begin(['cssClass' => 'wiki-page-content']) ?>
-
                 <?= $this->render('_view_body', [
                     'page' => $page,
                     'revision' => $revision,

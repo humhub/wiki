@@ -30,7 +30,7 @@ use humhub\modules\wiki\widgets\PageListItemTitle;
             'showAddPage' => $showAddPage,
             'title' => $title,
             'icon' => $icon,
-            'level' => $level,
+            'level' => $level+1,
             'levelIndent' => $levelIndent,
             'maxLevel' => $maxLevel
         ]) ?>
@@ -44,7 +44,7 @@ use humhub\modules\wiki\widgets\PageListItemTitle;
                     'showDrag' => $showDrag,
                     'showAddPage' => $showAddPage,
                     'showNumFoldedSubpages' => $showNumFoldedSubpages,
-                    'level' => $level + 1,
+                    'level' => $level + 2,
                     'levelIndent' => $levelIndent,
                     'maxLevel' => $maxLevel,
                     'icon' => $page->isCategory ? $iconCategory : $iconPage
@@ -57,7 +57,7 @@ use humhub\modules\wiki\widgets\PageListItemTitle;
                         'showAddPage' => $showAddPage,
                         'jsWidget' => '',
                         'id' => '',
-                        'level' => $level + 2,
+                        'level' => $level + 3,
                         'levelIndent' => $levelIndent,
                         'maxLevel' => $maxLevel
                     ]) ?>

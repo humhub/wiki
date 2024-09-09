@@ -25,3 +25,4 @@ use humhub\modules\wiki\widgets\CategoryListItem;
         </ul>
     </div>
 <?php endif; ?>
+

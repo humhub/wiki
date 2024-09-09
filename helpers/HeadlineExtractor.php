@@ -4,6 +4,7 @@
  * User: kingb
  * Date: 18.09.2018
  * Time: 06:51
+ * idk
  */
 
 namespace humhub\modules\wiki\helpers;
@@ -17,6 +18,7 @@ class HeadlineExtractor extends Parser
     use HeadlineTrait;
 
     public $headLines = [];
+
 
     public static function extract($text)
     {

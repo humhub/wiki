@@ -113,7 +113,7 @@ class CategoryListItem extends Widget
             'icon' => $this->icon,
             'iconPage' => $this->iconPage,
             'iconCategory' => $this->iconCategory,
-            'title' => $this->title,
+            'title' =>  $this->title,
             'pages' => $this->pages,
             'hideTitle' => $this->hideTitle,
             'showAddPage' => $this->showAddPage,

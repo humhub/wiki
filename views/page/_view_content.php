@@ -14,12 +14,11 @@ use humhub\modules\wiki\helpers\Url;
 ?>
 <div class="topic-label-list">
 <?php foreach ($page->content->getTags(Topic::class)->all() as $topic) : ?>
-    <?= TopicLabel::forTopic($topic) ?>
+  <?= TopicLabel::forTopic($topic) ?>
 <?php endforeach; ?>
 </div>
 
 <h1 class="wiki-page-title"><?= Html::encode($page->title) ?></h1>
-
 <?= $this->render('_view_category_index', ['page' => $page]) ?>
 
 <?php if (!empty($content)) : ?>
