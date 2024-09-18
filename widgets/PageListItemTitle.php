@@ -89,23 +89,43 @@ class PageListItemTitle extends Widget
             $this->page->childrenCount) {
             $this->titleInfo = Yii::t('WikiModule.base', '({n,plural,=1{+1 subpage}other{+{count} subpages}})', ['n' => $this->page->childrenCount, 'count' => $this->page->childrenCount]);
         }
-	 // Generate numbering for categories and pages
-   	 $numbering = $this->generateNumbering($this->level);
 
-        return $this->render('pageListItemTitle', [
-            'page' => $this->page,
-            'title' =>$numbering.' '. $this->title,
-            'titleIcon' => $this->getVisibilityIcon(),
-            'titleInfo' => $this->titleInfo,
-            'url' => $this->page ? $this->page->getUrl() : null,
-            'icon' => $this->icon ?? $icon,
-            'showDrag' => $this->showDrag,
-            'showAddPage' => $this->showAddPage,
-            'options' => $this->getOptions(),
-            'level' => $this->level,
-        ]);
+        // Generate numbering for categories and pages
+        $numbering_enabled = Yii::$app->request->get('numbering', 'disabled') === 'enabled';
+        
+        // Generate numbering for categories and pages
+        if($numbering_enabled){
+            $number = $this->generateNumbering($this->level);
+            return $this->render('pageListItemTitle', [
+                'page' => $this->page,
+                'title' =>$number.' '. $this->title,
+                'titleIcon' => $this->getVisibilityIcon(),
+                'titleInfo' => $this->titleInfo,
+                'url' => $this->page ? $this->page->getUrl() : null,
+                'icon' => $this->icon ?? $icon,
+                'showDrag' => $this->showDrag,
+                'showAddPage' => $this->showAddPage,
+                'options' => $this->getOptions(),
+                'level' => $this->level,
+            ]);
+        }
+        else {
+            return $this->render('pageListItemTitle', [
+                'page' => $this->page,
+                'title' => $this->title,
+                'titleIcon' => $this->getVisibilityIcon(),
+                'titleInfo' => $this->titleInfo,
+                'url' => $this->page ? $this->page->getUrl() : null,
+                'icon' => $this->icon ?? $icon,
+                'showDrag' => $this->showDrag,
+                'showAddPage' => $this->showAddPage,
+                'options' => $this->getOptions(),
+                'level' => $this->level,
+            ]);
+        }
     }
-    protected function generateNumbering($level)
+    
+    public function generateNumbering($level)
     {
         static $numbering = [];
 

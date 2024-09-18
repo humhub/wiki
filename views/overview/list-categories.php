@@ -40,6 +40,14 @@ $settings = new DefaultSettings(['contentContainer' => $contentContainer]);
                 <div class="wiki-page-content-header-actions">
                     <?= Button::info(Yii::t('WikiModule.base', 'Last edited'))->sm()->link(Url::toLastEdited($contentContainer))->cssClass(Helper::isEnterpriseTheme() ? 'hidden-lg' : '') ?>
                     <?= Button::info($createPageTitle)->icon('fa-plus')->sm()->link(Url::toWikiCreate($contentContainer))->visible($canCreate) ?>
+                    <?php
+                        // Determine the current numbering state from the URL parameter
+                        $numbering_enabled = Yii::$app->request->get('numbering', 'disabled') === 'enabled';
+                    ?>
+                    <!-- Add toggle switch with URL-based parameter -->
+                    <a href="<?= Url::current(['numbering' => $numbering_enabled ? 'disabled' : 'enabled']) ?>" class="btn-sm btn btn-info">
+                        <?= $numbering_enabled ? 'Disable Numbering' : 'Enable Numbering' ?>
+                    </a>
                 </div>
                 <div class="clearfix"></div>
             </div>
