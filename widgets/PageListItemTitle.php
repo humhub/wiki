@@ -105,7 +105,6 @@ class PageListItemTitle extends Widget
             'level' => $this->level,
         ]);
     }
-
     protected function generateNumbering($level)
     {
         static $numbering = [];
