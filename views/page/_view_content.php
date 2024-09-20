@@ -13,46 +13,23 @@ use humhub\modules\wiki\helpers\Url;
 /* @var $content string */
 
 ?>
+
 <!-- CSS styling for numbering of content -->
 <style>
-    /* Initializing a counter for h1 */
-    #numbered {
-        counter-reset: h1count;
-    }
-
-    /* Initializing  counter for h2 and resetting when <h1> appears*/
-    #numbered h1{
-        counter-reset: h2count;
-    }
-
-    /* Initializing  counter for h3 and resetting when <h2> appears*/
-    #numbered h2{
-        counter-reset: h3count;
-    }
-
+    /* Initializing all the counters for headers h1 h2 h3 */
+    #numbered { counter-reset: h1 h2 h3;}
+    /* Resetting counter for h2 h3 when <h1> occurs */
+    #numbered h1{counter-set: h2 0;}
     /* Incrementing h1 counter when <h1> occurs and added it to the content */
-    #numbered h1::before {
-        counter-increment: h1count;
-        content: counter(h1count) ' ';
-    }
-
+    #numbered h1::before { counter-increment: h1; content: counter(h1) ' ';}
+    /* Resetting counter for h3 when <h2> occurs */
+    #numbered h2{counter-set: h3 0;}
     /* Incrementing h2 counter when <h2> occurs and added it to the content */
-    #numbered h2::before {
-        counter-increment: h2count;
-        content: counter(h1count) '.' counter(h2count) ' ';
-    }
-
+    #numbered h2::before { counter-increment: h2; content: counter(h1) '.' counter(h2) ' ';}
     /* Incrementing h3 counter when <h3> occurs and added it to the content */
-    #numbered h3::before {
-        counter-increment: h3count;
-        content: counter(h1count) '.' counter(h2count) '.' counter(h3count) ' ';
-    }
-
+    #numbered h3::before { counter-increment: h3; content: counter(h1) '.' counter(h2) '.' counter(h3) ' ';}
     /* Ignoring the title of the page as it is also an h1 tag creating it in the inner div class caused issues with counter */
-    #numbered h1.wiki-page-title::before {
-        counter-increment: none;
-        content: none;
-    }
+    #numbered h1.wiki-page-title::before { counter-increment: none; content: none;}
 </style>
 
 
