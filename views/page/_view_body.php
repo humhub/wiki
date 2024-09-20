@@ -11,6 +11,8 @@ use humhub\modules\ui\view\components\View;
 use humhub\modules\wiki\assets\Assets;
 use humhub\modules\wiki\models\WikiPage;
 use humhub\modules\wiki\models\WikiPageRevision;
+use humhub\modules\wiki\helpers\Url;
+
 
 /* @var $this View */
 /* @var $page WikiPage */
@@ -19,10 +21,16 @@ use humhub\modules\wiki\models\WikiPageRevision;
 /* @var $canEdit bool */
 
 Assets::register($this);
+
+// Determine the current numbering state from the URL parameter
+$numbering_enabled = Yii::$app->request->get('numbering', 'disabled') === 'enabled';
+
 ?>
+
 <?= $this->render('_view_header', ['page' => $page, 'revision' => $revision, 'displayTitle' => false]) ?>
 
-<div class="wiki-page-body">
+<!-- Adding ID for the body of the wiki page -->
+<div class="wiki-page-body" <?php if($numbering_enabled) echo 'id="numbered"';?>>
     <?= $this->render('_view_content', ['page' => $page, 'canEdit' => $canEdit, 'content' => $content]) ?>
 </div>
 

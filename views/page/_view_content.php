@@ -12,41 +12,50 @@ use humhub\modules\wiki\helpers\Url;
 /* @var $canEdit bool */
 /* @var $content string */
 
-// Function to add Numbering into the content
-function addNumberingToHeaders($content) {
-    $headerCounters = [0, 0, 0, 0, 0, 0]; // To keep track of header levels
-
-    // Regex to match markdown headers (e.g., #, ##, ###)
-    return preg_replace_callback('/^(#+)\s*(.+)/m', function ($matches) use (&$headerCounters) {
-        $headerLevel = strlen($matches[1]);
-
-        // Reset counters for deeper levels
-        for ($i = $headerLevel; $i < 6; $i++) {
-            $headerCounters[$i] = 0;
-        }
-
-        // Increment the counter for the current header level
-        $headerCounters[$headerLevel - 1]++;
-
-        // Build the numbering string (e.g., 1.2.3)
-        $numbering = '';
-        for ($i = 0; $i < $headerLevel; $i++) {
-            if ($headerCounters[$i] > 0) {
-                $numbering .= $headerCounters[$i] . '.';
-            }
-        }
-
-        // Return the header with the numbering added
-        return $matches[1] . ' ' . trim($numbering, '.') . ' ' . $matches[2];
-    }, $content);
-}
-
-// Apply header numbering to the content before rendering it
-if (!empty($content)) {
-    $content = addNumberingToHeaders($content);
-}
-
 ?>
+<!-- CSS styling for numbering of content -->
+<style>
+    /* Initializing a counter for h1 */
+    #numbered {
+        counter-reset: h1count;
+    }
+
+    /* Initializing  counter for h2 and resetting when <h1> appears*/
+    #numbered h1{
+        counter-reset: h2count;
+    }
+
+    /* Initializing  counter for h3 and resetting when <h2> appears*/
+    #numbered h2{
+        counter-reset: h3count;
+    }
+
+    /* Incrementing h1 counter when <h1> occurs and added it to the content */
+    #numbered h1::before {
+        counter-increment: h1count;
+        content: counter(h1count) ' ';
+    }
+
+    /* Incrementing h2 counter when <h2> occurs and added it to the content */
+    #numbered h2::before {
+        counter-increment: h2count;
+        content: counter(h1count) '.' counter(h2count) ' ';
+    }
+
+    /* Incrementing h3 counter when <h3> occurs and added it to the content */
+    #numbered h3::before {
+        counter-increment: h3count;
+        content: counter(h1count) '.' counter(h2count) '.' counter(h3count) ' ';
+    }
+
+    /* Ignoring the title of the page as it is also an h1 tag creating it in the inner div class caused issues with counter */
+    #numbered h1.wiki-page-title::before {
+        counter-increment: none;
+        content: none;
+    }
+</style>
+
+
 <div class="topic-label-list">
 <?php foreach ($page->content->getTags(Topic::class)->all() as $topic) : ?>
   <?= TopicLabel::forTopic($topic) ?>

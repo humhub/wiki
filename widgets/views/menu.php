@@ -8,12 +8,23 @@
 use humhub\libs\Html;
 use humhub\modules\ui\menu\MenuEntry;
 use humhub\modules\wiki\widgets\WikiMenu;
+use humhub\modules\wiki\helpers\Url;
 
 /* @var $menu WikiMenu */
 /* @var $entries MenuEntry[] */
 /* @var $options array */
+
+// Determine the current numbering state from the URL parameter
+$numbering_enabled = Yii::$app->request->get('numbering', 'disabled') === 'enabled';
+
 ?>
 <div class="wiki-menu">
+    
+    <!-- Add toggle switch with URL-based parameter for numbering-->
+    <a href="<?= Url::current(['numbering' => $numbering_enabled ? 'disabled' : 'enabled']) ?>" class="btn-sm btn btn-info">
+        <?= $numbering_enabled ? 'Disable Numbering' : 'Enable Numbering' ?>
+    </a>
+
     <?php foreach ($menu->buttons as $button) : ?>
         <?= $menu->renderButton($button) ?>
     <?php endforeach; ?>
