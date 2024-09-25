@@ -34,7 +34,7 @@ use humhub\modules\wiki\helpers\Url;
 
 <div class="topic-label-list">
 <?php foreach ($page->content->getTags(Topic::class)->all() as $topic) : ?>
-   <?= TopicLabel::forTopic($topic) ?>
+    <?= TopicLabel::forTopic($topic) ?>
 <?php endforeach; ?>
 </div>
 
