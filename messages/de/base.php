@@ -86,4 +86,6 @@ return [
     'Hide Navigation Entries of this module globally by default' => '',
     'Hide Navigation Entry' => '',
     'No wiki pages found.' => '',
+    'Enable Numbering' => 'Nummerierung umschalten',
+    'Disable Numbering' => 'Nummerierung abschaltbar',
 ];

@@ -46,7 +46,7 @@ $settings = new DefaultSettings(['contentContainer' => $contentContainer]);
                     ?>
                     <!-- Add toggle switch with URL-based parameter -->
                     <a href="<?= Url::current(['numbering' => $numbering_enabled ? 'disabled' : 'enabled']) ?>" class="btn-sm btn btn-info">
-                        <?= $numbering_enabled ? 'Disable Numbering' : 'Enable Numbering' ?>
+                        <?= $numbering_enabled ? Yii::t('WikiModule.base', 'Disable Numbering') : Yii::t('WikiModule.base', 'Enable Numbering') ?>
                     </a>
                 </div>
                 <div class="clearfix"></div>
