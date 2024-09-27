@@ -136,7 +136,7 @@ class CategoryListItem extends Widget
 
     private function canAdminister()
     {
-        if(static::$canAdminister === null) {
+        if (static::$canAdminister === null) {
             static::$canAdminister =  $this->contentContainer->can(AdministerPages::class);
         }
 
@@ -145,7 +145,7 @@ class CategoryListItem extends Widget
 
     private function canCreate()
     {
-        if(static::$canCreate === null) {
+        if (static::$canCreate === null) {
             static::$canCreate = (new WikiPage($this->contentContainer))->content->canEdit();
         }
 

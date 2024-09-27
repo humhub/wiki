@@ -366,9 +366,9 @@ class WikiMenu extends WallEntryControls
                     'icon' => 'fa-reply',
                 ]);
             case static::LINK_MOVE:
-                if (!$this->object->isNewRecord && $this->object->canMove()) {
+                if (!$this->object->isNewRecord && $this->object->canMove() === true) {
                     $moveLink = new MoveContentLink(['model' => $this->object]);
-                    return new MenuLink([
+                    return $moveLink->preventRender() ? null : new MenuLink([
                         'label' => Yii::t('ContentModule.base', 'Move content'),
                         'url' => '#',
                         'icon' => $moveLink->icon,

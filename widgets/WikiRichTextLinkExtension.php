@@ -50,16 +50,16 @@ class WikiRichTextLinkExtension extends RichTextLinkExtension
         return preg_replace_callback(static::getLinkPattern(), function ($match) use ($isEdit) {
             $url = $match[2];
 
-            if(empty($url)) {
+            if (empty($url)) {
                 return $match[0];
             }
 
-            if(strpos($url, "file-guid-") !== 0 && strpos($url, "file-guid:") !== 0 && $url[0] !== '.' && $url[0] !== '/' && strpos($url, ':') === false) {
+            if (strpos($url, "file-guid-") !== 0 && strpos($url, "file-guid:") !== 0 && $url[0] !== '.' && $url[0] !== '/' && strpos($url, ':') === false) {
                 $page = WikiPage::findOne(['title' => $match[2]]);
                 return $this->toWikiLink($isEdit, $match[1], $page);
             }
 
-            if(!$isEdit) {
+            if (!$isEdit) {
                 if (strpos($url, "file-guid-") === 0) {
                     $guid = str_replace('file-guid-', '', $url);
                     $file = File::findOne(['guid' => $guid]);
@@ -83,16 +83,16 @@ class WikiRichTextLinkExtension extends RichTextLinkExtension
 
     private function toWikiLink($isEdit, $label, $page, $title = null, $anchor = null)
     {
-        if(!$page) {
+        if (!$page) {
             // page not found format is [<label>](wiki:#)
             return  $this->toWikiLink($isEdit, $label, '#');
         }
 
-        if($page instanceof WikiPage) {
+        if ($page instanceof WikiPage) {
             // In edit mode we use wiki:<wikiId> format in rendered richtext we use actual wiki url
             $url = $isEdit ? $page->id : Url::toWiki($page);
 
-            if($anchor) {
+            if ($anchor) {
                 $url .= '#' . urlencode($anchor);
             }
 
@@ -111,7 +111,7 @@ class WikiRichTextLinkExtension extends RichTextLinkExtension
 
         $page = WikiPage::findOne(['id' => $wikiId]);
 
-        if(!$page) {
+        if (!$page) {
             $linkBlock->setResult('[' . $linkBlock->getParsedText() . ']');
             return;
         }

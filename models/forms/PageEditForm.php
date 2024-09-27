@@ -149,15 +149,15 @@ class PageEditForm extends Model
     {
         $this->page = WikiPage::find()->contentContainer($this->container)->readable()->where(['wiki_page.id' => $id])->one();
 
-        if(!$this->page && !$this->canCreatePage()) {
+        if (!$this->page && !$this->canCreatePage()) {
             throw new HttpException(403);
         }
 
-        if($this->page && !$this->page->canEditContent()) {
+        if ($this->page && !$this->page->canEditContent()) {
             throw new HttpException(403);
         }
 
-        if(!$this->page) {
+        if (!$this->page) {
             $this->page = new WikiPage($this->container, ['title' => $title]);
             $this->setScenario(WikiPage::SCENARIO_CREATE);
         } else {
@@ -170,9 +170,9 @@ class PageEditForm extends Model
         }
 
         $category = null;
-        if($categoryId) {
+        if ($categoryId) {
             $category = WikiPage::find()->contentContainer($this->container)->readable()->where(['wiki_page.id' => $categoryId])->one();
-            if($category) {
+            if ($category) {
                 $this->page->parent_page_id = $categoryId;
             }
         }
@@ -194,7 +194,7 @@ class PageEditForm extends Model
 
     private function getPageVisibility($category = null)
     {
-        if($this->page->isNewRecord && $category) {
+        if ($this->page->isNewRecord && $category) {
             return $category->content->visibility;
         }
 
@@ -229,7 +229,7 @@ class PageEditForm extends Model
      */
     public function save()
     {
-        if(!$this->validate()) {
+        if (!$this->validate()) {
             return false;
         }
 
@@ -249,7 +249,7 @@ class PageEditForm extends Model
                     $this->page->fileManager->attach(Yii::$app->request->post('fileList'));
 
                     // This check is required because of a bug prior to HumHub v1.3.18 (https://github.com/humhub/humhub-modules-wiki/issues/103)
-                    if($this->page->content->container->can(AddTopic::class)) {
+                    if ($this->page->content->container->can(AddTopic::class)) {
                         Topic::attach($this->page->content, $this->topics);
                     }
 
@@ -344,7 +344,7 @@ class PageEditForm extends Model
     {
         $scenarios = $model->scenarios();
 
-        if(!isset($scenarios[$model->scenario])) {
+        if (!isset($scenarios[$model->scenario])) {
             return false;
         }
 

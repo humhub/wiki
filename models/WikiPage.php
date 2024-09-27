@@ -327,7 +327,7 @@ class WikiPage extends ContentActiveRecord implements Searchable
         $rev->user_id = Yii::$app->user->id;
         $rev->revision = time();
 
-        $lastRevision = WikiPageRevision::find()->where(array('is_latest' => 1, 'wiki_page_id' => $this->id))->one();
+        $lastRevision = WikiPageRevision::find()->where(['is_latest' => 1, 'wiki_page_id' => $this->id])->one();
         if ($lastRevision !== null) {
             $rev->content = $lastRevision->content;
         }
@@ -432,10 +432,10 @@ class WikiPage extends ContentActiveRecord implements Searchable
             $content = $this->latestRevision->content;
         }
 
-        return array(
+        return [
             'title' => $this->title,
             'lastPageContent' => $content,
-        );
+        ];
     }
 
     public function getIcon()

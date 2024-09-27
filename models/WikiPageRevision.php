@@ -64,14 +64,14 @@ class WikiPageRevision extends ActiveRecord
      */
     public function attributeLabels()
     {
-        return array(
+        return [
             'id' => 'ID',
             'revision' => 'Revision',
             'is_latest' => 'Is Latest',
             'wiki_page_id' => 'Wiki Page',
             'user_id' => 'User',
             'content' => 'Content',
-        );
+        ];
     }
 
     /**
