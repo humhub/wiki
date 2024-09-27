@@ -160,7 +160,7 @@ abstract class ItemDrop extends Model
      */
     protected function getModel()
     {
-        if(!$this->model) {
+        if (!$this->model) {
             $this->model = $this->loadModel();
         }
 
