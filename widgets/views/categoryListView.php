@@ -1,10 +1,14 @@
 <?php
 
 use humhub\libs\Html;
+use humhub\modules\content\components\ActiveQueryContent;
+use humhub\modules\content\components\ContentContainerActiveRecord;
+use humhub\modules\wiki\models\WikiPage;
 use humhub\modules\wiki\widgets\CategoryListItem;
 
-/* @var $contentContainer \humhub\modules\content\components\ContentContainerActiveRecord */
-/* @var $categories \humhub\modules\wiki\models\WikiPage[] */
+/* @var $contentContainer ContentContainerActiveRecord */
+/* @var $categories ActiveQueryContent */
+/* @var $category WikiPage */
 /* @var $options [] */
 /* @var $showAddPage bool */
 /* @var $showDrag bool */
@@ -13,17 +17,15 @@ use humhub\modules\wiki\widgets\CategoryListItem;
 /* @var $maxLevel int */
 ?>
 <?= Html::beginTag('ul', $options) ?>
-    <?php foreach ($categories as $category) : ?>
-        <?php if ($category->content->canView()) : ?>
-            <?= CategoryListItem::widget([
-                'category' => $category,
-                'contentContainer' => $contentContainer,
-                'showDrag' => $showDrag,
-                'showAddPage' => $showAddPage,
-                'level' => $level,
-                'levelIndent' => $levelIndent,
-                'maxLevel' => $maxLevel
-            ]) ?>
-        <?php endif; ?>
+    <?php foreach ($categories->each() as $category) : ?>
+        <?= CategoryListItem::widget([
+            'category' => $category,
+            'contentContainer' => $contentContainer,
+            'showDrag' => $showDrag,
+            'showAddPage' => $showAddPage,
+            'level' => $level,
+            'levelIndent' => $levelIndent,
+            'maxLevel' => $maxLevel,
+        ]) ?>
     <?php endforeach; ?>
 <?= Html::endTag('ul') ?>

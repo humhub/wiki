@@ -9,6 +9,7 @@
 namespace humhub\modules\wiki\widgets;
 
 use humhub\components\Widget;
+use humhub\modules\content\components\ActiveQueryContent;
 use humhub\modules\content\components\ContentContainerActiveRecord;
 use humhub\modules\user\models\User;
 use humhub\modules\wiki\models\WikiPage;
@@ -33,7 +34,7 @@ class CategoryListItem extends Widget
     public ?string $iconCategory = null;
 
     /**
-     * @var WikiPage[]
+     * @var ActiveQueryContent
      */
     public $pages;
 
@@ -106,7 +107,7 @@ class CategoryListItem extends Widget
 
         if ($this->category) {
             $this->title = $this->category->title;
-            $this->pages = $this->category->findChildren()->all();
+            $this->pages = $this->category->findChildren();
         }
 
         return $this->render('categoryListItem', [

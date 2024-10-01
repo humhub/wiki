@@ -75,7 +75,7 @@ class Module extends ContentContainerModule
      */
     public function disable()
     {
-        foreach (WikiPage::find()->all() as $page) {
+        foreach (WikiPage::find()->each() as $page) {
             $page->hardDelete();
         }
 
@@ -101,7 +101,7 @@ class Module extends ContentContainerModule
     {
         parent::disableContentContainer($container);
 
-        foreach (WikiPage::find()->contentContainer($container)->all() as $page) {
+        foreach (WikiPage::find()->contentContainer($container)->each() as $page) {
             $page->hardDelete();
         }
     }

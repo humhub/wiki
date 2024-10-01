@@ -9,6 +9,7 @@ use humhub\modules\search\interfaces\Searchable;
 use humhub\modules\space\models\Space;
 use humhub\modules\user\models\User;
 use humhub\modules\wiki\activities\WikiPageEditedActivity;
+use humhub\modules\wiki\helpers\Helper;
 use humhub\modules\wiki\helpers\Url;
 use humhub\modules\wiki\permissions\AdministerPages;
 use humhub\modules\wiki\permissions\CreatePage;
@@ -72,21 +73,6 @@ class WikiPage extends ContentActiveRecord implements Searchable
     }
 
     /**
-     * @param ContentContainerActiveRecord $container
-     * @return ActiveQueryContent
-     * @throws \yii\base\Exception
-     */
-    public static function findCategories(ContentContainerActiveRecord $container)
-    {
-        return static::find()->contentContainer($container)
-            ->readable()
-            ->orderBy([
-                static::tableName() . '.sort_order' => SORT_ASC,
-                static::tableName() . '.title' => SORT_ASC,
-            ]);
-    }
-
-    /**
      * @return string the associated database table name
      */
     public static function tableName()
@@ -95,17 +81,19 @@ class WikiPage extends ContentActiveRecord implements Searchable
     }
 
     /**
+     * Find Wiki Page by parent page ID
+     *
      * @param ContentContainerActiveRecord $container
-     * @param int $categoryId
+     * @param int|null $parentId
      * @return ActiveQueryContent
      * @throws \yii\base\Exception
      */
-    public static function findByCategoryId(ContentContainerActiveRecord $container, int $categoryId)
+    public static function findByParentId(ContentContainerActiveRecord $container, ?int $parentId = null): ActiveQueryContent
     {
         return static::find()
             ->contentContainer($container)
             ->readable()
-            ->andWhere(['wiki_page.parent_page_id' => $categoryId])
+            ->andWhere(['wiki_page.parent_page_id' => $parentId])
             ->orderBy([
                 static::tableName() . '.sort_order' => SORT_ASC,
                 static::tableName() . '.title' => SORT_ASC,
@@ -195,7 +183,7 @@ class WikiPage extends ContentActiveRecord implements Searchable
             $query->andWhere(['wiki_page.is_home' => 1]);
             $query->andWhere(['!=', 'wiki_page.id', $this->id]);
 
-            foreach ($query->all() as $page) {
+            foreach ($query->each() as $page) {
                 $page->is_home = 0;
                 $page->save();
             }
@@ -252,7 +240,7 @@ class WikiPage extends ContentActiveRecord implements Searchable
         $sort_order = 1;
         $this->updateAttributes(['sort_order' => $sort_order++]);
 
-        foreach ($pages->all() as $page) {
+        foreach ($pages->each() as $page) {
             /* @var WikiPage $page */
             $page->updateAttributes(['sort_order' => $sort_order++]);
         }
@@ -456,12 +444,12 @@ class WikiPage extends ContentActiveRecord implements Searchable
             return $childrenCount;
         }
 
-        /* @var WikiPage[] $subpages */
-        $subpages = $this->findChildren()->all();
+        $subpages = $this->findChildren();
 
-        $childrenCount = count($subpages);
-        foreach ($subpages as $subpage) {
-            $childrenCount += $subpage->getChildrenCount();
+        $childrenCount = 0;
+        foreach ($subpages->each() as $subpage) {
+            /* @var WikiPage $subpage */
+            $childrenCount += 1 + $subpage->getChildrenCount();
         }
 
         $this->setChildrenCountCache($childrenCount);
@@ -470,11 +458,13 @@ class WikiPage extends ContentActiveRecord implements Searchable
     }
 
     /**
-     * @return \humhub\modules\content\components\ActiveQueryContent
+     * @return ActiveQueryContent
      */
-    public function findChildren()
+    public function findChildren(): ActiveQueryContent
     {
-        return static::find()->andWhere(['parent_page_id' => $this->id])->readable()
+        return static::find()
+            ->andWhere(['parent_page_id' => $this->id])
+            ->readable()
             ->orderBy([
                 static::tableName() . '.sort_order' => SORT_ASC,
                 static::tableName() . '.title' => SORT_ASC,
@@ -502,9 +492,8 @@ class WikiPage extends ContentActiveRecord implements Searchable
 
     public function afterMove(ContentContainerActiveRecord $container = null)
     {
-
         if ($this->isCategory) {
-            foreach ($this->findChildren()->all() as $childPage) {
+            foreach ($this->findChildren()->each() as $childPage) {
                 $childPage->updateAttributes(['parent_page_id' => new Expression('NULL')]);
             }
         }
@@ -515,28 +504,14 @@ class WikiPage extends ContentActiveRecord implements Searchable
 
     public function isFolded(): bool
     {
-        if (!$this->isCategory) {
-            return false;
-        }
-
-        if (Yii::$app->user->isGuest) {
-            return false;
-        }
-
-        return (bool)Yii::$app->user->getIdentity()->getSettings()->get('wiki.foldedCategory.' . $this->id);
+        return $this->isCategory && Helper::isFolderPageById($this->id);
     }
 
     public function getIsCategory(): bool
     {
-        if (isset($this->_isCategory)) {
-            return $this->_isCategory;
+        if (!isset($this->_isCategory)) {
+            $this->_isCategory = !$this->isNewRecord && $this->findChildren()->exists();
         }
-
-        if ($this->isNewRecord) {
-            return false;
-        }
-
-        $this->_isCategory = $this->findChildren()->exists();
 
         return $this->_isCategory;
     }

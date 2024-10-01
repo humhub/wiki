@@ -1,5 +1,6 @@
 <?php
 
+use humhub\modules\content\components\ActiveQueryContent;
 use humhub\modules\content\components\ContentContainerActiveRecord;
 use humhub\modules\wiki\helpers\Helper;
 use humhub\modules\wiki\models\WikiPage;
@@ -7,7 +8,8 @@ use humhub\modules\wiki\widgets\CategoryListView;
 use humhub\modules\wiki\widgets\PageListItemTitle;
 
 /* @var $contentContainer ContentContainerActiveRecord */
-/* @var $pages WikiPage[] */
+/* @var $pages ActiveQueryContent */
+/* @var $page WikiPage */
 /* @var $title string */
 /* @var $icon string|null */
 /* @var $iconPage string|null */
@@ -37,7 +39,7 @@ use humhub\modules\wiki\widgets\PageListItemTitle;
     <?php endif; ?>
     <?php if ($displaySubPages) : ?>
     <ul class="wiki-page-list"<?php if ($category && $category->isFolded()) : ?> style="display:none"<?php endif; ?>>
-        <?php foreach ($pages as $page) : ?>
+        <?php foreach ($pages->each() as $page) : ?>
             <li class="wiki-category-list-item<?= Helper::isCurrentPage($page) ? ' wiki-list-item-selected' : '' ?>" data-page-id="<?= $page->id ?>">
                 <?= PageListItemTitle::widget([
                     'page' => $page,
@@ -47,7 +49,7 @@ use humhub\modules\wiki\widgets\PageListItemTitle;
                     'level' => $level + 1,
                     'levelIndent' => $levelIndent,
                     'maxLevel' => $maxLevel,
-                    'icon' => $page->isCategory ? $iconCategory : $iconPage
+                    'icon' => $page->isCategory ? $iconCategory : $iconPage,
                 ]) ?>
                 <?php if ($page->isCategory) : ?>
                     <?= CategoryListView::widget([
@@ -59,7 +61,7 @@ use humhub\modules\wiki\widgets\PageListItemTitle;
                         'id' => '',
                         'level' => $level + 2,
                         'levelIndent' => $levelIndent,
-                        'maxLevel' => $maxLevel
+                        'maxLevel' => $maxLevel,
                     ]) ?>
                 <?php else : ?>
                     <ul class="wiki-page-list"></ul>

@@ -11,7 +11,7 @@ use humhub\modules\wiki\widgets\CategoryListItem;
         <ul class="wiki-page-list">
             <?= CategoryListItem::widget([
                 'title' => Yii::t('WikiModule.base', 'Subpages'),
-                'pages' => $page->findChildren()->all(),
+                'pages' => $page->findChildren(),
                 'showDrag' => false,
                 'showAddPage' => false,
                 'showNumFoldedSubpages' => true,
@@ -20,7 +20,7 @@ use humhub\modules\wiki\widgets\CategoryListItem;
                 'maxLevel' => 1,
                 'icon' => false,
                 'iconPage' => 'file-text-o',
-                'iconCategory' => 'folder'
+                'iconCategory' => 'folder',
             ]) ?>
         </ul>
     </div>

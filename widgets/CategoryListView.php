@@ -9,9 +9,9 @@
 namespace humhub\modules\wiki\widgets;
 
 use humhub\modules\content\components\ContentContainerActiveRecord;
+use humhub\modules\wiki\helpers\Helper;
 use humhub\modules\wiki\models\WikiPage;
 use humhub\widgets\JsWidget;
-use yii\db\Expression;
 
 class CategoryListView extends JsWidget
 {
@@ -71,17 +71,9 @@ class CategoryListView extends JsWidget
      */
     public function run()
     {
-        if ($this->parentCategoryId) {
-            // Get pages of the requested category
-            $categories = WikiPage::findByCategoryId($this->contentContainer, $this->parentCategoryId)->all();
-        } else {
-            // Get root categories
-            $categories = WikiPage::findCategories($this->contentContainer)
-                ->andWhere(['IS', 'wiki_page.parent_page_id', new Expression('NULL')])
-                ->all();
-        }
+        $categories = WikiPage::findByParentId($this->contentContainer, $this->parentCategoryId);
 
-        if (empty($categories)) {
+        if (!$categories->exists()) {
             return '';
         }
 
@@ -104,7 +96,7 @@ class CategoryListView extends JsWidget
     {
         $attrs = ['class' => 'wiki-page-list'];
 
-        if ($this->isFolded()) {
+        if (Helper::isFolderPageById($this->parentCategoryId)) {
             $attrs['style'] = 'display:none';
         }
 
@@ -119,16 +111,4 @@ class CategoryListView extends JsWidget
             'icon-category' => 'fa fa-caret-down',
         ];
     }
-
-    private function getParent(): ?WikiPage
-    {
-        return $this->parentCategoryId ? WikiPage::findOne($this->parentCategoryId) : null;
-    }
-
-    private function isFolded(): bool
-    {
-        $parent = $this->getParent();
-        return $parent && $parent->isFolded();
-    }
-
 }
