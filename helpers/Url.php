@@ -83,7 +83,7 @@ class Url extends \yii\helpers\Url
         return static::wikiEdit($page->content->container, null, $page->id);
     }
 
-    private static function wikiEdit(ContentContainerActiveRecord $container, $id = null, $categoryId = null)
+    public static function wikiEdit(ContentContainerActiveRecord $container, $id = null, $categoryId = null)
     {
         return static::to([static::ROUTE_WIKI_EDIT, 'id' => $id, 'container' => $container, 'categoryId' => $categoryId]);
     }

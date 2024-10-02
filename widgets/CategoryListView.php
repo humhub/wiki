@@ -9,8 +9,7 @@
 namespace humhub\modules\wiki\widgets;
 
 use humhub\modules\content\components\ContentContainerActiveRecord;
-use humhub\modules\wiki\helpers\Helper;
-use humhub\modules\wiki\models\WikiPage;
+use humhub\modules\wiki\services\HierarchyListService;
 use humhub\widgets\JsWidget;
 
 class CategoryListView extends JsWidget
@@ -30,15 +29,14 @@ class CategoryListView extends JsWidget
      */
     public $init = true;
 
+    public HierarchyListService|null $service = null;
+
     /**
      * @var ContentContainerActiveRecord
      */
     public $contentContainer;
 
-    /**
-     * @var int|null
-     */
-    public $parentCategoryId = null;
+    public ?int $parentId = null;
 
     /**
      * @var bool
@@ -66,20 +64,33 @@ class CategoryListView extends JsWidget
     public $maxLevel;
 
     /**
+     * @inheritdoc
+     */
+    public function init()
+    {
+        parent::init();
+
+        if ($this->service === null) {
+            $this->service = new HierarchyListService($this->contentContainer);
+        }
+    }
+
+    /**
      * @return string
      * @throws \yii\base\Exception
      */
     public function run()
     {
-        $categories = WikiPage::findByParentId($this->contentContainer, $this->parentCategoryId);
+        $items = $this->service->getItemsByParentId($this->parentId);
 
-        if (!$categories->exists()) {
+        if ($items === []) {
             return '';
         }
 
         return $this->render('categoryListView', [
             'options' => $this->getOptions(),
-            'categories' => $categories,
+            'service' => $this->service,
+            'items' => $items,
             'contentContainer' => $this->contentContainer,
             'showAddPage' => $this->showAddPage,
             'showDrag' => $this->showDrag,
@@ -96,7 +107,7 @@ class CategoryListView extends JsWidget
     {
         $attrs = ['class' => 'wiki-page-list'];
 
-        if (Helper::isFolderPageById($this->parentCategoryId)) {
+        if ($this->service->isFoldedItemById($this->parentId)) {
             $attrs['style'] = 'display:none';
         }
 
