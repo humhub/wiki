@@ -94,34 +94,18 @@ class PageListItemTitle extends Widget
         $numberingEnabled = Yii::$app->request->get('numbering', 'disabled') === 'enabled';
         
         // Generate numbering for categories and pages
-        if($numbering_enabled){
-            $number = $this->generateNumbering($this->level);
-            return $this->render('pageListItemTitle', [
-                'page' => $this->page,
-                'title' =>$number.' '. $this->title,
-                'titleIcon' => $this->getVisibilityIcon(),
-                'titleInfo' => $this->titleInfo,
-                'url' => $this->page ? $this->page->getUrl() : null,
-                'icon' => $this->icon ?? $icon,
-                'showDrag' => $this->showDrag,
-                'showAddPage' => $this->showAddPage,
-                'options' => $this->getOptions(),
-                'level' => $this->level,
-            ]);
-        }
-        else {
-            return $this->render('pageListItemTitle', [
-                'page' => $this->page,
-                'title' => $this->title,
-                'titleIcon' => $this->getVisibilityIcon(),
-                'titleInfo' => $this->titleInfo,
-                'url' => $this->page ? $this->page->getUrl() : null,
-                'icon' => $this->icon ?? $icon,
-                'showDrag' => $this->showDrag,
-                'showAddPage' => $this->showAddPage,
-                'options' => $this->getOptions(),
-                'level' => $this->level,
-            ]);
+        return $this->render('pageListItemTitle', [
+            'page' => $this->page,
+            'title' => $numberingEnabled ? ($this->generateNumbering($this->level) . ' ' . $this->title) : $this->title,
+            'titleIcon' => $this->getVisibilityIcon(),
+            'titleInfo' => $this->titleInfo,
+            'url' => $this->page ? $this->page->getUrl() : null,
+            'icon' => $this->icon ?? $icon,
+            'showDrag' => $this->showDrag,
+            'showAddPage' => $this->showAddPage,
+            'options' => $this->getOptions(),
+            'level' => $this->level,
+        ]);
         }
     }
     
