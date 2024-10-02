@@ -91,7 +91,7 @@ class PageListItemTitle extends Widget
         }
 
         // Generate numbering for categories and pages
-        $numbering_enabled = Yii::$app->request->get('numbering', 'disabled') === 'enabled';
+        $numberingEnabled = Yii::$app->request->get('numbering', 'disabled') === 'enabled';
         
         // Generate numbering for categories and pages
         if($numbering_enabled){
