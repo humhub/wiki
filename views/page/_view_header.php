@@ -20,19 +20,16 @@ if (empty($buttons)) {
 }
 
 // Determine the current numbering state from the URL parameter
-$numbering_enabled = Yii::$app->request->get('numbering', 'disabled') === 'enabled';
-
+$numberingEnabled = Yii::$app->request->get('numbering', 'disabled') === 'enabled';
 ?>
-
-<style>.toggle-numbering {margin-left: auto;padding-right: 10px;}</style>
 
 <div class="wiki-headline">
     <div class="wiki-headline-top">
         <?= WikiPath::widget(['page' => $page]) ?>
         <div class="toggle-numbering">
             <!-- Add toggle switch with URL-based parameter for numbering-->
-            <a href="<?= Url::current(['numbering' => $numbering_enabled ? 'disabled' : 'enabled']) ?>" class="btn-sm btn btn-info">
-                <?= $numbering_enabled ? Yii::t('WikiModule.base', 'Disable Numbering') : Yii::t('WikiModule.base', 'Enable Numbering') ?>
+            <a href="<?= Url::current(['numbering' => $numberingEnabled ? 'disabled' : 'enabled']) ?>" class="btn-sm btn btn-info">
+                <?= $numberingEnabled ? Yii::t('WikiModule.base', 'Disable Numbering') : Yii::t('WikiModule.base', 'Enable Numbering') ?>
             </a>
         </div>
         <?= WikiMenu::widget([

@@ -106,7 +106,6 @@ class PageListItemTitle extends Widget
             'options' => $this->getOptions(),
             'level' => $this->level,
         ]);
-        }
     }
     
     public function generateNumbering($level)

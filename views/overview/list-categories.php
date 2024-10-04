@@ -42,11 +42,11 @@ $settings = new DefaultSettings(['contentContainer' => $contentContainer]);
                     <?= Button::info($createPageTitle)->icon('fa-plus')->sm()->link(Url::toWikiCreate($contentContainer))->visible($canCreate) ?>
                     <?php
                         // Determine the current numbering state from the URL parameter
-                        $numbering_enabled = Yii::$app->request->get('numbering', 'disabled') === 'enabled';
+                        $numberingEnabled = Yii::$app->request->get('numbering', 'disabled') === 'enabled';
                     ?>
                     <!-- Add toggle switch with URL-based parameter -->
-                    <a href="<?= Url::current(['numbering' => $numbering_enabled ? 'disabled' : 'enabled']) ?>" class="btn-sm btn btn-info">
-                        <?= $numbering_enabled ? Yii::t('WikiModule.base', 'Disable Numbering') : Yii::t('WikiModule.base', 'Enable Numbering') ?>
+                    <a href="<?= Url::current(['numbering' => $numberingEnabled ? 'disabled' : 'enabled']) ?>" class="btn-sm btn btn-info">
+                        <?= $numberingEnabled ? Yii::t('WikiModule.base', 'Disable Numbering') : Yii::t('WikiModule.base', 'Enable Numbering') ?>
                     </a>
                 </div>
                 <div class="clearfix"></div>
