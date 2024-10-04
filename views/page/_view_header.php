@@ -36,7 +36,7 @@ $numberingEnabled = Yii::$app->request->get('numbering', 'disabled') === 'enable
             'object' => $page,
             'buttons' => $buttons,
             'revision' => $revision ?? null
-        ]) ?>        
+        ]) ?>
     </div>
 
     <?php if (!isset($displayTitle) || $displayTitle) : ?>

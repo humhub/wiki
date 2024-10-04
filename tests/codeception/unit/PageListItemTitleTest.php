@@ -41,10 +41,10 @@ class PageListItemTitleTest extends Unit
         ]));
 
         // Check if numbering is enabled
-        $numbering_enabled = Yii::$app->request->get('numbering', 'disabled') === 'enabled';
+        $numberingEnabled = Yii::$app->request->get('numbering', 'disabled') === 'enabled';
 
         // Assert that the numbering is enabled
-        $this->assertTrue($numbering_enabled);
+        $this->assertTrue($numberingEnabled);
 
         // Use a valid route in Url::to() as it is hard to simulate Url::current()
         $url = Url::to(['/wiki/overview/list-categories', 'numbering' => 'disabled']); 
@@ -53,9 +53,16 @@ class PageListItemTitleTest extends Unit
         // Assert that the correct URL is generated
         $this->assertEquals($expectedUrl, $url);
 
-        // Assert that the button label is correct
-        $buttonLabel = $numbering_enabled ? 'Disable Numbering' : 'Enable Numbering';
-        $this->assertEquals('Disable Numbering', $buttonLabel);
+        // Expected button label when numbering is enabled
+       $expectedLabel = 'Disable Numbering';
+
+
+       // Render the button HTML with the $numberingEnabled = true
+       $html = $this->renderButton($numberingEnabled);
+
+
+       // Assert that the correct label is present in the rendered HTML
+       $this->assertStringContainsString($expectedLabel, $html);
     }
 
     // Test when numbering is disabled
@@ -67,10 +74,10 @@ class PageListItemTitleTest extends Unit
         ]));
 
         // Check if numbering is disabled
-        $numbering_enabled = Yii::$app->request->get('numbering', 'disabled') === 'enabled';
+        $numberingEnabled = Yii::$app->request->get('numbering', 'disabled') === 'enabled';
 
         // Assert that the numbering is disabled
-        $this->assertFalse($numbering_enabled);
+        $this->assertFalse($numberingEnabled);
 
         /// Use a valid route in Url::to() as it is hard to simulate Url::current()
         $url = Url::to(['/wiki/overview/list-categories', 'numbering' => 'enabled']); 
@@ -79,9 +86,28 @@ class PageListItemTitleTest extends Unit
         // Assert that the correct URL is generated
         $this->assertEquals($expectedUrl, $url);
 
-        // Assert that the button label is correct
-        $buttonLabel = $numbering_enabled ? 'Disable Numbering' : 'Enable Numbering';
-        $this->assertEquals('Enable Numbering', $buttonLabel);
+        // Expected button label when numbering is disabled
+       $expectedLabel = 'Enable Numbering';
+
+
+       // Render the button HTML with the $numberingEnabled = false
+       $html = $this->renderButton($numberingEnabled);
+
+
+       // Assert that the correct label is present in the rendered HTML
+       $this->assertStringContainsString($expectedLabel, $html);
     }
 
+    // Function to render html button
+   private function renderButton($numberingEnabled)
+   {
+       // Simulate what would be inside the view
+       ob_start(); // Start output buffering
+       ?>
+       <a href="<?= Url::to(['/wiki/overview/list-categories', 'numbering' => $numberingEnabled ? 'disabled' : 'enabled']) ?>" class="btn-sm btn btn-info">
+           <?= $numberingEnabled ? Yii::t('WikiModule.base', 'Disable Numbering') : Yii::t('WikiModule.base', 'Enable Numbering') ?>
+       </a>
+       <?php
+       return ob_get_clean(); // Get the rendered content and stop buffering
+   }
 }
