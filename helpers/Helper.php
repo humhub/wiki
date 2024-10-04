@@ -8,7 +8,6 @@
 namespace humhub\modules\wiki\helpers;
 
 use humhub\modules\ui\view\helpers\ThemeHelper;
-use humhub\modules\wiki\models\WikiPage;
 use Yii;
 
 /**
@@ -19,32 +18,5 @@ class Helper
     public static function isEnterpriseTheme(): bool
     {
         return array_key_exists('enterprise', ThemeHelper::getThemeTree(Yii::$app->view->theme));
-    }
-
-    public static function isCurrentPage(?WikiPage $page): bool
-    {
-        if (!$page) {
-            return false;
-        }
-
-        $title = Yii::$app->request->get('title');
-        if (!empty($title)) {
-            $currentPage = WikiPage::find()
-                ->where([WikiPage::tableName() . '.title' => $title])
-                ->contentContainer($page->content->container)
-                ->one();
-            return $currentPage && $currentPage->id == $page->id;
-        }
-
-        $id = Yii::$app->request->get('id', Yii::$app->request->get('categoryId'));
-        if (!empty($id)) {
-            $currentPage = WikiPage::find()
-                ->where([WikiPage::tableName() . '.id' => $id])
-                ->contentContainer($page->content->container)
-                ->one();
-            return $currentPage && $currentPage->id == $page->id;
-        }
-
-        return false;
     }
 }

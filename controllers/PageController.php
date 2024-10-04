@@ -393,7 +393,7 @@ class PageController extends BaseController
         }
 
         $output = [];
-        foreach ($pages->all() as $page) {
+        foreach ($pages->each() as $page) {
             /* @var WikiPage $page */
             $output[] = [
                 'id' => $page->id,

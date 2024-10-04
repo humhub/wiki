@@ -1,7 +1,13 @@
 <?php
+/**
+ * @link https://www.humhub.org/
+ * @copyright Copyright (c) HumHub GmbH & Co. KG
+ * @license https://www.humhub.com/licences
+ */
 
 use humhub\modules\wiki\helpers\Helper;
 use humhub\modules\wiki\models\WikiPage;
+use humhub\modules\wiki\services\HierarchyListService;
 use humhub\modules\wiki\widgets\CategoryListItem;
 
 /* @var $page WikiPage */
@@ -10,8 +16,9 @@ use humhub\modules\wiki\widgets\CategoryListItem;
     <div class="wiki-sub-pages<?= Helper::isEnterpriseTheme() ? ' hidden-lg' : '' ?>">
         <ul class="wiki-page-list">
             <?= CategoryListItem::widget([
+                'service' => $service = new HierarchyListService($page->content->container),
                 'title' => Yii::t('WikiModule.base', 'Subpages'),
-                'pages' => $page->findChildren()->all(),
+                'subItems' => $service->getItemsByParentId($page->id),
                 'showDrag' => false,
                 'showAddPage' => false,
                 'showNumFoldedSubpages' => true,
@@ -20,7 +27,7 @@ use humhub\modules\wiki\widgets\CategoryListItem;
                 'maxLevel' => 1,
                 'icon' => false,
                 'iconPage' => 'file-text-o',
-                'iconCategory' => 'folder'
+                'iconCategory' => 'folder',
             ]) ?>
         </ul>
     </div>

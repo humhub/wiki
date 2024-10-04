@@ -54,16 +54,16 @@ class WikiSearchInput extends JsInputWidget
      */
     public function loadItems()
     {
-        /** @var WikiPage[] $pages */
         $pages = WikiPage::find()
             ->contentContainer($this->contentContainer)
             ->readable()
             ->orderBy([
                 'parent_page_id' => SORT_ASC,
                 'sort_order' => SORT_ASC,
-            ])
-            ->all();
-        foreach ($pages as $page) {
+            ]);
+
+        foreach ($pages->each() as $page) {
+            /* @var WikiPage $page */
             $this->items[$page->id] = StringHelper::truncate(
                 ($page->categoryPage ? $page->categoryPage->title . ' -> ' : '') .
                 $page->title,

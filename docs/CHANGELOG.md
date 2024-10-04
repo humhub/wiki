@@ -5,6 +5,7 @@ Changelog
 ----------------------
 - Fix #348: Collect user data for Legal module
 - Fix #352: Fix "Move content" menu item visibility for anonymous user
+- Fix #355: Optimize sidebar for big data
 
 2.3.5 (August 7, 2024)
 ----------------------

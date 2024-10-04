@@ -288,7 +288,7 @@ class PageEditForm extends Model
             $categories[] = Yii::t('WikiModule.base', 'None');
         }
 
-        foreach ($query->all() as $category) {
+        foreach ($query->each() as $category) {
             /* @var WikiPage $category */
             $categories[$category->id] = str_repeat('-', $level) . ' ' . $category->title;
             if ($subCategories = $this->getCategoryList($category->id, ++$level)) {
