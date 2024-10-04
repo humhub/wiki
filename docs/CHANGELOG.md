@@ -1,8 +1,8 @@
 Changelog
 =========
 
-2.3.6 (Unreleased)
-----------------------
+2.3.6 (October 4, 2024)
+-----------------------
 - Fix #348: Collect user data for Legal module
 - Fix #352: Fix "Move content" menu item visibility for anonymous user
 - Fix #355: Optimize sidebar for big data
