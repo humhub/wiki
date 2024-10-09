@@ -41,11 +41,15 @@ $settings = new DefaultSettings(['contentContainer' => $contentContainer]);
                     <?= Button::info(Yii::t('WikiModule.base', 'Last edited'))->sm()->link(Url::toLastEdited($contentContainer))->cssClass(Helper::isEnterpriseTheme() ? 'hidden-lg' : '') ?>
                     <?= Button::info($createPageTitle)->icon('fa-plus')->sm()->link(Url::toWikiCreate($contentContainer))->visible($canCreate) ?>
                     <?php
-                        // Determine the current numbering state from the URL parameter
-                        $numberingEnabled = Yii::$app->request->get('numbering', 'disabled') === 'enabled';
+                        // Get the current module
+                        $module = Yii::$app->getModule('wiki');    
+                        // Get the current user
+                        $user = Yii::$app->user->identity;
+                        // Retrieve the current numbering state for this user from the settings
+                        $numberingEnabled = $module->settings->contentContainer($user)->get('overviewNumbering', 'disabled') === 'enabled';
                     ?>
-                    <!-- Add toggle switch with URL-based parameter -->
-                    <a href="<?= Url::current(['numbering' => $numberingEnabled ? 'disabled' : 'enabled']) ?>" class="btn-sm btn btn-info">
+                    <!-- Create a form to submit the toggle request via POST -->
+                    <a href="<?= Url::current(['toggle-numbering']) ?>" class="btn btn-info btn-sm">
                         <?= $numberingEnabled ? Yii::t('WikiModule.base', 'Disable Numbering') : Yii::t('WikiModule.base', 'Enable Numbering') ?>
                     </a>
                 </div>
