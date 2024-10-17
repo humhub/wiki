@@ -35,7 +35,7 @@ class Assets extends AssetBundle
     ];
 
     public $js = [
-        'js/humhub.wiki.bundle.min.js',
+        'js/humhub.wiki.bundle.js',
         //'js/jquery.ui.touch-punch.js'
     ];
 
