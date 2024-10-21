@@ -32,7 +32,7 @@ $numberingEnabled = $module->settings->contentContainer($user)->get('wikiNumberi
         <?= WikiPath::widget(['page' => $page]) ?>
         <div class="toggle-numbering">
             <!-- Add toggle switch with URL-based parameter for numbering-->
-            <a href="<?= Url::current(['toggle-numbering']) ?>" class="btn-sm btn btn-info">
+            <a href="<?= Url::current(['toggle-numbering']) ?>" class="btn-sm btn btn-info toggle-numbering">
                 <?= $numberingEnabled ? Yii::t('WikiModule.base', 'Disable Numbering') : Yii::t('WikiModule.base', 'Enable Numbering') ?>
             </a>
         </div>

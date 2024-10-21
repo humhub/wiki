@@ -49,7 +49,7 @@ $settings = new DefaultSettings(['contentContainer' => $contentContainer]);
                         $numberingEnabled = $module->settings->contentContainer($user)->get('overviewNumbering', 'disabled') === 'enabled';
                     ?>
                     <!-- Create a form to submit the toggle request via POST -->
-                    <a href="<?= Url::current(['toggle-numbering']) ?>" class="btn btn-info btn-sm">
+                    <a href="<?= Url::current(['toggle-numbering']) ?>" class="btn btn-info btn-sm toggle-numbering">
                         <?= $numberingEnabled ? Yii::t('WikiModule.base', 'Disable Numbering') : Yii::t('WikiModule.base', 'Enable Numbering') ?>
                     </a>
                 </div>
