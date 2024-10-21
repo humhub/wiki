@@ -158,7 +158,6 @@ humhub.module('wiki.Page', function (module, require, $) {
             that.buildIndex();
             that.initAnchor();
             that.initHeaderEditIcons();
-            that.buildNumbering();
         });
     };
 
@@ -199,49 +198,6 @@ humhub.module('wiki.Page', function (module, require, $) {
             }
         });
     }
-
-    Page.prototype.buildNumbering = function() {
-        var headerLevel = 1;
-        var headerNum = [];
-        var minLevel = this.$.find('#wiki-page-richtext h1').length ? 1 : 2;
-        var showh3 = this.$.find('#wiki-page-richtext h3').length <= module.config.tocMaxH3;
-        if (document.querySelector('.numbered')){
-            this.$.find('#wiki-page-richtext').find('h1,h2' + (showh3 ? ',h3' : '')).each(function () {
-                var $header = $(this);
-
-                // Determine the current header level (h1 -> 1, h2 -> 2, h3 -> 3)
-                var currentHeaderLevel = 1;
-                if ($header.is('h2')) {
-                    currentHeaderLevel = minLevel === 2 ? 1 : 2;
-                } else if ($header.is('h3')) {
-                    currentHeaderLevel = minLevel === 2 ? 2 : 3;
-                }
-
-                // Adjust the header level for numbering
-                if (currentHeaderLevel !== headerLevel) {
-                    if (currentHeaderLevel > headerLevel) {
-                        headerNum[currentHeaderLevel] = 0;
-                    }
-                    headerLevel = currentHeaderLevel;
-                }
-
-                if (typeof (headerNum[headerLevel]) === 'undefined') {
-                    headerNum[headerLevel] = 0;
-                }
-
-                headerNum[headerLevel]++;
-
-                // Generate the numbering string (1, 1.1, 1.1.1, etc.)
-                var numberString = '';
-                for (var i = 1; i <= headerLevel; i++) {
-                    numberString += (i > 1 ? '.' : '') + (headerNum[i] || 1);
-                }
-
-                // Add the numbering in front of the header text
-                $header.prepend('<span class="wiki-header-numbering">' + numberString + ' </span>');
-            });
-        }
-    };
 
     Page.prototype.buildIndex = function () {
         var $list = $('<ul class="nav nav-pills nav-stacked">');
@@ -316,6 +272,11 @@ humhub.module('wiki.Page', function (module, require, $) {
             });
             $li.append($anchor);
             $list.append($li);
+
+            // Added numbering to content
+            if(document.querySelector('.numbered')){
+                $(this).prepend('<span class="wiki-header-numbering">' + numberString + '</span>');
+            }
         });
 
         if (hasHeadLine) {
