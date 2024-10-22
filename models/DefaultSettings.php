@@ -28,7 +28,6 @@ class DefaultSettings extends Model
     public const SETTING_WIKI_NUMBERING_ENABLED = 'wikiNumberingEnabled';
     public const SETTING_OVERVIEW_NUMBERING_ENABLED = 'overviewNumberingEnabled';
 
-
     /**
      * @var ContentContainerActiveRecord
      */
@@ -49,7 +48,6 @@ class DefaultSettings extends Model
     public bool $wikiNumberingEnabled = false;
 
     public bool $overviewNumberingEnabled = false;
-
 
     /**
      * @var Module
