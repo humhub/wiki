@@ -111,7 +111,6 @@ class PageController extends BaseController
             $this->view->setPageTitle($wikiPage->title, true);
             $this->view->meta->setContent($wikiPage);
             $this->view->meta->setImages($wikiPage->fileManager->findAll());
-
         }
 
         return $wikiPage;
