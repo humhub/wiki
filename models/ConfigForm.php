@@ -19,6 +19,8 @@ class ConfigForm extends Model
 
     public bool $wikiNumberingEnabledDefault = false;
 
+    public bool $overviewNumberingEnabledDefault = false;
+
     /**
      * @inheritdoc
      */
@@ -42,7 +44,7 @@ class ConfigForm extends Model
     public function rules()
     {
         return [
-            [['contentHiddenDefault', 'hideNavigationEntryDefault','wikiNumberingEnabledDefault','overviewNUmberingEnabledDefault'], 'boolean'],
+            [['contentHiddenDefault', 'hideNavigationEntryDefault','wikiNumberingEnabledDefault','overviewNumberingEnabledDefault'], 'boolean'],
         ];
     }
 
