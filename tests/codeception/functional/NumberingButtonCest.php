@@ -21,17 +21,12 @@ class NumberingButtonCest
         $I->enableModule($space->guid, 'wiki');
         $category = $I->createWiki($space, 'Test Wiki Page', 'Test Wiki Page content');
 
-        // Go to page view
         $I->amOnSpace($space->guid, '/wiki/page/view', ['id' => $category->id, 'title' => $category->title]);
 
-        // Get the current module
         $module = Yii::$app->getModule('wiki');                      
-        // Get the current user
         $user = Yii::$app->user->identity;
-        // Retrieve the current numbering state for this user from the settings
-        $numberingEnabled = $module->settings->contentContainer($user)->get('wikiNumbering', 'disabled') === 'enabled';
+        $numberingEnabled = $module->settings->contentContainer($user)->get('wikiNumberingEnabled');
 
-        // Check if the numbering button is present and shows "Enable Numbering" when disabled
         $I->seeElement('a.toggle-numbering');
         if ($numberingEnabled) {
             $I->see('Disable Numbering', 'a.toggle-numbering');
@@ -42,8 +37,7 @@ class NumberingButtonCest
 
         $I->click('a.toggle-numbering');
 
-        // Retrieve the current numbering state for this user from the settings
-        $numberingEnabled = $module->settings->contentContainer($user)->get('wikiNumbering', 'disabled') === 'enabled';
+        $numberingEnabled = $module->settings->contentContainer($user)->get('wikiNumberingEnabled');
         
         if ($numberingEnabled) {
             $I->see('Disable Numbering', 'a.toggle-numbering');
@@ -54,13 +48,10 @@ class NumberingButtonCest
 
         $I->wantTo('check if the numbering button toggles between enabled and disabled states at overview');
 
-        // Go to overview page
         $I->amOnSpace($space->guid, '/wiki/overview/list-categories');
 
-        // Retrieve the current numbering state for this user from the settings
-        $numberingEnabled = $module->settings->contentContainer($user)->get('overviewNumbering', 'disabled') === 'enabled';
+        $numberingEnabled = $module->settings->contentContainer($user)->get('overviewNumberingEnabled');
 
-        // Check if the numbering button is present and shows "Enable Numbering" when disabled
         $I->seeElement('a.toggle-numbering');
         if ($numberingEnabled) {
             $I->see('Disable Numbering', 'a.toggle-numbering');
@@ -70,8 +61,7 @@ class NumberingButtonCest
         } 
         $I->click('a.toggle-numbering');
 
-        // Retrieve the current numbering state for this user from the settings
-        $numberingEnabled = $module->settings->contentContainer($user)->get('overviewNumbering', 'disabled') === 'enabled';
+        $numberingEnabled = $module->settings->contentContainer($user)->get('overviewNumberingEnabled');
         
         if ($numberingEnabled) {
             $I->see('Disable Numbering', 'a.toggle-numbering');

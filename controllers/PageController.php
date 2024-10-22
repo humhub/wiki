@@ -111,6 +111,7 @@ class PageController extends BaseController
             $this->view->setPageTitle($wikiPage->title, true);
             $this->view->meta->setContent($wikiPage);
             $this->view->meta->setImages($wikiPage->fileManager->findAll());
+
         }
 
         return $wikiPage;
@@ -441,30 +442,18 @@ class PageController extends BaseController
 
     public function actionToggleNumbering(int $id)
     {   
-        // Get the current module
+
         $module = Yii::$app->getModule('wiki');
-
-        // Get the current user
         $user = Yii::$app->user->identity;
+        $numberingEnabled = $module->settings->contentContainer($user)->get('wikiNumberingEnabled');
 
-        // Retrieve the current numbering state from the module's user-specific settings
-        $numberingEnabled = $module->settings->contentContainer($user)->get('wikiNumbering', 'disabled') === 'enabled';
+        $newState = !$numberingEnabled;
+        $module->settings->contentContainer($user)->set('wikiNumberingEnabled', $newState);
 
-        // Toggle the state
-        $newState = $numberingEnabled ? 'disabled' : 'enabled';
-
-        // Save the new state in the settings using contentContainer($user)
-        $module->settings->contentContainer($user)->set('wikiNumbering', $newState);
-
-        // Try to go back to the wiki page 
         try {        
-            // Get page content from page id
             $page = $this->getWikiPage($id);
-            
-            // Redirect back to the wiki page
             return $this->redirect(Url::toWiki($page));  
         }
-        // If the page could not be found go to the previous URL
         catch(Exception $e) {
             return $this->redirect(Url::previous());
         }  

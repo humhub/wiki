@@ -115,22 +115,13 @@ class OverviewController extends BaseController
 
     public function actionToggleNumbering()
     {
-        // Get the current module
         $module = Yii::$app->getModule('wiki');
-
-        // Get the current user
         $user = Yii::$app->user->identity;
+        $numberingEnabled = $module->settings->contentContainer($user)->get('overviewNumberingEnabled');
 
-        // Retrieve the current numbering state from the module's user-specific settings
-        $numberingEnabled = $module->settings->contentContainer($user)->get('overviewNumbering', 'disabled') === 'enabled';
+        $newState = !$numberingEnabled;
+        $module->settings->contentContainer($user)->set('overviewNumberingEnabled', $newState);
 
-        // Toggle the state
-        $newState = $numberingEnabled ? 'disabled' : 'enabled';
-
-        // Save the new state in the settings using contentContainer($user)
-        $module->settings->contentContainer($user)->set('overviewNumbering', $newState);
-
-        // Redirect back to the overview page
         return $this->redirect(Url::toOverview($this->contentContainer));
     }
 }

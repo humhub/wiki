@@ -26,7 +26,7 @@ $module = Yii::$app->getModule('wiki');
 // Get the current user
 $user = Yii::$app->user->identity;
 // Retrieve the current numbering state for this user from the settings
-$numberingEnabled = $module->settings->contentContainer($user)->get('wikiNumbering', 'disabled') === 'enabled';
+$numberingEnabled = $module->settings->contentContainer($user)->get('wikiNumberingEnabled');
 ?>
 <?= $this->render('_view_header', ['page' => $page, 'revision' => $revision, 'displayTitle' => false]) ?>
 

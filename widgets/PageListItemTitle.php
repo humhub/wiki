@@ -95,7 +95,7 @@ class PageListItemTitle extends Widget
         // Get the current user
         $user = Yii::$app->user->identity;
         // Retrieve the current numbering state for this user from the settings
-        $numberingEnabled = $module->settings->contentContainer($user)->get('overviewNumbering', 'disabled') === 'enabled';
+        $numberingEnabled = $module->settings->contentContainer($user)->get('overviewNumberingEnabled');
         
         // Generate numbering for categories and pages
         return $this->render('pageListItemTitle', [

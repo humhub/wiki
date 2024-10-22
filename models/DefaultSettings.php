@@ -25,6 +25,9 @@ class DefaultSettings extends Model
     public const SETTING_MODULE_LABEL = 'defaults.moduleLabel';
     public const SETTING_CONTENT_HIDDEN_DEFAULT = 'contentHiddenDefault';
     public const SETTING_HIDE_NAVIGATION_ENTRY = 'hideNavigationEntry';
+    public const SETTING_WIKI_NUMBERING_ENABLED = 'wikiNumberingEnabled';
+    public const SETTING_OVERVIEW_NUMBERING_ENABLED = 'overviewNumberingEnabled';
+
 
     /**
      * @var ContentContainerActiveRecord
@@ -42,6 +45,11 @@ class DefaultSettings extends Model
     public bool $contentHiddenDefault = false;
 
     public bool $hideNavigationEntry = false;
+
+    public bool $wikiNumberingEnabled = false;
+
+    public bool $overviewNumberingEnabled = false;
+
 
     /**
      * @var Module
@@ -67,6 +75,16 @@ class DefaultSettings extends Model
             $this->module->hideNavigationEntryDefault,
         );
 
+        $this->wikiNumberingEnabled = $this->getSettings()->get(
+            self::SETTING_WIKI_NUMBERING_ENABLED,
+            $this->module->wikiNumberingEnabledDefault,
+        );
+
+        $this->overviewNumberingEnabled = $this->getSettings()->get(
+            self::SETTING_OVERVIEW_NUMBERING_ENABLED,
+            $this->module->overviewNumberingEnabledDefault,
+        );
+
     }
 
     private function getSettings(): ContentContainerSettingsManager
@@ -81,7 +99,7 @@ class DefaultSettings extends Model
     {
         return [
             [['module_label'], 'string'],
-            [['contentHiddenDefault', 'hideNavigationEntry'], 'boolean'],
+            [['contentHiddenDefault', 'hideNavigationEntry','wikiNumberingEnabled','overviewNumberingEnabled'], 'boolean'],
         ];
     }
 
@@ -90,6 +108,8 @@ class DefaultSettings extends Model
         return [
             'module_label' => Yii::t('WikiModule.base', 'Module name'),
             'hideNavigationEntry' => Yii::t('WikiModule.base', 'Hide Navigation Entry'),
+            'wikiNumberingEnabled'=> Yii::t('WikiModule.base', 'Enable wiki page numbering for all users'),
+            'overviewNumberingEnabled'=> Yii::t('WikiModule.base', 'Enable overview numbering for all users'),
         ];
     }
     public function save(): bool
@@ -101,6 +121,8 @@ class DefaultSettings extends Model
         $this->getSettings()->set(self::SETTING_MODULE_LABEL, $this->module_label);
         $this->getSettings()->set(self::SETTING_CONTENT_HIDDEN_DEFAULT, $this->contentHiddenDefault);
         $this->getSettings()->set(self::SETTING_HIDE_NAVIGATION_ENTRY, $this->hideNavigationEntry);
+        $this->getSettings()->set(self::SETTING_WIKI_NUMBERING_ENABLED, $this->wikiNumberingEnabled);
+        $this->getSettings()->set(self::SETTING_OVERVIEW_NUMBERING_ENABLED, $this->overviewNumberingEnabled);
 
         return true;
     }
