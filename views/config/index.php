@@ -23,6 +23,10 @@ use yii\bootstrap\ActiveForm;
 
         <?= $form->field($model, 'hideNavigationEntryDefault')->checkbox() ?>
 
+        <?= $form->field($model, 'wikiNumberingEnabledDefault')->checkbox() ?>
+
+        <?= $form->field($model, 'overviewNumberingEnabledDefault')->checkbox() ?>
+
         <?= Button::save()->submit() ?>
         <?php ActiveForm::end() ?>
     </div>
