@@ -137,7 +137,7 @@ humhub.module('wiki.Page', function (module, require, $) {
 
             // Added numbering to content
             if(document.querySelector('.numbered')){
-                $(this).prepend('<span class="wiki-header-numbering">' + numberString + '</span>');
+                $(this).prepend('<span class="wiki-header-numbering">' + numberString + '. </span>');
             }
         });
 
