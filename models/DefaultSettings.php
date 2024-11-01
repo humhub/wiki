@@ -106,8 +106,8 @@ class DefaultSettings extends Model
         return [
             'module_label' => Yii::t('WikiModule.base', 'Module name'),
             'hideNavigationEntry' => Yii::t('WikiModule.base', 'Hide Navigation Entry'),
-            'wikiNumberingEnabled'=> Yii::t('WikiModule.base', 'Enable wiki page numbering for all users'),
-            'overviewNumberingEnabled'=> Yii::t('WikiModule.base', 'Enable overview numbering for all users'),
+            'wikiNumberingEnabled'=> Yii::t('WikiModule.base', 'Enable Default wiki page numbering for all spaces'),
+            'overviewNumberingEnabled'=> Yii::t('WikiModule.base', 'Enable Default overview numbering for all spaces'),
         ];
     }
     public function save(): bool
