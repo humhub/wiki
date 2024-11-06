@@ -52,8 +52,8 @@ class ConfigForm extends Model
     {
         return [
             'hideNavigationEntryDefault' => Yii::t('WikiModule.base', 'Hide Navigation Entries of this module globally by default'),
-            'wikiNumberingEnabledDefault'=> Yii::t('WikiModule.base', 'Enable wiki page numbering for all users'),
-            'overviewNumberingEnabledDefault'=> Yii::t('WikiModule.base', 'Enable overview numbering for all users'),
+            'wikiNumberingEnabledDefault'=> Yii::t('WikiModule.base', 'Enable wiki page header numbering for all users by default'),
+            'overviewNumberingEnabledDefault'=> Yii::t('WikiModule.base', 'Enable overview numbering for all users by default'),
         ];
     }
 
