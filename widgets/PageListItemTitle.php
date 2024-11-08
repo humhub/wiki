@@ -116,19 +116,16 @@ class PageListItemTitle extends Widget
     {
         static $numbering = [];
 
-        // Increment numbering for the current level
         if (!isset($numbering[$level])) {
             $numbering[$level] = 1;
         } else {
             $numbering[$level]++;
         }
 
-        // Reset numbering for deeper levels
         for ($i = $level + 1; $i < count($numbering); $i++) {
             $numbering[$i] = 0;
         }
 
-        // Build the numbering string (e.g., "1", "2.1", "2.2")
         return implode('.', array_filter($numbering));
     }
 
