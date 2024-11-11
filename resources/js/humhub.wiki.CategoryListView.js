@@ -259,7 +259,9 @@ humhub.module('wiki.CategoryListView', function(module, require, $) {
                 $item.closest('.category_list_view, .wiki-page-list').sortable('cancel');
             }
             pageTitle.removeClass('wiki-page-dropped');
-            client.reload();
+            if(document.querySelector('.toggle-numbering').textContent.trim() === 'Disable Numbering'){
+                client.reload();
+            }
         }).catch(function (e) {
             module.log.error(e, true);
             $item.closest('.category_list_view, .wiki-page-list').sortable('cancel');
