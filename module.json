@@ -20,12 +20,12 @@
         }
     ],
     "screenshots": [
-        "assets/screenshot1.png",
-        "assets/screenshot2.png",
-        "assets/screenshot3.png",
-        "assets/screenshot4.png",
-        "assets/screenshot5.png",
-        "assets/screenshot6.png",
-        "assets/screenshot7.png"
+        "resources/screenshot1.png",
+        "resources/screenshot2.png",
+        "resources/screenshot3.png",
+        "resources/screenshot4.png",
+        "resources/screenshot5.png",
+        "resources/screenshot6.png",
+        "resources/screenshot7.png"
     ]
 }
