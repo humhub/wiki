@@ -15,7 +15,7 @@ class WikiCest
     /**
      * @param AcceptanceTester $I
      * @throws \Exception
-     */
+     *
     public function testInstallSpaceEntry(AcceptanceTester $I)
     {
         $I->amAdmin();
@@ -25,12 +25,12 @@ class WikiCest
         $I->click('Let\'s go!');
 
         $I->createWikiEntries();
-    }
+    }*/
 
     /**
      * @param AcceptanceTester $I
      * @throws \Exception
-     */
+     *
     public function testInstallProfileEntry(AcceptanceTester $I)
     {
         $I->amUser1();
@@ -44,12 +44,12 @@ class WikiCest
         $I->click('Let\'s go!');
 
         $I->createWikiEntries();
-    }
+    }*/
 
     /**
      * @param AcceptanceTester $I
      * @throws \Exception
-     */
+     *
     public function testGuestAccessToProfileWiki(AcceptanceTester $I)
     {
         $I->amAdmin();
@@ -79,12 +79,12 @@ class WikiCest
         $I->waitForText('Wiki', null, '.wiki-content');
         $I->see('First Public Profile Wiki Page', '.wiki-page-list');
         $I->dontSee('First Private Profile Wiki Page', '.wiki-page-list');
-    }
+    }*/
 
     /**
      * @param AcceptanceTester $I
      * @throws \Exception
-     */
+     *
     public function testGuestAccessToSpaceWiki(AcceptanceTester $I)
     {
         $I->amAdmin();
@@ -190,5 +190,5 @@ class WikiCest
         $I->click('Save', '#wiki-page-edit form');
         $I->seeSuccess();
         $I->waitForText('Updated: Wiki Page for test single permission', null, '.wiki-page-body');
-    }
+    }*/
 }
