@@ -388,7 +388,7 @@ class WikiPage extends ContentActiveRecord implements Searchable
 
     public function getIcon()
     {
-        return 'fa-file-word-o';
+        return 'fa-book';
     }
 
     /**
