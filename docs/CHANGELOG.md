@@ -1,6 +1,10 @@
 Changelog
 =========
 
+2.3.7 (Unreleased)
+-----------------------
+Enh #358: Replaced the `fa-file-word-o` icon with the `fa-book` icon
+
 2.3.6 (October 4, 2024)
 -----------------------
 - Fix #348: Collect user data for Legal module
