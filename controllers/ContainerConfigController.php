@@ -39,6 +39,13 @@ class ContainerConfigController extends ContentContainerController
             $this->view->saved();
         }
 
+        $module = Yii::$app->getModule('wiki');
+        $user = Yii::$app->user->identity;
+        $defaultState = $module->settings->contentContainer($this->contentContainer)->get('wikiNumberingEnabled');
+        $module->settings->contentContainer($user)->set('wikiNumberingEnabled', $defaultState);
+        $defaultState = $module->settings->contentContainer($this->contentContainer)->get('overviewNumberingEnabled');
+        $module->settings->contentContainer($user)->set('overviewNumberingEnabled', $defaultState);
+
         return $this->render('@wiki/views/common/defaultConfig', [
             'model' => $model,
         ]);

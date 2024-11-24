@@ -439,5 +439,22 @@ class PageController extends BaseController
         ];
     }
 
+    public function actionToggleNumbering(int $id)
+    {   
 
+        $module = Yii::$app->getModule('wiki');
+        $user = Yii::$app->user->identity;
+        $numberingEnabled = $module->settings->contentContainer($user)->get('wikiNumberingEnabled');
+
+        $newState = !$numberingEnabled;
+        $module->settings->contentContainer($user)->set('wikiNumberingEnabled', $newState);
+
+        try {        
+            $page = $this->getWikiPage($id);
+            return $this->redirect(Url::toWiki($page));  
+        }
+        catch(Exception $e) {
+            return $this->redirect(Url::previous());
+        }  
+    }
 }

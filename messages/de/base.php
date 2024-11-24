@@ -86,4 +86,10 @@ return [
     'Hide Navigation Entries of this module globally by default' => '',
     'Hide Navigation Entry' => '',
     'No wiki pages found.' => '',
+    'Enable Numbering' => 'Nummerierung aktivieren',
+    'Disable Numbering' => 'Nummerierung deaktivieren',
+    'Enable Default wiki page numbering for all spaces' => 'Standard-Wikiseitennummerierung für alle Bereiche aktivieren',
+    'Enable Default overview numbering for all spaces' => 'Standard-übersichtsnummerierung für alle Bereiche aktivieren',
+    'Enable wiki page header numbering for all users by default' => 'Nummerierung der Überschriften standardmäßig für alle Benutzer aktivieren',
+    'Enable overview numbering for all users by default' => 'Nummerierung der Seitentitel für alle Benutzer standardmäßig aktivieren',
 ];
