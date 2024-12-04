@@ -112,16 +112,4 @@ class OverviewController extends BaseController
     {
         $this->updateFoldingState($categoryId, $state);
     }
-
-    public function actionToggleNumbering()
-    {
-        $module = Yii::$app->getModule('wiki');
-        $user = Yii::$app->user->identity;
-        $numberingEnabled = $module->settings->contentContainer($user)->get('overviewNumberingEnabled');
-
-        $newState = !$numberingEnabled;
-        $module->settings->contentContainer($user)->set('overviewNumberingEnabled', $newState);
-
-        return $this->redirect(Url::toOverview($this->contentContainer));
-    }
 }

@@ -29,8 +29,10 @@ if (Helper::isEnterpriseTheme()) {
 }
 
 $settings = new DefaultSettings(['contentContainer' => $contentContainer]);
+$module = Yii::$app->getModule('wiki');
+$numberingEnabled = $module->settings->space()->get('overviewNumberingEnabled');
 ?>
-<div class="panel panel-default">
+<div class="panel panel-default <?php if($numberingEnabled) echo 'numbered';?>">
     <div class="panel-body">
         <div class="row">
             <?php WikiContent::begin(['cssClass' => 'wiki-page-content']) ?>
@@ -40,14 +42,6 @@ $settings = new DefaultSettings(['contentContainer' => $contentContainer]);
                 <div class="wiki-page-content-header-actions">
                     <?= Button::info(Yii::t('WikiModule.base', 'Last edited'))->sm()->link(Url::toLastEdited($contentContainer))->cssClass(Helper::isEnterpriseTheme() ? 'hidden-lg' : '') ?>
                     <?= Button::info($createPageTitle)->icon('fa-plus')->sm()->link(Url::toWikiCreate($contentContainer))->visible($canCreate) ?>
-                    <?php
-                        $module = Yii::$app->getModule('wiki');    
-                        $user = Yii::$app->user->identity;
-                        $numberingEnabled = $module->settings->contentContainer($user)->get('overviewNumberingEnabled');
-                    ?>
-                    <a href="<?= Url::current(['toggle-numbering']) ?>" class="btn btn-info btn-sm toggle-numbering">
-                        <?= $numberingEnabled ? Yii::t('WikiModule.base', 'Disable Numbering') : Yii::t('WikiModule.base', 'Enable Numbering') ?>
-                    </a>
                 </div>
                 <div class="clearfix"></div>
             </div>

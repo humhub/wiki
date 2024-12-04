@@ -90,14 +90,9 @@ class PageListItemTitle extends Widget
             $this->titleInfo = Yii::t('WikiModule.base', '({n,plural,=1{+1 subpage}other{+{count} subpages}})', ['n' => $this->page->childrenCount, 'count' => $this->page->childrenCount]);
         }
 
-        // Get the current module
         $module = Yii::$app->getModule('wiki');        
-        // Get the current user
-        $user = Yii::$app->user->identity;
-        // Retrieve the current numbering state for this user from the settings
-        $numberingEnabled = $module->settings->contentContainer($user)->get('overviewNumberingEnabled');
+        $numberingEnabled = $module->settings->space()->get('overviewNumberingEnabled');
         
-        // Generate numbering for categories and pages
         return $this->render('pageListItemTitle', [
             'page' => $this->page,
             'title' => $numberingEnabled ? ($this->generateNumbering($this->level) . ' ' . $this->title) : $this->title,

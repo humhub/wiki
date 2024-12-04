@@ -88,8 +88,8 @@ return [
     'No wiki pages found.' => '',
     'Enable Numbering' => 'Nummerierung aktivieren',
     'Disable Numbering' => 'Nummerierung deaktivieren',
-    'Enable Default wiki page numbering for all spaces' => 'Standard-Wikiseitennummerierung für alle Bereiche aktivieren',
-    'Enable Default overview numbering for all spaces' => 'Standard-übersichtsnummerierung für alle Bereiche aktivieren',
-    'Enable wiki page header numbering for all users by default' => 'Nummerierung der Überschriften standardmäßig für alle Benutzer aktivieren',
-    'Enable overview numbering for all users by default' => 'Nummerierung der Seitentitel für alle Benutzer standardmäßig aktivieren',
+    'Enable Default wiki page numbering for current spaces' => 'Standard-Wikiseitennummerierung für aktuelle Bereiche aktivieren',
+    'Enable Default overview numbering for current spaces' => 'Standard-übersichtsnummerierung für aktuelle Bereiche aktivieren',
+    'Enable wiki page header numbering for all spaces by default' => 'Nummerierung der Überschriften standardmäßig für alle Bereiche aktivieren',
+    'Enable overview numbering for all spaces by default' => 'Nummerierung der Seitentitel für alle Bereiche standardmäßig aktivieren',
 ];

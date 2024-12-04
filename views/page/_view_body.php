@@ -20,13 +20,8 @@ use humhub\modules\wiki\helpers\Url;
 /* @var $canEdit bool */
 
 Assets::register($this);
-
-// Get the current module
-$module = Yii::$app->getModule('wiki');                    
-// Get the current user
-$user = Yii::$app->user->identity;
-// Retrieve the current numbering state for this user from the settings
-$numberingEnabled = $module->settings->contentContainer($user)->get('wikiNumberingEnabled');
+$module = Yii::$app->getModule('wiki');
+$numberingEnabled = $module->settings->space()->get('wikiNumberingEnabled');
 ?>
 <?= $this->render('_view_header', ['page' => $page, 'revision' => $revision, 'displayTitle' => false]) ?>
 
