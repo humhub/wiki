@@ -66,6 +66,8 @@ class PageListItemTitle extends Widget
      */
     public $maxLevel;
 
+    public $numberingString;
+
     /**
      * @inheritdoc
      */
@@ -81,6 +83,7 @@ class PageListItemTitle extends Widget
             } else {
                 $icon = $this->iconPage;
             }
+            $this->numberingString = $this->page->getNumbering();
         }
 
         if ($this->titleInfo === null &&
@@ -95,7 +98,7 @@ class PageListItemTitle extends Widget
         
         return $this->render('pageListItemTitle', [
             'page' => $this->page,
-            'title' => $numberingEnabled ? ($this->generateNumbering($this->level) . ' ' . $this->title) : $this->title,
+            'title' => $numberingEnabled ? ($this->numberingString . ' ' . $this->title) : $this->title,
             'titleIcon' => $this->getVisibilityIcon(),
             'titleInfo' => $this->titleInfo,
             'url' => $this->page ? $this->page->getUrl() : null,
@@ -105,23 +108,6 @@ class PageListItemTitle extends Widget
             'options' => $this->getOptions(),
             'level' => $this->level,
         ]);
-    }
-    
-    public function generateNumbering($level)
-    {
-        static $numbering = [];
-
-        if (!isset($numbering[$level])) {
-            $numbering[$level] = 1;
-        } else {
-            $numbering[$level]++;
-        }
-
-        for ($i = $level + 1; $i < count($numbering); $i++) {
-            $numbering[$i] = 0;
-        }
-
-        return implode('.', array_filter($numbering));
     }
 
     public function getOptions(): array

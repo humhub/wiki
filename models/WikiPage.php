@@ -540,4 +540,34 @@ class WikiPage extends ContentActiveRecord implements Searchable
 
         return $this->_isCategory;
     }
+
+    public function getNumbering() {
+        if (is_null($this->parent_page_id)) {
+            return $this->getPositionInHierarchy() + 1;
+        }
+    
+        return $this->categoryPage->getNumbering() . '.' . ($this->getPositionInHierarchy() + 1);
+    }
+    
+    protected function getPositionInHierarchy() {
+        $parentCondition = is_null($this->parent_page_id) ? ['parent_page_id' => null] : ['parent_page_id' => $this->parent_page_id];
+    
+        $query = static::find()
+            ->contentContainer($this->content->container)
+            ->andWhere($parentCondition)
+            ->orderBy([
+                static::tableName() . '.sort_order' => SORT_ASC,
+                static::tableName() . '.title' => SORT_ASC,
+            ]);
+    
+        $pages = $query->all();
+    
+        foreach ($pages as $index => $page) {
+            if ($page->id == $this->id) {
+                return $index;
+            }
+        }
+        return 0;
+    }    
+    
 }

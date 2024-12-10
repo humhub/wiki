@@ -30,8 +30,8 @@ $pathLength = count($path);
 
         / <?= $categoryPage instanceof WikiPage
             ? Link::to($isLast
-                    ? $categoryPage->title
-                    : Helpers::truncateText($categoryPage->title, 25),
+                    ? $categoryPage->getNumbering().'.'.$categoryPage->title
+                    : Helpers::truncateText($categoryPage->getNumbering().'.'.$categoryPage->title, 25),
                 Url::toWiki($categoryPage))
             : '<span>' . $categoryPage . '</span>' ?>
 

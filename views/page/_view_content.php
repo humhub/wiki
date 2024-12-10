@@ -18,7 +18,7 @@ use humhub\modules\wiki\helpers\Url;
 <?php endforeach; ?>
 </div>
 
-<h1 class="wiki-page-title"><?= Html::encode($page->title) ?></h1>
+<h1 class="wiki-page-title"><?= Html::encode($page->getNumbering().'.'.$page->title) ?></h1>
 
 <?= $this->render('_view_category_index', ['page' => $page]) ?>
 
