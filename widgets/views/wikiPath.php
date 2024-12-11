@@ -9,11 +9,14 @@ use humhub\libs\Helpers;
 use humhub\modules\wiki\helpers\Url;
 use humhub\modules\wiki\models\WikiPage;
 use humhub\widgets\Link;
+use Yii;
 
 /* @var $page WikiPage */
 /* @var $path WikiPage[]|string[] */
 
 $pathLength = count($path);
+$module = Yii::$app->getModule('wiki');        
+$numberingEnabled = $module->settings->space()->get('wikiNumberingEnabled');
 ?>
 <div class="wiki-page-path wiki-page-path-length-<?= $pathLength ?>">
     <?= Link::to('', Url::toHome($page->content->container))->icon('home')->id('wiki_index') ?>
@@ -30,8 +33,8 @@ $pathLength = count($path);
 
         / <?= $categoryPage instanceof WikiPage
             ? Link::to($isLast
-                    ? $categoryPage->getNumbering().'.'.$categoryPage->title
-                    : Helpers::truncateText($categoryPage->getNumbering().'.'.$categoryPage->title, 25),
+                    ? $numberingEnabled? $categoryPage->getNumbering().'.'.$categoryPage->title : $categoryPage->title
+                    : Helpers::truncateText($numberingEnabled? $categoryPage->getNumbering().'.'.$categoryPage->title : $categoryPage->title, 25),
                 Url::toWiki($categoryPage))
             : '<span>' . $categoryPage . '</span>' ?>
 

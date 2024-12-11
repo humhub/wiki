@@ -6,11 +6,14 @@ use humhub\modules\topic\widgets\TopicLabel;
 use humhub\modules\wiki\widgets\WikiRichText;
 use humhub\widgets\Button;
 use humhub\modules\wiki\helpers\Url;
+use Yii;
 
 /* @var $this \humhub\modules\ui\view\components\View */
 /* @var $page \humhub\modules\wiki\models\WikiPage */
 /* @var $canEdit bool */
 /* @var $content string */
+$module = Yii::$app->getModule('wiki');        
+$numberingEnabled = $module->settings->space()->get('wikiNumberingEnabled');
 ?>
 <div class="topic-label-list">
 <?php foreach ($page->content->getTags(Topic::class)->all() as $topic) : ?>
@@ -18,7 +21,7 @@ use humhub\modules\wiki\helpers\Url;
 <?php endforeach; ?>
 </div>
 
-<h1 class="wiki-page-title"><?= Html::encode($page->getNumbering().'.'.$page->title) ?></h1>
+<h1 class="wiki-page-title"><?= Html::encode($numberingEnabled? $page->getNumbering().'.'.$page->title : $page->title) ?></h1>
 
 <?= $this->render('_view_category_index', ['page' => $page]) ?>
 
