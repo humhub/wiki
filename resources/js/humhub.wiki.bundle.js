@@ -726,7 +726,8 @@ humhub.module('wiki.linkExtension', function (module, require, $) {
                 },
                 toMarkdown: function (state, node) {
                     var link = 'wiki:' + node.attrs.wikiId;
-                    state.write("[" + state.esc(node.attrs.label) + "](" + state.esc(link) + ' "'+node.attrs.anchor+'")');
+                    var anchor = node.attrs.anchor ? ' ' + state.quote(node.attrs.anchor + '') : '';
+                    state.write('[' + state.esc(node.attrs.label) + '](' + state.esc(link) + anchor + ')');
                 }
             }
         }
@@ -928,6 +929,7 @@ humhub.module('wiki.linkExtension', function (module, require, $) {
         setEditorLink: setEditorLink
     });
 });
+
 humhub.module('wiki.History', function(module, require, $) {
     var Widget = require('ui.widget').Widget;
     var client = require('client');

@@ -64,7 +64,8 @@ humhub.module('wiki.linkExtension', function (module, require, $) {
                 },
                 toMarkdown: function (state, node) {
                     var link = 'wiki:' + node.attrs.wikiId;
-                    state.write("[" + state.esc(node.attrs.label) + "](" + state.esc(link) + ' "'+node.attrs.anchor+'")');
+                    var anchor = node.attrs.anchor ? ' ' + state.quote(node.attrs.anchor + '') : '';
+                    state.write('[' + state.esc(node.attrs.label) + '](' + state.esc(link) + anchor + ')');
                 }
             }
         }
