@@ -16,6 +16,7 @@ use humhub\modules\wiki\widgets\CategoryListView;
 use humhub\modules\wiki\widgets\WikiContent;
 use humhub\modules\wiki\widgets\WikiSearchForm;
 use humhub\widgets\Button;
+use humhub\modules\wiki\permissions\AdministerPages;
 
 /* @var $this View */
 /* @var $contentContainer ContentContainerActiveRecord */
@@ -44,10 +45,16 @@ $settings = new DefaultSettings(['contentContainer' => $contentContainer]);
                         $module = Yii::$app->getModule('wiki');    
                         $user = Yii::$app->user->identity;
                         $numberingEnabled = $module->settings->contentContainer($user)->get('overviewNumberingEnabled');
+                        $editingEnabled = $module->settings->contentContainer($user)->get('wikiTreeEditingEnabled', FALSE);
                     ?>
                     <a href="<?= Url::current(['toggle-numbering']) ?>" class="btn btn-info btn-sm toggle-numbering">
                         <?= $numberingEnabled ? Yii::t('WikiModule.base', 'Disable Numbering') : Yii::t('WikiModule.base', 'Enable Numbering') ?>
                     </a>
+                    <?php if ($contentContainer->can(AdministerPages::class)): ?>
+                        <a href="<?= Url::current(['toggle-wiki-tree-editing']) ?>" class="btn btn-info btn-sm toggle-editing">
+                            <?= $editingEnabled ? Yii::t('WikiModule.base', 'Disable wiki tree editing') : Yii::t('WikiModule.base', 'Enable wiki tree editing') ?>
+                        </a>
+                    <?php endif; ?>
                 </div>
                 <div class="clearfix"></div>
             </div>

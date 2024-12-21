@@ -92,4 +92,6 @@ return [
     'Enable Default overview numbering for all spaces' => 'Standard-übersichtsnummerierung für alle Bereiche aktivieren',
     'Enable wiki page header numbering for all users by default' => 'Nummerierung der Überschriften standardmäßig für alle Benutzer aktivieren',
     'Enable overview numbering for all users by default' => 'Nummerierung der Seitentitel für alle Benutzer standardmäßig aktivieren',
+    'Disable wiki tree editing' => 'wiki tree Bearbeitung deaktivieren',
+    'Enable wiki tree editing' => 'wiki tree Bearbeitung aktivieren',
 ];
