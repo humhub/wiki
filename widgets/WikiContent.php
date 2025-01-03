@@ -9,7 +9,7 @@
 
 namespace humhub\modules\wiki\widgets;
 
-use humhub\libs\Html;
+use humhub\helpers\Html;
 use humhub\widgets\JsWidget;
 
 class WikiContent extends JsWidget

@@ -1,6 +1,10 @@
 Changelog
 =========
 
+2.4.0-beta.1 (unreleased)
+-------------------------
+- Enh: Migration to Bootstrap 5 for HumHub 1.18
+
 2.3.7 (Unreleased)
 -----------------------
 - Enh #358: Replaced the `fa-file-word-o` icon with the `fa-book` icon

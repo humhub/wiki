@@ -1,21 +1,21 @@
 <?php
 
-use humhub\libs\Html;
+use humhub\helpers\Html;
 use humhub\modules\content\components\ContentContainerActiveRecord;
-use humhub\modules\ui\form\widgets\ContentHiddenCheckbox;
-use humhub\modules\ui\form\widgets\ContentVisibilitySelect;
+use humhub\modules\topic\widgets\TopicPicker;
 use humhub\modules\ui\view\components\View;
 use humhub\modules\wiki\assets\Assets;
 use humhub\modules\wiki\models\forms\PageEditForm;
-use humhub\modules\wiki\widgets\WikiEditor;
-use humhub\modules\ui\form\widgets\ActiveForm;
-use humhub\modules\wiki\widgets\WikiLinkModal;
 use humhub\modules\wiki\widgets\WikiContent;
+use humhub\modules\wiki\widgets\WikiEditor;
+use humhub\modules\wiki\widgets\WikiLinkJsModal;
 use humhub\modules\wiki\widgets\WikiMenu;
 use humhub\modules\wiki\widgets\WikiPagePicker;
 use humhub\modules\wiki\widgets\WikiPath;
-use humhub\widgets\Button;
-use humhub\modules\topic\widgets\TopicPicker;
+use humhub\widgets\bootstrap\Button;
+use humhub\widgets\form\ActiveForm;
+use humhub\widgets\form\ContentHiddenCheckbox;
+use humhub\widgets\form\ContentVisibilitySelect;
 
 /* @var $this View */
 /* @var $model PageEditForm */
@@ -73,9 +73,9 @@ Assets::register($this);
 
                 <?= Button::save(Yii::t('WikiModule.base', 'Overwrite'))->submit() ?>
 
-                <?= Button::defaultType(Yii::t('WikiModule.base', 'Back'))->action('backOverwriting')->icon('back')->loader(false); ?>
+                <?= Button::light(Yii::t('WikiModule.base', 'Back'))->action('backOverwriting')->icon('back')->loader(false); ?>
 
-                <div class="pull-right">
+                <div class="float-end">
                     <?= Button::danger(Yii::t('WikiModule.base', 'Discard my changes'))->link($discardChangesUrl)->icon('close')->loader(true); ?>
                 </div>
             <?php else : ?>
@@ -123,7 +123,7 @@ Assets::register($this);
 
                 <?= $form->field($model->page, 'is_container_menu')->checkbox([
                     'disabled' => $model->isDisabledField('is_container_menu')]); ?>
-                <div id="container_menu_order_field"<?php if (!$model->page->is_container_menu) : ?> style="display: none"<?php endif; ?>>
+                <div id="container_menu_order_field"<?= $model->page->is_container_menu ? '' : 'class="d-none"' ?>>
                     <?= $form->field($model->page, 'container_menu_order')->textInput([
                         'disabled' => $model->isDisabledField('container_menu_order')]); ?>
                 </div>
@@ -147,10 +147,14 @@ Assets::register($this);
     </div>
 </div>
 
-<?= WikiLinkModal::widget(['contentContainer' => $contentContainer]) ?>
+<?= WikiLinkJsModal::widget(['contentContainer' => $contentContainer]) ?>
 
 <script <?= Html::nonce() ?>>
     $('input[name="WikiPage[is_container_menu]"]').click(function () {
-        $('#container_menu_order_field').toggle($(this).prop('checked'));
+        if ($(this).prop('checked')) {
+            $('#container_menu_order_field').removeClass('d-none');
+        } else {
+            $('#container_menu_order_field').addClass('d-none');
+        }
     })
 </script>

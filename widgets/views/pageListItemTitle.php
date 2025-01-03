@@ -5,11 +5,11 @@
  * @license https://www.humhub.com/licences
  */
 
-use humhub\libs\Html;
+use humhub\helpers\Html;
 use humhub\modules\ui\icon\widgets\Icon;
 use humhub\modules\wiki\models\HierarchyItem;
 use humhub\modules\wiki\services\HierarchyListService;
-use humhub\widgets\Button;
+use humhub\widgets\bootstrap\Button;
 
 /* @var $service HierarchyListService */
 /* @var $item HierarchyItem */

@@ -1,13 +1,13 @@
 <?php
 
-use humhub\libs\Html;
+use humhub\helpers\Html;
 use humhub\modules\ui\icon\widgets\Icon;
 use humhub\modules\wiki\helpers\Url;
 use humhub\modules\wiki\models\WikiPage;
 use humhub\modules\wiki\models\WikiPageRevision;
 use humhub\modules\wiki\widgets\WikiMenu;
 use humhub\modules\wiki\widgets\WikiPath;
-use humhub\widgets\Link;
+use humhub\widgets\bootstrap\Link;
 use humhub\widgets\TimeAgo;
 
 /* @var $page WikiPage */

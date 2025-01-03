@@ -6,8 +6,8 @@ use humhub\modules\wiki\helpers\Url;
 use humhub\modules\wiki\widgets\WikiContent;
 use humhub\modules\wiki\widgets\WikiMenu;
 use humhub\modules\wiki\widgets\WikiPath;
-use humhub\widgets\Button;
-use humhub\widgets\Link;
+use humhub\widgets\bootstrap\Button;
+use humhub\widgets\bootstrap\Link;
 use humhub\widgets\LinkPager;
 use humhub\widgets\TimeAgo;
 use yii\helpers\Html;
@@ -54,23 +54,20 @@ if ($isEnabledDiffTool) {
                 <?php $first = true; ?>
                 <?php foreach ($revisions as $revision): ?>
                     <li>
-                        <div class="media">
-                            <div class="horizontal-line"><?= $isEnabledDiffTool ? Html::input('radio', 'revision_' . $revision->revision, $revision->revision) : ''; ?></div>
+                        <div class="horizontal-line"><?= $isEnabledDiffTool ? Html::input('radio', 'revision_' . $revision->revision, $revision->revision) : ''; ?></div>
 
-                            <div class="media-body">
-                                <h4 class="media-heading">
-                                    <a href="<?= $contentContainer->createUrl('view', ['title' => $page->title, 'revision' => $revision->revision]); ?>">
-                                        <?= Html::encode($page->title); ?>
-                                    </a>
-                                </h4>
-                                <div class="wiki-page-list-row-details">
-                                    <?= TimeAgo::widget(['timestamp' => $revision->revision]) ?>
-                                    <?php if ($revision->author): ?>
-                                        &middot; <?= \humhub\libs\Html::containerLink($revision->author) ?>
-                                    <?php endif; ?>
-                                    &middot; <?= Link::to(Yii::t('WikiModule.base', 'show changes'), Url::toWiki($page, $revision))->cssClass('wiki-page-view-link') ?>
-                                </div>
-
+                        <div class="flex-grow-1">
+                            <h4 class="mt-0">
+                                <a href="<?= $contentContainer->createUrl('view', ['title' => $page->title, 'revision' => $revision->revision]); ?>">
+                                    <?= Html::encode($page->title); ?>
+                                </a>
+                            </h4>
+                            <div class="wiki-page-list-row-details">
+                                <?= TimeAgo::widget(['timestamp' => $revision->revision]) ?>
+                                <?php if ($revision->author): ?>
+                                    &middot; <?= \humhub\helpers\Html::containerLink($revision->author) ?>
+                                <?php endif; ?>
+                                &middot; <?= Link::to(Yii::t('WikiModule.base', 'show changes'), Url::toWiki($page, $revision))->cssClass('wiki-page-view-link') ?>
                             </div>
 
                         </div>

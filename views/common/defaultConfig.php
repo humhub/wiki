@@ -5,12 +5,12 @@
  * @license https://www.humhub.com/licences
  */
 
-use humhub\modules\ui\form\widgets\ActiveForm;
-use humhub\modules\ui\form\widgets\ContentHiddenCheckbox;
 use humhub\modules\ui\view\components\View;
 use humhub\modules\wiki\assets\Assets;
 use humhub\modules\wiki\models\DefaultSettings;
-use humhub\widgets\Button;
+use humhub\widgets\bootstrap\Button;
+use humhub\widgets\form\ActiveForm;
+use humhub\widgets\form\ContentHiddenCheckbox;
 
 /* @var $this View */
 /* @var $model DefaultSettings */
@@ -23,7 +23,7 @@ Assets::register($this);
 
     <div class="panel-body" data-ui-widget="calendar.Form">
         <?php $form = ActiveForm::begin(['action' => $model->getSubmitUrl()]); ?>
-            <div class="help-block">
+            <div class="form-text">
                 <?= Yii::t('WikiModule.base', 'Here you can configure default settings the wiki module.') ?>
             </div>
 

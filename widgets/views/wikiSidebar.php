@@ -5,15 +5,15 @@
  * @license https://www.humhub.com/licences
  */
 
-use humhub\libs\Html;
+use humhub\helpers\Html;
 use humhub\modules\content\components\ContentContainerActiveRecord;
 use humhub\modules\wiki\helpers\Url;
 use humhub\modules\wiki\models\DefaultSettings;
 use humhub\modules\wiki\widgets\CategoryListView;
 use humhub\modules\wiki\widgets\WikiContent;
 use humhub\modules\wiki\widgets\WikiSearchForm;
-use humhub\widgets\Button;
-use humhub\widgets\Link;
+use humhub\widgets\bootstrap\Button;
+use humhub\widgets\bootstrap\Link;
 
 /* @var $options array */
 /* @var $contentContainer ContentContainerActiveRecord */
@@ -31,9 +31,9 @@ $settings = new DefaultSettings(['contentContainer' => $contentContainer]);
             <?= Button::info()->icon('fa-plus')->link(Url::toWikiCreate($contentContainer))->cssClass('btn-add-page')->sm() ?>
             <?= WikiSearchForm::widget(['contentContainer' => $contentContainer]) ?>
             <div class="wiki-page-content-header-actions">
-                <?= Button::info(Yii::t('WikiModule.base', 'Last edited'))->sm()->link(Url::toLastEdited($contentContainer))->cssClass('hidden-lg') ?>
+                <?= Button::info(Yii::t('WikiModule.base', 'Last edited'))->sm()->link(Url::toLastEdited($contentContainer))->cssClass('d-lg-none') ?>
                 <?php if ($canCreate) : ?>
-                    <?= Button::info(Yii::t('WikiModule.base', 'Create page'))->icon('fa-plus')->link(Url::toWikiCreate($contentContainer))->cssClass('hidden-lg')->sm() ?>
+                    <?= Button::info(Yii::t('WikiModule.base', 'Create page'))->icon('fa-plus')->link(Url::toWikiCreate($contentContainer))->cssClass('d-lg-none')->sm() ?>
                 <?php endif; ?>
             </div>
             <div class="clearfix"></div>

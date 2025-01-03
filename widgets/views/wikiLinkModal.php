@@ -2,7 +2,7 @@
 
 use humhub\modules\wiki\models\WikiPageSearch;
 use humhub\modules\wiki\widgets\WikiSearchInput;
-use yii\widgets\ActiveForm;
+use humhub\widgets\form\ActiveForm;
 
 /* @var $this \humhub\modules\ui\view\components\View */
 /* @var $contentContainer \humhub\modules\content\components\ContentActiveRecord */

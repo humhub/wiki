@@ -19,7 +19,7 @@ use humhub\modules\wiki\models\WikiPage;
 use humhub\modules\wiki\models\WikiPageRevision;
 use humhub\modules\wiki\permissions\AdministerPages;
 use humhub\modules\wiki\permissions\ViewHistory;
-use humhub\widgets\Link;
+use humhub\widgets\bootstrap\Link;
 use Yii;
 
 class WikiMenu extends WallEntryControls
