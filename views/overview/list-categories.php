@@ -49,7 +49,8 @@ $settings = new DefaultSettings(['contentContainer' => $contentContainer]);
                     ?>
                     <span class="dropdown">
                         <button type="button" class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true">
-                            <?= Yii::t('WikiModule.base', 'Options') ?>
+                        <i class="fa fa-cog"></i>    
+                        <?= Yii::t('WikiModule.base', 'Options') ?>
                         </button>
                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                             <li>
