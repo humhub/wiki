@@ -26,7 +26,7 @@ $resizableCacheKey = 'wiki.sidebar';
         'hideOnSmallScreen' => $hideSidebarOnSmallScreen,
         'resizableCacheKey' => $resizableCacheKey,
     ]) ?>
-    <div class="wiki-right-part col-lg-8 <?= $hideSidebarOnSmallScreen ? 'col-md-12' : 'd-none d-lg-block' ?>">
+    <div class="wiki-right-part col-xl-8 <?= $hideSidebarOnSmallScreen ? 'col-lg-12' : 'd-none d-lg-block' ?>">
         <?= $content ?>
     </div>
 </div>

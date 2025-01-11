@@ -22,7 +22,7 @@ use humhub\modules\wiki\widgets\WikiMenu;
         <?= Html::beginTag('div', $options) ?>
             <button type="button" class="btn btn-info btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true">
             </button>
-            <ul class="dropdown-menu float-end">
+            <ul class="dropdown-menu dropdown-menu-end">
                 <?php foreach ($entries as $entry) : ?>
                     <li><?= $entry->render(['class' => 'dropdown-item']) ?></li>
                 <?php endforeach; ?>

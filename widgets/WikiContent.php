@@ -41,7 +41,7 @@ class WikiContent extends JsWidget
 
     public function getAttributes()
     {
-        $cssClass = 'col-lg-' . $this->cols . ' col-md-' . $this->cols . ' col-sm-' . $this->cols . ' wiki-content';
+        $cssClass = 'col-xl-' . $this->cols . ' col-lg-' . $this->cols . ' col-md-' . $this->cols . ' wiki-content';
         $cssClass .= ($this->cssClass) ? ' ' . $this->cssClass : '';
 
         return [
