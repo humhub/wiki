@@ -16,6 +16,7 @@ use humhub\modules\wiki\widgets\CategoryListView;
 use humhub\modules\wiki\widgets\WikiContent;
 use humhub\modules\wiki\widgets\WikiSearchForm;
 use humhub\widgets\Button;
+use humhub\modules\wiki\permissions\AdministerPages;
 
 /* @var $this View */
 /* @var $contentContainer ContentContainerActiveRecord */
@@ -44,10 +45,28 @@ $settings = new DefaultSettings(['contentContainer' => $contentContainer]);
                         $module = Yii::$app->getModule('wiki');    
                         $user = Yii::$app->user->identity;
                         $numberingEnabled = $module->settings->contentContainer($user)->get('overviewNumberingEnabled');
+                        $editingEnabled = $module->settings->contentContainer($user)->get('wikiTreeEditingEnabled', FALSE);
                     ?>
-                    <a href="<?= Url::current(['toggle-numbering']) ?>" class="btn btn-info btn-sm toggle-numbering">
-                        <?= $numberingEnabled ? Yii::t('WikiModule.base', 'Disable Numbering') : Yii::t('WikiModule.base', 'Enable Numbering') ?>
-                    </a>
+                    <span class="dropdown">
+                        <button type="button" class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true">
+                        <i class="fa fa-cog"></i>    
+                        <?= Yii::t('WikiModule.base', 'Options') ?>
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <li>
+                                <a href="<?= Url::current(['toggle-numbering']) ?>" class="toggle-numbering">
+                                    <?= $numberingEnabled ? Yii::t('WikiModule.base', 'Disable Numbering') : Yii::t('WikiModule.base', 'Enable Numbering') ?>
+                                </a>
+                            </li>
+                            <?php if ($contentContainer->can(AdministerPages::class)): ?>
+                                <li>
+                                <a href="<?= Url::current(['toggle-wiki-tree-editing']) ?>" class="toggle-editing">
+                                    <?= $editingEnabled ? Yii::t('WikiModule.base', 'Disable wiki tree editing') : Yii::t('WikiModule.base', 'Enable wiki tree editing') ?>
+                                </a>
+                                </li>
+                            <?php endif; ?>
+                        </ul>
+                    </span>
                 </div>
                 <div class="clearfix"></div>
             </div>
