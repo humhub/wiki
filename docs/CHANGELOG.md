@@ -5,6 +5,7 @@ Changelog
 -----------------------
 - Enh #358: Replaced the `fa-file-word-o` icon with the `fa-book` icon
 - Fix #361: Fix wiki link added by RichText editor
+- Fix #367: Fix wall entry controls style
 
 2.3.6 (October 4, 2024)
 -----------------------
