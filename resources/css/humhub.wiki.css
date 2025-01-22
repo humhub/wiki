@@ -233,15 +233,8 @@
 .layout-content-container .wiki-content [data-wiki-page="#"] {
   color: #4cc159 !important;
 }
-.layout-content-container .wiki-content .social-controls,
-.layout-content-container .wiki-content .social-controls a {
-  font-size: 11px;
-  color: var(--text-color-soft2);
+.layout-content-container .wiki-content .social-controls {
   margin-bottom: 10px;
-}
-.layout-content-container .wiki-content .wall-entry-controls .like {
-  font-size: 11px;
-  color: var(--text-color-soft2);
 }
 .layout-content-container .wiki-content ul.wiki-page-list {
   list-style: none;
@@ -389,7 +382,7 @@
   top: -9px;
 }
 .layout-content-container .wiki-content ul.wiki-page-history li .wiki-author-link {
-  color: var(--text-color-soft2);
+  color: var(--text-color-soft);
   text-decoration: underline;
 }
 .layout-content-container .wiki-content ul.wiki-page-history li .media {
@@ -579,7 +572,7 @@
 }
 #category_list_view .drag-icon {
   visibility: hidden;
-  color: var(--text-color-soft2);
+  color: var(--text-color-soft);
 }
 #category_list_view .drag-icon .fa {
   font-size: 11px;
