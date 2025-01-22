@@ -7,7 +7,7 @@ $wiki-mobile-grid-breakpoints: 520px;
 
 :root {
     --hh-wiki-text-color-title: var(--hh-text-color-highlight);
-    --hh-wiki-text-color-control: var(--hh-text-color-soft2);
+    --hh-wiki-text-color-control: var(--hh-text-color-soft);
     --hh-wiki-link-color-page: #ec4332;
     --hh-wiki-link-color-page-missed: #4cc159;
     --hh-wiki-icon-color-add: #4cc159;
@@ -343,17 +343,8 @@ $wiki-mobile-grid-breakpoints: 520px;
             color: var(--hh-wiki-link-color-wiki-page-missed) !important;
         }
 
-        .social-controls, .social-controls a {
-            font-size: 11px;
-            color: var(--hh-wiki-text-color-control);
+        .social-controls {
             margin-bottom: 10px;
-        }
-
-        .wall-entry-controls {
-            .like {
-                font-size: 11px;
-                color: var(--hh-wiki-text-color-control);
-            }
         }
 
         ul.wiki-page-list {

@@ -1,6 +1,6 @@
 :root {
   --hh-wiki-text-color-title: var(--hh-text-color-highlight);
-  --hh-wiki-text-color-control: var(--hh-text-color-soft2);
+  --hh-wiki-text-color-control: var(--hh-text-color-soft);
   --hh-wiki-link-color-page: #ec4332;
   --hh-wiki-link-color-page-missed: #4cc159;
   --hh-wiki-icon-color-add: #4cc159;
@@ -244,14 +244,8 @@
 .layout-content-container .wiki-content [data-wiki-page="#"] {
   color: var(--hh-wiki-link-color-wiki-page-missed) !important;
 }
-.layout-content-container .wiki-content .social-controls, .layout-content-container .wiki-content .social-controls a {
-  font-size: 11px;
-  color: var(--hh-wiki-text-color-control);
+.layout-content-container .wiki-content .social-controls {
   margin-bottom: 10px;
-}
-.layout-content-container .wiki-content .wall-entry-controls .like {
-  font-size: 11px;
-  color: var(--hh-wiki-text-color-control);
 }
 .layout-content-container .wiki-content ul.wiki-page-list {
   list-style: none;
