@@ -449,7 +449,7 @@ class PageController extends BaseController
 
         $newState = !$numberingEnabled;
         $module->settings->contentContainer($user)->set('wikiNumberingEnabled', $newState);
-        
+
         try {        
             $page = $this->getWikiPage($id);
             return $this->redirect(Url::toWiki($page));  
