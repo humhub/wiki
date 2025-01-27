@@ -461,8 +461,9 @@ class PageController extends BaseController
 
     public function actionMerge(int $id) {
 
-        $page = $this->getWikiPage($id);
+        $dateTime = new DateTime();
 
+        $page = $this->getWikiPage($id);
         if (!$page) {
             throw new HttpException(404, 'Wiki page not found!');
         }
@@ -479,7 +480,8 @@ class PageController extends BaseController
         $submittedRevision->isCurrentlyEditing = true;
 
         $mergedRevision = $page->createRevision();
-        $mergedRevision->content = $page->latestRevision->content.' '.$submittedRevision->content;
+        $changedContentSepeartor = '**conflicting changes from '. $dateTime->format('Y-m-d H:i:s').'**';
+        $mergedRevision->content = $page->latestRevision->content.'<br><br>'.$changedContentSepeartor.'<br>'.$submittedRevision->content;
         $mergedRevision->save();
 
         return $this->redirect(Url::toWiki($page));
@@ -487,10 +489,10 @@ class PageController extends BaseController
 
     public function actionCreateCopy(int $id) {
 
-        $page = $this->getWikiPage($id);
         $userIdentity = Yii::$app->user->identity->username;
         $dateTime = new DateTime();
 
+        $page = $this->getWikiPage($id);
         if (!$page) {
             throw new HttpException(404, 'Wiki page not found!');
         }
@@ -509,12 +511,10 @@ class PageController extends BaseController
 
         if (!$childPage->save()) {
             echo "Failed to create the child page.";
-            var_dump($childPage->getErrors());
-            return;
+            throw new HttpException(500, 'Internal error while creating child page!');
         }
 
         if (!$childPage->id) {
-            var_dump($childPage->getErrors());
             throw new HttpException('Child page ID is not available after saving.');
         }
 
@@ -525,7 +525,6 @@ class PageController extends BaseController
         $revision->user_id = Yii::$app->user->id;
 
         if (!$revision->save()) {
-            var_dump($childPage->getErrors());
             throw new HttpException('Failed to add content to the child page.');
         }
 
