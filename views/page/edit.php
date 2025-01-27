@@ -77,7 +77,7 @@ Assets::register($this);
                 <?= Button::save(Yii::t('WikiModule.base','Merge'))->action('openUrlLink', Url::toWikiMerge($model->page))?>
 
                 <?= Button::save(Yii::t('WikiModule.base','Create Copy'))->action('openUrlLink', Url::toWikiCreateCopy($model->page))?>
-
+                
                 <?= Button::defaultType(Yii::t('WikiModule.base', 'Back'))->action('backOverwriting')->icon('back')->loader(false); ?>
 
                 <div class="pull-right">
