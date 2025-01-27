@@ -22,6 +22,7 @@ use yii\base\InvalidConfigException;
 use yii\db\StaleObjectException;
 use yii\web\HttpException;
 use yii\web\Response;
+use DateTime;
 
 /**
  * PageController
@@ -456,5 +457,78 @@ class PageController extends BaseController
         catch(Exception $e) {
             return $this->redirect(Url::previous());
         }  
+    }
+
+    public function actionMerge(int $id) {
+
+        $page = $this->getWikiPage($id);
+
+        if (!$page) {
+            throw new HttpException(404, 'Wiki page not found!');
+        }
+
+        $form = (new PageEditForm(['container' => $this->contentContainer]))->forPage($id);
+
+        if (!$form->load(Yii::$app->request->post())) {
+            throw new HttpException(404);
+        }
+
+        $submittedRevision = new WikiPageRevision();
+        $submittedRevision->revision = time();
+        $submittedRevision->content = $form->revision->content;
+        $submittedRevision->isCurrentlyEditing = true;
+
+        $mergedRevision = $page->createRevision();
+        $mergedRevision->content = $page->latestRevision->content.' '.$submittedRevision->content;
+        $mergedRevision->save();
+
+        return $this->redirect(Url::toWiki($page));
+    }
+
+    public function actionCreateCopy(int $id) {
+
+        $page = $this->getWikiPage($id);
+        $userIdentity = Yii::$app->user->identity->username;
+        $dateTime = new DateTime();
+
+        if (!$page) {
+            throw new HttpException(404, 'Wiki page not found!');
+        }
+
+        $parentId = $page->parent_page_id;
+
+        $form = (new PageEditForm(['container' => $this->contentContainer]))->forPage($id);
+        if (!$form->load(Yii::$app->request->post())) {
+            throw new HttpException(404);
+        }
+
+        $childPage = new WikiPage();
+        $childPage->title = $page->title.' conflicting copy of '. $userIdentity.' from '. $dateTime->format('Y-m-d H:i:s');
+        $childPage->parent_page_id = $parentId;
+        $childPage->content->contentcontainer_id= $page->content->contentcontainer_id;
+
+        if (!$childPage->save()) {
+            echo "Failed to create the child page.";
+            var_dump($childPage->getErrors());
+            return;
+        }
+
+        if (!$childPage->id) {
+            var_dump($childPage->getErrors());
+            throw new HttpException('Child page ID is not available after saving.');
+        }
+
+        $revision = new WikiPageRevision();
+        $revision->content = $form->revision->content;
+        $revision->wiki_page_id = $childPage->id;
+        $revision->revision = 1;
+        $revision->user_id = Yii::$app->user->id;
+
+        if (!$revision->save()) {
+            var_dump($childPage->getErrors());
+            throw new HttpException('Failed to add content to the child page.');
+        }
+
+        return $this->redirect(Url::toWiki($page));
     }
 }

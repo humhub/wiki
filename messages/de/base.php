@@ -94,4 +94,6 @@ return [
     'Enable overview numbering for all users by default' => 'Nummerierung der Seitentitel für alle Benutzer standardmäßig aktivieren',
     'Disable wiki tree editing' => 'Bearbeitung der Seitenhierachie deaktivieren',
     'Enable wiki tree editing' => 'Bearbeitung der Seitenhierachie  aktivieren',
+    'Merge' => 'Zusammenführen',
+    'Create Copy' => 'Kopie erstellen',
 ];

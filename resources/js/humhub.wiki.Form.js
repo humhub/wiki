@@ -74,6 +74,12 @@ humhub.module('wiki.Form', function(module, require, $) {
         }, 500);
     };
 
+    Form.prototype.openUrlLink = function(evt) {
+        var form = this.$;
+        form.attr('action', evt.$trigger.data('action-click-url'))
+            .submit();
+    }
+
     Form.submit = function () {
         $('form[data-ui-widget="wiki.Form"]').submit();
     };

@@ -15,6 +15,7 @@ use humhub\modules\wiki\widgets\WikiMenu;
 use humhub\modules\wiki\widgets\WikiPagePicker;
 use humhub\modules\wiki\widgets\WikiPath;
 use humhub\widgets\Button;
+use humhub\modules\wiki\helpers\Url;
 use humhub\modules\topic\widgets\TopicPicker;
 
 /* @var $this View */
@@ -72,6 +73,10 @@ Assets::register($this);
                 <?= $form->field($model, 'confirmOverwriting')->checkbox()->label(); ?>
 
                 <?= Button::save(Yii::t('WikiModule.base', 'Overwrite'))->submit() ?>
+
+                <?= Button::save(Yii::t('WikiModule.base','Merge'))->action('openUrlLink', Url::toWikiMerge($model->page))?>
+
+                <?= Button::save(Yii::t('WikiModule.base','Create Copy'))->action('openUrlLink', Url::toWikiCreateCopy($model->page))?>
 
                 <?= Button::defaultType(Yii::t('WikiModule.base', 'Back'))->action('backOverwriting')->icon('back')->loader(false); ?>
 
