@@ -4,6 +4,7 @@ humhub.module('wiki', function(module, require, $) {
     var view = require('ui.view');
     var client = require('client');
     var loader = require('ui.loader');
+    var modal = require('ui.modal');
 
     var stickyElementSettings = [];
 
@@ -126,12 +127,19 @@ humhub.module('wiki', function(module, require, $) {
         event.off('humhub:content:afterMove.wiki');
     };
 
+    var confirmEditing = function(evt) {
+        var editUrl = evt.$trigger.data('action-click-url');
+        console.log(editUrl);
+        client.redirect(editUrl);
+    };
+
     module.export({
         Content: Content,
         toAnchor: toAnchor,
         revertRevision: revertRevision,
         actionDelete: actionDelete,
         registerStickyElement: registerStickyElement,
-        unload: unload
+        unload: unload,
+        confirmEditing: confirmEditing,
     })
 });

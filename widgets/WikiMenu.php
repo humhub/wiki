@@ -276,11 +276,27 @@ class WikiMenu extends WallEntryControls
                     'icon' => 'fa-list-alt',
                 ]);
             case static::LINK_EDIT:
-                return $this->canEdit && !empty($this->object->latestRevision->content) ? new MenuLink([
-                    'label' => Yii::t('WikiModule.base', 'Edit'),
-                    'url' => Url::toWikiEdit($this->object),
-                    'icon' => 'fa-pencil',
-                ]) : null;
+                if ($this->object->isEditing()) {
+                    return $this->canEdit && !empty($this->object->latestRevision->content) ? new MenuLink([
+                        'label' => Yii::t('WikiModule.base', 'Edit'),
+                        'url' => '#',
+                        'icon' => 'fa-pencil',
+                        'htmlOptions' => [
+                            'data-action-click' => 'wiki.confirmEditing',
+                            'data-action-click-url' => Url::toWikiEdit($this->object),
+                            'data-action-confirm-header' => Yii::t('WikiModule.base', '<strong>Confirm</strong> page Edit'),
+                            'data-action-confirm' => Yii::t('WikiModule.base', 'Another User is already editing.<br> Do you really want to Edit this page?'),
+                            'data-action-confirm-text' => Yii::t('WikiModule.base', 'Continue'),
+                        ],
+                    ]) : null;
+                }
+                else{
+                    return $this->canEdit && !empty($this->object->latestRevision->content) ? new MenuLink([
+                        'label' => Yii::t('WikiModule.base', 'Edit'),
+                        'url' => Url::toWikiEdit($this->object),
+                        'icon' => 'fa-pencil',
+                    ]) : null;
+                }
             case static::LINK_HISTORY:
                 return $this->canViewHistory() ? new MenuLink([
                     'label' => Yii::t('WikiModule.base', 'Page History'),

@@ -28,6 +28,7 @@ use yii\db\Expression;
  * @property int $sort_order
  * @property int $is_container_menu
  * @property int $container_menu_order
+ * @property int $is_currently_editing
  *
  * @property-read WikiPage|null $categoryPage
  * @property-read WikiPageRevision $latestRevision
@@ -539,5 +540,35 @@ class WikiPage extends ContentActiveRecord implements Searchable
         $this->_isCategory = $this->findChildren()->exists();
 
         return $this->_isCategory;
+    }
+    
+    public function isEditing() {
+        $module = Yii::$app->getModule('wiki');                      
+        $user = Yii::$app->user->id;
+        if ($module->settings->space()->get($this->id) == NULL) {
+            $module->settings->space()->set($this->id, $user);
+            return false;
+        }
+        if ($module->settings->space()->get($this->id) == $user) {
+            return false;
+        }
+        return true;
+    }
+
+    public function updateIsEditing() {
+        $module = Yii::$app->getModule('wiki');                      
+        $user = Yii::$app->user->id;
+        if ($module->settings->space()->get($this->id) == $user) {
+            return;
+        }
+        $module->settings->space()->set($this->id, $user);
+    }
+
+    public function doneEditing() {
+        $module = Yii::$app->getModule('wiki');                      
+        $user = Yii::$app->user->id;
+        if ($module->settings->space()->get($this->id) == $user) {
+            $module->settings->space()->set($this->id, NULL);
+        }
     }
 }

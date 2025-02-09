@@ -73,7 +73,7 @@ class PageController extends BaseController
             $page->delete();
             throw new HttpException(404, 'Wiki page revision not found!');
         }
-
+        $page->doneEditing();
         return $this->renderSidebarContent('view', [
             'page' => $page,
             'revision' => $revision,
@@ -212,6 +212,7 @@ class PageController extends BaseController
             ]);
         }
 
+        $form->page->setEditing();
         return $this->renderSidebarContent('edit', $params);
     }
 
@@ -336,7 +337,7 @@ class PageController extends BaseController
         }
 
         $page->delete();
-
+        $page->doneEditing();
         return $this->redirect($this->contentContainer->createUrl('index'));
     }
 
@@ -510,8 +511,7 @@ class PageController extends BaseController
         $childPage->content->contentcontainer_id= $page->content->contentcontainer_id;
 
         if (!$childPage->save()) {
-            echo "Failed to create the child page.";
-            throw new HttpException(500, 'Internal error while creating child page!');
+            throw new HttpException(500, 'Failed to create the child page!');
         }
 
         if (!$childPage->id) {
