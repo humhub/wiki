@@ -545,11 +545,10 @@ class WikiPage extends ContentActiveRecord implements Searchable
     public function isEditing() {
         $module = Yii::$app->getModule('wiki');                      
         $user = Yii::$app->user->id;
-        if ($module->settings->space()->get($this->id) == NULL) {
-            $module->settings->space()->set($this->id, $user);
+        if ($this->is_currently_editing == NULL) {
             return false;
         }
-        if ($module->settings->space()->get($this->id) == $user) {
+        if ($this->is_currently_editing == $user) {
             return false;
         }
         return true;
@@ -558,17 +557,16 @@ class WikiPage extends ContentActiveRecord implements Searchable
     public function updateIsEditing() {
         $module = Yii::$app->getModule('wiki');                      
         $user = Yii::$app->user->id;
-        if ($module->settings->space()->get($this->id) == $user) {
-            return;
-        }
-        $module->settings->space()->set($this->id, $user);
+        $this->updateAttributes(['is_currently_editing' => $user]);
+        return true;
     }
 
     public function doneEditing() {
         $module = Yii::$app->getModule('wiki');                      
         $user = Yii::$app->user->id;
-        if ($module->settings->space()->get($this->id) == $user) {
-            $module->settings->space()->set($this->id, NULL);
+        if ($this->is_currently_editing == $user) {
+            $this->is_currently_editing = NULL;
+            return true;
         }
-    }
+    } 
 }

@@ -212,7 +212,7 @@ class PageController extends BaseController
             ]);
         }
 
-        $form->page->setEditing();
+        $form->page->updateIsEditing();
         return $this->renderSidebarContent('edit', $params);
     }
 
