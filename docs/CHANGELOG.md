@@ -1,8 +1,8 @@
 Changelog
 =========
 
-2.3.7 (Unreleased)
------------------------
+2.3.7 (February 12, 2025)
+-------------------------
 - Enh #358: Replaced the `fa-file-word-o` icon with the `fa-book` icon
 - Fix #361: Fix wiki link added by RichText editor
 - Fix #367: Fix wall entry controls style
