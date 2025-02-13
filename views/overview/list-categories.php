@@ -34,14 +34,13 @@ $settings = new DefaultSettings(['contentContainer' => $contentContainer]);
     <div class="panel-body">
         <div class="row">
             <?php WikiContent::begin(['cssClass' => 'wiki-page-content']) ?>
-            <div class="wiki-page-content-header">
+            <div class="wiki-page-content-header clearfix">
                 <h3><?= Html::encode($settings->module_label) ?></h3>
                 <?= WikiSearchForm::widget(['contentContainer' => $contentContainer, 'cssClass' => 'float-start']) ?>
                 <div class="wiki-page-content-header-actions">
                     <?= Button::info(Yii::t('WikiModule.base', 'Last edited'))->sm()->link(Url::toLastEdited($contentContainer))->cssClass(Helper::isEnterpriseTheme() ? 'd-lg-none' : '') ?>
                     <?= Button::info($createPageTitle)->icon('fa-plus')->sm()->link(Url::toWikiCreate($contentContainer))->visible($canCreate) ?>
                 </div>
-                <div class="clearfix"></div>
             </div>
 
             <?= CategoryListView::widget(['contentContainer' => $contentContainer]) ?>

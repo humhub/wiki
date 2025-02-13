@@ -17,7 +17,7 @@ use humhub\widgets\bootstrap\Button;
 /* @var $contentContainer ContentContainerActiveRecord */
 /* @var $canCreate bool */
 ?>
-<div class="wiki-page-content-header">
+<div class="wiki-page-content-header clearfix">
     <h3><?= ($icon ? Icon::get($icon) : '') . $title ?></h3>
     <?= WikiSearchForm::widget(['contentContainer' => $contentContainer, 'cssClass' => Helper::isEnterpriseTheme() ? 'd-lg-none' : '']) ?>
     <div class="wiki-page-content-header-actions">
@@ -26,5 +26,4 @@ use humhub\widgets\bootstrap\Button;
         <?= Button::info(Yii::t('WikiModule.base', 'Create page'))->icon('fa-plus')
             ->link(Url::toWikiCreate($contentContainer))->visible($canCreate)->sm() ?>
     </div>
-    <div class="clearfix"></div>
 </div>

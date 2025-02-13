@@ -26,7 +26,7 @@ $settings = new DefaultSettings(['contentContainer' => $contentContainer]);
 <div class="panel panel-default">
     <div class="panel-body">
         <?php WikiContent::begin(['cssClass' => 'wiki-page-content']) ?>
-        <div class="wiki-page-content-header">
+        <div class="wiki-page-content-header clearfix">
             <h3><?= Link::to(Html::encode($settings->module_label), Url::toLastEdited($contentContainer)) ?></h3>
             <?= Button::info()->icon('fa-plus')->link(Url::toWikiCreate($contentContainer))->cssClass('btn-add-page')->sm() ?>
             <?= WikiSearchForm::widget(['contentContainer' => $contentContainer]) ?>
@@ -36,7 +36,6 @@ $settings = new DefaultSettings(['contentContainer' => $contentContainer]);
                     <?= Button::info(Yii::t('WikiModule.base', 'Create page'))->icon('fa-plus')->link(Url::toWikiCreate($contentContainer))->cssClass('d-lg-none')->sm() ?>
                 <?php endif; ?>
             </div>
-            <div class="clearfix"></div>
         </div>
 
         <?= CategoryListView::widget(['contentContainer' => $contentContainer]) ?>
