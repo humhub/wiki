@@ -568,5 +568,5 @@ class WikiPage extends ContentActiveRecord implements Searchable
             $this->is_currently_editing = NULL;
             return true;
         }
-    } 
+    }  
 }

@@ -530,4 +530,26 @@ class PageController extends BaseController
 
         return $this->redirect(Url::toWiki($page));
     }
+
+    public function actionEditingStatus(int $id)
+    {
+        $page = $this->getWikiPage($id);
+        if (!$page) {
+            throw new HttpException(404, 'Wiki page not found!');
+        }
+
+        $module = Yii::$app->getModule('wiki');                      
+        $user = Yii::$app->user->id;
+        if($page->is_currently_editing == $user || $page->is_currently_editing == NULL) {
+            $isEditing = false;
+        }
+        else{
+            $isEditing = true;
+        }
+
+        return $this->asJson([
+            'success' => true,
+            'isEditing' => (bool) $isEditing,
+        ]);
+    }
 }
