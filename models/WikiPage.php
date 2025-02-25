@@ -28,7 +28,8 @@ use yii\db\Expression;
  * @property int $sort_order
  * @property int $is_container_menu
  * @property int $container_menu_order
- * @property int $is_currently_editing
+ * @property string|null $is_currently_editing
+ * @property int|null $editing_started_at
  *
  * @property-read WikiPage|null $categoryPage
  * @property-read WikiPageRevision $latestRevision
@@ -541,32 +542,45 @@ class WikiPage extends ContentActiveRecord implements Searchable
 
         return $this->_isCategory;
     }
-    
+
+    /* Function to check if any user is currently editing the page 
+     * 
+     * @return bool
+    */
     public function isEditing() {
-        $module = Yii::$app->getModule('wiki');                      
-        $user = Yii::$app->user->id;
-        if ($this->is_currently_editing == NULL) {
+        $user = Yii::$app->user->identity->username;
+
+        if ($this->is_currently_editing == NULL || $this->is_currently_editing == $user) {
             return false;
         }
-        if ($this->is_currently_editing == $user) {
+
+        $ttl = 300;
+        if (time() - $this->editing_started_at > $ttl) {
+            $this->doneEditing();
             return false;
         }
+    
         return true;
     }
 
+    /* Function to update the Attribute value to the new user in the edit page 
+    */
     public function updateIsEditing() {
-        $module = Yii::$app->getModule('wiki');                      
-        $user = Yii::$app->user->id;
-        $this->updateAttributes(['is_currently_editing' => $user]);
-        return true;
+        $user = Yii::$app->user->identity->username;
+        if ($this->is_currently_editing == NULL) {
+            $this->updateAttributes(['is_currently_editing' => $user, 'editing_started_at' => time()]);
+        }
     }
 
+    /* Function to make the editing attributes null to show that no user is currently editing the page.
+    */
     public function doneEditing() {
-        $module = Yii::$app->getModule('wiki');                      
-        $user = Yii::$app->user->id;
-        if ($this->is_currently_editing == $user) {
-            $this->is_currently_editing = NULL;
-            return true;
-        }
+        $this->updateAttributes(['is_currently_editing' => new Expression('NULL'), 'editing_started_at' => new Expression('NULL')]);
     }  
+
+    /* Function to update the time stamp i.e editing_started_at 
+    */
+    public function updateEditingTime() {
+        $this->updateAttributes(['editing_started_at' => time()]);
+    }
 }

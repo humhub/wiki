@@ -73,7 +73,6 @@ class PageController extends BaseController
             $page->delete();
             throw new HttpException(404, 'Wiki page revision not found!');
         }
-        $page->doneEditing();
         return $this->renderSidebarContent('view', [
             'page' => $page,
             'revision' => $revision,
@@ -470,7 +469,6 @@ class PageController extends BaseController
         }
 
         $form = (new PageEditForm(['container' => $this->contentContainer]))->forPage($id);
-
         if (!$form->load(Yii::$app->request->post())) {
             throw new HttpException(404);
         }
@@ -538,18 +536,43 @@ class PageController extends BaseController
             throw new HttpException(404, 'Wiki page not found!');
         }
 
-        $module = Yii::$app->getModule('wiki');                      
-        $user = Yii::$app->user->id;
-        if($page->is_currently_editing == $user || $page->is_currently_editing == NULL) {
-            $isEditing = false;
+        $user = Yii::$app->user->identity->username;
+
+        return $this->asJson([
+            'success' => true,
+            'isEditing' => $page->isEditing(),
+            'user' => $page->is_currently_editing,
+        ]); 
+    }
+
+    public function actionEditingTimerUpdate(int $id = null)
+    {   
+        $unAuthorizedLogin = false;
+        $page = $this->getWikiPage($id);
+        if (!$page) {
+            return $this->asJson([
+                'sucess' => false,
+            ]);
         }
-        else{
-            $isEditing = true;
+
+        $user = Yii::$app->user->identity->username;
+
+        if ($page->is_currently_editing == NULL) {
+            $page->updateIsEditing();
+        }
+
+        if ($page->is_currently_editing == $user) {
+            $page->updateEditingTime();
+        }
+        else {
+            $unAuthorizedLogin = true;
         }
 
         return $this->asJson([
             'success' => true,
-            'isEditing' => (bool) $isEditing,
-        ]);
+            'user' => $page->is_currently_editing,
+            'unAuthorizedLogin' => $unAuthorizedLogin,
+            'url' => Url::toWiki($page),
+        ]); 
     }
 }

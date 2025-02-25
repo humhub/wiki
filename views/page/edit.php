@@ -48,7 +48,7 @@ Assets::register($this);
                         ]) ?>
                     <?php endif; ?>
                 </div>
-                <div class="wiki-page-title"><?= $model->getTitle() ?></div>
+                <div class="wiki-page-title" data-url-editing-timer-update = <?=Url::toWikiEditingTimerUpdate($model->page);?>><?= $model->getTitle() ?></div>
             </div>
 
             <?php $form = ActiveForm::begin(

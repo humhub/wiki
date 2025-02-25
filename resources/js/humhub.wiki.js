@@ -146,7 +146,7 @@ humhub.module('wiki', function(module, require, $) {
 
         client.get(url).then(function(response) {
             if (response.success && response.isEditing) {
-                openEditingDialog();
+                openEditingDialog(response.user);
             } else {
                 closeEditingDialog();
             }
@@ -155,15 +155,15 @@ humhub.module('wiki', function(module, require, $) {
         });
     }
 
-    function openEditingDialog() {
+    function openEditingDialog(user) {
         var button = document.querySelector('[data-url-editing-status]');
-        button.setAttribute('data-action-confirm', 'Another User is already editing.<br> Do you really want to Edit this page?');
+        button.setAttribute('data-action-confirm', user +' is already editing.<br> Do you really want to Edit this page?');
         
     }
 
     function closeEditingDialog() {
         var button = document.querySelector('[data-url-editing-status]');
-        if (document.querySelector('data-action-confirm') != null) {
+        if (button.getAttribute('data-action-confirm') != null) {
             button.removeAttribute('data-action-confirm');
             client.reload();
         }

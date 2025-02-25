@@ -2,6 +2,11 @@ humhub.module('wiki.Form', function(module, require, $) {
     var Widget = require('ui.widget').Widget;
     var wikiView = require('wiki');
     var additions = require('ui.additions');
+    var client = require('client');
+    var modal = require('ui.modal');
+
+    var editPollingInterval = 5000;
+    var editPollingTimer = null;
 
     /**
      * This widget represents the wiki form
@@ -39,6 +44,8 @@ humhub.module('wiki.Form', function(module, require, $) {
                 }
             });
         }
+        checkValidUser();
+        startEditPolling();
     };
 
     Form.prototype.getRichtextMenu = function() {
@@ -81,8 +88,53 @@ humhub.module('wiki.Form', function(module, require, $) {
     }
 
     Form.submit = function () {
+        if (editPollingTimer) {
+            clearInterval(editPollingTimer);
+        }
         $('form[data-ui-widget="wiki.Form"]').submit();
     };
+
+    function pollTimerEditingStatus() {
+    
+        var url = document.querySelector('[data-url-editing-timer-update]').getAttribute('data-url-editing-timer-update');
+
+        client.get(url).then(function(response) {
+        }).catch(function(e) {
+            module.log.error(e, true);
+        });
+    }
+
+    function startEditPolling() {
+        if (editPollingTimer) {
+            clearInterval(editPollingTimer);
+        }
+        editPollingTimer = setInterval(pollTimerEditingStatus, editPollingInterval);
+    }
+
+    function checkValidUser() {
+        var url = document.querySelector('[data-url-editing-timer-update]').getAttribute('data-url-editing-timer-update');
+        var new_page = document.querySelector('[data-url-editing-timer-update]').getAttribute('data-new-page-entry');
+        if(!new_page) {
+            client.get(url).then(function(response) {
+                if(response.success&&response.unAuthorizedLogin) {
+                    var options = {
+                        'header': 'Confirm Edit',
+                        'body': response.user +' is already editing.<br> Editing it would cause conflict Do you really want to continue?',
+                        'confirmText': 'cancel',
+                        'cancelText' : 'Continue'
+                    };
+
+                    modal.confirm(options).then(function ($confirmed) {
+                        if ($confirmed) {
+                            client.redirect(response.url);
+                        }
+                    });
+                }
+            }).catch(function(e) {
+                module.log.error(e, true);
+            })
+        }
+    }
 
     module.export = Form;
 });
