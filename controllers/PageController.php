@@ -73,6 +73,7 @@ class PageController extends BaseController
             $page->delete();
             throw new HttpException(404, 'Wiki page revision not found!');
         }
+        
         return $this->renderSidebarContent('view', [
             'page' => $page,
             'revision' => $revision,
