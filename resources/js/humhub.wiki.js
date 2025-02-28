@@ -146,7 +146,7 @@ humhub.module('wiki', function(module, require, $) {
 
         client.get(url).then(function(response) {
             if (response.success && response.isEditing) {
-                openEditingDialog(response.user);
+                openEditingDialog(response.body);
             } else {
                 closeEditingDialog();
             }
@@ -155,9 +155,9 @@ humhub.module('wiki', function(module, require, $) {
         });
     }
 
-    function openEditingDialog(user) {
+    function openEditingDialog(body) {
         var button = document.querySelector('[data-url-editing-status]');
-        button.setAttribute('data-action-confirm', user +' is already editing.<br> Do you really want to Edit this page?');
+        button.setAttribute('data-action-confirm', body);
         
     }
 

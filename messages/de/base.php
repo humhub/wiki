@@ -98,4 +98,6 @@ return [
     'Create Copy' => 'Kopie erstellen',
     '<strong>Confirm Page Edit</strong>' => '<strong>Seite wird gerade bearbeitet</strong>',
     'Continue' => 'Weiter',
+    'Confirm Edit' => 'Bearbeitung bestätigen',
+    'is already editing.<br> Editing it would cause conflict. Do you really want to continue?' => 'bearbeitet diese Seite.<br> Durch die Bearbeitung kommt es zu einem Dateikonflikt. Trotzdem fortfahren?',
 ];

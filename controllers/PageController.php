@@ -30,7 +30,9 @@ use DateTime;
  * @author luke
  */
 class PageController extends BaseController
-{
+{   
+    public const TTL = 30;
+
     /**
      * @return $this|Response
      * @throws Exception
@@ -441,6 +443,11 @@ class PageController extends BaseController
         ];
     }
 
+    /**
+     * @param int $id
+     * @return $this|Response
+     * @throws Exception
+     */
     public function actionToggleNumbering(int $id)
     {   
 
@@ -460,8 +467,12 @@ class PageController extends BaseController
         }  
     }
 
+    /**
+     * @param int $id
+     * @return $this|Response
+     * @throws HttpException
+     */
     public function actionMerge(int $id) {
-
         $dateTime = new DateTime();
 
         $page = $this->getWikiPage($id);
@@ -487,8 +498,12 @@ class PageController extends BaseController
         return $this->redirect(Url::toWiki($page));
     }
 
+    /**
+     * @param int $id
+     * @return $this|Response
+     * @throws HttpException
+     */
     public function actionCreateCopy(int $id) {
-
         $userIdentity = Yii::$app->user->identity->username;
         $dateTime = new DateTime();
 
@@ -530,6 +545,11 @@ class PageController extends BaseController
         return $this->redirect(Url::toWiki($page));
     }
 
+    /**
+     * @param int $id
+     * @return $this|Response
+     * @throws HttpException
+     */
     public function actionEditingStatus(int $id)
     {
         $page = $this->getWikiPage($id);
@@ -542,13 +562,16 @@ class PageController extends BaseController
         return $this->asJson([
             'success' => true,
             'isEditing' => $page->isEditing(),
-            'user' => $page->is_currently_editing,
+            'body' => $page->is_currently_editing.' '.Yii::t('WikiModule.base', 'is already editing.<br> Editing it would cause conflict. Do you really want to continue?'),
         ]); 
     }
 
+    /**
+     * @return $this|Response
+     */
     public function actionEditingTimerUpdate(int $id = null)
     {   
-        $unAuthorizedLogin = false;
+        $conflictingEditing = false;
         $page = $this->getWikiPage($id);
         if (!$page) {
             return $this->asJson([
@@ -556,7 +579,7 @@ class PageController extends BaseController
             ]);
         }
 
-        $user = Yii::$app->user->identity->username;
+        $user = Yii::$app->user->identity->username.'('.Yii::$app->user->identity->profile->firstname.' '.Yii::$app->user->identity->profile->lastname.')';
 
         if ($page->is_currently_editing == NULL) {
             $page->updateIsEditing();
@@ -565,15 +588,18 @@ class PageController extends BaseController
         if ($page->is_currently_editing == $user) {
             $page->updateEditingTime();
         }
-        else {
-            $unAuthorizedLogin = true;
+        elseif (time() - $page->editing_started_at < self::TTL) {
+            $conflictingEditing = true;
         }
 
         return $this->asJson([
             'success' => true,
-            'user' => $page->is_currently_editing,
-            'unAuthorizedLogin' => $unAuthorizedLogin,
+            'conflictingEditing' => $conflictingEditing,
             'url' => Url::toWiki($page),
+            'header' => Yii::t('WikiModule.base', 'Confirm Edit'),
+            'body' => $page->is_currently_editing.' '.Yii::t('WikiModule.base', 'is already editing.<br> Editing it would cause conflict. Do you really want to continue?'),
+            'confirmText' => Yii::t('WikiModule.base', 'Cancel'),
+            'cancelText' => Yii::t('WikiModule.base', 'Continue'),
         ]); 
     }
 }

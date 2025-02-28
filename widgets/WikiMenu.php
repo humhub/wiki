@@ -284,7 +284,7 @@ class WikiMenu extends WallEntryControls
                         'data-url-editing-status' => Url::toWikiEditingStatus($this->object),
                         'data-action-click' => 'wiki.confirmEditing',
                         'data-action-click-url' => Url::toWikiEdit($this->object),
-                        'data-action-confirm-header' => Yii::t('WikiModule.base', '<strong>Confirm Page Edit</strong>'),
+                        'data-action-confirm-header' => Yii::t('WikiModule.base', 'Confirm Edit'),
                         'data-action-confirm-text' => Yii::t('WikiModule.base', 'Continue'),
                     ],
                 ]) : null;

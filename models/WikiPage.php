@@ -44,6 +44,7 @@ class WikiPage extends ContentActiveRecord implements Searchable
     public const SCENARIO_EDIT = 'edit';
     public const CACHE_CHILDREN_COUNT_KEY = 'wikiChildrenCount_%s';
     public $moduleId = 'wiki';
+    public const TTL = 30;
     /**
      * @inheritdoc
      */
@@ -543,19 +544,19 @@ class WikiPage extends ContentActiveRecord implements Searchable
         return $this->_isCategory;
     }
 
-    /* Function to check if any user is currently editing the page 
+    /**
+     * Function to check if any other user is currently editing the page
      * 
      * @return bool
-    */
+     */
     public function isEditing() {
-        $user = Yii::$app->user->identity->username;
+        $user = Yii::$app->user->identity->username.'('.Yii::$app->user->identity->profile->firstname.' '.Yii::$app->user->identity->profile->lastname.')';
 
         if ($this->is_currently_editing == NULL || $this->is_currently_editing == $user) {
             return false;
         }
 
-        $ttl = 300;
-        if (time() - $this->editing_started_at > $ttl) {
+        if (time() - $this->editing_started_at > self::TTL) {
             $this->doneEditing();
             return false;
         }
@@ -563,23 +564,26 @@ class WikiPage extends ContentActiveRecord implements Searchable
         return true;
     }
 
-    /* Function to update the Attribute value to the new user in the edit page 
-    */
+    /** 
+     * Function to update the Attribute value to the new user in the edit page 
+     */
     public function updateIsEditing() {
-        $user = Yii::$app->user->identity->username;
+        $user = Yii::$app->user->identity->username.'('.Yii::$app->user->identity->profile->firstname.' '.Yii::$app->user->identity->profile->lastname.')';
         if ($this->is_currently_editing == NULL) {
             $this->updateAttributes(['is_currently_editing' => $user, 'editing_started_at' => time()]);
         }
     }
 
-    /* Function to make the editing attributes null to show that no user is currently editing the page.
-    */
+    /** 
+     * Function to make the editing attributes null to show that no user is currently editing the page.
+     */
     public function doneEditing() {
         $this->updateAttributes(['is_currently_editing' => new Expression('NULL'), 'editing_started_at' => new Expression('NULL')]);
-    }  
+    }
 
-    /* Function to update the time stamp i.e editing_started_at 
-    */
+    /** 
+     *  Function to update the time stamp i.e editing_started_at 
+     */
     public function updateEditingTime() {
         $this->updateAttributes(['editing_started_at' => time()]);
     }

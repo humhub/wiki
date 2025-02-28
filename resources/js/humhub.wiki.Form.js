@@ -95,7 +95,6 @@ humhub.module('wiki.Form', function(module, require, $) {
     };
 
     function pollTimerEditingStatus() {
-    
         var url = document.querySelector('[data-url-editing-timer-update]').getAttribute('data-url-editing-timer-update');
 
         client.get(url).then(function(response) {
@@ -113,27 +112,24 @@ humhub.module('wiki.Form', function(module, require, $) {
 
     function checkValidUser() {
         var url = document.querySelector('[data-url-editing-timer-update]').getAttribute('data-url-editing-timer-update');
-        var new_page = document.querySelector('[data-url-editing-timer-update]').getAttribute('data-new-page-entry');
-        if(!new_page) {
-            client.get(url).then(function(response) {
-                if(response.success&&response.unAuthorizedLogin) {
-                    var options = {
-                        'header': 'Confirm Edit',
-                        'body': response.user +' is already editing.<br> Editing it would cause conflict Do you really want to continue?',
-                        'confirmText': 'cancel',
-                        'cancelText' : 'Continue'
-                    };
+        client.get(url).then(function(response) {
+            if(response.success&&response.conflictingEditing) {
+                var options = {
+                    'header': response.header,
+                    'body': response.body,
+                    'confirmText': response.confirmText,
+                    'cancelText' : response.cancelText,
+                };
 
-                    modal.confirm(options).then(function ($confirmed) {
-                        if ($confirmed) {
-                            client.redirect(response.url);
-                        }
-                    });
-                }
-            }).catch(function(e) {
-                module.log.error(e, true);
-            })
-        }
+                modal.confirm(options).then(function ($confirmed) {
+                    if ($confirmed) {
+                        client.redirect(response.url);
+                    }
+                });
+            }
+        }).catch(function(e) {
+            module.log.error(e, true);
+        })
     }
 
     module.export = Form;
