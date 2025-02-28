@@ -31,7 +31,7 @@ use DateTime;
  */
 class PageController extends BaseController
 {   
-    public const TTL = 30;
+    public const TTL = 300;
 
     /**
      * @return $this|Response

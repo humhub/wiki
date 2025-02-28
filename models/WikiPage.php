@@ -44,7 +44,7 @@ class WikiPage extends ContentActiveRecord implements Searchable
     public const SCENARIO_EDIT = 'edit';
     public const CACHE_CHILDREN_COUNT_KEY = 'wikiChildrenCount_%s';
     public $moduleId = 'wiki';
-    public const TTL = 30;
+    public const TTL = 300;
     /**
      * @inheritdoc
      */
