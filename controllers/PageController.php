@@ -15,6 +15,7 @@ use humhub\modules\wiki\permissions\AdministerPages;
 use humhub\modules\wiki\permissions\CreatePage;
 use humhub\modules\wiki\permissions\EditPages;
 use humhub\modules\wiki\permissions\ViewHistory;
+use humhub\modules\user\models\User;
 use Throwable;
 use Yii;
 use yii\base\Exception;
@@ -557,13 +558,18 @@ class PageController extends BaseController
             throw new HttpException(404, 'Wiki page not found!');
         }
 
-        $user = Yii::$app->user->identity->username;
+        $user = User::find()->where(['username' => $page->is_currently_editing])->one();
+        if($user) {
+            $firstName = $user->profile->firstname;
+            $lastName = $user->profile->lastname;
+        }
+        $fullName = $firstName.' '.$lastName.' ('.$page->is_currently_editing.')';
 
         return $this->asJson([
             'success' => true,
             'isEditing' => $page->isEditing(),
-            'body' => $page->is_currently_editing.' '.Yii::t('WikiModule.base', 'is already editing.<br> Editing it would cause conflict. Do you really want to continue?'),
-        ]); 
+            'body' => $fullName.' '.Yii::t('WikiModule.base', 'is already editing.<br> Editing it would cause conflict. Do you really want to continue?'),
+        ]);
     }
 
     /**
@@ -579,7 +585,14 @@ class PageController extends BaseController
             ]);
         }
 
-        $user = Yii::$app->user->identity->username.'('.Yii::$app->user->identity->profile->firstname.' '.Yii::$app->user->identity->profile->lastname.')';
+        $user = Yii::$app->user->identity->username;
+
+        $editingUser = User::find()->where(['username' => $page->is_currently_editing])->one();
+        if($editingUser) {
+            $firstName = $editingUser->profile->firstname;
+            $lastName = $editingUser->profile->lastname;
+        }
+        $fullName = $firstName.' '.$lastName.' ('.$page->is_currently_editing.')';
 
         if ($page->is_currently_editing == NULL) {
             $page->updateIsEditing();
@@ -597,9 +610,9 @@ class PageController extends BaseController
             'conflictingEditing' => $conflictingEditing,
             'url' => Url::toWiki($page),
             'header' => Yii::t('WikiModule.base', 'Confirm Edit'),
-            'body' => $page->is_currently_editing.' '.Yii::t('WikiModule.base', 'is already editing.<br> Editing it would cause conflict. Do you really want to continue?'),
+            'body' => $fullName.' '.Yii::t('WikiModule.base', 'is already editing.<br> Editing it would cause conflict. Do you really want to continue?'),
             'confirmText' => Yii::t('WikiModule.base', 'Cancel'),
             'cancelText' => Yii::t('WikiModule.base', 'Continue'),
-        ]); 
+        ]);
     }
 }

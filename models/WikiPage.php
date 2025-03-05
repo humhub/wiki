@@ -550,7 +550,7 @@ class WikiPage extends ContentActiveRecord implements Searchable
      * @return bool
      */
     public function isEditing() {
-        $user = Yii::$app->user->identity->username.'('.Yii::$app->user->identity->profile->firstname.' '.Yii::$app->user->identity->profile->lastname.')';
+        $user = Yii::$app->user->identity->username;
 
         if ($this->is_currently_editing == NULL || $this->is_currently_editing == $user) {
             return false;
@@ -568,7 +568,7 @@ class WikiPage extends ContentActiveRecord implements Searchable
      * Function to update the Attribute value to the new user in the edit page 
      */
     public function updateIsEditing() {
-        $user = Yii::$app->user->identity->username.'('.Yii::$app->user->identity->profile->firstname.' '.Yii::$app->user->identity->profile->lastname.')';
+        $user = Yii::$app->user->identity->username;
         if ($this->is_currently_editing == NULL) {
             $this->updateAttributes(['is_currently_editing' => $user, 'editing_started_at' => time()]);
         }
