@@ -562,8 +562,9 @@ class PageController extends BaseController
         if($user) {
             $firstName = $user->profile->firstname;
             $lastName = $user->profile->lastname;
+            $fullName = $firstName.' '.$lastName.' ('.$page->is_currently_editing.')';
         }
-        $fullName = $firstName.' '.$lastName.' ('.$page->is_currently_editing.')';
+        else { $fullName = NULL; }
 
         return $this->asJson([
             'success' => true,
@@ -591,8 +592,9 @@ class PageController extends BaseController
         if($editingUser) {
             $firstName = $editingUser->profile->firstname;
             $lastName = $editingUser->profile->lastname;
+            $fullName = $firstName.' '.$lastName.' ('.$page->is_currently_editing.')';
         }
-        $fullName = $firstName.' '.$lastName.' ('.$page->is_currently_editing.')';
+        else { $fullName = NULL; }
 
         if ($page->is_currently_editing == NULL) {
             $page->updateIsEditing();
