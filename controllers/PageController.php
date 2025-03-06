@@ -451,7 +451,6 @@ class PageController extends BaseController
      */
     public function actionToggleNumbering(int $id)
     {   
-
         $module = Yii::$app->getModule('wiki');
         $user = Yii::$app->user->identity;
         $numberingEnabled = $module->settings->contentContainer($user)->get('wikiNumberingEnabled');
@@ -473,7 +472,8 @@ class PageController extends BaseController
      * @return $this|Response
      * @throws HttpException
      */
-    public function actionMerge(int $id) {
+    public function actionMerge(int $id) 
+    {
         $dateTime = new DateTime();
 
         $page = $this->getWikiPage($id);
@@ -504,7 +504,8 @@ class PageController extends BaseController
      * @return $this|Response
      * @throws HttpException
      */
-    public function actionCreateCopy(int $id) {
+    public function actionCreateCopy(int $id) 
+    {
         $userIdentity = Yii::$app->user->identity->username;
         $dateTime = new DateTime();
 
@@ -564,12 +565,12 @@ class PageController extends BaseController
             $lastName = $user->profile->lastname;
             $fullName = $firstName.' '.$lastName.' ('.$page->is_currently_editing.')';
         }
-        else { $fullName = NULL; }
+        else { $fullName = ''; }
 
         return $this->asJson([
             'success' => true,
             'isEditing' => $page->isEditing(),
-            'body' => $fullName.' '.Yii::t('WikiModule.base', 'is already editing.<br> Editing it would cause conflict. Do you really want to continue?'),
+            'body' => $fullName .' '. Yii::t('WikiModule.base', 'is already editing.<br> Editing it would cause conflict. Do you really want to continue?'),
         ]);
     }
 
@@ -594,7 +595,7 @@ class PageController extends BaseController
             $lastName = $editingUser->profile->lastname;
             $fullName = $firstName.' '.$lastName.' ('.$page->is_currently_editing.')';
         }
-        else { $fullName = NULL; }
+        else { $fullName = ''; }
 
         if ($page->is_currently_editing == NULL) {
             $page->updateIsEditing();
@@ -612,7 +613,7 @@ class PageController extends BaseController
             'conflictingEditing' => $conflictingEditing,
             'url' => Url::toWiki($page),
             'header' => Yii::t('WikiModule.base', 'Confirm Edit'),
-            'body' => $fullName.' '.Yii::t('WikiModule.base', 'is already editing.<br> Editing it would cause conflict. Do you really want to continue?'),
+            'body' => $fullName .' '. Yii::t('WikiModule.base', 'is already editing.<br> Editing it would cause conflict. Do you really want to continue?'),
             'confirmText' => Yii::t('WikiModule.base', 'Cancel'),
             'cancelText' => Yii::t('WikiModule.base', 'Continue'),
         ]);
