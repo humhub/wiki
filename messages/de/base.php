@@ -3,7 +3,7 @@
 return [
     '({n,plural,=1{+1 subpage}other{+{count} subpages}})' => '({n,plural,=1{+1 Unterseite}other{+{count} Unterseiten}})',
     '<strong>Confirm</strong> page reverting' => 'Seite rückgängig machen <strong>bestätigen</strong>',
-    '<strong>Warning!</strong><br><br>Another user has updated this page since you have started editing it. Please confirm that you want to overwrite those changes.<br>:linkToCompare' => '<strong>Warnung!</strong><br><br>Ein anderer Benutzer hat diese Seite gespeichert, seit mit der Bearbeitung begonnen wurde. Sollen diese Änderungen überschreiben werden?<br>:linkToCompare',
+    '<strong>Warning!</strong><br><br>Another user has updated this page since you have started editing it. Please confirm that you want to overwrite those changes.<br>:linkToCompare' => '<strong>Warnung!</strong><br><br>Ein anderer Benutzer bearbeitet gerade diese Seite. Durch eine parallele Bearbeitung kann es zu Konflikten oder Datenverlust kommen. Möchten Sie trotzdem fortfahren?<br>:linkZuVergleichen',
     '<strong>Wiki</strong> link' => '<strong>Wiki</strong>-Verweis',
     '<strong>Wiki</strong> module configuration' => '<strong>Wiki</strong> Modulkonfiguration',
     'Add Page' => 'Seite hinzufügen',
@@ -94,4 +94,10 @@ return [
     'Enable overview numbering for all users by default' => 'Nummerierung der Seitentitel für alle Benutzer standardmäßig aktivieren',
     'Disable wiki tree editing' => 'Bearbeitung der Seitenhierachie deaktivieren',
     'Enable wiki tree editing' => 'Bearbeitung der Seitenhierachie  aktivieren',
+    'Merge' => 'Zusammenführen',
+    'Create Copy' => 'Kopie erstellen',
+    '<strong>Confirm Page Edit</strong>' => '<strong>Seite wird gerade bearbeitet</strong>',
+    'Continue' => 'Weiter',
+    'Confirm Edit' => 'Bearbeitung bestätigen',
+    'is already editing.<br> Editing it would cause conflict. Do you really want to continue?' => 'bearbeitet diese Seite.<br> Durch die Bearbeitung kommt es zu einem Dateikonflikt. Trotzdem fortfahren?',
 ];

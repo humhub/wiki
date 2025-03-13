@@ -241,6 +241,8 @@ class PageEditForm extends Model
             $this->page->content->hidden = $this->hidden;
         }
 
+        $this->page->doneEditing();
+
         return WikiPage::getDb()->transaction(function ($db) {
             if ($this->page->save()) {
                 $this->revision->wiki_page_id = $this->page->id;

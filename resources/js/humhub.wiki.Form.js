@@ -2,6 +2,11 @@ humhub.module('wiki.Form', function(module, require, $) {
     var Widget = require('ui.widget').Widget;
     var wikiView = require('wiki');
     var additions = require('ui.additions');
+    var client = require('client');
+    var modal = require('ui.modal');
+
+    var editPollingInterval = 5000;
+    var editPollingTimer = null;
 
     /**
      * This widget represents the wiki form
@@ -39,6 +44,8 @@ humhub.module('wiki.Form', function(module, require, $) {
                 }
             });
         }
+        checkValidUser();
+        startEditPolling();
     };
 
     Form.prototype.getRichtextMenu = function() {
@@ -74,9 +81,56 @@ humhub.module('wiki.Form', function(module, require, $) {
         }, 500);
     };
 
+    Form.prototype.openUrlLink = function(evt) {
+        var form = this.$;
+        form.attr('action', evt.$trigger.data('action-click-url'))
+            .submit();
+    }
+
     Form.submit = function () {
+        if (editPollingTimer) {
+            clearInterval(editPollingTimer);
+        }
         $('form[data-ui-widget="wiki.Form"]').submit();
     };
+
+    function pollTimerEditingStatus() {
+        var url = document.querySelector('[data-url-editing-timer-update]').getAttribute('data-url-editing-timer-update');
+
+        client.get(url).then(function(response) {
+        }).catch(function(e) {
+            module.log.error(e, true);
+        });
+    }
+
+    function startEditPolling() {
+        if (editPollingTimer) {
+            clearInterval(editPollingTimer);
+        }
+        editPollingTimer = setInterval(pollTimerEditingStatus, editPollingInterval);
+    }
+
+    function checkValidUser() {
+        var url = document.querySelector('[data-url-editing-timer-update]').getAttribute('data-url-editing-timer-update');
+        client.get(url).then(function(response) {
+            if(response.success&&response.conflictingEditing) {
+                var options = {
+                    'header': response.header,
+                    'body': response.body,
+                    'confirmText': response.confirmText,
+                    'cancelText' : response.cancelText,
+                };
+
+                modal.confirm(options).then(function ($confirmed) {
+                    if ($confirmed) {
+                        client.redirect(response.url);
+                    }
+                });
+            }
+        }).catch(function(e) {
+            module.log.error(e, true);
+        })
+    }
 
     module.export = Form;
 });

@@ -280,6 +280,13 @@ class WikiMenu extends WallEntryControls
                     'label' => Yii::t('WikiModule.base', 'Edit'),
                     'url' => Url::toWikiEdit($this->object),
                     'icon' => 'fa-pencil',
+                    'htmlOptions' => [
+                        'data-url-editing-status' => Url::toWikiEditingStatus($this->object),
+                        'data-action-click' => 'wiki.confirmEditing',
+                        'data-action-click-url' => Url::toWikiEdit($this->object),
+                        'data-action-confirm-header' => Yii::t('WikiModule.base', 'Confirm Edit'),
+                        'data-action-confirm-text' => Yii::t('WikiModule.base', 'Continue'),
+                    ],
                 ]) : null;
             case static::LINK_HISTORY:
                 return $this->canViewHistory() ? new MenuLink([

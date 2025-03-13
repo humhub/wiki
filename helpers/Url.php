@@ -31,6 +31,10 @@ class Url extends \yii\helpers\Url
     public const ROUTE_WIKI_DIFF_EDITING = '/wiki/page/diff-editing';
     public const ROUTE_WIKI_REVERT = '/wiki/page/revert';
     public const ROUTE_EXTRACT_TITLES = '/wiki/page/headlines';
+    public const ROUTE_WIKI_MERGE = '/wiki/page/merge';
+    public const ROUTE_WIKI_CREATE_COPY = '/wiki/page/create-copy';
+    public const ROUTE_WIKI_EDITING_STATUS = '/wiki/page/editing-status';
+    public const ROUTE_WIKI_EDITING_TIMER_UPDATE = '/wiki/page/editing-timer-update';
 
     public static function toHome(ContentContainerActiveRecord $container)
     {
@@ -127,6 +131,26 @@ class Url extends \yii\helpers\Url
     public static function toWikiEntry(WikiPage $page)
     {
         return static::to([static::ROUTE_WIKI_ENTRY, 'id' => $page->id, 'container' => $page->content->container]);
+    }
+
+    public static function toWikiMerge(WikiPage $page)
+    {
+        return static::to([static::ROUTE_WIKI_MERGE, 'id' => $page->id, 'container' => $page->content->container]);
+    }
+
+    public static function toWikiCreateCopy(WikiPage $page)
+    {
+        return static::to([static::ROUTE_WIKI_CREATE_COPY, 'id' => $page->id, 'container' => $page->content->container]);
+    }
+
+    public static function toWikiEditingStatus(WikiPage $page)
+    {
+        return static::to([static::ROUTE_WIKI_EDITING_STATUS, 'id' => $page->id, 'container' => $page->content->container]);
+    }
+
+    public static function toWikiEditingTimerUpdate(WikiPage $page)
+    {
+        return static::to([static::ROUTE_WIKI_EDITING_TIMER_UPDATE, 'id' => $page->id, 'container' => $page->content->container]);
     }
 
 }

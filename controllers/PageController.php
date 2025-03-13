@@ -15,6 +15,7 @@ use humhub\modules\wiki\permissions\AdministerPages;
 use humhub\modules\wiki\permissions\CreatePage;
 use humhub\modules\wiki\permissions\EditPages;
 use humhub\modules\wiki\permissions\ViewHistory;
+use humhub\modules\user\models\User;
 use Throwable;
 use Yii;
 use yii\base\Exception;
@@ -22,6 +23,7 @@ use yii\base\InvalidConfigException;
 use yii\db\StaleObjectException;
 use yii\web\HttpException;
 use yii\web\Response;
+use DateTime;
 
 /**
  * PageController
@@ -29,7 +31,9 @@ use yii\web\Response;
  * @author luke
  */
 class PageController extends BaseController
-{
+{   
+    public const TTL = 300;
+
     /**
      * @return $this|Response
      * @throws Exception
@@ -211,6 +215,7 @@ class PageController extends BaseController
             ]);
         }
 
+        $form->page->updateIsEditing();
         return $this->renderSidebarContent('edit', $params);
     }
 
@@ -335,7 +340,7 @@ class PageController extends BaseController
         }
 
         $page->delete();
-
+        $page->doneEditing();
         return $this->redirect($this->contentContainer->createUrl('index'));
     }
 
@@ -439,9 +444,13 @@ class PageController extends BaseController
         ];
     }
 
+    /**
+     * @param int $id
+     * @return $this|Response
+     * @throws Exception
+     */
     public function actionToggleNumbering(int $id)
     {   
-
         $module = Yii::$app->getModule('wiki');
         $user = Yii::$app->user->identity;
         $numberingEnabled = $module->settings->contentContainer($user)->get('wikiNumberingEnabled');
@@ -456,5 +465,157 @@ class PageController extends BaseController
         catch(Exception $e) {
             return $this->redirect(Url::previous());
         }  
+    }
+
+    /**
+     * @param int $id
+     * @return $this|Response
+     * @throws HttpException
+     */
+    public function actionMerge(int $id) 
+    {
+        $dateTime = new DateTime();
+
+        $page = $this->getWikiPage($id);
+        if (!$page) {
+            throw new HttpException(404, 'Wiki page not found!');
+        }
+
+        $form = (new PageEditForm(['container' => $this->contentContainer]))->forPage($id);
+        if (!$form->load(Yii::$app->request->post())) {
+            throw new HttpException(404);
+        }
+
+        $submittedRevision = new WikiPageRevision();
+        $submittedRevision->revision = time();
+        $submittedRevision->content = $form->revision->content;
+        $submittedRevision->isCurrentlyEditing = true;
+
+        $mergedRevision = $page->createRevision();
+        $changedContentSepeartor = '**conflicting changes from '. $dateTime->format('Y-m-d H:i:s').'**';
+        $mergedRevision->content = $page->latestRevision->content.'<br><br>'.$changedContentSepeartor.'<br>'.$submittedRevision->content;
+        $mergedRevision->save();
+
+        return $this->redirect(Url::toWiki($page));
+    }
+
+    /**
+     * @param int $id
+     * @return $this|Response
+     * @throws HttpException
+     */
+    public function actionCreateCopy(int $id) 
+    {
+        $userIdentity = Yii::$app->user->identity->username;
+        $dateTime = new DateTime();
+
+        $page = $this->getWikiPage($id);
+        if (!$page) {
+            throw new HttpException(404, 'Wiki page not found!');
+        }
+
+        $parentId = $page->parent_page_id;
+
+        $form = (new PageEditForm(['container' => $this->contentContainer]))->forPage($id);
+        if (!$form->load(Yii::$app->request->post())) {
+            throw new HttpException(404);
+        }
+
+        $childPage = new WikiPage();
+        $childPage->title = $page->title.' conflicting copy of '. $userIdentity.' from '. $dateTime->format('Y-m-d H:i:s');
+        $childPage->parent_page_id = $parentId;
+        $childPage->content->contentcontainer_id= $page->content->contentcontainer_id;
+
+        if (!$childPage->save()) {
+            throw new HttpException(500, 'Failed to create the child page!');
+        }
+
+        if (!$childPage->id) {
+            throw new HttpException('Child page ID is not available after saving.');
+        }
+
+        $revision = new WikiPageRevision();
+        $revision->content = $form->revision->content;
+        $revision->wiki_page_id = $childPage->id;
+        $revision->revision = 1;
+        $revision->user_id = Yii::$app->user->id;
+
+        if (!$revision->save()) {
+            throw new HttpException('Failed to add content to the child page.');
+        }
+
+        return $this->redirect(Url::toWiki($page));
+    }
+
+    /**
+     * @param int $id
+     * @return $this|Response
+     * @throws HttpException
+     */
+    public function actionEditingStatus(int $id)
+    {
+        $page = $this->getWikiPage($id);
+        if (!$page) {
+            throw new HttpException(404, 'Wiki page not found!');
+        }
+
+        $user = User::find()->where(['username' => $page->is_currently_editing])->one();
+        if($user) {
+            $firstName = $user->profile->firstname;
+            $lastName = $user->profile->lastname;
+            $fullName = $firstName.' '.$lastName.' ('.$page->is_currently_editing.')';
+        }
+        else { $fullName = ''; }
+
+        return $this->asJson([
+            'success' => true,
+            'isEditing' => $page->isEditing(),
+            'body' => $fullName .' '. Yii::t('WikiModule.base', 'is already editing.<br> Editing it would cause conflict. Do you really want to continue?'),
+        ]);
+    }
+
+    /**
+     * @return $this|Response
+     */
+    public function actionEditingTimerUpdate(int $id = null)
+    {   
+        $conflictingEditing = false;
+        $page = $this->getWikiPage($id);
+        if (!$page) {
+            return $this->asJson([
+                'sucess' => false,
+            ]);
+        }
+
+        $user = Yii::$app->user->identity->username;
+
+        $editingUser = User::find()->where(['username' => $page->is_currently_editing])->one();
+        if($editingUser) {
+            $firstName = $editingUser->profile->firstname;
+            $lastName = $editingUser->profile->lastname;
+            $fullName = $firstName.' '.$lastName.' ('.$page->is_currently_editing.')';
+        }
+        else { $fullName = ''; }
+
+        if ($page->is_currently_editing == NULL) {
+            $page->updateIsEditing();
+        }
+
+        if ($page->is_currently_editing == $user) {
+            $page->updateEditingTime();
+        }
+        elseif (time() - $page->editing_started_at < self::TTL) {
+            $conflictingEditing = true;
+        }
+
+        return $this->asJson([
+            'success' => true,
+            'conflictingEditing' => $conflictingEditing,
+            'url' => Url::toWiki($page),
+            'header' => Yii::t('WikiModule.base', 'Confirm Edit'),
+            'body' => $fullName .' '. Yii::t('WikiModule.base', 'is already editing.<br> Editing it would cause conflict. Do you really want to continue?'),
+            'confirmText' => Yii::t('WikiModule.base', 'Cancel'),
+            'cancelText' => Yii::t('WikiModule.base', 'Continue'),
+        ]);
     }
 }

@@ -4,8 +4,11 @@ humhub.module('wiki', function(module, require, $) {
     var view = require('ui.view');
     var client = require('client');
     var loader = require('ui.loader');
+    var modal = require('ui.modal');
 
     var stickyElementSettings = [];
+    var pollingInterval = 5000;
+    var pollingTimer = null;
 
     var registerStickyElement = function($node, $trigger, condition) {
         stickyElementSettings.push({$node: $node, $trigger: $trigger, condition: condition});
@@ -50,6 +53,7 @@ humhub.module('wiki', function(module, require, $) {
                 call: () => $(window).width() < 768
             });
         }
+        startPolling();
     };
 
     Content.prototype.loader = function (show) {
@@ -126,12 +130,60 @@ humhub.module('wiki', function(module, require, $) {
         event.off('humhub:content:afterMove.wiki');
     };
 
+    var confirmEditing = function(evt) {
+        var editUrl = evt.$trigger.data('action-click-url');
+        client.redirect(editUrl);
+    };
+
+    function pollEditingStatus() {
+        if (document.querySelector('[data-url-editing-status]') == null) {
+            if (pollingTimer) {
+                clearInterval(pollingTimer);
+            }
+            return;
+        }
+        var url = document.querySelector('[data-url-editing-status]').getAttribute('data-url-editing-status');
+
+        client.get(url).then(function(response) {
+            if (response.success && response.isEditing) {
+                openEditingDialog(response.body);
+            } else {
+                closeEditingDialog();
+            }
+        }).catch(function(e) {
+            module.log.error(e, true);
+        });
+    }
+
+    function openEditingDialog(body) {
+        var button = document.querySelector('[data-url-editing-status]');
+        button.setAttribute('data-action-confirm', body);
+        
+    }
+
+    function closeEditingDialog() {
+        var button = document.querySelector('[data-url-editing-status]');
+        if (button.getAttribute('data-action-confirm') != null) {
+            button.removeAttribute('data-action-confirm');
+            client.reload();
+        }
+    }
+
+    function startPolling() {
+        if (pollingTimer) {
+            clearInterval(pollingTimer);
+        }
+        pollingTimer = setInterval(pollEditingStatus, pollingInterval);
+    }
+
     module.export({
         Content: Content,
         toAnchor: toAnchor,
         revertRevision: revertRevision,
         actionDelete: actionDelete,
         registerStickyElement: registerStickyElement,
-        unload: unload
+        unload: unload,
+        confirmEditing: confirmEditing,
+        startPolling: startPolling,
     })
 });

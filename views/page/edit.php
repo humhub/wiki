@@ -15,6 +15,7 @@ use humhub\modules\wiki\widgets\WikiMenu;
 use humhub\modules\wiki\widgets\WikiPagePicker;
 use humhub\modules\wiki\widgets\WikiPath;
 use humhub\widgets\Button;
+use humhub\modules\wiki\helpers\Url;
 use humhub\modules\topic\widgets\TopicPicker;
 
 /* @var $this View */
@@ -47,7 +48,7 @@ Assets::register($this);
                         ]) ?>
                     <?php endif; ?>
                 </div>
-                <div class="wiki-page-title"><?= $model->getTitle() ?></div>
+                <div class="wiki-page-title" data-url-editing-timer-update = <?=Url::toWikiEditingTimerUpdate($model->page);?>><?= $model->getTitle() ?></div>
             </div>
 
             <?php $form = ActiveForm::begin(
@@ -73,6 +74,10 @@ Assets::register($this);
 
                 <?= Button::save(Yii::t('WikiModule.base', 'Overwrite'))->submit() ?>
 
+                <?= Button::save(Yii::t('WikiModule.base','Merge'))->action('openUrlLink', Url::toWikiMerge($model->page))?>
+
+                <?= Button::save(Yii::t('WikiModule.base','Create Copy'))->action('openUrlLink', Url::toWikiCreateCopy($model->page))?>
+                
                 <?= Button::defaultType(Yii::t('WikiModule.base', 'Back'))->action('backOverwriting')->icon('back')->loader(false); ?>
 
                 <div class="pull-right">
