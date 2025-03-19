@@ -137,16 +137,6 @@ class Module extends ContentContainerModule
         return $this->settings->get('hideNavigationEntryDefault', false);
     }
 
-    public function getWikiNumberingEnabledDefault(): bool
-    {
-        return $this->settings->get('wikiNumberingEnabledDefault', false);
-    }
-
-    public function getOverviewNumberingEnabledDefault(): bool
-    {
-        return $this->settings->get('overviewNumberingEnabledDefault', false);
-    }
-
     public function getContentHiddenDefault(ContentContainerActiveRecord $contentContainer): bool
     {
         return (new DefaultSettings(['contentContainer' => $contentContainer]))->contentHiddenDefault;

@@ -447,34 +447,12 @@ class PageController extends BaseController
     /**
      * @param int $id
      * @return $this|Response
-     * @throws Exception
-     */
-    public function actionToggleNumbering(int $id)
-    {   
-        $module = Yii::$app->getModule('wiki');
-        $user = Yii::$app->user->identity;
-        $numberingEnabled = $module->settings->contentContainer($user)->get('wikiNumberingEnabled');
-
-        $newState = !$numberingEnabled;
-        $module->settings->contentContainer($user)->set('wikiNumberingEnabled', $newState);
-
-        try {        
-            $page = $this->getWikiPage($id);
-            return $this->redirect(Url::toWiki($page));  
-        }
-        catch(Exception $e) {
-            return $this->redirect(Url::previous());
-        }  
-    }
-
-    /**
-     * @param int $id
-     * @return $this|Response
      * @throws HttpException
      */
     public function actionMerge(int $id) 
     {
         $dateTime = new DateTime();
+        $userIdentity = Yii::$app->user->identity->username;
 
         $page = $this->getWikiPage($id);
         if (!$page) {
@@ -492,9 +470,11 @@ class PageController extends BaseController
         $submittedRevision->isCurrentlyEditing = true;
 
         $mergedRevision = $page->createRevision();
-        $changedContentSepeartor = '**conflicting changes from '. $dateTime->format('Y-m-d H:i:s').'**';
+        $changedContentSepeartor = '**conflicting changes of '. $userIdentity .' from '. $dateTime->format('Y-m-d H:i:s').'**';
         $mergedRevision->content = $page->latestRevision->content.'<br><br>'.$changedContentSepeartor.'<br>'.$submittedRevision->content;
         $mergedRevision->save();
+
+        $page->doneEditing();
 
         return $this->redirect(Url::toWiki($page));
     }
@@ -522,7 +502,7 @@ class PageController extends BaseController
         }
 
         $childPage = new WikiPage();
-        $childPage->title = $page->title.' conflicting copy of '. $userIdentity.' from '. $dateTime->format('Y-m-d H:i:s');
+        $childPage->title = $page->title.' conflicting copy of '. $userIdentity .' from '. $dateTime->format('Y-m-d H:i:s');
         $childPage->parent_page_id = $parentId;
         $childPage->content->contentcontainer_id= $page->content->contentcontainer_id;
 
@@ -543,6 +523,8 @@ class PageController extends BaseController
         if (!$revision->save()) {
             throw new HttpException('Failed to add content to the child page.');
         }
+
+        $page->doneEditing();
 
         return $this->redirect(Url::toWiki($page));
     }

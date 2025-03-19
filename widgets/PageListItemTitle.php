@@ -90,40 +90,18 @@ class PageListItemTitle extends Widget
             $this->titleInfo = Yii::t('WikiModule.base', '({n,plural,=1{+1 subpage}other{+{count} subpages}})', ['n' => $this->page->childrenCount, 'count' => $this->page->childrenCount]);
         }
 
-        $module = Yii::$app->getModule('wiki');        
-        $user = Yii::$app->user->identity;
-        $numberingEnabled = $module->settings->contentContainer($user)->get('overviewNumberingEnabled');
-        $editingEnabled = $module->settings->contentContainer($user)->get('wikiTreeEditingEnabled', FALSE);
-        
         return $this->render('pageListItemTitle', [
             'page' => $this->page,
-            'title' => $numberingEnabled ? ($this->generateNumbering($this->level) . ' ' . $this->title) : $this->title,
+            'title' => $this->title,
             'titleIcon' => $this->getVisibilityIcon(),
             'titleInfo' => $this->titleInfo,
             'url' => $this->page ? $this->page->getUrl() : null,
             'icon' => $this->icon ?? $icon,
-            'showDrag' => $this->showDrag and $editingEnabled,
+            'showDrag' => $this->showDrag,
             'showAddPage' => $this->showAddPage,
             'options' => $this->getOptions(),
             'level' => $this->level,
         ]);
-    }
-    
-    public function generateNumbering($level)
-    {
-        static $numbering = [];
-
-        if (!isset($numbering[$level])) {
-            $numbering[$level] = 1;
-        } else {
-            $numbering[$level]++;
-        }
-
-        for ($i = $level + 1; $i < count($numbering); $i++) {
-            $numbering[$i] = 0;
-        }
-
-        return implode('.', array_filter($numbering));
     }
 
     public function getOptions(): array

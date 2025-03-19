@@ -17,10 +17,6 @@ class ConfigForm extends Model
 
     public bool $hideNavigationEntryDefault = false;
 
-    public bool $wikiNumberingEnabledDefault = false;
-
-    public bool $overviewNumberingEnabledDefault = false;
-
     /**
      * @inheritdoc
      */
@@ -29,8 +25,7 @@ class ConfigForm extends Model
         parent::init();
         $this->contentHiddenDefault = $this->getModule()->contentHiddenGlobalDefault;
         $this->hideNavigationEntryDefault = $this->getModule()->hideNavigationEntryDefault;
-        $this->wikiNumberingEnabledDefault = $this->getModule()->wikiNumberingEnabledDefault;
-        $this->overviewNumberingEnabledDefault = $this->getModule()->overviewNumberingEnabledDefault;
+
     }
 
     public function getModule(): Module
@@ -44,7 +39,7 @@ class ConfigForm extends Model
     public function rules()
     {
         return [
-            [['contentHiddenDefault', 'hideNavigationEntryDefault','wikiNumberingEnabledDefault','overviewNumberingEnabledDefault'], 'boolean'],
+            [['contentHiddenDefault', 'hideNavigationEntryDefault'], 'boolean'],
         ];
     }
 
@@ -52,8 +47,6 @@ class ConfigForm extends Model
     {
         return [
             'hideNavigationEntryDefault' => Yii::t('WikiModule.base', 'Hide Navigation Entries of this module globally by default'),
-            'wikiNumberingEnabledDefault'=> Yii::t('WikiModule.base', 'Enable wiki page header numbering for all users by default'),
-            'overviewNumberingEnabledDefault'=> Yii::t('WikiModule.base', 'Enable overview numbering for all users by default'),
         ];
     }
 
@@ -65,8 +58,6 @@ class ConfigForm extends Model
 
         $this->getModule()->settings->set('contentHiddenGlobalDefault', $this->contentHiddenDefault);
         $this->getModule()->settings->set('hideNavigationEntryDefault', $this->hideNavigationEntryDefault);
-        $this->getModule()->settings->set('wikiNumberingEnabledDefault', $this->wikiNumberingEnabledDefault);
-        $this->getModule()->settings->set('overviewNumberingEnabledDefault', $this->overviewNumberingEnabledDefault);
 
         return true;
     }

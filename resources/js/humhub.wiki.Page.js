@@ -134,11 +134,6 @@ humhub.module('wiki.Page', function (module, require, $) {
             });
             $li.append($anchor);
             $list.append($li);
-
-            // Added numbering to content
-            if(document.querySelector('.numbered') !== null){
-                $(this).prepend('<span class="wiki-header-numbering">' + numberString + '. </span>');
-            }
         });
 
         if (hasHeadLine) {

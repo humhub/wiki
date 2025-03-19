@@ -37,10 +37,6 @@ Assets::register($this);
 
             <?= $form->field($model, 'hideNavigationEntry')->checkbox() ?>
 
-            <?= $form->field($model, 'wikiNumberingEnabled')->checkbox() ?>
-
-            <?= $form->field($model, 'overviewNumberingEnabled')->checkbox() ?>
-
             <?= Button::primary(Yii::t('base', 'Save'))->submit() ?>
 
         <?php ActiveForm::end(); ?>
