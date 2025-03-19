@@ -112,5 +112,4 @@ class OverviewController extends BaseController
     {
         $this->updateFoldingState($categoryId, $state);
     }
-
 }

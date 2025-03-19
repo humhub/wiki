@@ -25,7 +25,6 @@ class ConfigForm extends Model
         parent::init();
         $this->contentHiddenDefault = $this->getModule()->contentHiddenGlobalDefault;
         $this->hideNavigationEntryDefault = $this->getModule()->hideNavigationEntryDefault;
-
     }
 
     public function getModule(): Module

@@ -26,7 +26,6 @@ class DefaultSettings extends Model
     public const SETTING_CONTENT_HIDDEN_DEFAULT = 'contentHiddenDefault';
     public const SETTING_HIDE_NAVIGATION_ENTRY = 'hideNavigationEntry';
 
-
     /**
      * @var ContentContainerActiveRecord
      */

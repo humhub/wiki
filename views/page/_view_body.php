@@ -11,7 +11,6 @@ use humhub\modules\ui\view\components\View;
 use humhub\modules\wiki\assets\Assets;
 use humhub\modules\wiki\models\WikiPage;
 use humhub\modules\wiki\models\WikiPageRevision;
-use humhub\modules\wiki\helpers\Url;
 
 /* @var $this View */
 /* @var $page WikiPage */
@@ -20,7 +19,6 @@ use humhub\modules\wiki\helpers\Url;
 /* @var $canEdit bool */
 
 Assets::register($this);
-
 ?>
 <?= $this->render('_view_header', ['page' => $page, 'revision' => $revision, 'displayTitle' => false]) ?>
 
