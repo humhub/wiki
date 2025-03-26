@@ -53,10 +53,12 @@
   text-overflow: ellipsis;
   font-size: 13px;
   font-weight: 600;
-  color: var(--hh-wiki-text-color-title);
 }
 .layout-content-container .wiki-page-path.wiki-page-path-length-0 .fa {
   font-size: 28px;
+}
+.layout-content-container .wiki-page-path, .layout-content-container .wiki-page-path a {
+  color: var(--hh-wiki-text-color-title);
 }
 @media only screen and (max-width: 520px) {
   .layout-content-container .wiki-page-path .wiki-page-path-categories {
@@ -139,8 +141,10 @@
 .layout-content-container .wiki-page-content .wiki-page-title {
   font-size: 1.75em;
   font-weight: 500;
-  color: var(--hh-wiki-text-color-title);
   clear: both;
+}
+.layout-content-container .wiki-page-content .wiki-page-title, .layout-content-container .wiki-page-content .wiki-page-title a {
+  color: var(--hh-wiki-text-color-title);
 }
 .layout-content-container .wiki-page-content .wiki-page-title i.fa {
   margin-right: 4px;
@@ -222,8 +226,10 @@
 .layout-content-container .wiki-page-content .wiki-sub-pages span.page-title-text {
   display: inline-block;
   margin-bottom: 10px;
-  color: var(--hh-wiki-text-color-title);
   font-weight: 600;
+}
+.layout-content-container .wiki-page-content .wiki-sub-pages span.page-title-text, .layout-content-container .wiki-page-content .wiki-sub-pages span.page-title-text a {
+  color: var(--hh-wiki-text-color-title);
 }
 .layout-content-container .wiki-page-list-row-details, .layout-content-container .wiki-page-list-row-details a, .layout-content-container .wiki-page-list-row-details .time {
   color: var(--hh-text-color-secondary);
@@ -322,6 +328,7 @@
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+  color: var(--hh-wiki-text-color-title);
 }
 .layout-content-container .wiki-content ul.wiki-page-list .page-title > div > i.fa {
   padding: 3px 2px;
@@ -377,8 +384,10 @@
 }
 .layout-content-container .wiki-content ul.wiki-page-history li h5 {
   margin-bottom: 0;
-  color: var(--hh-wiki-text-color-title);
   font-size: 13px;
+}
+.layout-content-container .wiki-content ul.wiki-page-history li h5, .layout-content-container .wiki-content ul.wiki-page-history li h5 a {
+  color: var(--hh-wiki-text-color-title);
 }
 .layout-content-container .wiki-content ul.wiki-page-history li .horizontal-line {
   position: absolute;
@@ -452,12 +461,14 @@
   display: block !important;
 }
 .wiki-page-content-header h3 {
-  color: var(--hh-wiki-text-color-title);
   float: left;
   font-size: 28px;
   white-space: nowrap;
   margin: 0 30px 0 0;
   padding: 0 0 0 15px;
+}
+.wiki-page-content-header h3, .wiki-page-content-header h3 a {
+  color: var(--hh-wiki-text-color-title);
 }
 .wiki-page-content-header h3 .fa {
   font-size: 20px;
@@ -616,9 +627,11 @@
 .wiki-page-sidebar .wiki-page-content-header h3 {
   font-size: 28px;
   font-weight: 600;
-  color: var(--hh-wiki-text-color-title);
   padding: 0;
   margin: 5px 0;
+}
+.wiki-page-sidebar .wiki-page-content-header h3, .wiki-page-sidebar .wiki-page-content-header h3 a {
+  color: var(--hh-wiki-text-color-title);
 }
 .wiki-page-sidebar .wiki-page-content-header h3 .fa {
   font-size: 16px;
@@ -716,6 +729,7 @@
 }
 .wiki-page-list-table .table-responsive table .wiki-page-list-row-title a {
   display: block;
+  color: var(--hh-wiki-text-color-title);
 }
 .wiki-page-list-table .table-responsive table .wiki-page-list-row-title a:hover {
   color: var(--hh-text-color-highlight);

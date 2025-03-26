@@ -87,7 +87,11 @@ $wiki-mobile-grid-breakpoints: 520px;
         }
 
         font-weight: 600;
-        color: var(--hh-wiki-text-color-title);
+
+        &, a {
+            color: var(--hh-wiki-text-color-title);
+        }
+
         @media only screen and (max-width: $wiki-mobile-grid-breakpoints) {
             .wiki-page-path-categories {
                 display: none;
@@ -201,8 +205,11 @@ $wiki-mobile-grid-breakpoints: 520px;
         .wiki-page-title {
             font-size: 1.75em;
             font-weight: 500;
-            color: var(--hh-wiki-text-color-title);
             clear: both;
+
+            &, a {
+                color: var(--hh-wiki-text-color-title);
+            }
 
             i.fa {
                 margin-right: 4px;
@@ -309,8 +316,11 @@ $wiki-mobile-grid-breakpoints: 520px;
             span.page-title-text {
                 display: inline-block;
                 margin-bottom: 10px;
-                color: var(--hh-wiki-text-color-title);
                 font-weight: 600;
+
+                &, a {
+                    color: var(--hh-wiki-text-color-title);
+                }
             }
         }
     }
@@ -440,6 +450,8 @@ $wiki-mobile-grid-breakpoints: 520px;
                         overflow: hidden;
                         white-space: nowrap;
                         text-overflow: ellipsis;
+
+                        color: var(--hh-wiki-text-color-title);
                     }
 
                     > i.fa {
@@ -515,8 +527,11 @@ $wiki-mobile-grid-breakpoints: 520px;
 
                 h5 {
                     margin-bottom: 0;
-                    color: var(--hh-wiki-text-color-title);
                     font-size: 13px;
+
+                    &, a {
+                        color: var(--hh-wiki-text-color-title);
+                    }
                 }
 
                 .horizontal-line {
@@ -613,12 +628,15 @@ $wiki-mobile-grid-breakpoints: 520px;
     padding: 10px 10px;
 
     h3 {
-        color: var(--hh-wiki-text-color-title);
         float: left;
         font-size: 28px;
         white-space: nowrap;
         margin: 0 30px 0 0;
         padding: 0 0 0 15px;
+
+        &, a {
+            color: var(--hh-wiki-text-color-title);
+        }
 
         .fa {
             font-size: 20px;
@@ -832,9 +850,12 @@ $wiki-mobile-grid-breakpoints: 520px;
         h3 {
             font-size: 28px;
             font-weight: 600;
-            color: var(--hh-wiki-text-color-title);
             padding: 0;
             margin: 5px 0;
+
+            &, a {
+                color: var(--hh-wiki-text-color-title);
+            }
 
             .fa {
                 font-size: 16px;
@@ -958,6 +979,7 @@ $wiki-mobile-grid-breakpoints: 520px;
 
                 a {
                     display: block;
+                    color: var(--hh-wiki-text-color-title);
 
                     &:hover {
                         color: var(--hh-text-color-highlight);
