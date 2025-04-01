@@ -16,6 +16,7 @@ use humhub\modules\wiki\widgets\CategoryListView;
 use humhub\modules\wiki\widgets\WikiContent;
 use humhub\modules\wiki\widgets\WikiSearchForm;
 use humhub\widgets\Button;
+use humhub\modules\wiki\permissions\AdministerPages;
 
 /* @var $this View */
 /* @var $contentContainer ContentContainerActiveRecord */
@@ -29,6 +30,9 @@ if (Helper::isEnterpriseTheme()) {
 }
 
 $settings = new DefaultSettings(['contentContainer' => $contentContainer]);
+$module = Yii::$app->getModule('wiki');    
+$user = Yii::$app->user->identity;
+$editingEnabled = $module->settings->contentContainer($user)->get('wikiTreeEditingEnabled', FALSE);
 ?>
 <div class="panel panel-default">
     <div class="panel-body">
@@ -38,6 +42,7 @@ $settings = new DefaultSettings(['contentContainer' => $contentContainer]);
                 <h3><?= Html::encode($settings->module_label) ?></h3>
                 <?= WikiSearchForm::widget(['contentContainer' => $contentContainer, 'cssClass' => 'pull-left']) ?>
                 <div class="wiki-page-content-header-actions">
+                    <?= Button::info($editingEnabled ? Yii::t('WikiModule.base', 'Disable wiki tree editing') : Yii::t('WikiModule.base', 'Enable wiki tree editing'))->sm()->link(Url::current(['toggle-wiki-tree-editing']))->visible($contentContainer->can(AdministerPages::class))?>
                     <?= Button::info(Yii::t('WikiModule.base', 'Last edited'))->sm()->link(Url::toLastEdited($contentContainer))->cssClass(Helper::isEnterpriseTheme() ? 'hidden-lg' : '') ?>
                     <?= Button::info($createPageTitle)->icon('fa-plus')->sm()->link(Url::toWikiCreate($contentContainer))->visible($canCreate) ?>
                 </div>

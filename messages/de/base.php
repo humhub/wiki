@@ -85,4 +85,6 @@ return [
   'last update {dateTime}' => 'letztes Update {dateTime}',
   'show changes' => 'Änderungen anzeigen',
   '{userName} edited the Wiki page "{wikiPageTitle}".' => '{userName} hat die Wiki-Seite "{wikiPageTitle}" bearbeitet.',
+  'Disable wiki tree editing' => 'Bearbeitung der Seitenhierachie deaktivieren',
+  'Enable wiki tree editing' => 'Bearbeitung der Seitenhierachie  aktivieren',
 ];

@@ -113,4 +113,16 @@ class OverviewController extends BaseController
     {
         $this->updateFoldingState($categoryId, $state);
     }
+
+    public function actionToggleWikiTreeEditing()
+    {
+        $module = Yii::$app->getModule('wiki');
+        $user = Yii::$app->user->identity;
+        $editingEnabled = $module->settings->contentContainer($user)->get('wikiTreeEditingEnabled');
+
+        $newState = !$editingEnabled;
+        $module->settings->contentContainer($user)->set('wikiTreeEditingEnabled', $newState);
+
+        return $this->redirect(Url::toOverview($this->contentContainer));
+    }
 }
