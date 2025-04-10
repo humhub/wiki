@@ -789,20 +789,22 @@
   }
 
   .drag-icon {
+    opacity: 0;
     visibility: hidden;
+    transition: opacity 0.3s ease;
     color: @text-color-control;
-
+  
     .fa {
       font-size: 11px;
     }
-  }
-
-  .page-title:hover {
-    .drag-icon {
+  
+    &.visible {
+      opacity: 1;
       visibility: visible;
       cursor: move;
     }
   }
+
 }
 
 // Sidebar is used on Enterprise themes

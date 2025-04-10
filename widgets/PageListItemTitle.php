@@ -89,10 +89,6 @@ class PageListItemTitle extends Widget
             }
         }
 
-        $module = Yii::$app->getModule('wiki');        
-        $user = Yii::$app->user->identity;
-        $editingEnabled = $module->settings->contentContainer($user)->get('wikiTreeEditingEnabled', FALSE);
-
         return $this->render('pageListItemTitle', [
             'service' => $this->service,
             'item' => $this->item,
@@ -101,7 +97,7 @@ class PageListItemTitle extends Widget
             'titleInfo' => $this->titleInfo,
             'url' => $this->service->getWikiUrl($this->item),
             'icon' => $this->icon ?? $icon,
-            'showDrag' => $this->showDrag and $editingEnabled,
+            'showDrag' => $this->showDrag,
             'showAddPage' => $this->showAddPage,
             'options' => $this->getOptions(),
             'level' => $this->level,
