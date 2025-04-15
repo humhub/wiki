@@ -571,13 +571,16 @@
   margin-bottom: -2px;
 }
 #category_list_view .drag-icon {
+  opacity: 0;
   visibility: hidden;
+  transition: opacity 0.3s ease;
   color: var(--text-color-soft);
 }
 #category_list_view .drag-icon .fa {
   font-size: 11px;
 }
-#category_list_view .page-title:hover .drag-icon {
+#category_list_view .drag-icon.visible {
+  opacity: 1;
   visibility: visible;
   cursor: move;
 }

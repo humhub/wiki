@@ -410,6 +410,7 @@ humhub.module('wiki.CategoryListView', function(module, require, $) {
         this.initFoldingSubpages();
         this.initSorting();
         this.initPageTitleLink();
+        this.initDragButtonHoverDelay();
     }
 
     CategoryListView.prototype.initFoldingSubpages = function() {
@@ -654,6 +655,29 @@ humhub.module('wiki.CategoryListView', function(module, require, $) {
             module.log.error(e, true);
             $item.closest('.category_list_view, .wiki-page-list').sortable('cancel');
             pageTitle.removeClass('wiki-page-dropped');
+        });
+    };
+
+    CategoryListView.prototype.initDragButtonHoverDelay = function() {
+        const HOVER_DELAY = 1000;
+        const dragClass = '.wiki-page-control.drag-icon';
+    
+        this.$.find('.page-title').each(function () {
+            const $item = $(this);
+            const $dragBtn = $item.find(dragClass);
+    
+            let timer = null;
+    
+            $item.on('mouseenter', function () {
+                timer = setTimeout(() => {
+                    $dragBtn.addClass('visible');
+                }, HOVER_DELAY);
+            });
+    
+            $item.on('mouseleave', function () {
+                clearTimeout(timer);
+                $dragBtn.removeClass('visible');
+            });
         });
     };
 
