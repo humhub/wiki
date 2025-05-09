@@ -65,7 +65,7 @@ Assets::register($this);
                 <div class="alert alert-danger">
                     <?= Yii::t('WikiModule.base',
                         '<strong>Warning!</strong><br><br>Another user has updated this page since you have started editing it. Please confirm that you want to overwrite those changes.<br>:linkToCompare', [
-                            ':linkToCompare' => Button::asLink('<i class="fa fa-arrow-right"></i>&nbsp;' . Yii::t('WikiModule.base', 'Compare changes'))->action('compareOverwriting', $diffUrl)->cssClass('colorDanger')
+                            ':linkToCompare' => Button::asLink('<i class="fa fa-arrow-right"></i>&nbsp;' . Yii::t('WikiModule.base', 'Compare changes'))->action('compareOverwriting', $diffUrl)->cssClass('text-danger')
                         ]); ?>
                 </div>
                 <?= $form->field($model, 'backOverwriting')->hiddenInput()->label(false); ?>
