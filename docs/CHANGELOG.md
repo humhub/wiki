@@ -1,6 +1,10 @@
 Changelog
 =========
 
+2.3.8 (Unreleased)
+-------------------------
+- Fix #374: Make activity "Wiki page edited" configurable
+
 2.3.7 (February 12, 2025)
 -------------------------
 - Enh #358: Replaced the `fa-file-word-o` icon with the `fa-book` icon
