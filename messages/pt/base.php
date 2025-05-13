@@ -84,6 +84,7 @@ return [
     'Table of Contents' => '',
     'There are no entries yet :(' => '',
     'This field only allows a maximum 1 page.' => '',
+    'Whenever someone edits a wiki page.' => '',
     'last update {dateTime}' => '',
     'show changes' => '',
 ];

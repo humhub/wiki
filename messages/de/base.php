@@ -78,6 +78,7 @@ return [
   'There are no entries yet :(' => 'Es gibt noch keine Einträge :(',
   'This field only allows a maximum 1 page.' => 'Dieses Feld erlaubt nur maximal 1 Seite.',
   'This page is empty.' => 'Diese Seite ist leer.',
+  'Whenever someone edits a wiki page.' => 'Wenn jemand eine Wiki Seite bearbeitet.',
   'Wiki' => 'Wiki',
   'Wiki page' => 'Wiki Seite',
   'Your current version' => 'Deine aktuelle Version',
