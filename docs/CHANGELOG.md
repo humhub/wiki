@@ -1,8 +1,8 @@
 Changelog
 =========
 
-2.3.8 (Unreleased)
--------------------------
+2.3.8 (May 13, 2025)
+--------------------
 - Fix #374: Make activity "Wiki page edited" configurable
 
 2.3.7 (February 12, 2025)
