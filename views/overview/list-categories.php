@@ -65,6 +65,11 @@ $settings = new DefaultSettings(['contentContainer' => $contentContainer]);
                                 </a>
                                 </li>
                             <?php endif; ?>
+                            <li>
+                                <a href="<?= Url::toWikiTemplateIndex() ?>" class="manage-template">
+                                    <?= Yii::t('WikiModule.base', 'Manage Template') ?>
+                                </a>
+                            </li>
                         </ul>
                     </span>
                 </div>

@@ -15,6 +15,8 @@ use humhub\modules\wiki\widgets\WikiMenu;
 use humhub\modules\wiki\widgets\WikiPagePicker;
 use humhub\modules\wiki\widgets\WikiPath;
 use humhub\widgets\Button;
+use humhub\modules\wiki\widgets\TemplateSelectModal;
+use humhub\widgets\Modal;
 use humhub\modules\wiki\helpers\Url;
 use humhub\modules\topic\widgets\TopicPicker;
 
@@ -36,6 +38,17 @@ Assets::register($this);
                 'id' => 'wiki-page-edit',
                 'cssClass' => 'wiki-page-content'
             ]) ?>
+
+            <?php if ($isNewPage): ?>
+                <?= TemplateSelectModal::widget(['container' => $contentContainer]); ?>
+            <?php endif; ?>
+            
+            <?= Modal::widget([
+                'id' => 'placeholderModal',
+                'header' => '<strong>Fill in Placeholders</strong>',
+                'body' => '<div id="placeholderFormContainer"></div>',
+                'footer' => false
+            ]); ?>
 
             <div class="wiki-headline">
                 <div class="wiki-headline-top">

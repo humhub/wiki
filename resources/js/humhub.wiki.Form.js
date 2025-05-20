@@ -1,5 +1,6 @@
 humhub.module('wiki.Form', function(module, require, $) {
     var Widget = require('ui.widget').Widget;
+    var richtext = require('ui.richtext.prosemirror');
     var wikiView = require('wiki');
     var additions = require('ui.additions');
     var client = require('client');
@@ -44,6 +45,8 @@ humhub.module('wiki.Form', function(module, require, $) {
                 }
             });
         }
+        const editorWidget = Widget.instance('#wikipagerevision-content');  
+        requireTemplate(editorWidget);
         checkValidUser();
         startEditPolling();
     };
@@ -132,5 +135,89 @@ humhub.module('wiki.Form', function(module, require, $) {
         })
     }
 
+    function insertContentIntoEditor(editorWidget, content) {
+        var view = editorWidget.editor.view;
+    
+        if (view) {
+            var parser = richtext.api.model.DOMParser.fromSchema(view.state.schema);
+            var html = content;
+            var tempDoc = new DOMParser().parseFromString(html, 'text/html');
+            var doc = parser.parse(tempDoc);
+    
+            var endPos = view.state.doc.content.size;
+    
+            var transaction = view.state.tr.insert(endPos, doc.content);
+            view.dispatch(transaction);
+        } else {
+            console.warn('ProseMirror view not found');
+        }
+    }
+    
+
+    function requireTemplate(editorWidget) {
+        $('#templateSelectModal').modal('show');
+    
+        $('#useTemplateBtn').on('click', function (e) {
+            e.preventDefault();
+            const $selected = $('#templateSelectDropdown option:selected');
+            const fetchUrl = $selected.data('url');
+        
+            if (!fetchUrl) {
+                alert('Please select a template');
+                return;
+            }
+        
+            $.get(fetchUrl, function (response) {
+                if (response.success) {
+                    const content = response.content;
+        
+                    const placeholderMatches = [...content.matchAll(/{{(.*?)}}/g)];
+                    const placeholders = [...new Set(placeholderMatches.map(match => match[1].trim()))];
+        
+                    if (placeholders.length > 0) {
+                        let formHtml = '<form id="templatePlaceholderForm">';
+                        placeholders.forEach(ph => {
+                            formHtml += `<div class="form-group">
+                                            <label>${ph}</label>
+                                            <input class="form-control" name="${ph}" required />
+                                         </div>`;
+                        });
+                        formHtml += '<button type="submit" class="btn btn-primary mt-2">Insert</button></form>';
+        
+                        $('#placeholderFormContainer').html(formHtml);
+                        $('#templateSelectModal').modal('hide');
+                        $('#placeholderModal').modal('show');
+        
+                        $('#templatePlaceholderForm').on('submit', function (e) {
+                            e.preventDefault();
+                            let filledContent = content;
+                            const formData = $(this).serializeArray();
+        
+                            formData.forEach(field => {
+                                const regex = new RegExp('{{' + field.name + '}}', 'g');
+                                filledContent = filledContent.replace(regex, field.value);
+                            });
+        
+                            insertContentIntoEditor(editorWidget, filledContent);
+                            $('#templateSelectModal .modal-body').empty();
+                            $('#placeholderModal').modal('hide');
+                        });
+                    } else {
+                        insertContentIntoEditor(editorWidget, content);
+                        $('#templateSelectModal .modal-body').empty();
+                        $('#templateSelectModal').modal('hide');
+                    }
+                } else {
+                    alert(response.message || 'Failed to fetch template.');
+                }
+            });
+        });
+    
+        $('#blankPageBtn').off('click').on('click', function() {
+            $('#templateSelectModal .modal-body').empty();
+            $('#templateSelectModal').modal('hide');
+        });
+    }
+    
     module.export = Form;
 });

@@ -92,6 +92,12 @@ humhub.module('wiki', function(module, require, $) {
         });
     }
 
+    Content.prototype.insertTemplate = function(evt) {
+        evt.preventDefault();
+        $('#templateSelectModal').modal('show');
+        return false;
+    };
+
     var toAnchor = function(anchor) {
         var $anchor = $('#'+$.escapeSelector(anchor.substr(1, anchor.length)));
 

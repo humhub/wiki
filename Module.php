@@ -152,4 +152,13 @@ class Module extends ContentContainerModule
         return (new DefaultSettings(['contentContainer' => $contentContainer]))->contentHiddenDefault;
     }
 
+    public function getUrlRules()
+    {
+        return [
+            'wiki/template' => 'wiki/template/index',
+            'wiki/template/create' => 'wiki/template/create',
+            'wiki/template/update/<id:\d+>' => 'wiki/template/update',
+            'wiki/template/delete/<id:\d+>' => 'wiki/template/delete',
+        ];
+    }
 }
