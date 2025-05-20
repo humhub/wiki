@@ -12,8 +12,6 @@ use humhub\modules\content\widgets\richtext\ProsemirrorRichText;
 use humhub\modules\content\widgets\richtext\ProsemirrorRichTextConverter;
 use humhub\libs\Helpers;
 
-
-
 class TemplateController extends BaseController
 {
 

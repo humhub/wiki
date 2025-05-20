@@ -39,9 +39,7 @@ Assets::register($this);
                 'cssClass' => 'wiki-page-content'
             ]) ?>
 
-            <?php if ($isNewPage): ?>
-                <?= TemplateSelectModal::widget(['container' => $contentContainer]); ?>
-            <?php endif; ?>
+            <?= TemplateSelectModal::widget(['container' => $contentContainer]); ?>
             
             <?= Modal::widget([
                 'id' => 'placeholderModal',
@@ -53,6 +51,9 @@ Assets::register($this);
             <div class="wiki-headline">
                 <div class="wiki-headline-top">
                     <?= WikiPath::widget(['page' => $model->page]) ?>
+                    <div class="Button-right-align">
+                        <?= Button::save(Yii::t('WikiModule.base','Add Template'))->icon('fa-plus')->action('insertTemplate')->sm()->loader(false)->cssClass('toggle-numbering') ?>
+                    </div>
                     <?php if (!$requireConfirmation) : ?>
                         <?= WikiMenu::widget([
                             'object' => $model->page,

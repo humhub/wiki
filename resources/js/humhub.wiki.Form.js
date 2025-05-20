@@ -155,8 +155,12 @@ humhub.module('wiki.Form', function(module, require, $) {
     
 
     function requireTemplate(editorWidget) {
-        $('#templateSelectModal').modal('show');
-    
+        if(document.querySelector('.ProseMirror .placeholder')) {
+            $('#templateSelectModal').modal('show');
+        }
+        else {
+            $('#templateSelectModal .modal-body').empty();
+        }
         $('#useTemplateBtn').on('click', function (e) {
             e.preventDefault();
             const $selected = $('#templateSelectDropdown option:selected');

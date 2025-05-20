@@ -8,14 +8,12 @@
 use humhub\libs\Html;
 use humhub\modules\ui\menu\MenuEntry;
 use humhub\modules\wiki\widgets\WikiMenu;
-use humhub\widgets\Button;
 
 /* @var $menu WikiMenu */
 /* @var $entries MenuEntry[] */
 /* @var $options array */
 ?>
 <div class="wiki-menu">
-    <?= Button::save(Yii::t('WikiModule.base','Add Template'))->icon('fa-plus')->action('insertTemplate')->sm()->loader(false)?>
     <?php foreach ($menu->buttons as $button) : ?>
         <?= $menu->renderButton($button) ?>
     <?php endforeach; ?>
