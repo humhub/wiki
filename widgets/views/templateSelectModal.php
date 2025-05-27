@@ -26,13 +26,14 @@ foreach ($templates as $template) {
                 </div>' .
             '</div>',
     'footer' => 
-        '<select id="templateSelectDropdown" class="form-control" style="margin-bottom: 20px;">' .
+        '<select id="templateSelectDropdown" name="templateSelectDropdown" class="form-control" style="margin-bottom: 20px;">' .
         '<option value="">' . Yii::t('WikiModule.base', 'List of templates') . '</option>' .
         implode('', array_map(function($template) {
             $url = Url::toWikiGetTemplateContent($template);
             return Html::tag('option', Html::encode($template->title), [
                 'value' => $template->id,
-                'data-url' => $url
+                'data-url' => $url,
+                'name' => $template->title
             ]);
         }, $templates)) .
         '</select>' .

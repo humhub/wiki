@@ -86,7 +86,9 @@ class TemplateController extends BaseController
     public function actionGetTemplateContent($id)
     {
         $template = $this->findModel($id);
+        $title = $template->title_template;
         $content = $template->content;
+        $placeholders = $template->placeholders;
 
         if (!$template) {
             return $this->asJson(['success' => false]);
@@ -96,6 +98,6 @@ class TemplateController extends BaseController
 
         $content = $converter->convertToHtml($content);
 
-        return $this->asJson(['success' => true, 'content' => $content]);
+        return $this->asJson(['success' => true, 'title' => $title, 'content' => $content, 'placeholders'=> $placeholders]);
     }
 }

@@ -20,6 +20,9 @@ humhub.module('wiki.Form', function(module, require, $) {
             wikiView.registerStickyElement(that.getRichtextMenu(), that.getRichtext());
         });
 
+        let placeholders = JSON.parse($('#wikitemplate-placeholders').val() || '[]');
+        renderPlaceholderTable(placeholders);
+
         that.$.find('div.checkbox').each(function() {
             var $this = $(this);
             var $checkbox = $this.find('[type=checkbox][title]');
@@ -45,10 +48,10 @@ humhub.module('wiki.Form', function(module, require, $) {
                 }
             });
         }
-        const editorWidget = Widget.instance('#wikipagerevision-content');  
-        requireTemplate(editorWidget);
         checkValidUser();
         startEditPolling();
+        const editorWidget = Widget.instance('#wikipagerevision-content');
+        requireTemplate(editorWidget);
     };
 
     Form.prototype.getRichtextMenu = function() {
@@ -152,7 +155,6 @@ humhub.module('wiki.Form', function(module, require, $) {
             console.warn('ProseMirror view not found');
         }
     }
-    
 
     function requireTemplate(editorWidget) {
         if(document.querySelector('.ProseMirror .placeholder')) {
@@ -174,34 +176,40 @@ humhub.module('wiki.Form', function(module, require, $) {
             $.get(fetchUrl, function (response) {
                 if (response.success) {
                     const content = response.content;
-        
-                    const placeholderMatches = [...content.matchAll(/{{(.*?)}}/g)];
-                    const placeholders = [...new Set(placeholderMatches.map(match => match[1].trim()))];
-        
+                    const titleTemplate = response.title;
+                    const placeholders = JSON.parse(response.placeholders || []);
+            
                     if (placeholders.length > 0) {
                         let formHtml = '<form id="templatePlaceholderForm">';
                         placeholders.forEach(ph => {
-                            formHtml += `<div class="form-group">
-                                            <label>${ph}</label>
-                                            <input class="form-control" name="${ph}" required />
-                                         </div>`;
+                            formHtml += `
+                                <div class="form-group mb-2">
+                                    <label>${ph.description + '(' + ph.key + ')'}</label>
+                                    <input class="form-control" name="${ph.key}" value="${ph.default || ''}" required />
+                                </div>`;
                         });
                         formHtml += '<button type="submit" class="btn btn-primary mt-2">Insert</button></form>';
-        
+            
                         $('#placeholderFormContainer').html(formHtml);
                         $('#templateSelectModal').modal('hide');
                         $('#placeholderModal').modal('show');
-        
+            
                         $('#templatePlaceholderForm').on('submit', function (e) {
                             e.preventDefault();
+            
                             let filledContent = content;
+                            let filledTitle = titleTemplate;
                             const formData = $(this).serializeArray();
-        
                             formData.forEach(field => {
-                                const regex = new RegExp('{{' + field.name + '}}', 'g');
+                                const regex = new RegExp('{{\\s*' + field.name + '\\s*}}', 'g');
                                 filledContent = filledContent.replace(regex, field.value);
+                                filledTitle = filledTitle.replace(regex, field.value);
                             });
-        
+                            // Optional: Update the title input if available
+                            const $titleInput = $('#wikipage-title');
+                            if ($titleInput.length) {
+                                $titleInput.val(filledTitle);
+                            }
                             insertContentIntoEditor(editorWidget, filledContent);
                             $('#templateSelectModal .modal-body').empty();
                             $('#placeholderModal').modal('hide');
@@ -222,6 +230,111 @@ humhub.module('wiki.Form', function(module, require, $) {
             $('#templateSelectModal').modal('hide');
         });
     }
+
+    Form.prototype.addPlaceholder = function() {
+        $('#addPlaceholderModal').modal('show');
+
+        let formHtml = `<form id="newPlaceholderForm">
+                            <div class="form-group">
+                                <label>Name *</label>
+                                <input class="form-control" name="key" required />
+                            </div>
+                            <div class="form-group">
+                                <label>Description</label>
+                                <input class="form-control" name="description" />
+                            </div>
+                            <div class="form-group">
+                                <label>Default Value</label>
+                                <input class="form-control" name="default" />
+                            </div>
+                            <button type="submit" class="btn btn-primary">Add</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        </form>`;
+
+        $('#newPlaceholderFormContainer').html(formHtml);
+
+        $('#newPlaceholderForm').on('submit', function (e) {
+            e.preventDefault();
+            const data = Object.fromEntries(new FormData(this).entries());
+        
+            if (!data.key) {
+                alert('Name is required');
+                return;
+            }
+        
+            let placeholders = [];
+            try {
+                placeholders = JSON.parse($('#wikitemplate-placeholders').val() || '[]');
+            } catch (e) {
+                console.warn('Invalid placeholder data');
+            }
+        
+            if (placeholders.some(ph => ph.key === data.key)) {
+                alert('A placeholder with this name already exists.');
+                return;
+            }
+        
+            placeholders.push({
+                key: data.key.trim(),
+                description: data.description?.trim() || '',
+                default: data.default?.trim() || ''
+            });
+        
+            updatePlaceholderField(placeholders);
+            // injectPlaceholderInContent(data.key);
+            renderPlaceholderTable(placeholders);
+            $('#addPlaceholderModal').modal('hide');
+        });
+
+        $('#placeholder-table').on('click', '.remove-placeholder', function () {
+            const index = $(this).closest('tr').data('index');
+            let placeholders = JSON.parse($('#wikitemplate-placeholders').val() || '[]');
+        
+            placeholders.splice(index, 1);
+            updatePlaceholderField(placeholders);
+            renderPlaceholderTable(placeholders);
+        });
+    };
+
+    function updatePlaceholderField(placeholders) {
+        $('#wikitemplate-placeholders').val(JSON.stringify(placeholders));
+    }
+
+    function injectPlaceholderInContent(key) {
+        const templateEditorWidget = Widget.instance('#wikitemplate-content');
+        insertContentIntoEditor(templateEditorWidget, '{{'+key+'}}');
+    }
+
+    function renderPlaceholderTable(placeholders) {
+        const $tbody = $('#placeholder-table tbody');
+        $tbody.empty();
     
+        if (!placeholders.length) {
+            return;
+        }
+    
+        placeholders.forEach((ph, index) => {
+            $tbody.append(`
+                <tr data-index="${index}">
+                    <td class="text-center">${ph.key}</td>
+                    <td class="text-start">${ph.description}</td>
+                    <td class="text-center">${ph.default}</td>
+                    <td class="text-center">
+                        <button type="button" class="btn btn-sm btn-danger remove-placeholder">Delete</button>
+                    </td>
+                </tr>
+            `);
+        });
+
+        $('#placeholder-table').on('click', '.remove-placeholder', function () {
+            const index = $(this).closest('tr').data('index');
+            let placeholders = JSON.parse($('#wikitemplate-placeholders').val() || '[]');
+        
+            placeholders.splice(index, 1);
+            updatePlaceholderField(placeholders);
+            renderPlaceholderTable(placeholders);
+        });
+    }
+     
     module.export = Form;
 });

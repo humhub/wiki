@@ -17,29 +17,25 @@ Assets::register($this);
 <div class="panel panel-default">
     <div class="panel-body">
         <?php WikiContent::begin(['cssClass' => 'wiki-page-content']) ?>
-
             <div class="wiki-headline">
                 <div class="wiki-headline-top">
                     <h1><?= Html::encode($this->title) ?></h1>
                     <?= Button::primary(Yii::t('WikiModule.base', 'Create Template'))->link(Url::toWikiTemplateCreate())->icon('plus')->sm(); ?>
                 </div>
             </div>
-
-            
             <ol>
                 <?php foreach ($templates as $template): ?>
                     <li>
                         <?= Html::encode($template->title) ?>
                         <?= Button::asLink(null, Url::toWikiTemplateEdit($template, $container))->icon('fa-pencil')
-                            ->cssClass('wiki-page-control tt wiki-category-add')
-                            ->title(Yii::t('WikiModule.base', 'Edit Page')) ?>
+                            ->cssClass('wiki-page-control tt wiki-category-add edit-template')
+                            ->title(Yii::t('WikiModule.base', 'Edit Template')) ?>
                         <?= Button::asLink(null, Url::toWikiTemplateDelete($template, $container))->icon('fa-trash-o')
-                            ->cssClass('wiki-page-control tt wiki-category-add')
-                            ->title(Yii::t('WikiModule.base', 'Delete Page'))->confirm(Yii::t('WikiModule.base', 'Are you sure you want to delete this template?')); ?>
+                            ->cssClass('wiki-page-control tt wiki-category-add delete-template')
+                            ->title(Yii::t('WikiModule.base', 'Delete Template'))->confirm(Yii::t('WikiModule.base', 'Are you sure you want to delete this template?')); ?>
                     </li>
                 <?php endforeach; ?>
             </ol>`
-
         <?php WikiContent::end() ?>
     </div>
 </div>
