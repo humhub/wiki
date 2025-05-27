@@ -248,7 +248,6 @@ humhub.module('wiki.Form', function(module, require, $) {
                                 <input class="form-control" name="default" />
                             </div>
                             <button type="submit" class="btn btn-primary">Add</button>
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                         </form>`;
 
         $('#newPlaceholderFormContainer').html(formHtml);
@@ -281,7 +280,6 @@ humhub.module('wiki.Form', function(module, require, $) {
             });
         
             updatePlaceholderField(placeholders);
-            // injectPlaceholderInContent(data.key);
             renderPlaceholderTable(placeholders);
             $('#addPlaceholderModal').modal('hide');
         });
@@ -298,11 +296,6 @@ humhub.module('wiki.Form', function(module, require, $) {
 
     function updatePlaceholderField(placeholders) {
         $('#wikitemplate-placeholders').val(JSON.stringify(placeholders));
-    }
-
-    function injectPlaceholderInContent(key) {
-        const templateEditorWidget = Widget.instance('#wikitemplate-content');
-        insertContentIntoEditor(templateEditorWidget, '{{'+key+'}}');
     }
 
     function renderPlaceholderTable(placeholders) {
