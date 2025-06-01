@@ -8,7 +8,7 @@ use humhub\modules\wiki\widgets\WikiMenu;
 use humhub\modules\wiki\widgets\WikiPath;
 use humhub\widgets\bootstrap\Button;
 use humhub\widgets\bootstrap\Link;
-use humhub\widgets\LinkPager;
+use humhub\widgets\bootstrap\LinkPager;
 use humhub\widgets\TimeAgo;
 use yii\helpers\Html;
 
