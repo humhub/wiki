@@ -8,6 +8,7 @@ humhub.module('wiki.Form', function(module, require, $) {
 
     var editPollingInterval = 5000;
     var editPollingTimer = null;
+    var editStatusPollingInterval = 5000; // or another value in ms
 
     /**
      * This widget represents the wiki form
@@ -34,6 +35,14 @@ humhub.module('wiki.Form', function(module, require, $) {
             additions.apply($this, 'tooltip');
         });
 
+        $('#wikitemplate-is_appendable').on('change', function () {
+            if ($(this).is(':checked')) {
+                $('#appendable-content-wrapper').show();
+            } else {
+                $('#appendable-content-wrapper').hide();
+            }
+        });
+
         if(that.options.isCategory) {
             $('#wikipage-is_category').click(function () {
                 var $this = $(this);
@@ -50,6 +59,8 @@ humhub.module('wiki.Form', function(module, require, $) {
         }
         checkValidUser();
         startEditPolling();
+        setInterval(pollEditingStatus, editStatusPollingInterval);
+        pollEditingStatus();
         const editorWidget = Widget.instance('#wikipagerevision-content');
         requireTemplate(editorWidget);
     };
@@ -101,6 +112,12 @@ humhub.module('wiki.Form', function(module, require, $) {
     };
 
     function pollTimerEditingStatus() {
+        if (document.querySelector('[data-url-editing-timer-update]') == null) {
+            if (editPollingTimer) {
+                clearInterval(editPollingTimer);
+            }
+            return;
+        }
         var url = document.querySelector('[data-url-editing-timer-update]').getAttribute('data-url-editing-timer-update');
 
         client.get(url).then(function(response) {
@@ -117,25 +134,28 @@ humhub.module('wiki.Form', function(module, require, $) {
     }
 
     function checkValidUser() {
-        var url = document.querySelector('[data-url-editing-timer-update]').getAttribute('data-url-editing-timer-update');
-        client.get(url).then(function(response) {
-            if(response.success&&response.conflictingEditing) {
-                var options = {
-                    'header': response.header,
-                    'body': response.body,
-                    'confirmText': response.confirmText,
-                    'cancelText' : response.cancelText,
-                };
+        if(document.querySelector('[data-url-editing-timer-update]') != null)
+        {
+            var url = document.querySelector('[data-url-editing-timer-update]').getAttribute('data-url-editing-timer-update');
+            client.get(url).then(function(response) {
+                if(response.success&&response.conflictingEditing) {
+                    var options = {
+                        'header': response.header,
+                        'body': response.body,
+                        'confirmText': response.confirmText,
+                        'cancelText' : response.cancelText,
+                    };
 
-                modal.confirm(options).then(function ($confirmed) {
-                    if ($confirmed) {
-                        client.redirect(response.url);
-                    }
-                });
-            }
-        }).catch(function(e) {
-            module.log.error(e, true);
-        })
+                    modal.confirm(options).then(function ($confirmed) {
+                        if ($confirmed) {
+                            client.redirect(response.url);
+                        }
+                    });
+                }
+            }).catch(function(e) {
+                // module.log.error(e, true);
+            })
+        }
     }
 
     function insertContentIntoEditor(editorWidget, content) {
@@ -178,6 +198,8 @@ humhub.module('wiki.Form', function(module, require, $) {
                     const content = response.content;
                     const titleTemplate = response.title;
                     const placeholders = JSON.parse(response.placeholders || []);
+                    const is_appendable = response.is_appendable;
+                    const appendable_content = response.appendable_content;
             
                     if (placeholders.length > 0) {
                         let formHtml = '<form id="templatePlaceholderForm">';
@@ -211,11 +233,13 @@ humhub.module('wiki.Form', function(module, require, $) {
                                 $titleInput.val(filledTitle);
                             }
                             insertContentIntoEditor(editorWidget, filledContent);
+                            addAppendableContent(is_appendable, appendable_content);
                             $('#templateSelectModal .modal-body').empty();
                             $('#placeholderModal').modal('hide');
                         });
                     } else {
                         insertContentIntoEditor(editorWidget, content);
+                        addAppendableContent(is_appendable, appendable_content);
                         $('#templateSelectModal .modal-body').empty();
                         $('#templateSelectModal').modal('hide');
                     }
@@ -328,6 +352,43 @@ humhub.module('wiki.Form', function(module, require, $) {
             renderPlaceholderTable(placeholders);
         });
     }
+
+    function addAppendableContent(is_appendable, appendable_content) {
+        $('#pageeditform-isappendable').val(is_appendable);
+        if (is_appendable) {
+            $('#pageeditform-appendablecontent').val(appendable_content);
+        }
+    }
+
+    function pollEditingStatus() {
+        const $container = $('[data-url-editing-status]');
+        const url = $container.data('url-editing-status');
+        if (!url) return;
+        client.get(url).then(function (response) {
+            if (response.success && response.isEditing) {
+                disableSubmit(response.user);
+            } else {
+                enableSubmit();
+            }
+        }).catch(function (e) {
+            module.log.error(e, true);
+        });
+    }
+
+    function disableSubmit(user) {
+        $('#append-save-button')
+            .prop('disabled', true)
+            .addClass('disabled')
+            .text(user + ' is editing...');
+    }
+
+    function enableSubmit() {
+        $('#append-save-button')
+            .prop('disabled', false)
+            .removeClass('disabled')
+            .text('Append');
+    }
+
      
     module.export = Form;
 });

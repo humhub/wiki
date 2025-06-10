@@ -164,7 +164,10 @@ humhub.module('wiki', function(module, require, $) {
     function openEditingDialog(body) {
         var button = document.querySelector('[data-url-editing-status]');
         button.setAttribute('data-action-confirm', body);
-        
+        var append_button = document.querySelector('.append-content');
+        if (append_button!= null) {
+            append_button.style.display = 'none';
+        }
     }
 
     function closeEditingDialog() {
@@ -172,6 +175,10 @@ humhub.module('wiki', function(module, require, $) {
         if (button.getAttribute('data-action-confirm') != null) {
             button.removeAttribute('data-action-confirm');
             client.reload();
+        }
+        var append_button = document.querySelector('.append-content');
+        if (append_button!= null) {
+            append_button.style.display = 'inline-block';
         }
     }
 

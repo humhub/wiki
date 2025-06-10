@@ -15,6 +15,8 @@ use Yii;
  * @property int|null $contentcontainer_id  (nullable because Global templates = NULL)
  * @property string $title
  * @property string|null $content
+ * @property string|null $appendable_content
+ * @property boolean|false $is_appendable
  */
 class WikiTemplate extends ActiveRecord
 {
@@ -33,9 +35,10 @@ class WikiTemplate extends ActiveRecord
     {
         return [
             [['title'], 'required'],
-            [['content', 'title_template'], 'string'],
+            [['content', 'title_template', 'appendable_content'], 'string'],
             [['contentcontainer_id'], 'integer'],
             [['placeholders'], 'safe'],
+            [['is_appendable'], 'boolean']
         ];
     }
 
@@ -74,7 +77,8 @@ class WikiTemplate extends ActiveRecord
     public function afterSave($insert, $changedAttributes)
     {
         ProsemirrorRichText::postProcess($this->content, $this);
-
+        ProsemirrorRichText::postProcess($this->appendable_content, $this);
+        
         parent::afterSave($insert, $changedAttributes);
     }
 }

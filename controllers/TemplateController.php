@@ -50,7 +50,7 @@ class TemplateController extends BaseController
      */
     public function actionEdit($id)
     {
-        $model = $this->findModel($id);
+        $model = $this->findTemplate($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['index', 'container' => $this->contentContainer]);
@@ -64,7 +64,7 @@ class TemplateController extends BaseController
      */
     public function actionDelete($id)
     {
-        $model = $this->findModel($id);
+        $model = $this->findTemplate($id);
         $model->delete();
 
         return $this->redirect(['index', 'container' => $this->contentContainer]);
@@ -73,7 +73,7 @@ class TemplateController extends BaseController
     /**
      * Finds template and ensures it belongs to contentContainer
      */
-    protected function findModel($id)
+    protected function findTemplate($id)
     {
         $model = WikiTemplate::find()->where(['contentcontainer_id' => $this->contentContainer->contentcontainer_id, 'id' => $id])->one();
         if ($model === null) {
@@ -82,10 +82,12 @@ class TemplateController extends BaseController
         return $model;
     }
 
-
+    /**
+     * API to get the content, placeholders from the template
+     */
     public function actionGetTemplateContent($id)
     {
-        $template = $this->findModel($id);
+        $template = $this->findTemplate($id);
         $title = $template->title_template;
         $content = $template->content;
         $placeholders = $template->placeholders;
@@ -98,6 +100,13 @@ class TemplateController extends BaseController
 
         $content = $converter->convertToHtml($content);
 
-        return $this->asJson(['success' => true, 'title' => $title, 'content' => $content, 'placeholders'=> $placeholders]);
+        return $this->asJson([
+            'success' => true,
+            'title' => $title,
+            'content' => $content,
+            'placeholders' => $placeholders,
+            'is_appendable' => $template->is_appendable,
+            'appendable_content' => $template->appendable_content,
+        ]);
     }
 }

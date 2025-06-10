@@ -8,6 +8,7 @@ use humhub\modules\wiki\helpers\HeadlineExtractor;
 use humhub\modules\wiki\helpers\Url;
 use humhub\modules\wiki\models\DefaultSettings;
 use humhub\modules\wiki\models\forms\PageEditForm;
+use humhub\modules\wiki\models\forms\PageAppendForm;
 use humhub\modules\wiki\models\forms\WikiPageItemDrop;
 use humhub\modules\wiki\models\WikiPage;
 use humhub\modules\wiki\models\WikiPageRevision;
@@ -571,6 +572,7 @@ class PageController extends BaseController
         return $this->asJson([
             'success' => true,
             'isEditing' => $page->isEditing(),
+            'user' => $fullName,
             'body' => $fullName .' '. Yii::t('WikiModule.base', 'is already editing.<br> Editing it would cause conflict. Do you really want to continue?'),
         ]);
     }
@@ -617,6 +619,34 @@ class PageController extends BaseController
             'body' => $fullName .' '. Yii::t('WikiModule.base', 'is already editing.<br> Editing it would cause conflict. Do you really want to continue?'),
             'confirmText' => Yii::t('WikiModule.base', 'Cancel'),
             'cancelText' => Yii::t('WikiModule.base', 'Continue'),
+        ]);
+    }
+
+    /**
+     * @param int $id
+     * @return $this|Response
+     * @throws HttpException
+     */
+    public function actionAppend(int $id)
+    {
+        $page = $this->getWikiPage($id);
+
+        if (!$page) {
+            throw new HttpException(404, Yii::t('WikiModule.base', 'Page not found.'));
+        }
+
+        $appendForm = new PageAppendForm($page);
+
+        if ($appendForm->load(Yii::$app->request->post()) && $appendForm->save()) {
+            return $this->redirect(Url::toWiki($page));
+        }
+
+        if ($page->appendable_content){
+            $appendForm->content = $page->appendable_content;
+        }
+
+        return $this->render('append', [
+            'appendForm' => $appendForm,
         ]);
     }
 }

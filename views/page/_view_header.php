@@ -9,6 +9,7 @@ use humhub\modules\wiki\widgets\WikiMenu;
 use humhub\modules\wiki\widgets\WikiPath;
 use humhub\widgets\Link;
 use humhub\widgets\TimeAgo;
+use humhub\widgets\Button;
 
 /* @var $page WikiPage */
 /* @var $revision WikiPageRevision */
@@ -35,6 +36,9 @@ $numberingEnabled = $module->settings->contentContainer($user)->get('wikiNumberi
             <a href="<?= Url::current(['toggle-numbering']) ?>" class="btn-sm btn btn-info toggle-numbering">
                 <?= $numberingEnabled ? Yii::t('WikiModule.base', 'Disable Numbering') : Yii::t('WikiModule.base', 'Enable Numbering') ?>
             </a>
+            <?php if ($page->is_appendable) : ?>
+                <?= Button::info(Yii::t('WikiModule.base', 'Append Content'))->link(Url::toWikiAppend($page))->loader(false)->sm()->cssclass('append-content'); ?>
+            <?php endif; ?>
         </div>
         <?= WikiMenu::widget([
             'object' => $page,

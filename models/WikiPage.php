@@ -13,6 +13,7 @@ use humhub\modules\wiki\helpers\Url;
 use humhub\modules\wiki\permissions\AdministerPages;
 use humhub\modules\wiki\permissions\CreatePage;
 use humhub\modules\wiki\permissions\EditPages;
+use humhub\modules\wiki\widgets\WikiRichText;
 use Yii;
 use yii\db\Expression;
 
@@ -30,6 +31,8 @@ use yii\db\Expression;
  * @property int $container_menu_order
  * @property string|null $is_currently_editing
  * @property int|null $editing_started_at
+ * @property string|null $appendable_content
+ * @property boolean|false $is_appendable
  *
  * @property-read WikiPage|null $categoryPage
  * @property-read WikiPageRevision $latestRevision
@@ -125,6 +128,7 @@ class WikiPage extends ContentActiveRecord implements Searchable
             ['title', 'string', 'max' => 255],
             ['parent_page_id', 'validateParentPage'],
             [['is_home', 'admin_only', 'is_container_menu', 'container_menu_order'], 'integer'],
+            [['appendable_content', 'is_appendable'], 'safe']
         ];
 
     }
@@ -172,6 +176,8 @@ class WikiPage extends ContentActiveRecord implements Searchable
             'container_menu_order' => $isSpaceContainer
                 ? Yii::t('WikiModule.base', 'Sort order in Space menu')
                 : Yii::t('WikiModule.base', 'Sort order in Profile menu'),
+            'appendable_content' => 'Appendable Content',
+            'is_appendable' => 'Is Appendable',
         ];
     }
 
@@ -586,5 +592,22 @@ class WikiPage extends ContentActiveRecord implements Searchable
      */
     public function updateEditingTime() {
         $this->updateAttributes(['editing_started_at' => time()]);
+    }
+
+    /**
+     * Function to append appendable content into actual content
+     */
+    public function appendRevision($appendable_content)
+    {
+        $newRevision = $this->createRevision();
+        $newRevision->content = $this->latestRevision->content . "\n\n" . $appendable_content;
+
+        if ($newRevision->save()) {
+            // Process uploaded files, embeds, etc.
+            WikiRichText::postProcess($newRevision->content, $this);
+            return true;
+        }
+
+        return false;
     }
 }

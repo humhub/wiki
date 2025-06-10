@@ -108,6 +108,8 @@ Assets::register($this);
                         'placeholder' => Yii::t('WikiModule.base', 'New page title'),
                         'disabled' => $model->isDisabledField('title')
                     ])->label(false); ?>
+                <?= $form->field($model, 'isAppendable')->hiddenInput()->label(false) ?>
+                <?= $form->field($model, 'appendableContent')->hiddenInput()->label(false);?>
 
                 <?= $form->field($model->revision, 'content')->widget(WikiEditor::class)->label(false) ?>
 

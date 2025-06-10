@@ -27,6 +27,11 @@ $this->title = $model->isNewRecord ? Yii::t('WikiModule.base', 'Create Template'
         <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
         <?= $form->field($model, 'title_template')->textInput(['placeholder' => 'e.g., Report for {{project}}']) ?>
         <?= $form->field($model, 'content')->widget(ProsemirrorRichTextEditor::class) ?>
+        <?= $form->field($model, 'is_appendable')->checkbox([]) ?>
+        <div id="appendable-content-wrapper" style="<?= $model->is_appendable ? '' : 'display: none;' ?>">
+            <?= $form->field($model, 'appendable_content')->widget(ProsemirrorRichTextEditor::class) ?>
+        </div>
+        
         <?= Button::primary(Yii::t('WikiModule.base', 'Create Placeholder'))->action('addPlaceholder')->loader(false)->xs()->right() ?>
         <?= $form->field($model, 'placeholders')->textInput()->hiddenInput() ?>
 

@@ -41,6 +41,7 @@ class Url extends \yii\helpers\Url
     public const ROUTE_WIKI_TEMPLATE_CREATE = '/wiki/template/create';
     public const ROUTE_WIKI_TEMPLATE_EDIT = '/wiki/template/edit';
     public const ROUTE_WIKI_TEMPLATE_DELETE = '/wiki/template/delete';
+    public const ROUTE_WIKI_APPEND = '/wiki/page/append';
 
 
     public static function toHome(ContentContainerActiveRecord $container)
@@ -185,4 +186,8 @@ class Url extends \yii\helpers\Url
         return static::to([static::ROUTE_WIKI_TEMPLATE_DELETE, 'id' => $template->id, 'container' => $container]);
     } 
 
+    public static function toWikiAppend(WikiPage $page)
+    {
+        return static::to([static::ROUTE_WIKI_APPEND, 'id' => $page->id, 'container' => $page->content->container]);
+    }
 }
