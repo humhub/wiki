@@ -197,7 +197,7 @@ humhub.module('wiki.Form', function(module, require, $) {
                 if (response.success) {
                     const content = response.content;
                     const titleTemplate = response.title;
-                    const placeholders = JSON.parse(response.placeholders || []);
+                    const placeholders = response.placeholders? JSON.parse(response.placeholders): [];
                     const is_appendable = response.is_appendable;
                     const appendable_content = response.appendable_content;
             
