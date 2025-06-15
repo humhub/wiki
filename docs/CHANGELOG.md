@@ -1,7 +1,7 @@
 Changelog
 =========
 
-2.4.0-beta.1 (unreleased)
+2.4.0 (unreleased)
 -------------------------
 - Enh #376: Migration to Bootstrap 5 for HumHub 1.18
 
