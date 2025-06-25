@@ -48,11 +48,11 @@ $this->title = $model->isNewRecord ? Yii::t('WikiModule.base', 'Create Template'
                 </colgroup>
                 <thead >
                     <tr>
-                        <th class="text-center">Name</th>
-                        <th class="text-center">Description</th>
-                        <th class="text-center">Default</th>
-                        <th class="text-center">Type</th>
-                        <th class="text-center">Actions</th>
+                        <th class="text-center"><?= Yii::t('WikiModule.base', 'Name')?></th>
+                        <th class="text-center"><?= Yii::t('WikiModule.base', 'Description')?></th>
+                        <th class="text-center"><?= Yii::t('WikiModule.base', 'Default')?></th>
+                        <th class="text-center"><?= Yii::t('WikiModule.base', 'Type')?></th>
+                        <th class="text-center"><?= Yii::t('WikiModule.base', 'Actions')?></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -63,7 +63,7 @@ $this->title = $model->isNewRecord ? Yii::t('WikiModule.base', 'Create Template'
 
         <?= Modal::widget([
                 'id' => 'addPlaceholderModal',
-                'header' => '<strong>Add Placeholder</strong>',
+                'header' => Yii::t('WikiModule.base', '<strong>Add Placeholder</strong>'),
                 'body' => '<div id="newPlaceholderFormContainer"></div>',
                 'footer' =>  false
         ]); ?>
