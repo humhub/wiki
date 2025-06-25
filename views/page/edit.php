@@ -44,7 +44,7 @@ Assets::register($this);
             <?php endif;?>
 
             <?= Modal::widget([
-                'id' => Yii::t('WikiModule.base','PlaceholderModal'),
+                'id' => 'placeholderModal',
                 'header' => Yii::t('WikiModule.base', '<strong>Fill in Placeholders</strong>'),
                 'body' => '<div id="placeholderFormContainer"></div>',
                 'footer' => false

@@ -111,7 +111,6 @@ return [
     'Append Content' => 'Inhalt anhängen',
     '<span>List of templates</span>' => '<span>Liste der Templates</span>',
     '<strong>Fill in Placeholders</strong>' => '<strong>Platzhalter ausfüllen</strong>',
-    'PlaceholderModal' => 'PlatzhalterModal',
     'Create Placeholder' => 'Platzhalter erstellen',
     'Description' => 'Beschreibung',
     'Default' => 'Standard',
