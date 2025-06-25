@@ -23,19 +23,21 @@ Assets::register($this);
                     <?= Button::primary(Yii::t('WikiModule.base', 'Create Template'))->link(Url::toWikiTemplateCreate())->icon('plus')->sm(); ?>
                 </div>
             </div>
-            <ol>
+            <ul class="wiki-template-list">
                 <?php foreach ($templates as $template): ?>
-                    <li>
-                        <?= Html::encode($template->title) ?>
-                        <?= Button::asLink(null, Url::toWikiTemplateEdit($template, $container))->icon('fa-pencil')
-                            ->cssClass('wiki-page-control tt wiki-category-add edit-template')
-                            ->title(Yii::t('WikiModule.base', 'Edit Template')) ?>
-                        <?= Button::asLink(null, Url::toWikiTemplateDelete($template, $container))->icon('fa-trash-o')
-                            ->cssClass('wiki-page-control tt wiki-category-add delete-template')
-                            ->title(Yii::t('WikiModule.base', 'Delete Template'))->confirm(Yii::t('WikiModule.base', 'Are you sure you want to delete this template?')); ?>
+                    <li class="wiki-template-category-list-item d-flex justify-content-between align-items-center">
+                        <span class="template-title"><?=$template->title?></span>
+                        <span class="template-actions">
+                            <?= Button::asLink(null, Url::toWikiTemplateEdit($template, $container))->icon('fa-pencil')
+                                ->cssClass('wiki-page-control tt wiki-category-add edit-template')
+                                ->title(Yii::t('WikiModule.base', 'Edit Template')) ?>
+                            <?= Button::asLink(null, Url::toWikiTemplateDelete($template, $container))->icon('fa-trash-o')
+                                ->cssClass('wiki-page-control tt wiki-category-add delete-template')
+                                ->title(Yii::t('WikiModule.base', 'Delete Template'))->confirm(Yii::t('WikiModule.base', 'Are you sure you want to delete this template?')); ?>
+                        </span>
                     </li>
                 <?php endforeach; ?>
-            </ol>`
+            </ul>
         <?php WikiContent::end() ?>
     </div>
 </div>

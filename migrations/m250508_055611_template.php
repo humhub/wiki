@@ -37,18 +37,4 @@ class m250508_055611_template extends Migration
         $this->dropTable('wiki_template');
     }
 
-    /*
-    // Use up()/down() to run migration code without a transaction.
-    public function up()
-    {
-
-    }
-
-    public function down()
-    {
-        echo "m250508_055611_template cannot be reverted.\n";
-
-        return false;
-    }
-    */
 }

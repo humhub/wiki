@@ -37,7 +37,7 @@ $numberingEnabled = $module->settings->contentContainer($user)->get('wikiNumberi
                 <?= $numberingEnabled ? Yii::t('WikiModule.base', 'Disable Numbering') : Yii::t('WikiModule.base', 'Enable Numbering') ?>
             </a>
             <?php if ($page->is_appendable) : ?>
-                <?= Button::info(Yii::t('WikiModule.base', 'Append Content'))->link(Url::toWikiAppend($page))->loader(false)->sm()->cssclass('append-content'); ?>
+                <?= Button::info(Yii::t('WikiModule.base', 'Append Content'))->link(Url::toWikiAppend($page))->loader(false)->sm()->cssclass('append-content')->icon('fa-plus'); ?>
             <?php endif; ?>
         </div>
         <?= WikiMenu::widget([

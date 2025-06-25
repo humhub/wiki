@@ -38,9 +38,11 @@ Assets::register($this);
                 'id' => 'wiki-page-edit',
                 'cssClass' => 'wiki-page-content'
             ]) ?>
-
-            <?= TemplateSelectModal::widget(['container' => $contentContainer]); ?>
             
+            <?php if ($templateCount > 0) :?>
+                <?= TemplateSelectModal::widget(['container' => $contentContainer]); ?>
+            <?php endif;?>
+
             <?= Modal::widget([
                 'id' => 'placeholderModal',
                 'header' => '<strong>Fill in Placeholders</strong>',
@@ -110,6 +112,7 @@ Assets::register($this);
                     ])->label(false); ?>
                 <?= $form->field($model, 'isAppendable')->hiddenInput()->label(false) ?>
                 <?= $form->field($model, 'appendableContent')->hiddenInput()->label(false);?>
+                <?= $form->field($model, 'appendableContentPlaceholder')->hiddenInput()->label(false);?>
 
                 <?= $form->field($model->revision, 'content')->widget(WikiEditor::class)->label(false) ?>
 

@@ -37,7 +37,7 @@ class WikiTemplate extends ActiveRecord
             [['title'], 'required'],
             [['content', 'title_template', 'appendable_content'], 'string'],
             [['contentcontainer_id'], 'integer'],
-            [['placeholders'], 'safe'],
+            [['placeholders', 'appendable_content_placeholder'], 'safe'],
             [['is_appendable'], 'boolean']
         ];
     }

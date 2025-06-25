@@ -128,7 +128,7 @@ class WikiPage extends ContentActiveRecord implements Searchable
             ['title', 'string', 'max' => 255],
             ['parent_page_id', 'validateParentPage'],
             [['is_home', 'admin_only', 'is_container_menu', 'container_menu_order'], 'integer'],
-            [['appendable_content', 'is_appendable'], 'safe']
+            [['appendable_content', 'is_appendable', 'appendable_content_placeholder'], 'safe']
         ];
 
     }
@@ -176,8 +176,8 @@ class WikiPage extends ContentActiveRecord implements Searchable
             'container_menu_order' => $isSpaceContainer
                 ? Yii::t('WikiModule.base', 'Sort order in Space menu')
                 : Yii::t('WikiModule.base', 'Sort order in Profile menu'),
-            'appendable_content' => 'Appendable Content',
-            'is_appendable' => 'Is Appendable',
+            'appendable_content' => Yii::t('WikiModule.base', 'Appendable Content'),
+            'is_appendable' => Yii::t('WikiModule.base', 'Is Appendable'),
         ];
     }
 

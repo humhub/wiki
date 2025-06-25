@@ -68,13 +68,15 @@ class PageEditForm extends Model
 
     public $appendableContent;
 
+    public $appendableContentPlaceholder;
+
     /**
      * @return array
      */
     public function rules()
     {
         return [
-            [['topics', 'appendableContent'], 'safe'],
+            [['topics', 'appendableContent', 'appendableContentPlaceholder'], 'safe'],
             ['isAppendable', 'default', 'value' => 0],
             [['isPublic', 'confirmOverwriting', 'backOverwriting', 'hidden'], 'boolean'],
             ['latestRevisionNumber', 'validateLatestRevisionNumber'],
@@ -130,7 +132,7 @@ class PageEditForm extends Model
      */
     public function scenarios()
     {
-        $editFields = ['latestRevisionNumber', 'confirmOverwriting', 'backOverwriting', 'hidden', 'isAppendable', 'appendableContent'];
+        $editFields = ['latestRevisionNumber', 'confirmOverwriting', 'backOverwriting', 'hidden', 'isAppendable', 'appendableContent', 'appendableContentPlaceholder'];
 
         $scenarios = parent::scenarios();
         $scenarios[WikiPage::SCENARIO_CREATE] = ['topics'];
@@ -188,6 +190,7 @@ class PageEditForm extends Model
         $this->hidden = $this->getPageHiddenStreamEntry();
         $this->isAppendable = $this->page->is_appendable;
         $this->appendableContent = $this->page->appendable_content;
+        $this->appendableContentPlaceholder = $this->page->appendable_content_placeholder;
 
         return $this;
     }
@@ -253,6 +256,8 @@ class PageEditForm extends Model
         $this->page->is_appendable = $this->isAppendable;
 
         $this->page->appendable_content = $this->appendableContent;
+
+        $this->page->appendable_content_placeholder = $this->appendableContentPlaceholder;
 
         return WikiPage::getDb()->transaction(function ($db) {
             if ($this->page->save()) {

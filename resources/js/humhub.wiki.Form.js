@@ -21,8 +21,43 @@ humhub.module('wiki.Form', function(module, require, $) {
             wikiView.registerStickyElement(that.getRichtextMenu(), that.getRichtext());
         });
 
-        let placeholders = JSON.parse($('#wikitemplate-placeholders').val() || '[]');
-        renderPlaceholderTable(placeholders);
+        try {
+            renderPlaceholderTable();
+        } catch (e) {
+            console.warn("Error with rendering placeholderTable");
+        }
+
+        const $container = $('[data-url-append-content]');
+        const appendUrl = $container.data('url-append-content');
+
+        if (appendUrl != null) {
+            client.get(appendUrl).then(function (response) {
+                let placeholders = [];
+    
+                try {
+                    placeholders = response.placeholders ? JSON.parse(response.placeholders) : [];
+                } catch (parseError) {
+                    console.error('Failed to parse placeholders JSON:', parseError);
+                    placeholders = [];
+                }
+
+                if (placeholders.length > 0) {
+                    renderAppendablePlaceholderForm(response);
+                } else {
+                    let content = response.content;
+                    const user = response.user;
+                    const SpecialPlaceholders = applySpecialPlaceholders(content, "", user);
+                    const Editedcontent = SpecialPlaceholders.content;
+    
+                    const editorWidget = Widget.instance('#pageappendform-content');
+                    if (editorWidget) {
+                        insertContentIntoEditor(editorWidget, Editedcontent);
+                    }
+                }
+            }).catch(err => {
+                console.error('Failed to fetch appendable content:', err);
+            });
+        }
 
         that.$.find('div.checkbox').each(function() {
             var $this = $(this);
@@ -153,7 +188,7 @@ humhub.module('wiki.Form', function(module, require, $) {
                     });
                 }
             }).catch(function(e) {
-                // module.log.error(e, true);
+                module.log.error(e, true);
             })
         }
     }
@@ -177,36 +212,33 @@ humhub.module('wiki.Form', function(module, require, $) {
     }
 
     function requireTemplate(editorWidget) {
-        if(document.querySelector('.ProseMirror .placeholder')) {
-            $('#templateSelectModal').modal('show');
-        }
-        else {
-            $('#templateSelectModal .modal-body').empty();
-        }
-        $('#useTemplateBtn').on('click', function (e) {
+        
+        $('#useTemplateBtn').off('click').on('click', function (e) {
             e.preventDefault();
             const $selected = $('#templateSelectDropdown option:selected');
             const fetchUrl = $selected.data('url');
         
-            if (!fetchUrl) {
+            if (fetchUrl == null) {
                 alert('Please select a template');
                 return;
             }
         
             $.get(fetchUrl, function (response) {
                 if (response.success) {
-                    const content = response.content;
+                    let content = response.content;
                     const titleTemplate = response.title;
                     const placeholders = response.placeholders? JSON.parse(response.placeholders): [];
                     const is_appendable = response.is_appendable;
                     const appendable_content = response.appendable_content;
+                    const appendable_content_placeholder = response.appendable_content_placeholder;
+                    const user = response.user;
             
                     if (placeholders.length > 0) {
                         let formHtml = '<form id="templatePlaceholderForm">';
                         placeholders.forEach(ph => {
                             formHtml += `
                                 <div class="form-group mb-2">
-                                    <label>${ph.description + '(' + ph.key + ')'}</label>
+                                    <label>${ph.description + ' (' + ph.key + ')'}</label>
                                     <input class="form-control" name="${ph.key}" value="${ph.default || ''}" required />
                                 </div>`;
                         });
@@ -221,25 +253,38 @@ humhub.module('wiki.Form', function(module, require, $) {
             
                             let filledContent = content;
                             let filledTitle = titleTemplate;
+                            const SpecialPlaceholders = applySpecialPlaceholders(filledContent, filledTitle, user);
+                            filledContent = SpecialPlaceholders.content;
+                            filledTitle = SpecialPlaceholders.title;
                             const formData = $(this).serializeArray();
                             formData.forEach(field => {
-                                const regex = new RegExp('{{\\s*' + field.name + '\\s*}}', 'g');
+                                const key = field.name.toLowerCase();
+                                const regex = new RegExp('{{\\s*' + key + '\\s*}}', 'gi');
+                            
                                 filledContent = filledContent.replace(regex, field.value);
                                 filledTitle = filledTitle.replace(regex, field.value);
                             });
-                            // Optional: Update the title input if available
+                            
+
                             const $titleInput = $('#wikipage-title');
-                            if ($titleInput.length) {
+                            if ($titleInput.length != null) {
                                 $titleInput.val(filledTitle);
                             }
                             insertContentIntoEditor(editorWidget, filledContent);
-                            addAppendableContent(is_appendable, appendable_content);
+                            addAppendableContent(is_appendable, appendable_content, appendable_content_placeholder);
                             $('#templateSelectModal .modal-body').empty();
                             $('#placeholderModal').modal('hide');
                         });
                     } else {
-                        insertContentIntoEditor(editorWidget, content);
-                        addAppendableContent(is_appendable, appendable_content);
+                        const SpecialPlaceholders = applySpecialPlaceholders(response.content, response.title, response.user);
+                        let filledContent = SpecialPlaceholders.content;
+                        let filledTitle = SpecialPlaceholders.title;
+                        const $titleInput = $('#wikipage-title');
+                        if ($titleInput.length != null) {
+                            $titleInput.val(filledTitle);
+                        }
+                        insertContentIntoEditor(editorWidget, filledContent);
+                        addAppendableContent(is_appendable, appendable_content, appendable_content_placeholder);
                         $('#templateSelectModal .modal-body').empty();
                         $('#templateSelectModal').modal('hide');
                     }
@@ -248,51 +293,97 @@ humhub.module('wiki.Form', function(module, require, $) {
                 }
             });
         });
-    
+        
         $('#blankPageBtn').off('click').on('click', function() {
             $('#templateSelectModal .modal-body').empty();
             $('#templateSelectModal').modal('hide');
+            console.log('done hiding');
         });
+
+        if(document.querySelector('.ProseMirror .placeholder') != null) {
+            $('#templateSelectModal').modal('show');
+            console.log('otherone');
+        }else {
+            $('#templateSelectModal .modal-body').empty();
+        }
     }
 
+    function applySpecialPlaceholders(content, title, user) {
+        const now = new Date();
+    
+        const formatDate = (format) => {
+            const yyyy = now.getFullYear();
+            const mm = String(now.getMonth() + 1).padStart(2, '0');
+            const dd = String(now.getDate()).padStart(2, '0');
+    
+            switch (format) {
+                case 'YYYY-DD-MM':
+                    return `${yyyy}-${dd}-${mm}`;
+                case 'DD.MM.YYYY':
+                    return `${dd}.${mm}.${yyyy}`;
+                default:
+                    return '';
+            }
+        };
+    
+        content = content.replace(/{{\s*today\s+YYYY-DD-MM\s*}}/gi, formatDate('YYYY-DD-MM'));
+        title = title.replace(/{{\s*today\s+YYYY-DD-MM\s*}}/gi, formatDate('YYYY-DD-MM'));
+    
+        content = content.replace(/{{\s*today\s+DD\.MM\.YYYY\s*}}/gi, formatDate('DD.MM.YYYY'));
+        title = title.replace(/{{\s*today\s+DD\.MM\.YYYY\s*}}/gi, formatDate('DD.MM.YYYY'));
+        
+        content = content.replace(/{{\s*author\s*}}/gi, `<span data-mention="${user.guid}" contenteditable="false" style="display:inline-block" draggable="true"><span style="display:block">${user.displayName}</span></span>`);
+        title = title.replace(/{{\s*author\s*}}/gi, `<span data-mention="${user.guid}" contenteditable="false" style="display:inline-block" draggable="true"><span style="display:block">@${user.displayName}</span></span>`);    
+        return { content, title };
+    }
+    
+
     Form.prototype.addPlaceholder = function() {
+
+        const placeholderFormHtml = `<form id="newPlaceholderForm">
+                                    <div class="form-group">
+                                        <label>Name *</label>
+                                        <input class="form-control" name="key" required />
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Description</label>
+                                        <input class="form-control" name="description" />
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Default Value</label>
+                                        <input class="form-control" name="default" />
+                                    </div>
+                                    <div class="form-check my-2">
+                                        <input type="checkbox" class="form-check-input" id="isAppendable" name="isAppendable">
+                                        <label class="form-check-label" for="isAppendable">For appendable content</label>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Add</button>
+                                </form>`;
+
         $('#addPlaceholderModal').modal('show');
 
-        let formHtml = `<form id="newPlaceholderForm">
-                            <div class="form-group">
-                                <label>Name *</label>
-                                <input class="form-control" name="key" required />
-                            </div>
-                            <div class="form-group">
-                                <label>Description</label>
-                                <input class="form-control" name="description" />
-                            </div>
-                            <div class="form-group">
-                                <label>Default Value</label>
-                                <input class="form-control" name="default" />
-                            </div>
-                            <button type="submit" class="btn btn-primary">Add</button>
-                        </form>`;
-
-        $('#newPlaceholderFormContainer').html(formHtml);
+        $('#newPlaceholderFormContainer').html(placeholderFormHtml);
 
         $('#newPlaceholderForm').on('submit', function (e) {
             e.preventDefault();
             const data = Object.fromEntries(new FormData(this).entries());
         
-            if (!data.key) {
+            if (data.key == null) {
                 alert('Name is required');
                 return;
             }
+
+            const isAppendable = !!data.isAppendable;
+            const fieldId = isAppendable ? '#wikitemplate-appendable_content_placeholder' : '#wikitemplate-placeholders';
         
             let placeholders = [];
             try {
-                placeholders = JSON.parse($('#wikitemplate-placeholders').val() || '[]');
+                placeholders = JSON.parse($(fieldId).val() || '[]');
             } catch (e) {
                 console.warn('Invalid placeholder data');
             }
         
-            if (placeholders.some(ph => ph.key === data.key)) {
+            if (placeholders.some(ph => ph.key.toLowerCase() === data.key.toLowerCase())) {
                 alert('A placeholder with this name already exists.');
                 return;
             }
@@ -300,42 +391,32 @@ humhub.module('wiki.Form', function(module, require, $) {
             placeholders.push({
                 key: data.key.trim(),
                 description: data.description?.trim() || '',
-                default: data.default?.trim() || ''
+                default: data.default?.trim() || '',
+                type: isAppendable ? 'appendable' : 'normal'
             });
-        
-            updatePlaceholderField(placeholders);
-            renderPlaceholderTable(placeholders);
+            
+            $(fieldId).val(JSON.stringify(placeholders));
+            renderPlaceholderTable();
             $('#addPlaceholderModal').modal('hide');
-        });
-
-        $('#placeholder-table').on('click', '.remove-placeholder', function () {
-            const index = $(this).closest('tr').data('index');
-            let placeholders = JSON.parse($('#wikitemplate-placeholders').val() || '[]');
-        
-            placeholders.splice(index, 1);
-            updatePlaceholderField(placeholders);
-            renderPlaceholderTable(placeholders);
         });
     };
 
-    function updatePlaceholderField(placeholders) {
-        $('#wikitemplate-placeholders').val(JSON.stringify(placeholders));
-    }
-
-    function renderPlaceholderTable(placeholders) {
+    function renderPlaceholderTable() {
         const $tbody = $('#placeholder-table tbody');
         $tbody.empty();
+
+        const normal = JSON.parse($('#wikitemplate-placeholders').val() || '[]');
+        const appendable = JSON.parse($('#wikitemplate-appendable_content_placeholder').val() || '[]');
     
-        if (!placeholders.length) {
-            return;
-        }
-    
-        placeholders.forEach((ph, index) => {
+        normal.forEach((ph, index) => {
             $tbody.append(`
-                <tr data-index="${index}">
-                    <td class="text-center">${ph.key}</td>
-                    <td class="text-start">${ph.description}</td>
-                    <td class="text-center">${ph.default}</td>
+                <tr data-index="${index}" data-type="normal">
+                    <td class="text-center">${escapeHtml(ph.key)}</td>
+                    <td class="text-start">
+                        <span class="placeholder-description">${escapeHtml(ph.description)}</span>
+                    </td>
+                    <td class="text-center">${escapeHtml(ph.default)}</td>
+                    <td class="text-center">Normal</td>
                     <td class="text-center">
                         <button type="button" class="btn btn-sm btn-danger remove-placeholder">Delete</button>
                     </td>
@@ -343,20 +424,40 @@ humhub.module('wiki.Form', function(module, require, $) {
             `);
         });
 
-        $('#placeholder-table').on('click', '.remove-placeholder', function () {
-            const index = $(this).closest('tr').data('index');
-            let placeholders = JSON.parse($('#wikitemplate-placeholders').val() || '[]');
-        
-            placeholders.splice(index, 1);
-            updatePlaceholderField(placeholders);
-            renderPlaceholderTable(placeholders);
+        appendable.forEach((ph, index) => {
+            $tbody.append(`
+                <tr data-index="${index}" data-type="appendable">
+                    <td class="text-center">${escapeHtml(ph.key)}</td>
+                    <td class="text-start">
+                        <span class="placeholder-description">${escapeHtml(ph.description)}</span>
+                    </td>
+                    <td class="text-center">${escapeHtml(ph.default)}</td>
+                    <td class="text-center">Appendable</td>
+                    <td class="text-center">
+                        <button type="button" class="btn btn-sm btn-danger remove-placeholder">Delete</button>
+                    </td>
+                </tr>
+            `);
         });
+
+        $('#placeholder-table .remove-placeholder').off('click').on('click', function () {
+            const $row = $(this).closest('tr')
+            const index = $row.data('index');
+            const type = $row.data('type');
+            const fieldId = type === 'appendable' ? '#wikitemplate-appendable_content_placeholder' : '#wikitemplate-placeholders';
+            let placeholders = JSON.parse($(fieldId).val() || '[]');
+            placeholders.splice(index, 1);
+            $(fieldId).val(JSON.stringify(placeholders));
+            renderPlaceholderTable();
+        });
+
     }
 
-    function addAppendableContent(is_appendable, appendable_content) {
+    function addAppendableContent(is_appendable, appendable_content, appendable_content_placeholder) {
         $('#pageeditform-isappendable').val(is_appendable);
         if (is_appendable) {
             $('#pageeditform-appendablecontent').val(appendable_content);
+            $('#pageeditform-appendablecontentplaceholder').val(appendable_content_placeholder);
         }
     }
 
@@ -387,6 +488,52 @@ humhub.module('wiki.Form', function(module, require, $) {
             .prop('disabled', false)
             .removeClass('disabled')
             .text('Append');
+    }
+
+    function renderAppendablePlaceholderForm(response) {
+        const placeholders = response.placeholders? JSON.parse(response.placeholders): [];
+        const content = response.content;
+        const user = response.user;
+
+        let formHtml = '<form id="appendablePlaceholderForm">';
+        placeholders.forEach(ph => {
+            formHtml += `<div class="form-group mb-2">
+                            <label>${ph.description + ' (' + ph.key + ')'}</label>
+                            <input class="form-control" name="${ph.key}" value="${ph.default || ''}" required />
+                        </div>`;
+        });
+        formHtml += '<button type="submit" class="btn btn-primary mt-2">Insert</button></form>';
+        $('#appendablePlaceholderModal').modal('show');
+        $('#appendablePlaceholderFormContainer').html(formHtml);
+
+        $('#appendablePlaceholderForm').on('submit', function (e) {
+            e.preventDefault();
+            const formData = $(this).serializeArray();
+            const SpecialPlaceholders = applySpecialPlaceholders(content, "", user);
+            Editedcontent = SpecialPlaceholders.content;
+            formData.forEach(field => {
+                const key = field.name.toLowerCase();
+                const regex = new RegExp('{{\\s*' + key + '\\s*}}', 'gi');
+            
+                Editedcontent = Editedcontent.replace(regex, field.value);
+            });
+            const editorWidget = Widget.instance('#pageappendform-content');
+            if (editorWidget){
+                insertContentIntoEditor(editorWidget, Editedcontent);
+            }
+
+            $('#appendablePlaceholderModal').modal('hide');
+
+        })
+    }
+
+    function escapeHtml(str) {
+        return String(str)
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
     }
 
      

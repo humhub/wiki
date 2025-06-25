@@ -26,18 +26,4 @@ class m250606_033143_template_appendable_content extends Migration
         return false;
     }
 
-    /*
-    // Use up()/down() to run migration code without a transaction.
-    public function up()
-    {
-
-    }
-
-    public function down()
-    {
-        echo "m250606_033143_template_appendable_content cannot be reverted.\n";
-
-        return false;
-    }
-    */
 }

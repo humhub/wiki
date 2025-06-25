@@ -17,17 +17,17 @@ foreach ($templates as $template) {
 
 <?= Modal::widget([
     'id' => 'templateSelectModal',
-    'header' => '<strong>New page</strong>',
+    'header' => Yii::t('WikiModule.base','<strong>New page</strong>'),
     'body' => '<div class="text-center">' .Yii::t('WikiModule.base', '<p>Start with an empty page or template<p>') .
                 Button::primary(Yii::t('WikiModule.base', 'Create blank page'))->id('blankPageBtn')->loader(false) .
                 '<div class="d-flex align-items-center my-3">
-                    <span class="mx-2 text-muted">OR</span>
+                    <span class="mx-2 text-muted">'.Yii::t('WikiModule.base', 'OR').'</span>
                     <hr class="flex-grow-1">
                 </div>' .
             '</div>',
     'footer' => 
+        Yii::t('WikiModule.base', '<span>List of templates</span>').
         '<select id="templateSelectDropdown" name="templateSelectDropdown" class="form-control" style="margin-bottom: 20px;">' .
-        '<option value="">' . Yii::t('WikiModule.base', 'List of templates') . '</option>' .
         implode('', array_map(function($template) {
             $url = Url::toWikiGetTemplateContent($template);
             return Html::tag('option', Html::encode($template->title), [

@@ -31,6 +31,8 @@ $this->title = $model->isNewRecord ? Yii::t('WikiModule.base', 'Create Template'
         <div id="appendable-content-wrapper" style="<?= $model->is_appendable ? '' : 'display: none;' ?>">
             <?= $form->field($model, 'appendable_content')->widget(ProsemirrorRichTextEditor::class) ?>
         </div>
+
+        <?= $form->field($model, 'appendable_content_placeholder')->textInput()->hiddenInput()->label(false) ?>
         
         <?= Button::primary(Yii::t('WikiModule.base', 'Create Placeholder'))->action('addPlaceholder')->loader(false)->xs()->right() ?>
         <?= $form->field($model, 'placeholders')->textInput()->hiddenInput() ?>
@@ -39,8 +41,9 @@ $this->title = $model->isNewRecord ? Yii::t('WikiModule.base', 'Create Template'
             <table class="table table-bordered table-sm" id="placeholder-table">
                 <colgroup>
                     <col style="width: 15%;">
-                    <col style="width: 55%;">
+                    <col style="width: 45%;">
                     <col style="width: 25%;">
+                    <col style="width: 10%;">
                     <col style="width: 5%;">
                 </colgroup>
                 <thead >
@@ -48,6 +51,7 @@ $this->title = $model->isNewRecord ? Yii::t('WikiModule.base', 'Create Template'
                         <th class="text-center">Name</th>
                         <th class="text-center">Description</th>
                         <th class="text-center">Default</th>
+                        <th class="text-center">Type</th>
                         <th class="text-center">Actions</th>
                     </tr>
                 </thead>
@@ -63,7 +67,7 @@ $this->title = $model->isNewRecord ? Yii::t('WikiModule.base', 'Create Template'
                 'body' => '<div id="newPlaceholderFormContainer"></div>',
                 'footer' =>  false
         ]); ?>
-
+        <hr>
         <div class="form-group">
             <?= Button::save()->submit() ?>
             <?= Button::defaultType('Cancel')->link(Url::toWikiTemplateIndex())?>

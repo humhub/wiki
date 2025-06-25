@@ -11,6 +11,9 @@ use yii\filters\AccessControl;
 use humhub\modules\content\widgets\richtext\ProsemirrorRichText;
 use humhub\modules\content\widgets\richtext\ProsemirrorRichTextConverter;
 use humhub\libs\Helpers;
+use humhub\modules\user\models\User;
+use humhub\libs\Html;
+use humhub\modules\wiki\helpers\Url;
 
 class TemplateController extends BaseController
 {
@@ -100,6 +103,10 @@ class TemplateController extends BaseController
 
         $content = $converter->convertToHtml($content);
 
+        $username = Yii::$app->user->identity->username;
+
+        $user = User::find()->where(['username' => $username])->one();
+
         return $this->asJson([
             'success' => true,
             'title' => $title,
@@ -107,6 +114,8 @@ class TemplateController extends BaseController
             'placeholders' => $placeholders,
             'is_appendable' => $template->is_appendable,
             'appendable_content' => $template->appendable_content,
+            'appendable_content_placeholder' => $template->appendable_content_placeholder,
+            'user' => ['guid' => $user->guid, 'displayName' => $user->displayName],
         ]);
     }
 }

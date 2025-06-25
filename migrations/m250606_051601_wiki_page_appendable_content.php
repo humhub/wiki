@@ -25,19 +25,5 @@ class m250606_051601_wiki_page_appendable_content extends Migration
 
         return false;
     }
-
-    /*
-    // Use up()/down() to run migration code without a transaction.
-    public function up()
-    {
-
-    }
-
-    public function down()
-    {
-        echo "m250606_051601_wiki_page_appendable_content cannot be reverted.\n";
-
-        return false;
-    }
-    */
+    
 }

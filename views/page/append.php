@@ -11,7 +11,6 @@ use humhub\widgets\Modal;
 
 /** @var $model \humhub\modules\wiki\models\WikiTemplate */
 Assets::register($this);
-
 ?>
 
 <div class="panel panel-default">
@@ -21,7 +20,13 @@ Assets::register($this);
                     'data-ui-widget' => 'wiki.Form',
                     'data-ui-init' => '1'],
                 ]); ?>
-        <div id="append-editor" data-url-editing-status="<?= Html::encode(Url::toWikiEditingStatus($appendForm->page)) ?>">
+        <?= Modal::widget([
+                'id' => 'appendablePlaceholderModal',
+                'header' => '<strong>Fill in Placeholders</strong>',
+                'body' => '<div id="appendablePlaceholderFormContainer"></div>',
+                'footer' => false
+            ]); ?>
+        <div id="append-editor" data-url-editing-status="<?= Html::encode(Url::toWikiEditingStatus($appendForm->page)) ?>" data-url-append-content = <?=Url::toWikiGetAppendContent($appendForm->page);?> >
             <?= $form->field($appendForm->page, 'title')
                         ->textInput([
                             'disabled' => true,
