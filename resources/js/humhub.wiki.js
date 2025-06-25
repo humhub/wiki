@@ -95,7 +95,6 @@ humhub.module('wiki', function(module, require, $) {
     Content.prototype.insertTemplate = function(evt) {
         evt.preventDefault();
         $('#templateSelectModal').modal('show');
-        console.log('button one');
     };
 
     var toAnchor = function(anchor) {

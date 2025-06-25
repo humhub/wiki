@@ -54,7 +54,9 @@ Assets::register($this);
                 <div class="wiki-headline-top">
                     <?= WikiPath::widget(['page' => $model->page]) ?>
                     <div class="Button-right-align">
-                        <?= Button::save(Yii::t('WikiModule.base','Add Template'))->icon('fa-plus')->action('insertTemplate')->sm()->loader(false)->cssClass('toggle-numbering') ?>
+                        <?php if ($templateCount > 0) :?>
+                            <?= Button::save(Yii::t('WikiModule.base','Add Template'))->icon('fa-plus')->action('insertTemplate')->sm()->loader(false)->cssClass('toggle-numbering') ?>
+                        <?php endif;?>
                     </div>
                     <?php if (!$requireConfirmation) : ?>
                         <?= WikiMenu::widget([

@@ -46,12 +46,12 @@ humhub.module('wiki.Form', function(module, require, $) {
                 } else {
                     let content = response.content;
                     const user = response.user;
-                    const SpecialPlaceholders = applySpecialPlaceholders(content, "", user);
-                    const Editedcontent = SpecialPlaceholders.content;
+                    const specialPlaceholders = applySpecialPlaceholders(content, "", user);
+                    const editedcontent = specialPlaceholders.content;
     
                     const editorWidget = Widget.instance('#pageappendform-content');
-                    if (editorWidget) {
-                        insertContentIntoEditor(editorWidget, Editedcontent);
+                    if (editorWidget != null) {
+                        insertContentIntoEditor(editorWidget, editedcontent);
                     }
                 }
             }).catch(err => {
@@ -253,18 +253,10 @@ humhub.module('wiki.Form', function(module, require, $) {
             
                             let filledContent = content;
                             let filledTitle = titleTemplate;
-                            const SpecialPlaceholders = applySpecialPlaceholders(filledContent, filledTitle, user);
-                            filledContent = SpecialPlaceholders.content;
-                            filledTitle = SpecialPlaceholders.title;
+                            const specialPlaceholders = applySpecialPlaceholders(filledContent, filledTitle, user);
                             const formData = $(this).serializeArray();
-                            formData.forEach(field => {
-                                const key = field.name.toLowerCase();
-                                const regex = new RegExp('{{\\s*' + key + '\\s*}}', 'gi');
-                            
-                                filledContent = filledContent.replace(regex, field.value);
-                                filledTitle = filledTitle.replace(regex, field.value);
-                            });
-                            
+                            filledContent = replacePlaceholders(specialPlaceholders.content, formData);
+                            filledTitle = replacePlaceholders(specialPlaceholders.title, formData);
 
                             const $titleInput = $('#wikipage-title');
                             if ($titleInput.length != null) {
@@ -276,9 +268,9 @@ humhub.module('wiki.Form', function(module, require, $) {
                             $('#placeholderModal').modal('hide');
                         });
                     } else {
-                        const SpecialPlaceholders = applySpecialPlaceholders(response.content, response.title, response.user);
-                        let filledContent = SpecialPlaceholders.content;
-                        let filledTitle = SpecialPlaceholders.title;
+                        const specialPlaceholders = applySpecialPlaceholders(response.content, response.title, response.user);
+                        let filledContent = specialPlaceholders.content;
+                        let filledTitle = specialPlaceholders.title;
                         const $titleInput = $('#wikipage-title');
                         if ($titleInput.length != null) {
                             $titleInput.val(filledTitle);
@@ -297,12 +289,10 @@ humhub.module('wiki.Form', function(module, require, $) {
         $('#blankPageBtn').off('click').on('click', function() {
             $('#templateSelectModal .modal-body').empty();
             $('#templateSelectModal').modal('hide');
-            console.log('done hiding');
         });
 
         if(document.querySelector('.ProseMirror .placeholder') != null) {
             $('#templateSelectModal').modal('show');
-            console.log('otherone');
         }else {
             $('#templateSelectModal .modal-body').empty();
         }
@@ -333,7 +323,7 @@ humhub.module('wiki.Form', function(module, require, $) {
         title = title.replace(/{{\s*today\s+DD\.MM\.YYYY\s*}}/gi, formatDate('DD.MM.YYYY'));
         
         content = content.replace(/{{\s*author\s*}}/gi, `<span data-mention="${user.guid}" contenteditable="false" style="display:inline-block" draggable="true"><span style="display:block">${user.displayName}</span></span>`);
-        title = title.replace(/{{\s*author\s*}}/gi, `<span data-mention="${user.guid}" contenteditable="false" style="display:inline-block" draggable="true"><span style="display:block">@${user.displayName}</span></span>`);    
+        title = title.replace(/{{\s*author\s*}}/gi, user.displayName);
         return { content, title };
     }
     
@@ -453,6 +443,15 @@ humhub.module('wiki.Form', function(module, require, $) {
 
     }
 
+    function replacePlaceholders(content, replacements) {
+        replacements.forEach(field => {
+            const key = field.name.toLowerCase();
+            const regex = new RegExp('{{\\s*' + key + '\\s*}}', 'gi');
+            content = content.replace(regex, field.value);
+        });
+        return content;
+    }
+
     function addAppendableContent(is_appendable, appendable_content, appendable_content_placeholder) {
         $('#pageeditform-isappendable').val(is_appendable);
         if (is_appendable) {
@@ -509,17 +508,11 @@ humhub.module('wiki.Form', function(module, require, $) {
         $('#appendablePlaceholderForm').on('submit', function (e) {
             e.preventDefault();
             const formData = $(this).serializeArray();
-            const SpecialPlaceholders = applySpecialPlaceholders(content, "", user);
-            Editedcontent = SpecialPlaceholders.content;
-            formData.forEach(field => {
-                const key = field.name.toLowerCase();
-                const regex = new RegExp('{{\\s*' + key + '\\s*}}', 'gi');
-            
-                Editedcontent = Editedcontent.replace(regex, field.value);
-            });
+            const specialPlaceholders = applySpecialPlaceholders(content, "", user);
+            editedcontent = replacePlaceholders(specialPlaceholders.content, formData);
             const editorWidget = Widget.instance('#pageappendform-content');
-            if (editorWidget){
-                insertContentIntoEditor(editorWidget, Editedcontent);
+            if (editorWidget != null){
+                insertContentIntoEditor(editorWidget, editedcontent);
             }
 
             $('#appendablePlaceholderModal').modal('hide');
@@ -536,6 +529,14 @@ humhub.module('wiki.Form', function(module, require, $) {
             .replace(/'/g, "&#039;");
     }
 
+    $(document).on('pjax:send', function () {
+        // Remove modals related to the Wiki module
+        $('#templateSelectModal, #addPlaceholderModal, #placeholderModal, #appendablePlaceholderModal').remove();
+    
+        // Remove any stuck Bootstrap backdrop and cleanup body scroll lock
+        $('.modal-backdrop').remove();
+        $('body').removeClass('modal-open');
+    });
      
     module.export = Form;
 });
