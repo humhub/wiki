@@ -50,6 +50,10 @@ class WikiTemplate extends ActiveRecord
         return [
             'title' => Yii::t('WikiModule.base', 'Title'),
             'content' => Yii::t('WikiModule.base', 'Content'),
+            'title_template' => Yii::t('WikiModule.base', 'Title Template'),
+            'is_appendable' => Yii::t('WikiModule.base', 'Is Appendable'),
+            'appendable_content' => Yii::t('WikiModule.base', 'Appendable Content'),
+            'placeholders' => Yii::t('WikiModule.base', 'Placeholders'),
         ];
     }
 
