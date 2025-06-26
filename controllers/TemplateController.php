@@ -2,18 +2,15 @@
 
 namespace humhub\modules\wiki\controllers;
 
-use humhub\modules\content\components\ContentContainerController;
-use humhub\modules\content\helpers\ContentContainerHelper;
-use humhub\modules\wiki\models\WikiTemplate;
-use Yii;
-use yii\web\NotFoundHttpException;
-use yii\filters\AccessControl;
 use humhub\modules\content\widgets\richtext\ProsemirrorRichText;
 use humhub\modules\content\widgets\richtext\ProsemirrorRichTextConverter;
-use humhub\libs\Helpers;
+use humhub\modules\wiki\models\WikiTemplate;
 use humhub\modules\user\models\User;
+use yii\web\NotFoundHttpException;
+use humhub\libs\Helpers;
 use humhub\libs\Html;
-use humhub\modules\wiki\helpers\Url;
+use Yii;
+
 
 class TemplateController extends BaseController
 {
