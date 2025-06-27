@@ -10,6 +10,8 @@ use humhub\modules\space\widgets\Menu;
 use humhub\modules\ui\menu\MenuLink;
 use humhub\modules\ui\menu\widgets\LeftNavigation;
 use humhub\modules\user\widgets\ProfileMenu;
+use humhub\modules\wiki\extensions\custom_pages\elements\WikiPageElement;
+use humhub\modules\wiki\extensions\custom_pages\elements\WikiPagesElement;
 use humhub\modules\wiki\helpers\RestDefinitions;
 use humhub\modules\wiki\models\DefaultSettings;
 use humhub\modules\wiki\models\WikiPage;
@@ -138,5 +140,13 @@ class Events
         if ($wallEntryControls->object instanceof WikiPage) {
             $wallEntryControls->addWidget(EditPageLink::class, ['record' => $wallEntryControls->object], ['sortOrder' => 100]);
         }
+    }
+
+    public static function onCustomPagesTemplateElementTypeServiceInit($event)
+    {
+        /* @var \humhub\modules\custom_pages\modules\template\services\ElementTypeService $elementTypeService */
+        $elementTypeService = $event->sender;
+        $elementTypeService->addType(WikiPageElement::class);
+        $elementTypeService->addType(WikiPagesElement::class);
     }
 }
