@@ -1,6 +1,10 @@
 Changelog
 =========
 
+2.3.9 (Unreleased)
+--------------------
+- Enh #378: Extension for module "Custom Pages"
+
 2.3.8 (May 13, 2025)
 --------------------
 - Fix #374: Make activity "Wiki page edited" configurable
