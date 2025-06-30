@@ -1,8 +1,8 @@
 Changelog
 =========
 
-2.3.9 (Unreleased)
---------------------
+2.3.9 (June 20, 2025)
+---------------------
 - Enh #378: Extension for module "Custom Pages"
 
 2.3.8 (May 13, 2025)
