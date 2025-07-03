@@ -37,7 +37,7 @@ class WikiPageElement extends BaseContentRecordElement
     public function attributeLabels()
     {
         return [
-            'contentRecordId' => Yii::t('WikiModule.base', 'Wiki page ID'),
+            'contentId' => Yii::t('WikiModule.base', 'Wiki page content ID'),
         ];
     }
 
