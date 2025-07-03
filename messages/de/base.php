@@ -124,4 +124,6 @@ return [
     'Title' => 'Titel',
     'Content' => 'Inhalt',
     'Title Template' => 'Titel Template',
+    'Tip:' => 'Tipp:',
+    'You can also use special placeholders like {today1}, {today2}, or {author}.' => 'Sie können auch spezielle Platzhalter wie {today1}, {today2} oder {author} verwenden.',
 ];

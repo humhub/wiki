@@ -38,6 +38,14 @@ $this->title = $model->isNewRecord ? Yii::t('WikiModule.base', 'Create Template'
         <?= $form->field($model, 'placeholders')->textInput()->hiddenInput() ?>
 
         <div id="placeholder-table-container">
+            <div class="alert alert-info mb-3">
+                <strong><?= Yii::t('WikiModule.base', 'Tip:') ?></strong>
+                <?= Yii::t('WikiModule.base', 'You can also use special placeholders like {today1}, {today2}, or {author}.', [
+                    'today1' => '<code>{{today YYYY-DD-MM}}</code>',
+                    'today2' => '<code>{{today DD.MM.YYYY}}</code>',
+                    'author' => '<code>{{author}}</code>',
+                ]) ?>
+            </div>
             <table class="table table-bordered table-sm" id="placeholder-table">
                 <colgroup>
                     <col style="width: 15%;">
