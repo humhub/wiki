@@ -1,6 +1,10 @@
 Changelog
 =========
 
+2.4.0 (Unreleased)
+---------------------
+- Enh #380: Use content ID in the "Custom Pages" extension
+
 2.3.9 (June 30, 2025)
 ---------------------
 - Enh #378: Extension for module "Custom Pages"
