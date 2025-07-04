@@ -49,4 +49,16 @@ class PageAppendForm extends Model
         return true;
     }
 
+    /**
+     * @return array
+     */
+    public function attributeLabels()
+    {
+        $labels = [
+            'content' => Yii::t('WikiModule.base', 'Content'),
+        ];
+
+        return $labels;
+    }
+
 }

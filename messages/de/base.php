@@ -103,6 +103,7 @@ return [
     'Manage Templates' => 'Templates verwalten',
     '<strong>New page</strong>' => '<strong>Neue Seite</strong>',
     'Create blank page' => 'Leere Seite erstellen',
+    'Create from template' => 'Auf Basis einer Vorlage erstellen',
     '<p>Start with an empty page or template<p>' => '<p>Beginne mit einer leeren Seite oder auf Basis einer Vorlage<p>',
     'OR' => 'Oder',
     'Edit Template' => 'Template erstellen',
@@ -125,5 +126,9 @@ return [
     'Content' => 'Inhalt',
     'Title Template' => 'Titel Template',
     'Tip:' => 'Tipp:',
-    'You can also use special placeholders like {today1}, {today2}, or {author}.' => 'Sie können auch spezielle Platzhalter wie {today1}, {today2} oder {author} verwenden.',
+    'You can also use special placeholders like {today1}, {today2}, or {author}.' => 'Zusätzlich werden spezielle Platzhalter wie {today1}, {today2} oder {author} unterstützt.',
+    'Insert' => 'Einfügen',
+    'Append' => 'Anhängen',
+    'For appendable content' => 'Für anhängbaren Inhalt',
+    'Add' => 'Hinzufügen',
 ];

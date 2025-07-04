@@ -56,9 +56,9 @@ $this->title = $model->isNewRecord ? Yii::t('WikiModule.base', 'Create Template'
                 </colgroup>
                 <thead >
                     <tr>
-                        <th class="text-center"><?= Yii::t('WikiModule.base', 'Name')?></th>
-                        <th class="text-center"><?= Yii::t('WikiModule.base', 'Description')?></th>
-                        <th class="text-center"><?= Yii::t('WikiModule.base', 'Default')?></th>
+                        <th class="text-center" id='name'><?= Yii::t('WikiModule.base', 'Name')?></th>
+                        <th class="text-center" id='description'><?= Yii::t('WikiModule.base', 'Description')?></th>
+                        <th class="text-center" id='default'><?= Yii::t('WikiModule.base', 'Default')?></th>
                         <th class="text-center"><?= Yii::t('WikiModule.base', 'Type')?></th>
                         <th class="text-center"><?= Yii::t('WikiModule.base', 'Actions')?></th>
                     </tr>
@@ -72,13 +72,13 @@ $this->title = $model->isNewRecord ? Yii::t('WikiModule.base', 'Create Template'
         <?= Modal::widget([
                 'id' => 'addPlaceholderModal',
                 'header' => Yii::t('WikiModule.base', '<strong>Add Placeholder</strong>'),
-                'body' => '<div id="newPlaceholderFormContainer"></div>',
+                'body' => '<div id="newPlaceholderFormContainer" data-translation-add="'.Yii::t('WikiModule.base', 'Add').'" data-translation-type="'.Yii::t('WikiModule.base', 'For appendable content').'"></div>',
                 'footer' =>  false
         ]); ?>
         <hr>
         <div class="form-group">
             <?= Button::save()->submit() ?>
-            <?= Button::defaultType('Cancel')->link(Url::toWikiTemplateIndex())?>
+            <?= Button::defaultType(Yii::t('WikiModule.base','Cancel'))->link(Url::toWikiTemplateIndex())?>
         </div>
         <?php ActiveForm::end(); ?>
     </div>

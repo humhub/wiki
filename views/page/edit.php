@@ -46,7 +46,12 @@ Assets::register($this);
             <?= Modal::widget([
                 'id' => 'placeholderModal',
                 'header' => Yii::t('WikiModule.base', '<strong>Fill in Placeholders</strong>'),
-                'body' => '<div id="placeholderFormContainer"></div>',
+                'body' => '<div id="placeholderFormContainer">
+                    <form id="templatePlaceholderForm">
+                        <div id="placeholderFormFields"></div>
+                    <button type="submit" class="btn btn-primary mt-2">'.Yii::t('WikiModule.base', 'Insert') .'</button>
+                    </form>
+                </div>',
                 'footer' => false
             ]); ?>
 

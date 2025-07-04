@@ -234,7 +234,7 @@ humhub.module('wiki.Form', function(module, require, $) {
                     const user = response.user;
             
                     if (placeholders.length > 0) {
-                        let formHtml = '<form id="templatePlaceholderForm">';
+                        let formHtml = '';
                         placeholders.forEach(ph => {
                             formHtml += `
                                 <div class="form-group mb-2">
@@ -242,9 +242,7 @@ humhub.module('wiki.Form', function(module, require, $) {
                                     <input class="form-control" name="${ph.key}" value="${ph.default || ''}" required />
                                 </div>`;
                         });
-                        formHtml += '<button type="submit" class="btn btn-primary mt-2">Insert</button></form>';
-            
-                        $('#placeholderFormContainer').html(formHtml);
+                        $('#placeholderFormFields').html(formHtml);
                         $('#templateSelectModal').modal('hide');
                         $('#placeholderModal').modal('show');
             
@@ -329,25 +327,28 @@ humhub.module('wiki.Form', function(module, require, $) {
     
 
     Form.prototype.addPlaceholder = function() {
-
+        let translation = $('#newPlaceholderFormContainer').data('translation');
+        console.log(translation);
+        translation = JSON.parse(translation || '{}');
+        console.log(translation);
         const placeholderFormHtml = `<form id="newPlaceholderForm">
                                     <div class="form-group">
-                                        <label>Name *</label>
+                                        <label>`+ document.getElementById('name').textContent.trim()+ ` *</label>
                                         <input class="form-control" name="key" required />
                                     </div>
                                     <div class="form-group">
-                                        <label>Description</label>
+                                        <label>`+ document.getElementById('description').textContent.trim()+ `</label>
                                         <input class="form-control" name="description" />
                                     </div>
                                     <div class="form-group">
-                                        <label>Default Value</label>
+                                        <label>`+ document.getElementById('default').textContent.trim()+ `</label>
                                         <input class="form-control" name="default" />
                                     </div>
                                     <div class="form-check my-2">
                                         <input type="checkbox" class="form-check-input" id="isAppendable" name="isAppendable">
-                                        <label class="form-check-label" for="isAppendable">For appendable content</label>
+                                        <label class="form-check-label" for="isAppendable">`+$('#newPlaceholderFormContainer').data('translation-type')+`</label>
                                     </div>
-                                    <button type="submit" class="btn btn-primary">Add</button>
+                                    <button type="submit" class="btn btn-primary">`+$('#newPlaceholderFormContainer').data('translation-add')+`</button>
                                 </form>`;
 
         $('#addPlaceholderModal').modal('show');
@@ -483,10 +484,13 @@ humhub.module('wiki.Form', function(module, require, $) {
     }
 
     function enableSubmit() {
-        $('#append-save-button')
+        const $btn = $('#append-save-button');
+        const originalLabel = $btn.data('original-label') || 'Append';
+
+        $btn
             .prop('disabled', false)
             .removeClass('disabled')
-            .text('Append');
+            .text(originalLabel);
     }
 
     function renderAppendablePlaceholderForm(response) {
@@ -494,16 +498,15 @@ humhub.module('wiki.Form', function(module, require, $) {
         const content = response.content;
         const user = response.user;
 
-        let formHtml = '<form id="appendablePlaceholderForm">';
+        let formHtml = '';
         placeholders.forEach(ph => {
             formHtml += `<div class="form-group mb-2">
                             <label>${ph.description + ' (' + ph.key + ')'}</label>
                             <input class="form-control" name="${ph.key}" value="${ph.default || ''}" required />
                         </div>`;
         });
-        formHtml += '<button type="submit" class="btn btn-primary mt-2">Insert</button></form>';
+        $('#appendablePlaceholderFormFields').html(formHtml);
         $('#appendablePlaceholderModal').modal('show');
-        $('#appendablePlaceholderFormContainer').html(formHtml);
 
         $('#appendablePlaceholderForm').on('submit', function (e) {
             e.preventDefault();
