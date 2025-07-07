@@ -87,4 +87,6 @@ return [
     'show changes' => 'afficher les modifications',
     '{userName} edited the Wiki page "{wikiPageTitle}".' => '{userName} a modifié la page "{wikiPageTitle}" du wiki.',
     'Whenever someone edits a wiki page.' => '',
+    'Wiki page content ID' => '',
+    'Wiki pages' => '',
 ];

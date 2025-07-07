@@ -85,6 +85,8 @@ return [
     'There are no entries yet :(' => '',
     'This field only allows a maximum 1 page.' => '',
     'Whenever someone edits a wiki page.' => '',
+    'Wiki page content ID' => '',
+    'Wiki pages' => '',
     'last update {dateTime}' => '',
     'show changes' => '',
 ];

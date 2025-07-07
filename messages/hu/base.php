@@ -87,4 +87,6 @@ return [
     'show changes' => 'változások megjelenítése',
     '{userName} edited the Wiki page "{wikiPageTitle}".' => '{userName} szerkesztette a "{wikiPageTitle}" Wiki-oldalt.',
     'Whenever someone edits a wiki page.' => '',
+    'Wiki page content ID' => '',
+    'Wiki pages' => '',
 ];

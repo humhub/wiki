@@ -83,6 +83,8 @@ return [
     'This field only allows a maximum 1 page.' => '',
     'This page is empty.' => '',
     'Whenever someone edits a wiki page.' => '',
+    'Wiki page content ID' => '',
+    'Wiki pages' => '',
     'Your current version' => '',
     'last update {dateTime}' => '',
     'show changes' => '',

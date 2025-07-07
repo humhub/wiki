@@ -82,6 +82,8 @@ return [
     'This page is empty.' => '',
     'Whenever someone edits a wiki page.' => '',
     'Wiki' => '',
+    'Wiki page content ID' => '',
+    'Wiki pages' => '',
     'Your current version' => '',
     'by' => '',
     'last update {dateTime}' => '',
