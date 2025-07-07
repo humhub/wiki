@@ -12,6 +12,19 @@ use humhub\widgets\Modal;
 /** @var $model \humhub\modules\wiki\models\WikiTemplate */
 Assets::register($this);
 
+$this->registerJSConfig([
+    'wiki' => [
+        'text' => [
+            'name' => Yii::t('WikiModule.base', 'Name'),
+            'description' => Yii::t('WikiModule.base', 'Description'),
+            'default' => Yii::t('WikiModule.base', 'Default'),
+            'type' => Yii::t('WikiModule.base', 'Type'),
+            'add' => Yii::t('WikiModule.base', 'Add'),
+            'appendableContent' => Yii::t('WikiModule.base', 'For appendable content'),
+        ]
+    ]
+]);
+
 $this->title = $model->isNewRecord ? Yii::t('WikiModule.base', 'Create Template') : Yii::t('WikiModule.base', 'Edit Template');
 ?>
 
@@ -56,9 +69,9 @@ $this->title = $model->isNewRecord ? Yii::t('WikiModule.base', 'Create Template'
                 </colgroup>
                 <thead >
                     <tr>
-                        <th class="text-center" id='name'><?= Yii::t('WikiModule.base', 'Name')?></th>
-                        <th class="text-center" id='description'><?= Yii::t('WikiModule.base', 'Description')?></th>
-                        <th class="text-center" id='default'><?= Yii::t('WikiModule.base', 'Default')?></th>
+                        <th class="text-center"><?= Yii::t('WikiModule.base', 'Name')?></th>
+                        <th class="text-center"><?= Yii::t('WikiModule.base', 'Description')?></th>
+                        <th class="text-center"><?= Yii::t('WikiModule.base', 'Default')?></th>
                         <th class="text-center"><?= Yii::t('WikiModule.base', 'Type')?></th>
                         <th class="text-center"><?= Yii::t('WikiModule.base', 'Actions')?></th>
                     </tr>
@@ -72,7 +85,7 @@ $this->title = $model->isNewRecord ? Yii::t('WikiModule.base', 'Create Template'
         <?= Modal::widget([
                 'id' => 'addPlaceholderModal',
                 'header' => Yii::t('WikiModule.base', '<strong>Add Placeholder</strong>'),
-                'body' => '<div id="newPlaceholderFormContainer" data-translation-add="'.Yii::t('WikiModule.base', 'Add').'" data-translation-type="'.Yii::t('WikiModule.base', 'For appendable content').'"></div>',
+                'body' => '<div id="newPlaceholderFormContainer"></div>',
                 'footer' =>  false
         ]); ?>
         <hr>

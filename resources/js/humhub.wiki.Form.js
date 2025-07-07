@@ -5,6 +5,7 @@ humhub.module('wiki.Form', function(module, require, $) {
     var additions = require('ui.additions');
     var client = require('client');
     var modal = require('ui.modal');
+    var translation = humhub.config.wiki.text;
 
     var editPollingInterval = 5000;
     var editPollingTimer = null;
@@ -327,28 +328,24 @@ humhub.module('wiki.Form', function(module, require, $) {
     
 
     Form.prototype.addPlaceholder = function() {
-        let translation = $('#newPlaceholderFormContainer').data('translation');
-        console.log(translation);
-        translation = JSON.parse(translation || '{}');
-        console.log(translation);
         const placeholderFormHtml = `<form id="newPlaceholderForm">
                                     <div class="form-group">
-                                        <label>`+ document.getElementById('name').textContent.trim()+ ` *</label>
+                                        <label>`+ translation.name + ` *</label>
                                         <input class="form-control" name="key" required />
                                     </div>
                                     <div class="form-group">
-                                        <label>`+ document.getElementById('description').textContent.trim()+ `</label>
+                                        <label>`+ translation.description + `</label>
                                         <input class="form-control" name="description" />
                                     </div>
                                     <div class="form-group">
-                                        <label>`+ document.getElementById('default').textContent.trim()+ `</label>
+                                        <label>`+ translation.default+ `</label>
                                         <input class="form-control" name="default" />
                                     </div>
                                     <div class="form-check my-2">
                                         <input type="checkbox" class="form-check-input" id="isAppendable" name="isAppendable">
-                                        <label class="form-check-label" for="isAppendable">`+$('#newPlaceholderFormContainer').data('translation-type')+`</label>
+                                        <label class="form-check-label" for="isAppendable">`+ translation.appendableContent+`</label>
                                     </div>
-                                    <button type="submit" class="btn btn-primary">`+$('#newPlaceholderFormContainer').data('translation-add')+`</button>
+                                    <button type="submit" class="btn btn-primary">`+ translation.add +`</button>
                                 </form>`;
 
         $('#addPlaceholderModal').modal('show');
