@@ -256,7 +256,7 @@ humhub.module('wiki.Form', function(module, require, $) {
                             const formData = $(this).serializeArray();
                             filledContent = replacePlaceholders(specialPlaceholders.content, formData);
                             filledTitle = replacePlaceholders(specialPlaceholders.title, formData);
-                            console.log(filledContent);
+
                             const $titleInput = $('#wikipage-title');
                             if ($titleInput.length != null) {
                                 $titleInput.val(filledTitle);
@@ -274,7 +274,6 @@ humhub.module('wiki.Form', function(module, require, $) {
                         if ($titleInput.length != null) {
                             $titleInput.val(filledTitle);
                         }
-                        console.log(filledContent);
                         insertContentIntoEditor(editorWidget, filledContent);
                         addAppendableContent(is_appendable, appendable_content, appendable_content_placeholder);
                         $('#templateSelectModal .modal-body').empty();
