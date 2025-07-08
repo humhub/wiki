@@ -11,6 +11,7 @@ use humhub\modules\content\components\ContentContainerActiveRecord;
 use humhub\modules\content\helpers\ContentContainerHelper;
 use humhub\modules\wiki\models\WikiPage;
 use humhub\modules\wiki\models\WikiPageRevision;
+use humhub\modules\wiki\models\WikiTemplate;
 
 /**
  * Class Url
@@ -35,6 +36,14 @@ class Url extends \yii\helpers\Url
     public const ROUTE_WIKI_CREATE_COPY = '/wiki/page/create-copy';
     public const ROUTE_WIKI_EDITING_STATUS = '/wiki/page/editing-status';
     public const ROUTE_WIKI_EDITING_TIMER_UPDATE = '/wiki/page/editing-timer-update';
+    public const ROUTE_WIKI_GET_TEMPLATE_CONTENT = '/wiki/template/get-template-content';
+    public const ROUTE_WIKI_TEMPLATE_INDEX = '/wiki/template/index';
+    public const ROUTE_WIKI_TEMPLATE_CREATE = '/wiki/template/create';
+    public const ROUTE_WIKI_TEMPLATE_EDIT = '/wiki/template/edit';
+    public const ROUTE_WIKI_TEMPLATE_DELETE = '/wiki/template/delete';
+    public const ROUTE_WIKI_APPEND = '/wiki/page/append';
+    public const ROUTE_WIKI_GET_APPEND_CONTENT = '/wiki/page/get-append-content';
+
 
     public static function toHome(ContentContainerActiveRecord $container)
     {
@@ -153,4 +162,38 @@ class Url extends \yii\helpers\Url
         return static::to([static::ROUTE_WIKI_EDITING_TIMER_UPDATE, 'id' => $page->id, 'container' => $page->content->container]);
     }
 
+    public static function toWikiGetTemplateContent(WikiTemplate $template) 
+    {
+        return static::to([static::ROUTE_WIKI_GET_TEMPLATE_CONTENT, 'id' => $template->id, 'container' => ContentContainerHelper::getCurrent()]);
+    }
+
+    public static function toWikiTemplateIndex()
+    {
+        return static::to([static::ROUTE_WIKI_TEMPLATE_INDEX, 'container' => ContentContainerHelper::getCurrent()]);
+    }
+
+    public static function toWikiTemplateCreate()
+    {
+        return static::to([static::ROUTE_WIKI_TEMPLATE_CREATE, 'container' => ContentContainerHelper::getCurrent()]);
+    }
+
+    public static function toWikiTemplateEdit(WikiTemplate $template, ContentContainerActiveRecord $container)
+    {
+        return static::to([static::ROUTE_WIKI_TEMPLATE_EDIT, 'id' => $template->id, 'container' => $container]);
+    }
+
+    public static function toWikiTemplateDelete(WikiTemplate $template, ContentContainerActiveRecord $container)
+    {
+        return static::to([static::ROUTE_WIKI_TEMPLATE_DELETE, 'id' => $template->id, 'container' => $container]);
+    } 
+
+    public static function toWikiAppend(WikiPage $page)
+    {
+        return static::to([static::ROUTE_WIKI_APPEND, 'id' => $page->id, 'container' => $page->content->container]);
+    }
+
+    public static function toWikiGetAppendContent(WikiPage $page)
+    {
+        return static::to([static::ROUTE_WIKI_GET_APPEND_CONTENT, 'id' => $page->id, 'container' => $page->content->container]);
+    }
 }

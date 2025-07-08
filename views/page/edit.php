@@ -15,6 +15,8 @@ use humhub\modules\wiki\widgets\WikiMenu;
 use humhub\modules\wiki\widgets\WikiPagePicker;
 use humhub\modules\wiki\widgets\WikiPath;
 use humhub\widgets\Button;
+use humhub\modules\wiki\widgets\TemplateSelectModal;
+use humhub\widgets\Modal;
 use humhub\modules\wiki\helpers\Url;
 use humhub\modules\topic\widgets\TopicPicker;
 
@@ -36,10 +38,31 @@ Assets::register($this);
                 'id' => 'wiki-page-edit',
                 'cssClass' => 'wiki-page-content'
             ]) ?>
+            
+            <?php if ($templateCount > 0) :?>
+                <?= TemplateSelectModal::widget(['container' => $contentContainer]); ?>
+            <?php endif;?>
+
+            <?= Modal::widget([
+                'id' => 'placeholderModal',
+                'header' => Yii::t('WikiModule.base', '<strong>Fill in Placeholders</strong>'),
+                'body' => '<div id="placeholderFormContainer">
+                    <form id="templatePlaceholderForm">
+                        <div id="placeholderFormFields"></div>
+                    <button type="submit" class="btn btn-primary mt-2">'.Yii::t('WikiModule.base', 'Insert') .'</button>
+                    </form>
+                </div>',
+                'footer' => false
+            ]); ?>
 
             <div class="wiki-headline">
                 <div class="wiki-headline-top">
                     <?= WikiPath::widget(['page' => $model->page]) ?>
+                    <div class="Button-right-align">
+                        <?php if ($templateCount > 0) :?>
+                            <?= Button::save(Yii::t('WikiModule.base','Add Template'))->icon('fa-plus')->action('insertTemplate')->sm()->loader(false)->cssClass('toggle-numbering') ?>
+                        <?php endif;?>
+                    </div>
                     <?php if (!$requireConfirmation) : ?>
                         <?= WikiMenu::widget([
                             'object' => $model->page,
@@ -94,6 +117,9 @@ Assets::register($this);
                         'placeholder' => Yii::t('WikiModule.base', 'New page title'),
                         'disabled' => $model->isDisabledField('title')
                     ])->label(false); ?>
+                <?= $form->field($model, 'isAppendable')->hiddenInput()->label(false) ?>
+                <?= $form->field($model, 'appendableContent')->hiddenInput()->label(false);?>
+                <?= $form->field($model, 'appendableContentPlaceholder')->hiddenInput()->label(false);?>
 
                 <?= $form->field($model->revision, 'content')->widget(WikiEditor::class)->label(false) ?>
 

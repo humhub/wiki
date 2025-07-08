@@ -1056,8 +1056,54 @@
     padding: 0;
   }
 }
-/* CSS Styling for toggle button */
-.toggle-numbering {
+.toggle-numbering, .Button-right-align {
   margin-left: auto;
   padding-right: 10px;
+}
+td {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+ul.wiki-template-list {
+  margin-bottom: 0;
+  padding-left: 2px;
+}
+
+.wiki-template-category-list-item {
+  position: relative;
+  border-bottom: 1px solid #eee;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: nowrap;
+  padding: 4px;
+}
+
+
+.template-title {
+  font-size: 14px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex-grow: 1;
+}
+
+.template-actions a {
+  margin-left: 8px;
+  color: #555;
+  text-decoration: none;
+}
+
+.template-actions a:hover {
+  color: #000;
+}
+
+.remove-placeholder {
+  margin-left: 8px;
+}
+
+.placeholder-description {
+  margin-left: 8px;
 }

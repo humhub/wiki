@@ -8,8 +8,11 @@ use humhub\modules\wiki\helpers\HeadlineExtractor;
 use humhub\modules\wiki\helpers\Url;
 use humhub\modules\wiki\models\DefaultSettings;
 use humhub\modules\wiki\models\forms\PageEditForm;
+use humhub\modules\wiki\models\forms\PageAppendForm;
 use humhub\modules\wiki\models\forms\WikiPageItemDrop;
 use humhub\modules\wiki\models\WikiPage;
+use humhub\modules\content\widgets\richtext\ProsemirrorRichTextConverter;
+use humhub\modules\wiki\models\WikiTemplate;
 use humhub\modules\wiki\models\WikiPageRevision;
 use humhub\modules\wiki\permissions\AdministerPages;
 use humhub\modules\wiki\permissions\CreatePage;
@@ -197,6 +200,8 @@ class PageController extends BaseController
             return $this->redirect(Url::toWiki($form->page));
         }
 
+        $templateCount = WikiTemplate::find()->where(['contentcontainer_id' => $form->page->content->contentcontainer_id])->count();
+
         $params = [
             'model' => $form,
             'homePage' => $this->getHomePage(),
@@ -204,6 +209,8 @@ class PageController extends BaseController
             'canAdminister' => $this->canAdminister(),
             'requireConfirmation' => $form->hasErrors('confirmOverwriting'),
             'displayFieldCategory' => !$form->page->isNewRecord || !$form->page->categoryPage,
+            'isNewPage' => $form->page->isNewRecord,
+            'templateCount' => $templateCount,
         ];
 
         if ($params['requireConfirmation']) {
@@ -570,6 +577,7 @@ class PageController extends BaseController
         return $this->asJson([
             'success' => true,
             'isEditing' => $page->isEditing(),
+            'user' => $fullName,
             'body' => $fullName .' '. Yii::t('WikiModule.base', 'is already editing.<br> Editing it would cause conflict. Do you really want to continue?'),
         ]);
     }
@@ -616,6 +624,60 @@ class PageController extends BaseController
             'body' => $fullName .' '. Yii::t('WikiModule.base', 'is already editing.<br> Editing it would cause conflict. Do you really want to continue?'),
             'confirmText' => Yii::t('WikiModule.base', 'Cancel'),
             'cancelText' => Yii::t('WikiModule.base', 'Continue'),
+        ]);
+    }
+
+    /**
+     * @param int $id
+     * @return $this|Response
+     * @throws HttpException
+     */
+    public function actionAppend(int $id)
+    {
+        $page = $this->getWikiPage($id);
+
+        if (!$page) {
+            throw new HttpException(404, Yii::t('WikiModule.base', 'Page not found.'));
+        }
+
+        $appendForm = new PageAppendForm($page);
+
+        if ($appendForm->load(Yii::$app->request->post()) && $appendForm->save()) {
+            return $this->redirect(Url::toWiki($page));
+        }
+
+        return $this->render('append', [
+            'appendForm' => $appendForm,
+        ]);
+    }
+
+    /**
+     * API to get the content, placeholders to append
+     */
+    public function actionGetAppendContent(int $id)
+    {   
+        $page = $this->getWikiPage($id);
+
+        if (!$page) {
+            throw new HttpException(404, Yii::t('WikiModule.base', 'Page not found.'));
+        }
+
+        $content = $page->appendable_content;
+        $placeholders = $page->appendable_content_placeholder;
+
+        $converter = new ProsemirrorRichTextConverter();
+
+        $content = $converter->convertToHtml($content);
+
+        $username = Yii::$app->user->identity->username;
+
+        $user = User::find()->where(['username' => $username])->one();
+
+        return $this->asJson([
+            'success' => true,
+            'content' => $content,
+            'placeholders' => $placeholders,
+            'user' => ['guid' => $user->guid, 'displayName' => $user->displayName],
         ]);
     }
 }
