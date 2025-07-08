@@ -256,7 +256,7 @@ humhub.module('wiki.Form', function(module, require, $) {
                             const formData = $(this).serializeArray();
                             filledContent = replacePlaceholders(specialPlaceholders.content, formData);
                             filledTitle = replacePlaceholders(specialPlaceholders.title, formData);
-
+                            console.log(filledContent);
                             const $titleInput = $('#wikipage-title');
                             if ($titleInput.length != null) {
                                 $titleInput.val(filledTitle);
@@ -274,6 +274,7 @@ humhub.module('wiki.Form', function(module, require, $) {
                         if ($titleInput.length != null) {
                             $titleInput.val(filledTitle);
                         }
+                        console.log(filledContent);
                         insertContentIntoEditor(editorWidget, filledContent);
                         addAppendableContent(is_appendable, appendable_content, appendable_content_placeholder);
                         $('#templateSelectModal .modal-body').empty();
@@ -404,7 +405,7 @@ humhub.module('wiki.Form', function(module, require, $) {
                         <span class="placeholder-description">${escapeHtml(ph.description)}</span>
                     </td>
                     <td class="text-center">${escapeHtml(ph.default)}</td>
-                    <td class="text-center">Normal</td>
+                    <td class="text-center">${translation.normal}</td>
                     <td class="text-center">
                         <button type="button" class="btn btn-sm btn-danger remove-placeholder">Delete</button>
                     </td>
@@ -420,7 +421,7 @@ humhub.module('wiki.Form', function(module, require, $) {
                         <span class="placeholder-description">${escapeHtml(ph.description)}</span>
                     </td>
                     <td class="text-center">${escapeHtml(ph.default)}</td>
-                    <td class="text-center">Appendable</td>
+                    <td class="text-center">${translation.appendable}</td>
                     <td class="text-center">
                         <button type="button" class="btn btn-sm btn-danger remove-placeholder">Delete</button>
                     </td>

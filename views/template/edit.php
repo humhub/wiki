@@ -21,6 +21,8 @@ $this->registerJSConfig([
             'type' => Yii::t('WikiModule.base', 'Type'),
             'add' => Yii::t('WikiModule.base', 'Add'),
             'appendableContent' => Yii::t('WikiModule.base', 'For appendable content'),
+            'appendable' => Yii::t('WikiModule.base', 'appendable'),
+            'normal' => Yii::t('WikiModule.base', 'normal'),
         ]
     ]
 ]);

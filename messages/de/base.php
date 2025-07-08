@@ -131,4 +131,6 @@ return [
     'Append' => 'Anhängen',
     'For appendable content' => 'Für anhängbaren Inhalt',
     'Add' => 'Hinzufügen',
+    'appendable' => 'anhängbar',
+    'normal' => 'normal',
 ];
