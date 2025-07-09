@@ -404,7 +404,7 @@ humhub.module('wiki.Form', function(module, require, $) {
                         <span class="placeholder-description">${escapeHtml(ph.description)}</span>
                     </td>
                     <td class="text-center">${escapeHtml(ph.default)}</td>
-                    <td class="text-center">Normal</td>
+                    <td class="text-center">${translation.normal}</td>
                     <td class="text-center">
                         <button type="button" class="btn btn-sm btn-danger remove-placeholder">Delete</button>
                     </td>
@@ -420,7 +420,7 @@ humhub.module('wiki.Form', function(module, require, $) {
                         <span class="placeholder-description">${escapeHtml(ph.description)}</span>
                     </td>
                     <td class="text-center">${escapeHtml(ph.default)}</td>
-                    <td class="text-center">Appendable</td>
+                    <td class="text-center">${translation.appendable}</td>
                     <td class="text-center">
                         <button type="button" class="btn btn-sm btn-danger remove-placeholder">Delete</button>
                     </td>
