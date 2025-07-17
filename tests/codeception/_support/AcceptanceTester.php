@@ -73,7 +73,7 @@ class AcceptanceTester extends \AcceptanceTester
          * CREATE First SUB PAGE
          */
         $this->amGoingTo('Create my first sub page');
-        $this->jsClick('[data-original-title="Add Page"]');
+        $this->jsClick('[data-bs-title="Add Page"]');
         $this->waitForText('Create new page', 30);
 
         $this->fillField('#wikipage-title', 'First Sub Page');
