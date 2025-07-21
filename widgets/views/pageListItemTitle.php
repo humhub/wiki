@@ -34,8 +34,9 @@ use humhub\widgets\bootstrap\Button;
         <span class="page-title-icon"><?= Icon::get($titleIcon) ?></span>
     <?php endif; ?>
     <?php if ($item && $showAddPage) : ?>
-        <?= Button::asLink(null, $service->getNewWikiPageUrl($item))->icon('fa-plus')
-            ->cssClass('wiki-page-control tt wiki-category-add')
-            ->title(Yii::t('WikiModule.base', 'Add Page')) ?>
+        <?= Button::asLink(null, $service->getNewWikiPageUrl($item))
+            ->icon('plus')
+            ->cssClass('wiki-page-control wiki-category-add')
+            ->tooltip(Yii::t('WikiModule.base', 'Add Page')) ?>
     <?php endif; ?>
 <?= Html::endTag('div') ?>
