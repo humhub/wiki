@@ -86,4 +86,7 @@ return [
     'Hide Navigation Entries of this module globally by default' => '',
     'Hide Navigation Entry' => '',
     'No wiki pages found.' => '',
+    'Whenever someone edits a wiki page.' => '',
+    'Wiki page content ID' => '',
+    'Wiki pages' => '',
 ];

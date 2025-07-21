@@ -86,4 +86,7 @@ return [
     'No wiki pages found.' => '',
     'Revert not possible. Already latest revision!' => '',
     'Search for Wiki Title' => '',
+    'Whenever someone edits a wiki page.' => '',
+    'Wiki page content ID' => '',
+    'Wiki pages' => '',
 ];
