@@ -12,7 +12,7 @@ use humhub\widgets\bootstrap\Button;
 /* @var $canEdit bool */
 /* @var $content string */
 ?>
-<div class="topic-label-list">
+<div class="topic-badge-list">
 <?php foreach ($page->content->getTags(Topic::class)->all() as $topic) : ?>
     <?= TopicBadge::forTopic($topic) ?>
 <?php endforeach; ?>

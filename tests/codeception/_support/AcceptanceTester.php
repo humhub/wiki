@@ -248,7 +248,7 @@ class AcceptanceTester extends \AcceptanceTester
         $this->see("First Private {$type} Wiki Page");
         $this->wait(1);
         $this->see("My First Wiki {$type} Private Page!", 'h1');
-        $this->dontSee("Public", 'h1 .label-info');
+        $this->dontSee("Public", 'h1 .badge-info');
         $this->toIndex();
         $this->see("First Public {$type} Wiki Page", '.wiki-page-list');
         $this->see("First Private {$type} Wiki Page", '.wiki-page-list');
