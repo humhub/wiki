@@ -64,7 +64,7 @@ humhub.module('wiki.Page', function (module, require, $) {
     Page.prototype.buildIndex = function () {
         var $list = $('<ul class="nav nav-pills nav-stacked">');
 
-        var $listHeader = $('<li><a href="#">' + wikiView.text('pageindex') + '</li></a>').on('click', function (evt) {
+        var $listHeader = $('<li class="nav-item"><a href="#" class="nav-link">' + wikiView.text('pageindex') + '</li></a>').on('click', function (evt) {
             evt.preventDefault();
             var $siblings = $(this).siblings(':not(.nav-divider)');
             if ($siblings.first().is(':visible')) {
@@ -124,7 +124,7 @@ humhub.module('wiki.Page', function (module, require, $) {
 
             var $li = $('<li>');
 
-            var cssClass = 'wiki-page-index-section wiki-page-index-section-level' + currentHeaderLevel;
+            var cssClass = 'nav-item wiki-page-index-section wiki-page-index-section-level' + currentHeaderLevel;
 
             $li.addClass(cssClass);
 

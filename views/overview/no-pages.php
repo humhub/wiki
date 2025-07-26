@@ -7,7 +7,7 @@
 
 use humhub\modules\wiki\widgets\WikiContent;
 use humhub\modules\wiki\helpers\Url;
-use humhub\widgets\Button;
+use humhub\widgets\bootstrap\Button;
 
 /* @var $this \humhub\modules\ui\view\components\View */
 /* @var $contentContainer \humhub\modules\content\components\ContentContainerActiveRecord */

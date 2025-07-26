@@ -8,7 +8,7 @@
 use humhub\libs\Helpers;
 use humhub\modules\wiki\helpers\Url;
 use humhub\modules\wiki\models\WikiPage;
-use humhub\widgets\Link;
+use humhub\widgets\bootstrap\Link;
 
 /* @var $page WikiPage */
 /* @var $path WikiPage[]|string[] */

@@ -1,5 +1,5 @@
 <?php
-use humhub\libs\Html;
+use humhub\helpers\Html;
 use yii\helpers\Url;
 
 /* @var $this \humhub\modules\ui\view\components\View */
@@ -10,5 +10,3 @@ use yii\helpers\Url;
 ?>
 
 <?= Html::activeDropDownList($model, $field, $items, $options); ?>
-
-
