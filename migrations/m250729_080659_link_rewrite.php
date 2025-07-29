@@ -2,6 +2,7 @@
 
 use humhub\modules\content\models\Content;
 use humhub\modules\wiki\models\WikiPageRevision;
+use yii\console\widgets\Table;
 use yii\db\Migration;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Console;
@@ -19,6 +20,7 @@ class m250729_080659_link_rewrite extends Migration
             ['LIKE', 'content', 'http://intranet.jarola.nl/index.php?r=content%2Fperma&id=']
         ]);
 
+        $errors = [];
         $done = 0;
         $total = $revisionsQuery->count();
         Console::startProgress($done, $total);
@@ -38,21 +40,25 @@ class m250729_080659_link_rewrite extends Migration
                 $matches
             );
 
-            foreach (array_unique(ArrayHelper::getValue($matches, 1, [])) as $contentId) {
+            foreach (array_filter(array_unique(ArrayHelper::getValue($matches, 1, []))) as $contentId) {
                 $content = Content::find()
                     ->alias('c')
                     ->innerJoinWith('contentContainer cc', false)
                     ->where(['c.id' => $contentId])
                     ->one();
 
-                $container = $content->contentContainer->polymorphicRelation;
+                if (empty($content->container)) {
+                    $errors[] = ["Cant find container for content id: {$contentId}"];
+
+                    continue;
+                }
 
                 $revision->content = str_replace(
                     'http://intranet.jarola.nl/index.php?r=content%2Fperma&id=' . $content->id,
                     sprintf(
                         'https://intranet.jarola.nl/%s/%s/wiki/%d/%s',
-                        $container instanceof Space ? 's' : 'u',
-                        $container->{$container instanceof Space ? 'url' : 'username' },
+                        $content->container instanceof Space ? 's' : 'u',
+                        $content->container->{$content->container instanceof Space ? 'url' : 'username' },
                         $content->model->id,
                         Inflector::slug($content->model->title)
                     ),
@@ -65,6 +71,13 @@ class m250729_080659_link_rewrite extends Migration
         }
 
         Console::endProgress();
+
+        if (!empty($errors)) {
+            echo Table::widget([
+                'headers' => ['Errors'],
+                'rows' => $errors,
+            ]);
+        }
     }
 
     /**
