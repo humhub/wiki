@@ -15,8 +15,7 @@ class m250729_080659_link_rewrite extends Migration
     {
         $revisionsQuery = WikiPageRevision::find()->where([
             'OR',
-
-            ['REGEXP', 'content', 'http://intrane.jarola.nl/index.php?r=file%2Ffile%2Fdownload&guid=[a-f0-9-]{36}&download=1'],
+            ['REGEXP', 'content', 'http://intranet\\.jarola\\.nl/index\\.php\\?r=file%2Ffile%2Fdownload&guid=[a-f0-9\\-]{36}(&download=1)?'],
             ['LIKE', 'content', 'http://intranet.jarola.nl/index.php?r=content%2Fperma&id=']
         ]);
 
@@ -28,7 +27,7 @@ class m250729_080659_link_rewrite extends Migration
         foreach ($revisionsQuery->each() as $revision) {
             /** @var WikiPageRevision $revision */
             $revision->content = preg_replace(
-                '#http://intranet\.jarola\.nl/index\.php\?r=file%2Ffile%2Fdownload&guid=([a-f0-9\-]{36})&download=1#i',
+                '#http://intranet\.jarola\.nl/index\.php\?r=file%2Ffile%2Fdownload&guid=([a-f0-9\-]{36})(?:&download=1)?#i',
                 'https://intranet.jarola.nl/file/view?guid=$1',
                 $revision->content
             );
@@ -49,7 +48,6 @@ class m250729_080659_link_rewrite extends Migration
 
                 if (empty($content->container)) {
                     $errors[] = ["Cant find container for content id: {$contentId}"];
-
                     continue;
                 }
 
