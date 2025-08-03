@@ -5,12 +5,14 @@
  * @license https://www.humhub.com/licences
  */
 
-use humhub\modules\wiki\widgets\WikiContent;
+use humhub\components\View;
+use humhub\modules\content\components\ContentContainerActiveRecord;
 use humhub\modules\wiki\helpers\Url;
+use humhub\modules\wiki\widgets\WikiContent;
 use humhub\widgets\bootstrap\Button;
 
-/* @var $this \humhub\modules\ui\view\components\View */
-/* @var $contentContainer \humhub\modules\content\components\ContentContainerActiveRecord */
+/* @var $this View */
+/* @var $contentContainer ContentContainerActiveRecord */
 /* @var $canCreatePage boolean */
 
 humhub\modules\wiki\assets\Assets::register($this);

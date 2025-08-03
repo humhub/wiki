@@ -5,9 +5,9 @@
  * @license https://www.humhub.com/licences
  */
 
+use humhub\components\View;
 use humhub\modules\comment\widgets\Comments;
 use humhub\modules\content\widgets\ContentObjectLinks;
-use humhub\modules\ui\view\components\View;
 use humhub\modules\wiki\assets\Assets;
 use humhub\modules\wiki\models\WikiPage;
 use humhub\modules\wiki\models\WikiPageRevision;

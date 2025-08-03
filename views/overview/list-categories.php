@@ -5,9 +5,9 @@
  * @license https://www.humhub.com/licences
  */
 
+use humhub\components\View;
 use humhub\helpers\Html;
 use humhub\modules\content\components\ContentContainerActiveRecord;
-use humhub\modules\ui\view\components\View;
 use humhub\modules\wiki\assets\Assets;
 use humhub\modules\wiki\helpers\Helper;
 use humhub\modules\wiki\helpers\Url;

@@ -1,14 +1,16 @@
 <?php
 
+use humhub\components\View;
 use humhub\helpers\Html;
 use humhub\modules\topic\models\Topic;
 use humhub\modules\topic\widgets\TopicBadge;
 use humhub\modules\wiki\helpers\Url;
+use humhub\modules\wiki\models\WikiPage;
 use humhub\modules\wiki\widgets\WikiRichText;
 use humhub\widgets\bootstrap\Button;
 
-/* @var $this \humhub\modules\ui\view\components\View */
-/* @var $page \humhub\modules\wiki\models\WikiPage */
+/* @var $this View */
+/* @var $page WikiPage */
 /* @var $canEdit bool */
 /* @var $content string */
 ?>

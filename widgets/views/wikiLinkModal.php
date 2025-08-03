@@ -1,11 +1,13 @@
 <?php
 
+use humhub\components\View;
+use humhub\modules\content\components\ContentActiveRecord;
 use humhub\modules\wiki\models\WikiPageSearch;
 use humhub\modules\wiki\widgets\WikiSearchInput;
 use humhub\widgets\form\ActiveForm;
 
-/* @var $this \humhub\modules\ui\view\components\View */
-/* @var $contentContainer \humhub\modules\content\components\ContentActiveRecord */
+/* @var $this View */
+/* @var $contentContainer ContentActiveRecord */
 
 $model = new WikiPageSearch();
 ?>

@@ -1,6 +1,6 @@
 <?php
 
-use humhub\modules\ui\view\components\View;
+use humhub\components\View;
 use humhub\modules\wiki\models\WikiPage;
 use humhub\modules\wiki\models\WikiPageRevision;
 use humhub\modules\wiki\widgets\WikiContent;

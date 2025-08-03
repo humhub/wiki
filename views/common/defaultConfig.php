@@ -5,7 +5,7 @@
  * @license https://www.humhub.com/licences
  */
 
-use humhub\modules\ui\view\components\View;
+use humhub\components\View;
 use humhub\modules\wiki\assets\Assets;
 use humhub\modules\wiki\models\DefaultSettings;
 use humhub\widgets\bootstrap\Button;

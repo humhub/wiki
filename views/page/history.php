@@ -1,8 +1,10 @@
 <?php
 
+use humhub\components\View;
 use humhub\modules\content\components\ContentContainerActiveRecord;
-use humhub\modules\ui\view\components\View;
 use humhub\modules\wiki\helpers\Url;
+use humhub\modules\wiki\models\WikiPage;
+use humhub\modules\wiki\models\WikiPageRevision;
 use humhub\modules\wiki\widgets\WikiContent;
 use humhub\modules\wiki\widgets\WikiMenu;
 use humhub\modules\wiki\widgets\WikiPath;
@@ -10,12 +12,13 @@ use humhub\widgets\bootstrap\Button;
 use humhub\widgets\bootstrap\Link;
 use humhub\widgets\bootstrap\LinkPager;
 use humhub\widgets\TimeAgo;
+use yii\data\Pagination;
 use yii\helpers\Html;
 
 /* @var $this View */
-/* @var $page \humhub\modules\wiki\models\WikiPage */
-/* @var $pagination \yii\data\Pagination */
-/* @var $revisions \humhub\modules\wiki\models\WikiPageRevision[] */
+/* @var $page WikiPage */
+/* @var $pagination Pagination */
+/* @var $revisions WikiPageRevision[] */
 /* @var $contentContainer ContentContainerActiveRecord */
 /* @var $isEnabledDiffTool bool */
 
