@@ -65,8 +65,8 @@ class WikiSearchInput extends JsInputWidget
         foreach ($pages->each() as $page) {
             /* @var WikiPage $page */
             $this->items[$page->id] = StringHelper::truncate(
-                ($page->categoryPage ? $page->categoryPage->title . ' -> ' : '') .
-                $page->title,
+                ($page->categoryPage ? $page->categoryPage->title . ' -> ' : '')
+                . $page->title,
                 250,
                 ' [...]',
             );
