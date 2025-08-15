@@ -78,7 +78,7 @@ if ($isEnabledDiffTool) {
                     <?php $first = false; ?>
                 <?php endforeach; ?>
 
-                <div class="text-center">
+                <div class="d-flex justify-content-center">
                     <?= LinkPager::widget(['pagination' => $pagination]); ?>
                 </div>
             </ul>

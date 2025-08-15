@@ -361,14 +361,14 @@
   padding-left: 0;
   border-left: 1px dashed var(--hh-wiki-border-color-main);
 }
-.layout-content-container .wiki-content ul.wiki-page-history.wiki-page-history-with-diff li {
+.layout-content-container .wiki-content ul.wiki-page-history.wiki-page-history-with-diff > li {
   padding-left: 67px;
 }
-.layout-content-container .wiki-content ul.wiki-page-history li {
+.layout-content-container .wiki-content ul.wiki-page-history > li {
   padding: 20px 18px;
   position: relative;
 }
-.layout-content-container .wiki-content ul.wiki-page-history li:first-child::before {
+.layout-content-container .wiki-content ul.wiki-page-history > li:first-child::before {
   content: "";
   background: var(--hh-background-color-main);
   display: block;
@@ -378,38 +378,38 @@
   width: 1px;
   height: 38px;
 }
-.layout-content-container .wiki-content ul.wiki-page-history li h4 {
+.layout-content-container .wiki-content ul.wiki-page-history > li h4 {
   font-size: 16px;
   font-weight: 600;
 }
-.layout-content-container .wiki-content ul.wiki-page-history li h5 {
+.layout-content-container .wiki-content ul.wiki-page-history > li h5 {
   margin-bottom: 0;
   font-size: 13px;
 }
-.layout-content-container .wiki-content ul.wiki-page-history li h5, .layout-content-container .wiki-content ul.wiki-page-history li h5 a {
+.layout-content-container .wiki-content ul.wiki-page-history > li h5, .layout-content-container .wiki-content ul.wiki-page-history > li h5 a {
   color: var(--hh-wiki-text-color-title);
 }
-.layout-content-container .wiki-content ul.wiki-page-history li .horizontal-line {
+.layout-content-container .wiki-content ul.wiki-page-history > li .horizontal-line {
   position: absolute;
   left: 2px;
   top: 38px;
   letter-spacing: 1px;
   border-top: 1px dashed var(--hh-wiki-border-color-main);
 }
-.layout-content-container .wiki-content ul.wiki-page-history li .horizontal-line input[type=radio] {
+.layout-content-container .wiki-content ul.wiki-page-history > li .horizontal-line input[type=radio] {
   position: relative;
   right: -27px;
   top: -9px;
 }
-.layout-content-container .wiki-content ul.wiki-page-history li .wiki-author-link {
+.layout-content-container .wiki-content ul.wiki-page-history > li .wiki-author-link {
   color: var(--hh-wiki-text-color-control);
   text-decoration: underline;
 }
-.layout-content-container .wiki-content ul.wiki-page-history li .alert {
+.layout-content-container .wiki-content ul.wiki-page-history > li .alert {
   padding: 10px;
   margin-bottom: 0;
 }
-.layout-content-container .wiki-content ul.wiki-page-history li .alert .horizontal-line {
+.layout-content-container .wiki-content ul.wiki-page-history > li .alert .horizontal-line {
   top: 48px;
 }
 .layout-content-container .wiki-content button.wiki-page-history-btn-compare {

@@ -500,12 +500,12 @@ $wiki-mobile-grid-breakpoints: 520px;
             border-left: 1px dashed var(--hh-wiki-border-color-main);
 
             &.wiki-page-history-with-diff {
-                li {
+                > li {
                     padding-left: 67px;
                 }
             }
 
-            li {
+            > li {
                 padding: 20px 18px;
                 position: relative;
 
