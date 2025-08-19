@@ -2,8 +2,6 @@
 
 namespace humhub\modules\wiki\controllers;
 
-use humhub\modules\content\widgets\richtext\ProsemirrorRichText;
-use humhub\modules\content\widgets\richtext\ProsemirrorRichTextConverter;
 use humhub\modules\wiki\models\WikiTemplate;
 use humhub\modules\user\models\User;
 use yii\web\NotFoundHttpException;
@@ -95,10 +93,6 @@ class TemplateController extends BaseController
         if (!$template) {
             return $this->asJson(['success' => false]);
         }
-
-        $converter = new ProsemirrorRichTextConverter();
-
-        $content = $converter->convertToHtml($content);
 
         $username = Yii::$app->user->identity->username;
 

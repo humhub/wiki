@@ -11,7 +11,6 @@ use humhub\modules\wiki\models\forms\PageEditForm;
 use humhub\modules\wiki\models\forms\PageAppendForm;
 use humhub\modules\wiki\models\forms\WikiPageItemDrop;
 use humhub\modules\wiki\models\WikiPage;
-use humhub\modules\content\widgets\richtext\ProsemirrorRichTextConverter;
 use humhub\modules\wiki\models\WikiTemplate;
 use humhub\modules\wiki\models\WikiPageRevision;
 use humhub\modules\wiki\permissions\AdministerPages;
@@ -664,10 +663,6 @@ class PageController extends BaseController
 
         $content = $page->appendable_content;
         $placeholders = $page->appendable_content_placeholder;
-
-        $converter = new ProsemirrorRichTextConverter();
-
-        $content = $converter->convertToHtml($content);
 
         $username = Yii::$app->user->identity->username;
 

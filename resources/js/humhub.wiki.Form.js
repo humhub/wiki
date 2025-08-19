@@ -1,6 +1,5 @@
 humhub.module('wiki.Form', function(module, require, $) {
     var Widget = require('ui.widget').Widget;
-    var richtext = require('ui.richtext.prosemirror');
     var wikiView = require('wiki');
     var additions = require('ui.additions');
     var client = require('client');
@@ -195,20 +194,12 @@ humhub.module('wiki.Form', function(module, require, $) {
     }
 
     function insertContentIntoEditor(editorWidget, content) {
-        var view = editorWidget.editor.view;
-    
-        if (view) {
-            var parser = richtext.api.model.DOMParser.fromSchema(view.state.schema);
-            var html = content;
-            var tempDoc = new DOMParser().parseFromString(html, 'text/html');
-            var doc = parser.parse(tempDoc);
-    
-            var endPos = view.state.doc.content.size;
-    
-            var transaction = view.state.tr.insert(endPos, doc.content);
-            view.dispatch(transaction);
-        } else {
-            console.warn('ProseMirror view not found');
+        currentContent = editorWidget.editor.serialize();
+        if (editorWidget.editor.isEmpty() == true){
+            editorWidget.editor.init(content);
+        }
+        else {
+            editorWidget.editor.init(currentContent + '\n \n' + content);
         }
     }
 
@@ -321,7 +312,7 @@ humhub.module('wiki.Form', function(module, require, $) {
         content = content.replace(/{{\s*today\s+DD\.MM\.YYYY\s*}}/gi, formatDate('DD.MM.YYYY'));
         title = title.replace(/{{\s*today\s+DD\.MM\.YYYY\s*}}/gi, formatDate('DD.MM.YYYY'));
         
-        content = content.replace(/{{\s*author\s*}}/gi, `<span data-mention="${user.guid}" contenteditable="false" style="display:inline-block" draggable="true"><span style="display:block">${user.displayName}</span></span>`);
+        content = content.replace(/{{\s*author\s*}}/gi, `[${user.displayName}](mention:${user.guid} "/u/${user.username}/")`);
         title = title.replace(/{{\s*author\s*}}/gi, user.displayName);
         return { content, title };
     }
