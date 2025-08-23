@@ -20,7 +20,7 @@ use humhub\modules\wiki\widgets\WikiMenu;
 
     <?php if (!empty($entries)) : ?>
         <?= Html::beginTag('div', $options) ?>
-            <button type="button" class="btn btn-info btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true">
+            <button type="button" class="btn btn-accent btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true">
             </button>
             <ul class="dropdown-menu dropdown-menu-end">
                 <?php foreach ($entries as $entry) : ?>

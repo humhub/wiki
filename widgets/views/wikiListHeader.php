@@ -21,9 +21,9 @@ use humhub\widgets\bootstrap\Button;
     <h3><?= ($icon ? Icon::get($icon) : '') . $title ?></h3>
     <?= WikiSearchForm::widget(['contentContainer' => $contentContainer, 'cssClass' => Helper::isEnterpriseTheme() ? 'd-lg-none' : '']) ?>
     <div class="wiki-page-content-header-actions">
-        <?= Button::info(Yii::t('WikiModule.base', 'Index'))->icon('fa-home')
+        <?= Button::accent(Yii::t('WikiModule.base', 'Index'))->icon('fa-home')
             ->link(Url::toHome($contentContainer))->sm()->cssClass(Helper::isEnterpriseTheme() ? 'd-lg-none' : '') ?>
-        <?= Button::info(Yii::t('WikiModule.base', 'Create page'))->icon('fa-plus')
+        <?= Button::accent(Yii::t('WikiModule.base', 'Create page'))->icon('fa-plus')
             ->link(Url::toWikiCreate($contentContainer))->visible($canCreate)->sm() ?>
     </div>
 </div>

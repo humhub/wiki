@@ -38,8 +38,8 @@ $settings = new DefaultSettings(['contentContainer' => $contentContainer]);
                 <h3><?= Html::encode($settings->module_label) ?></h3>
                 <?= WikiSearchForm::widget(['contentContainer' => $contentContainer, 'cssClass' => 'float-start']) ?>
                 <div class="wiki-page-content-header-actions">
-                    <?= Button::info(Yii::t('WikiModule.base', 'Last edited'))->sm()->link(Url::toLastEdited($contentContainer))->cssClass(Helper::isEnterpriseTheme() ? 'd-lg-none' : '') ?>
-                    <?= Button::info($createPageTitle)->icon('fa-plus')->sm()->link(Url::toWikiCreate($contentContainer))->visible($canCreate) ?>
+                    <?= Button::accent(Yii::t('WikiModule.base', 'Last edited'))->sm()->link(Url::toLastEdited($contentContainer))->cssClass(Helper::isEnterpriseTheme() ? 'd-lg-none' : '') ?>
+                    <?= Button::accent($createPageTitle)->icon('fa-plus')->sm()->link(Url::toWikiCreate($contentContainer))->visible($canCreate) ?>
                 </div>
             </div>
 
