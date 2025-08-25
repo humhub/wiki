@@ -54,6 +54,26 @@ class TemplateCrudCest
         $I->see('Edited First Template');
     }
 
+    public function testGetTemplateContentApi(FunctionalTester $I)
+    {
+        $I->wantTo('Get template content via JSON endpoint and verify response structure');
+
+        $space = $I->loginBySpaceUserGroup(Space::USERGROUP_ADMIN);
+        $I->enableModule($space->guid, 'wiki');
+
+        $template = WikiTemplate::find()
+            ->where(['title' => 'Edited First Template'])
+            ->one();
+
+        $I->amOnSpace($space->guid, '/wiki/template/get-template-content', ['id' => $template->id]);
+        $I->seeResponseCodeIs(200);
+
+        $I->seeInSource('"success":true');  
+        $I->seeInSource('"content":"Content of First Template"');
+
+    }
+
+
     public function testDeleteTemplate(FunctionalTester $I)
     {
         $I->wantTo('Check deletion of a template');
@@ -65,4 +85,5 @@ class TemplateCrudCest
         $I->click('a.delete-template');
         $I->dontsee('Edited First Template');
     }
+
 }
