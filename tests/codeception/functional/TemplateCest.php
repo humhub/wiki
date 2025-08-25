@@ -73,7 +73,6 @@ class TemplateCrudCest
 
     }
 
-
     public function testDeleteTemplate(FunctionalTester $I)
     {
         $I->wantTo('Check deletion of a template');
