@@ -32,16 +32,19 @@ module.exports = function (grunt) {
                 dest: 'resources/js/humhub.wiki.bundle.js'
             },
         },
-        less: {
+        sass: {
+            options: {
+                implementation: require('sass')
+            },
             dev: {
                 files: {
-                    'resources/css/humhub.wiki.css': 'resources/css/humhub.wiki.less'
+                    'resources/css/humhub.wiki.css': 'resources/css/humhub.wiki.scss'
                 }
             }
         },
         watch: {
             scripts: {
-                files: ['resources/js/*.js', 'resources/css/*.less'],
+                files: ['resources/js/*.js', 'resources/css/*.scss'],
                 tasks: ['build'],
                 options: {
                     spawn: false,
@@ -52,9 +55,9 @@ module.exports = function (grunt) {
 
     grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-contrib-uglify');
+    grunt.loadNpmTasks('grunt-sass');
     grunt.loadNpmTasks('grunt-contrib-cssmin');
-    grunt.loadNpmTasks('grunt-contrib-less');
     grunt.loadNpmTasks('grunt-contrib-watch');
 
-    grunt.registerTask('build', ['concat', 'uglify', 'less', 'cssmin']);
+    grunt.registerTask('build', ['concat', 'uglify', 'sass', 'cssmin']);
 };

@@ -52,8 +52,8 @@ class HierarchyListService
         $userSettings = Yii::$app->user->isGuest ? null : Yii::$app->user->getIdentity()->getSettings();
 
         foreach ($this->items as $id => $item) {
-            if ($item->parentId !== null &&
-                isset($this->items[$item->parentId])) {
+            if ($item->parentId !== null
+                && isset($this->items[$item->parentId])) {
                 $this->items[$item->parentId]->isCategory = true;
             }
 
@@ -134,8 +134,8 @@ class HierarchyListService
     public function getCurrentPageId(): ?int
     {
         $controller = Yii::$app->controller;
-        if (!($controller instanceof PageController) ||
-            !$this->container->is($controller->contentContainer)) {
+        if (!($controller instanceof PageController)
+            || !$this->container->is($controller->contentContainer)) {
             return null;
         }
 

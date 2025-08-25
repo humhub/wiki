@@ -1,20 +1,22 @@
 <?php
 
-use humhub\libs\Html;
+use humhub\components\View;
+use humhub\helpers\Html;
 use humhub\modules\topic\models\Topic;
-use humhub\modules\topic\widgets\TopicLabel;
-use humhub\modules\wiki\widgets\WikiRichText;
-use humhub\widgets\Button;
+use humhub\modules\topic\widgets\TopicBadge;
 use humhub\modules\wiki\helpers\Url;
+use humhub\modules\wiki\models\WikiPage;
+use humhub\modules\wiki\widgets\WikiRichText;
+use humhub\widgets\bootstrap\Button;
 
-/* @var $this \humhub\modules\ui\view\components\View */
-/* @var $page \humhub\modules\wiki\models\WikiPage */
+/* @var $this View */
+/* @var $page WikiPage */
 /* @var $canEdit bool */
 /* @var $content string */
 ?>
-<div class="topic-label-list">
+<div class="topic-badge-list">
 <?php foreach ($page->content->getTags(Topic::class)->all() as $topic) : ?>
-    <?= TopicLabel::forTopic($topic) ?>
+    <?= TopicBadge::forTopic($topic) ?>
 <?php endforeach; ?>
 </div>
 
@@ -29,5 +31,5 @@ use humhub\modules\wiki\helpers\Url;
 <?php else: ?>
     <br>
     <?= Yii::t('WikiModule.base', 'This page is empty.')?><br><br>
-    <?= Button::info(Yii::t('WikiModule.base', 'Edit page'))->link(Url::toWikiEdit($page))->icon('fa-pencil-square-o')->visible($canEdit) ?>
+    <?= Button::accent(Yii::t('WikiModule.base', 'Edit page'))->link(Url::toWikiEdit($page))->icon('fa-pencil-square-o')->visible($canEdit) ?>
 <?php endif; ?>

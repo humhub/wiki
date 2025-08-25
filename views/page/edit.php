@@ -1,21 +1,21 @@
 <?php
 
-use humhub\libs\Html;
+use humhub\components\View;
+use humhub\helpers\Html;
 use humhub\modules\content\components\ContentContainerActiveRecord;
-use humhub\modules\ui\form\widgets\ContentHiddenCheckbox;
-use humhub\modules\ui\form\widgets\ContentVisibilitySelect;
-use humhub\modules\ui\view\components\View;
+use humhub\modules\topic\widgets\TopicPicker;
 use humhub\modules\wiki\assets\Assets;
 use humhub\modules\wiki\helpers\Url;
 use humhub\modules\wiki\models\forms\PageEditForm;
-use humhub\modules\wiki\widgets\WikiEditor;
-use humhub\modules\ui\form\widgets\ActiveForm;
-use humhub\modules\wiki\widgets\WikiLinkModal;
 use humhub\modules\wiki\widgets\WikiContent;
+use humhub\modules\wiki\widgets\WikiEditor;
+use humhub\modules\wiki\widgets\WikiLinkJsModal;
 use humhub\modules\wiki\widgets\WikiPagePicker;
 use humhub\modules\wiki\widgets\WikiPath;
-use humhub\widgets\Button;
-use humhub\modules\topic\widgets\TopicPicker;
+use humhub\widgets\bootstrap\Button;
+use humhub\widgets\form\ActiveForm;
+use humhub\widgets\form\ContentHiddenCheckbox;
+use humhub\widgets\form\ContentVisibilitySelect;
 
 /* @var $this View */
 /* @var $model PageEditForm */
@@ -41,7 +41,7 @@ Assets::register($this);
                     <?= WikiPath::widget(['page' => $model->page]) ?>
                     <?php if (!$requireConfirmation) : ?>
                         <div>
-                            <?= Button::defaultType(Yii::t('WikiModule.base', 'Cancel'))
+                            <?= Button::light(Yii::t('WikiModule.base', 'Cancel'))
                                 ->link($model->page->isNewRecord ? Url::toOverview($model->container) : Url::toWiki($model->page)) ?>
                             <?= Button::save()->action('wiki.Form.submit') ?>
                         </div>
@@ -67,7 +67,7 @@ Assets::register($this);
                     <?= Yii::t(
                         'WikiModule.base',
                         '<strong>Warning!</strong><br><br>Another user has updated this page since you have started editing it. Please confirm that you want to overwrite those changes.<br>:linkToCompare',
-                        [':linkToCompare' => Button::asLink('<i class="fa fa-arrow-right"></i>&nbsp;' . Yii::t('WikiModule.base', 'Compare changes'))->action('compareOverwriting', $diffUrl)->cssClass('colorDanger')],
+                        [':linkToCompare' => Button::asLink(Yii::t('WikiModule.base', 'Compare changes'))->icon('arrow-right')->action('compareOverwriting', $diffUrl)->cssClass('text-danger')],
                     ); ?>
                 </div>
                 <?= $form->field($model, 'backOverwriting')->hiddenInput()->label(false); ?>
@@ -75,9 +75,9 @@ Assets::register($this);
 
                 <?= Button::save(Yii::t('WikiModule.base', 'Overwrite'))->submit() ?>
 
-                <?= Button::defaultType(Yii::t('WikiModule.base', 'Back'))->action('backOverwriting')->icon('back')->loader(false); ?>
+                <?= Button::light(Yii::t('WikiModule.base', 'Back'))->action('backOverwriting')->icon('back')->loader(false); ?>
 
-                <div class="pull-right">
+                <div class="float-end">
                     <?= Button::danger(Yii::t('WikiModule.base', 'Discard my changes'))->link($discardChangesUrl)->icon('close')->loader(true); ?>
                 </div>
             <?php else : ?>
@@ -131,7 +131,7 @@ Assets::register($this);
                 <?= $form->field($model->page, 'is_container_menu')->checkbox([
                     'disabled' => $model->isDisabledField('is_container_menu'),
                 ]) ?>
-                <div id="container_menu_order_field"<?php if (!$model->page->is_container_menu) : ?> style="display: none"<?php endif; ?>>
+                <div id="container_menu_order_field"<?= $model->page->is_container_menu ? '' : 'class="d-none"' ?>>
                     <?= $form->field($model->page, 'container_menu_order')->textInput([
                         'disabled' => $model->isDisabledField('container_menu_order'),
                     ]) ?>
@@ -145,7 +145,7 @@ Assets::register($this);
 
                 <hr>
 
-                <?= Button::defaultType(Yii::t('WikiModule.base', 'Cancel'))
+                <?= Button::light(Yii::t('WikiModule.base', 'Cancel'))
                     ->link($model->page->isNewRecord ? Url::toOverview($model->container) : Url::toWiki($model->page)) ?>
                 <?= Button::save()->submit() ?>
             </div>
@@ -158,10 +158,14 @@ Assets::register($this);
     </div>
 </div>
 
-<?= WikiLinkModal::widget(['contentContainer' => $contentContainer]) ?>
+<?= WikiLinkJsModal::widget(['contentContainer' => $contentContainer]) ?>
 
 <script <?= Html::nonce() ?>>
     $('input[name="WikiPage[is_container_menu]"]').click(function () {
-        $('#container_menu_order_field').toggle($(this).prop('checked'));
+        if ($(this).prop('checked')) {
+            $('#container_menu_order_field').removeClass('d-none');
+        } else {
+            $('#container_menu_order_field').addClass('d-none');
+        }
     })
 </script>

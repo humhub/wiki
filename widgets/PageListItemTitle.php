@@ -16,8 +16,8 @@ use Yii;
 
 class PageListItemTitle extends Widget
 {
-    public HierarchyListService|null $service = null;
-    public HierarchyItem|null $item = null;
+    public ?HierarchyListService $service = null;
+    public ?HierarchyItem $item = null;
 
     /**
      * @var string
@@ -81,9 +81,9 @@ class PageListItemTitle extends Widget
             }
         }
 
-        if ($this->titleInfo === null &&
-            $this->showNumFoldedSubpages &&
-            ($this->maxLevel !== null && $this->level === $this->maxLevel)) {
+        if ($this->titleInfo === null
+            && $this->showNumFoldedSubpages
+            && ($this->maxLevel !== null && $this->level === $this->maxLevel)) {
             if ($childrenCount = $this->service->getItemChildrenCount($this->item->id)) {
                 $this->titleInfo = Yii::t('WikiModule.base', '({n,plural,=1{+1 subpage}other{+{count} subpages}})', ['n' => $childrenCount, 'count' => $childrenCount]);
             }

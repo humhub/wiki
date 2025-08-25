@@ -13,7 +13,7 @@ use humhub\modules\wiki\widgets\CategoryListItem;
 /* @var $page WikiPage */
 ?>
 <?php if ($page->isCategory): ?>
-    <div class="wiki-sub-pages<?= Helper::isEnterpriseTheme() ? ' hidden-lg' : '' ?>">
+    <div class="wiki-sub-pages<?= Helper::isEnterpriseTheme() ? ' d-lg-none' : '' ?>">
         <ul class="wiki-page-list">
             <?= CategoryListItem::widget([
                 'service' => $service = new HierarchyListService($page->content->container),

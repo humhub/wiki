@@ -45,9 +45,9 @@ class EditPageLink extends WallEntryControlLink
      */
     public function preventRender()
     {
-        return $this->record->isNewRecord || // Exclude new Wiki Page
-            $this->record->content->canEdit() || // User with permission "Administer pages" already can edit it completely
-            !$this->record->canEditContent(); // Permission "Edit pages" is required for this "Edit Page" link
+        return $this->record->isNewRecord // Exclude new Wiki Page
+            || $this->record->content->canEdit() // User with permission "Administer pages" already can edit it completely
+            || !$this->record->canEditContent(); // Permission "Edit pages" is required for this "Edit Page" link
     }
 
     /**

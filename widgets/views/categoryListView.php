@@ -5,7 +5,7 @@
  * @license https://www.humhub.com/licences
  */
 
-use humhub\libs\Html;
+use humhub\helpers\Html;
 use humhub\modules\content\components\ContentContainerActiveRecord;
 use humhub\modules\wiki\models\HierarchyItem;
 use humhub\modules\wiki\services\HierarchyListService;

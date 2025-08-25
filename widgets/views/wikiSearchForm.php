@@ -5,10 +5,10 @@
  * @license https://www.humhub.com/licences
  */
 
-use humhub\libs\Html;
+use humhub\helpers\Html;
 use humhub\modules\ui\icon\widgets\Icon;
-use humhub\widgets\Button;
-use yii\widgets\ActiveForm;
+use humhub\widgets\bootstrap\Button;
+use humhub\widgets\form\ActiveForm;
 
 /* @var $placeholder string */
 /* @var $keyword string */
@@ -19,6 +19,6 @@ use yii\widgets\ActiveForm;
 
 <?= Html::textInput('keyword', $keyword, ['placeholder' => $placeholder, 'class' => 'form-control']) ?>
 
-<?= Button::defaultType(Icon::get('search'))->submit() ?>
+<?= Button::light(Icon::get('search'))->submit() ?>
 
 <?php ActiveForm::end() ?>

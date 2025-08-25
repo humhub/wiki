@@ -2,7 +2,7 @@
 
 namespace humhub\modules\wiki;
 
-use humhub\libs\Html;
+use humhub\helpers\Html;
 use humhub\modules\content\components\ContentContainerActiveRecord;
 use humhub\modules\content\widgets\WallEntryControls;
 use humhub\modules\legal\events\UserDataCollectionEvent;

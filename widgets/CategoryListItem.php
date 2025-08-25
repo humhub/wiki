@@ -18,8 +18,8 @@ use humhub\modules\wiki\services\HierarchyListService;
 
 class CategoryListItem extends Widget
 {
-    public HierarchyListService|null $service = null;
-    public HierarchyItem|null $item = null;
+    public ?HierarchyListService $service = null;
+    public ?HierarchyItem $item = null;
 
     /**
      * @var string

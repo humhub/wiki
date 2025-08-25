@@ -10,21 +10,20 @@ use humhub\modules\ui\icon\widgets\Icon;
 use humhub\modules\wiki\helpers\Helper;
 use humhub\modules\wiki\helpers\Url;
 use humhub\modules\wiki\widgets\WikiSearchForm;
-use humhub\widgets\Button;
+use humhub\widgets\bootstrap\Button;
 
 /* @var $icon string */
 /* @var $title string */
 /* @var $contentContainer ContentContainerActiveRecord */
 /* @var $canCreate bool */
 ?>
-<div class="wiki-page-content-header">
+<div class="wiki-page-content-header clearfix">
     <h3><?= ($icon ? Icon::get($icon) : '') . $title ?></h3>
-    <?= WikiSearchForm::widget(['contentContainer' => $contentContainer, 'cssClass' => Helper::isEnterpriseTheme() ? 'hidden-lg' : '']) ?>
+    <?= WikiSearchForm::widget(['contentContainer' => $contentContainer, 'cssClass' => Helper::isEnterpriseTheme() ? 'd-lg-none' : '']) ?>
     <div class="wiki-page-content-header-actions">
-        <?= Button::info(Yii::t('WikiModule.base', 'Index'))->icon('fa-home')
-            ->link(Url::toHome($contentContainer))->sm()->cssClass(Helper::isEnterpriseTheme() ? 'hidden-lg' : '') ?>
-        <?= Button::info(Yii::t('WikiModule.base', 'Create page'))->icon('fa-plus')
+        <?= Button::accent(Yii::t('WikiModule.base', 'Index'))->icon('fa-home')
+            ->link(Url::toHome($contentContainer))->sm()->cssClass(Helper::isEnterpriseTheme() ? 'd-lg-none' : '') ?>
+        <?= Button::accent(Yii::t('WikiModule.base', 'Create page'))->icon('fa-plus')
             ->link(Url::toWikiCreate($contentContainer))->visible($canCreate)->sm() ?>
     </div>
-    <div class="clearfix"></div>
 </div>

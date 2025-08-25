@@ -8,7 +8,7 @@
 
 namespace humhub\modules\wiki\helpers;
 
-use humhub\modules\ui\view\helpers\ThemeHelper;
+use humhub\helpers\ThemeHelper;
 use Yii;
 
 /**

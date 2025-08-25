@@ -42,9 +42,9 @@ class WikiController extends BaseContentController
 
     private function saveWikiPage(PageEditForm $wikiForm): bool
     {
-        return $wikiForm->load($data = Yii::$app->request->getBodyParams()) &&
-            $wikiForm->save() &&
-            (!method_exists($this, 'updateContent') || $this->updateContent($wikiForm->page, $data));
+        return $wikiForm->load($data = Yii::$app->request->getBodyParams())
+            && $wikiForm->save()
+            && (!method_exists($this, 'updateContent') || $this->updateContent($wikiForm->page, $data));
     }
 
     public function actionCreate($containerId)

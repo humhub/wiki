@@ -1,6 +1,10 @@
 Changelog
 =========
 
+2.5.3 (August 25, 2025)
+-----------------------
+- Enh #376: Migration to Bootstrap 5 for HumHub 1.18
+
 2.4.0 (July 11, 2025)
 ---------------------
 - Enh #380: Use content ID in the "Custom Pages" extension
@@ -15,6 +19,12 @@ Changelog
 
 2.3.7 (February 12, 2025)
 -------------------------
+2.4.0 (unreleased)
+-------------------------
+- Enh #376: Migration to Bootstrap 5 for HumHub 1.18
+
+2.3.7 (Unreleased)
+-----------------------
 - Enh #358: Replaced the `fa-file-word-o` icon with the `fa-book` icon
 - Fix #361: Fix wiki link added by RichText editor
 - Fix #367: Fix wall entry controls style

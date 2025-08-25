@@ -10,7 +10,7 @@ namespace humhub\modules\wiki\assets;
 
 use humhub\assets\JqueryWidgetAsset;
 use humhub\components\assets\AssetBundle;
-use humhub\modules\ui\view\components\View;
+use humhub\components\View;
 use humhub\modules\wiki\helpers\Url;
 use humhub\modules\wiki\Module;
 use Yii;
