@@ -134,7 +134,7 @@ $wiki-mobile-grid-breakpoints: 520px;
 
                 a {
                     padding: 3px 15px;
-                    color: var(--bs-info) !important;
+                    color: var(--bs-accent) !important;
 
                     > span {
                         font-weight: 600;
@@ -240,7 +240,7 @@ $wiki-mobile-grid-breakpoints: 520px;
 
             .wiki-page-path {
                 a {
-                    color: var(--bs-info);
+                    color: var(--bs-accent);
 
                     &:hover {
                         color: var(--hh-text-color-highlight);
@@ -301,7 +301,7 @@ $wiki-mobile-grid-breakpoints: 520px;
             }
 
             a {
-                color: var(--bs-info);
+                color: var(--bs-accent);
             }
 
             ul.wiki-page-list {

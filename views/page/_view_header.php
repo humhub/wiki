@@ -46,7 +46,7 @@ if (empty($buttons)) {
         <?php endif; ?>
 
         <?php if ($page->content->isPublic()) : ?>
-            <?= Icon::get('globe')->tooltip(Yii::t('ContentModule.widgets_views_label', 'Public'))->color('info') ?>
+            <?= Icon::get('globe')->tooltip(Yii::t('ContentModule.widgets_views_label', 'Public'))->color('accent') ?>
         <?php endif; ?>
 
         <?php if ($page->admin_only) : ?>
