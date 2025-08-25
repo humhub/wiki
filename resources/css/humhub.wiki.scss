@@ -1,7 +1,7 @@
 // Import Bootstrap breakpoint functions
-@import "../../../../vendor/bower-asset/bootstrap/scss/functions";
-@import "../../../../vendor/bower-asset/bootstrap/scss/variables";
-@import "../../../../vendor/bower-asset/bootstrap/scss/mixins/breakpoints";
+@import "/opt/humhub/protected/vendor/bower-asset/bootstrap/scss/functions";
+@import "/opt/humhub/protected/vendor/bower-asset/bootstrap/scss/variables";
+@import "/opt/humhub/protected/vendor/bower-asset/bootstrap/scss/mixins/breakpoints";
 
 $wiki-mobile-grid-breakpoints: 520px;
 
