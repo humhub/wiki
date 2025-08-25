@@ -95,7 +95,7 @@
 }
 .layout-content-container .wiki-page-index .nav li a {
   padding: 3px 15px;
-  color: var(--bs-info) !important;
+  color: var(--bs-accent) !important;
 }
 .layout-content-container .wiki-page-index .nav li a > span {
   font-weight: 600;
@@ -169,7 +169,7 @@
   margin-left: 2px;
 }
 .layout-content-container .wiki-page-content .wiki-headline .wiki-page-path a {
-  color: var(--bs-info);
+  color: var(--bs-accent);
 }
 .layout-content-container .wiki-page-content .wiki-headline .wiki-page-path a:hover {
   color: var(--hh-text-color-highlight);
@@ -214,7 +214,7 @@
   padding-left: 3px;
 }
 .layout-content-container .wiki-page-content .wiki-sub-pages a {
-  color: var(--bs-info);
+  color: var(--bs-accent);
 }
 .layout-content-container .wiki-page-content .wiki-sub-pages ul.wiki-page-list {
   padding: 0;
@@ -242,7 +242,7 @@
   color: var(--hh-text-color-main);
 }
 .layout-content-container .wiki-content .wiki-content-info a:hover {
-  color: var(--bs-info);
+  color: var(--bs-accent);
 }
 .layout-content-container .wiki-content [data-wiki-page] {
   color: var(--hh-wiki-link-color-wiki-page) !important;
@@ -293,7 +293,7 @@
   cursor: default;
 }
 .layout-content-container .wiki-content ul.wiki-page-list .page-title:hover {
-  border-color: var(--bs-info);
+  border-color: var(--bs-accent);
 }
 .layout-content-container .wiki-content ul.wiki-page-list .page-title:hover .wiki-category-add {
   display: block;
@@ -565,7 +565,7 @@
   font-weight: 600;
 }
 #category_list_view .wiki-current-target-category > .page-title {
-  border-color: var(--bs-info);
+  border-color: var(--bs-accent);
 }
 #category_list_view .ui-sortable-drop-area + .wiki-current-target-category > .page-title {
   border-color: transparent;
@@ -721,7 +721,7 @@
   margin-bottom: 0;
 }
 .wiki-page-list-table .table-responsive table a:hover {
-  color: var(--bs-info);
+  color: var(--bs-accent);
 }
 .wiki-page-list-table .table-responsive table .wiki-page-list-row-title {
   font-size: 14px;
@@ -756,8 +756,8 @@
 .wiki-page-list-table .table-responsive .pagination > .active > span:hover,
 .wiki-page-list-table .table-responsive .pagination > .active > a:focus,
 .wiki-page-list-table .table-responsive .pagination > .active > span:focus {
-  background-color: var(--bs-info);
-  border-color: var(--bs-info);
+  background-color: var(--bs-accent);
+  border-color: var(--bs-accent);
 }
 
 @media (max-width: 1199.98px) {

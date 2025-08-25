@@ -340,7 +340,7 @@ $wiki-mobile-grid-breakpoints: 520px;
                 color: var(--hh-text-color-main);
 
                 &:hover {
-                    color: var(--bs-info);
+                    color: var(--bs-accent);
                 }
             }
         }
@@ -404,7 +404,7 @@ $wiki-mobile-grid-breakpoints: 520px;
                 }
 
                 &:hover {
-                    border-color: var(--bs-info);
+                    border-color: var(--bs-accent);
 
                     .wiki-category-add {
                         display: block;
@@ -771,7 +771,7 @@ $wiki-mobile-grid-breakpoints: 520px;
 
     .wiki-current-target-category {
         > .page-title {
-            border-color: var(--bs-info);
+            border-color: var(--bs-accent);
         }
     }
 
@@ -970,7 +970,7 @@ $wiki-mobile-grid-breakpoints: 520px;
 
         table {
             a:hover {
-                color: var(--bs-info);
+                color: var(--bs-accent);
             }
 
             .wiki-page-list-row-title {
@@ -1012,8 +1012,8 @@ $wiki-mobile-grid-breakpoints: 520px;
         .pagination > .active > span:hover,
         .pagination > .active > a:focus,
         .pagination > .active > span:focus {
-            background-color: var(--bs-info);
-            border-color: var(--bs-info);
+            background-color: var(--bs-accent);
+            border-color: var(--bs-accent);
         }
     }
 }
