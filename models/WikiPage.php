@@ -261,9 +261,9 @@ class WikiPage extends ContentActiveRecord implements Searchable
         }
 
         // Additional checking when user has no permission "Administer pages"
-        return !$this->isNewRecord &&
-            !$this->admin_only &&
-            $this->content->container->getPermissionManager($user)->can(EditPages::class);
+        return !$this->isNewRecord
+            && !$this->admin_only
+            && $this->content->container->getPermissionManager($user)->can(EditPages::class);
     }
 
     /**

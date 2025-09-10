@@ -132,8 +132,8 @@ class WikiPageRevision extends ActiveRecord
      */
     private function createOrFindPageByTitle(string $title): ?WikiPage
     {
-        if (preg_match('/^\d+$/', $title) &&
-            WikiPage::find()->contentContainer($this->page->content->container)->where(['wiki_page.id' => $title])->exists()) {
+        if (preg_match('/^\d+$/', $title)
+            && WikiPage::find()->contentContainer($this->page->content->container)->where(['wiki_page.id' => $title])->exists()) {
             // Exclude case when title is ID of the existing Wiki Page
             return null;
         }
