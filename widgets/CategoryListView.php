@@ -30,7 +30,7 @@ class CategoryListView extends JsWidget
      */
     public $init = true;
 
-    public HierarchyListService|null $service = null;
+    public ?HierarchyListService $service = null;
 
     /**
      * @var ContentContainerActiveRecord
