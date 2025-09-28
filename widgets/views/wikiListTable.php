@@ -5,7 +5,7 @@
  * @license https://www.humhub.com/licences
  */
 
-use humhub\libs\Html;
+use humhub\helpers\Html;
 use humhub\modules\wiki\models\WikiPage;
 use humhub\widgets\GridView;
 use yii\data\ActiveDataProvider;

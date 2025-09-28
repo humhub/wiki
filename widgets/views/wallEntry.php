@@ -3,7 +3,7 @@
 use humhub\modules\wiki\assets\Assets;
 use humhub\modules\wiki\helpers\Url;
 use humhub\modules\wiki\models\WikiPage;
-use humhub\widgets\Button;
+use humhub\widgets\bootstrap\Button;
 
 /* @var $wiki WikiPage */
 /* @var $content string */
