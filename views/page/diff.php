@@ -1,10 +1,10 @@
 <?php
 
-use humhub\modules\ui\view\components\View;
+use humhub\components\View;
 use humhub\modules\wiki\models\WikiPage;
 use humhub\modules\wiki\models\WikiPageRevision;
-use humhub\modules\wiki\widgets\WikiMenu;
 use humhub\modules\wiki\widgets\WikiContent;
+use humhub\modules\wiki\widgets\WikiMenu;
 use humhub\modules\wiki\widgets\WikiRichText;
 use yii\helpers\Html;
 
@@ -27,7 +27,7 @@ humhub\modules\wiki\assets\Assets::register($this);
             ]) ?>
 
             <div class="row">
-                <div class="col-xs-6">
+                <div class="col-6">
                     <strong>
                         <?php if ($revision1->isCurrentlyEditing) : ?>
                             <?= Yii::t('WikiModule.base', 'Your current version'); ?>
@@ -39,7 +39,7 @@ humhub\modules\wiki\assets\Assets::register($this);
                         <?php endif; ?>
                     </strong>
                 </div>
-                <div class="col-xs-6">
+                <div class="col-6">
                     <strong>
                         <?php if ($revision2->isCurrentlyEditing) : ?>
                             <?= Yii::t('WikiModule.base', 'Your current version'); ?>
@@ -56,12 +56,12 @@ humhub\modules\wiki\assets\Assets::register($this);
             <hr class="wiki-headline-seperator">
 
             <div class="row">
-                <div class="col-xs-6 wiki-page-revision1">
+                <div class="col-6 wiki-page-revision1">
                     <div id="wiki-page-revision1" class="markdown-render" data-ui-widget="wiki.Page" data-ui-init="1" style="display:none">
                         <?= WikiRichText::output($revision1->content, ['id' => 'wiki-page-richtext']) ?>
                     </div>
                 </div>
-                <div class="col-xs-6 wiki-page-revision2">
+                <div class="col-6 wiki-page-revision2">
                     <div class="markdown-render" data-ui-widget="wiki.Page" data-ui-init="1" data-diff="#wiki-page-revision1" style="display:none">
                         <?= WikiRichText::output($revision2->content, ['id' => 'wiki-page-richtext']) ?>
                     </div>

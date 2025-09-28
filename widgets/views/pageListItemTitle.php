@@ -5,11 +5,11 @@
  * @license https://www.humhub.com/licences
  */
 
-use humhub\libs\Html;
+use humhub\helpers\Html;
 use humhub\modules\ui\icon\widgets\Icon;
 use humhub\modules\wiki\models\HierarchyItem;
 use humhub\modules\wiki\services\HierarchyListService;
-use humhub\widgets\Button;
+use humhub\widgets\bootstrap\Button;
 
 /* @var $service HierarchyListService */
 /* @var $item HierarchyItem */
@@ -34,8 +34,9 @@ use humhub\widgets\Button;
         <span class="page-title-icon"><?= Icon::get($titleIcon) ?></span>
     <?php endif; ?>
     <?php if ($item && $showAddPage) : ?>
-        <?= Button::asLink(null, $service->getNewWikiPageUrl($item))->icon('fa-plus')
-            ->cssClass('wiki-page-control tt wiki-category-add')
-            ->title(Yii::t('WikiModule.base', 'Add Page')) ?>
+        <?= Button::asLink(null, $service->getNewWikiPageUrl($item))
+            ->icon('plus')
+            ->cssClass('wiki-page-control wiki-category-add')
+            ->tooltip(Yii::t('WikiModule.base', 'Add Page')) ?>
     <?php endif; ?>
 <?= Html::endTag('div') ?>

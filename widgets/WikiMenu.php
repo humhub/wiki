@@ -19,7 +19,7 @@ use humhub\modules\wiki\models\WikiPage;
 use humhub\modules\wiki\models\WikiPageRevision;
 use humhub\modules\wiki\permissions\AdministerPages;
 use humhub\modules\wiki\permissions\ViewHistory;
-use humhub\widgets\Link;
+use humhub\widgets\bootstrap\Link;
 use Yii;
 
 class WikiMenu extends WallEntryControls
@@ -245,7 +245,7 @@ class WikiMenu extends WallEntryControls
                 $btnTypeClass = 'btn-' . $htmlOptions['btn-type'];
                 unset($htmlOptions['btn-type']);
             } else {
-                $btnTypeClass = 'btn-info';
+                $btnTypeClass = 'btn-accent';
             }
             return Link::to($button->icon . ' ' . $button->getLabel(), $button->getUrl())
                 ->cssClass('btn btn-sm ' . $btnTypeClass)

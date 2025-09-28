@@ -5,10 +5,10 @@
  * @license https://www.humhub.com/licences
  */
 
-use humhub\libs\Html;
+use humhub\helpers\Html;
 use humhub\modules\wiki\helpers\Url;
 use humhub\modules\wiki\models\WikiPage;
-use humhub\widgets\Link;
+use humhub\widgets\bootstrap\Link;
 use humhub\widgets\TimeAgo;
 
 /* @var WikiPage $wikiPage */

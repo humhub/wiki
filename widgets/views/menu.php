@@ -5,7 +5,7 @@
  * @license https://www.humhub.com/licences
  */
 
-use humhub\libs\Html;
+use humhub\helpers\Html;
 use humhub\modules\ui\menu\MenuEntry;
 use humhub\modules\wiki\widgets\WikiMenu;
 
@@ -23,9 +23,9 @@ use humhub\modules\wiki\widgets\WikiMenu;
             <button class="btn btn-info btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"">
                 <span class="caret"></span>
             </button>
-            <ul class="dropdown-menu pull-right">
+            <ul class="dropdown-menu dropdown-menu-end">
                 <?php foreach ($entries as $entry) : ?>
-                    <li><?= $entry->render() ?></li>
+                    <li><?= $entry->render(['class' => 'dropdown-item']) ?></li>
                 <?php endforeach; ?>
             </ul>
         <?= Html::endTag('div')?>

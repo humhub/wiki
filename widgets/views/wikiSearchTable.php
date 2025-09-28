@@ -5,9 +5,9 @@
  * @license https://www.humhub.com/licences
  */
 
-use humhub\libs\Html;
+use humhub\helpers\Html;
 use humhub\modules\content\search\ResultSet;
-use humhub\widgets\LinkPager;
+use humhub\widgets\bootstrap\LinkPager;
 use yii\web\View;
 
 /* @var View $this */

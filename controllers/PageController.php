@@ -3,7 +3,7 @@
 namespace humhub\modules\wiki\controllers;
 
 use humhub\components\access\ControllerAccess;
-use humhub\libs\Html;
+use humhub\helpers\Html;
 use humhub\modules\wiki\helpers\HeadlineExtractor;
 use humhub\modules\wiki\helpers\Url;
 use humhub\modules\wiki\models\DefaultSettings;
