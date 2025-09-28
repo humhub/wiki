@@ -77,7 +77,7 @@ class WikiCest
 
         $I->amOnUser1Profile();
         $I->click('Wiki', '.layout-nav-container');
-        $I->waitForText('Wiki', null, '.wiki-content');
+        $I->waitForText('Wiki', 15, '.wiki-content');
         $I->see('First Public Profile Wiki Page', '.wiki-page-list');
         $I->dontSee('First Private Profile Wiki Page', '.wiki-page-list');
     }
