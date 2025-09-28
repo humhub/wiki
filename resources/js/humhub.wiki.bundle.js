@@ -202,7 +202,7 @@ humhub.module('wiki.Page', function (module, require, $) {
     Page.prototype.buildIndex = function () {
         var $list = $('<ul class="nav nav-pills nav-stacked">');
 
-        var $listHeader = $('<li><a href="#">' + wikiView.text('pageindex') + '</li></a>').on('click', function (evt) {
+        var $listHeader = $('<li class="nav-item"><a href="#" class="nav-link">' + wikiView.text('pageindex') + '</li></a>').on('click', function (evt) {
             evt.preventDefault();
             var $siblings = $(this).siblings(':not(.nav-divider)');
             if ($siblings.first().is(':visible')) {
@@ -262,7 +262,7 @@ humhub.module('wiki.Page', function (module, require, $) {
 
             var $li = $('<li>');
 
-            var cssClass = 'wiki-page-index-section wiki-page-index-section-level' + currentHeaderLevel;
+            var cssClass = 'nav-item wiki-page-index-section wiki-page-index-section-level' + currentHeaderLevel;
 
             $li.addClass(cssClass);
 
@@ -410,6 +410,7 @@ humhub.module('wiki.CategoryListView', function(module, require, $) {
         this.initFoldingSubpages();
         this.initSorting();
         this.initPageTitleLink();
+        this.initDragButtonHoverDelay();
     }
 
     CategoryListView.prototype.initFoldingSubpages = function() {
@@ -657,6 +658,29 @@ humhub.module('wiki.CategoryListView', function(module, require, $) {
         });
     };
 
+    CategoryListView.prototype.initDragButtonHoverDelay = function() {
+        const HOVER_DELAY = 1000;
+        const dragClass = '.wiki-page-control.drag-icon';
+    
+        this.$.find('.page-title').each(function () {
+            const $item = $(this);
+            const $dragBtn = $item.find(dragClass);
+    
+            let timer = null;
+    
+            $item.on('mouseenter', function () {
+                timer = setTimeout(() => {
+                    $dragBtn.addClass('visible');
+                }, HOVER_DELAY);
+            });
+    
+            $item.on('mouseleave', function () {
+                clearTimeout(timer);
+                $dragBtn.removeClass('visible');
+            });
+        });
+    };
+
     module.export = CategoryListView;
 });
 
@@ -726,7 +750,8 @@ humhub.module('wiki.linkExtension', function (module, require, $) {
                 },
                 toMarkdown: function (state, node) {
                     var link = 'wiki:' + node.attrs.wikiId;
-                    state.write("[" + state.esc(node.attrs.label) + "](" + state.esc(link) + ' "'+node.attrs.anchor+'")');
+                    var anchor = node.attrs.anchor ? ' ' + state.quote(node.attrs.anchor + '') : '';
+                    state.write('[' + state.esc(node.attrs.label) + '](' + state.esc(link) + anchor + ')');
                 }
             }
         }
@@ -928,6 +953,7 @@ humhub.module('wiki.linkExtension', function (module, require, $) {
         setEditorLink: setEditorLink
     });
 });
+
 humhub.module('wiki.History', function(module, require, $) {
     var Widget = require('ui.widget').Widget;
     var client = require('client');

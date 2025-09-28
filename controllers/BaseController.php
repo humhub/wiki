@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @link https://www.humhub.org/
  * @copyright Copyright (c) 2018 HumHub GmbH & Co. KG
@@ -15,16 +16,14 @@ use humhub\modules\wiki\permissions\ViewHistory;
 use Yii;
 use yii\web\NotFoundHttpException;
 
-
 /**
  * Class BaseController
  * @package humhub\modules\wiki\controllers
  */
 abstract class BaseController extends ContentContainerController
 {
-
     /**
-     * @return boolean can create new wiki site
+     * @return bool can create new wiki site
      * @throws \yii\base\InvalidConfigException
      */
     public function canCreatePage()
@@ -33,7 +32,7 @@ abstract class BaseController extends ContentContainerController
     }
 
     /**
-     * @return boolean can view wiki page history?
+     * @return bool can view wiki page history?
      * @throws \yii\base\InvalidConfigException
      */
     public function canViewHistory()
@@ -51,7 +50,7 @@ abstract class BaseController extends ContentContainerController
     }
 
     /**
-     * @return boolean can manage wiki sites?
+     * @return bool can manage wiki sites?
      * @throws \yii\base\InvalidConfigException
      */
     public function canAdminister()
@@ -64,9 +63,9 @@ abstract class BaseController extends ContentContainerController
      * @return bool
      * @throws \yii\base\Exception
      */
-    protected function hasPages()
+    protected function hasPages(): bool
     {
-        return (WikiPage::find()->contentContainer($this->contentContainer)->count() > 0);
+        return WikiPage::find()->contentContainer($this->contentContainer)->exists();
     }
 
     /**

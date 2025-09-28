@@ -1,5 +1,5 @@
 <?php
-return array (
+return [
   '({n,plural,=1{+1 subpage}other{+{count} subpages}})' => '({n,plural,=1{+1 sous-page}other{+{count} sous-pages}})',
   '<strong>Confirm</strong> page reverting' => '<strong>Confirmer</strong> le retour à une version précédente',
   '<strong>Warning!</strong><br><br>Another user has updated this page since you have started editing it. Please confirm that you want to overwrite those changes.<br>:linkToCompare' => '<strong>Attention !</strong><br><br>Un autre utilisateur ou une autre utilisatrice a mis cette page à jour depuis que vous avez commencé à la modifier. Veuillez confirmer que vous souhaitez écraser ses modifications.<br>:linkToCompare',
@@ -31,12 +31,13 @@ return array (
   'Go back' => 'Retour',
   'Headline' => 'Gros titre',
   'Here you can configure default settings the wiki module.' => 'Ici, vous pouvez configurer les paramètres par défaut du module Wiki',
+  'Hide Navigation Entries of this module globally by default' => 'Masquer globalement par défaut les entrées de navigation de ce module',
+  'Hide Navigation Entry' => 'Masquer l’entrée de navigation',
   'History' => 'Historique',
   'Home' => 'Accueil',
   'In order to edit all fields, you need the permission to administer wiki pages.' => 'Pour pouvoir modifier tous les champs, vous devez avoir l\'autorisation d\'administrer les pages wiki.',
   'Index' => 'Toutes les pages',
   'Invalid category!' => 'Catégorie non valide.',
-  'Invalid character in page title!' => 'Caractère non valide dans le titre de la page.',
   'Is Public' => 'est publique',
   'Is homepage' => 'est la page de garde',
   'Label' => 'Étiquette',
@@ -47,6 +48,7 @@ return array (
   'Module name' => 'Nom du module',
   'New page' => 'Nouvelle page',
   'New page title' => 'Titre de la nouvelle page',
+  'No wiki pages found.' => 'Aucune page de wiki trouvée.',
   'None' => 'Aucune',
   'Overwrite' => 'Écraser',
   'Overwrite all changes made by :userName on :dateTime.' => 'Écrase toutes les modifications effectuées par :userName le :dateTime.',
@@ -57,7 +59,6 @@ return array (
   'Page not editable!' => 'Page non modifiable.',
   'Page not found' => 'Page non trouvée',
   'Page not found.' => 'Page non trouvée.',
-  'Page title already in use!' => 'Ce titre est déjà utilisé.',
   'Parent Page' => 'Page parente',
   'Permission denied. You have no rights to view the history.' => 'Permission refusée. Vous n\'avez pas les droits suffisants pour voir l\'historique.',
   'Protected' => 'Protégée',
@@ -77,11 +78,14 @@ return array (
   'There are no entries yet :(' => 'Il n’y a encore aucune entrée :(',
   'This field only allows a maximum 1 page.' => 'Ce champ n’autorise qu’une seule page.',
   'This page is empty.' => 'Cette page est vide.',
+  'Whenever someone edits a wiki page.' => 'Lorsque quelqu’un modifie une page de wiki.',
   'Wiki' => 'Wiki',
   'Wiki page' => 'Page Wiki',
+  'Wiki page content ID' => 'ID de contenu de la page de wiki',
+  'Wiki pages' => 'Pages de wiki',
   'Your current version' => 'Votre version actuelle',
   'by' => 'par',
   'last update {dateTime}' => 'dernière mise à jour {dateTime}',
   'show changes' => 'afficher les modifications',
   '{userName} edited the Wiki page "{wikiPageTitle}".' => '{userName} a modifié la page "{wikiPageTitle}" du wiki.',
-);
+];

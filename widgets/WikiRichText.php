@@ -1,6 +1,5 @@
 <?php
 
-
 namespace humhub\modules\wiki\widgets;
 
 use humhub\modules\file\models\File;

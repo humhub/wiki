@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @link https://www.humhub.org/
  * @copyright Copyright (c) 2017 HumHub GmbH & Co. KG
@@ -39,7 +40,7 @@ class FunctionalTester extends \FunctionalTester
      */
     public function createWiki($space, $title, $content, $options = [])
     {
-        if($space instanceof Space) {
+        if ($space instanceof Space) {
             $space = $space->guid;
         }
         #
@@ -47,23 +48,23 @@ class FunctionalTester extends \FunctionalTester
         $this->fillField('WikiPage[title]', $title);
         $this->fillField('WikiPageRevision[content]', $content);
 
-        if(isset($options['is_home']) && $options['is_home']) {
+        if (isset($options['is_home']) && $options['is_home']) {
             $this->checkOption('WikiPage[is_home]');
         }
 
-        if(isset($options['admin_only']) && $options['admin_only']) {
+        if (isset($options['admin_only']) && $options['admin_only']) {
             $this->checkOption('#wikipage-admin_only');
         }
 
-        if(isset($options['is_home']) && $options['is_home']) {
+        if (isset($options['is_home']) && $options['is_home']) {
             $this->checkOption('#wikipage-is_home');
         }
 
-        if(isset($options['isPublic']) && $options['isPublic']) {
+        if (isset($options['isPublic']) && $options['isPublic']) {
             $this->checkOption('#pageeditform-ispublic');
         }
 
-        if(isset($options['topics']) && $options['topics']) {
+        if (isset($options['topics']) && $options['topics']) {
             $this->checkOption('PageEditForm[topics]');
         }
 

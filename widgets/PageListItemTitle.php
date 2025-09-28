@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @link https://www.humhub.org/
  * @copyright Copyright (c) 2021 HumHub GmbH & Co. KG
@@ -8,16 +9,15 @@
 namespace humhub\modules\wiki\widgets;
 
 use humhub\components\Widget;
-use humhub\modules\wiki\helpers\Helper;
-use humhub\modules\wiki\models\WikiPage;
+use humhub\modules\ui\icon\widgets\Icon;
+use humhub\modules\wiki\models\HierarchyItem;
+use humhub\modules\wiki\services\HierarchyListService;
 use Yii;
 
 class PageListItemTitle extends Widget
 {
-    /**
-     * @var WikiPage
-     */
-    public $page = null;
+    public ?HierarchyListService $service = null;
+    public ?HierarchyItem $item = null;
 
     /**
      * @var string
@@ -71,28 +71,31 @@ class PageListItemTitle extends Widget
     {
         $icon = $this->iconCategoryOpened;
 
-        if ($this->page) {
-            $this->title = $this->page->title;
-            if ($this->page->isCategory) {
+        if ($this->item) {
+            $this->title = $this->item->title;
+            if ($this->item->isCategory) {
                 $displaySubPages = $this->maxLevel === null || $this->level < $this->maxLevel;
-                $icon = !$displaySubPages || $this->page->isFolded() ? $this->iconCategoryFolded : $this->iconCategoryOpened;
+                $icon = !$displaySubPages || $this->item->isFolded ? $this->iconCategoryFolded : $this->iconCategoryOpened;
             } else {
                 $icon = $this->iconPage;
             }
         }
 
-        if ($this->titleInfo === null &&
-            $this->showNumFoldedSubpages &&
-            ($this->maxLevel !== null && $this->level === $this->maxLevel) &&
-            $this->page->childrenCount) {
-            $this->titleInfo = Yii::t('WikiModule.base', '({n,plural,=1{+1 subpage}other{+{count} subpages}})', ['n' => $this->page->childrenCount, 'count' => $this->page->childrenCount]);
+        if ($this->titleInfo === null
+            && $this->showNumFoldedSubpages
+            && ($this->maxLevel !== null && $this->level === $this->maxLevel)) {
+            if ($childrenCount = $this->service->getItemChildrenCount($this->item->id)) {
+                $this->titleInfo = Yii::t('WikiModule.base', '({n,plural,=1{+1 subpage}other{+{count} subpages}})', ['n' => $childrenCount, 'count' => $childrenCount]);
+            }
         }
 
         return $this->render('pageListItemTitle', [
-            'page' => $this->page,
+            'service' => $this->service,
+            'item' => $this->item,
             'title' => $this->title,
+            'titleIcon' => $this->getVisibilityIcon(),
             'titleInfo' => $this->titleInfo,
-            'url' => $this->page ? $this->page->getUrl() : null,
+            'url' => $this->service->getWikiUrl($this->item),
             'icon' => $this->icon ?? $icon,
             'showDrag' => $this->showDrag,
             'showAddPage' => $this->showAddPage,
@@ -104,15 +107,22 @@ class PageListItemTitle extends Widget
     public function getOptions(): array
     {
         $options = [
-            'class' => 'page-title' . ($this->page && $this->page->isCategory ? ' page-is-category' : ''),
-            'style' => 'padding-left:' . (12 + $this->level * $this->levelIndent) .'px',
+            'class' => 'page-title' . ($this->item && $this->item->isCategory ? ' page-is-category' : ''),
+            'style' => 'padding-left:' . (12 + $this->level * $this->levelIndent) . 'px',
         ];
 
-        if (Helper::isCurrentPage($this->page)) {
+        if ($this->service->isCurrentItem($this->item)) {
             $options['class'] .= ' page-current';
         }
 
         return $options;
+    }
+
+    public function getVisibilityIcon(): ?Icon
+    {
+        $icon = $this->service->getItemVisibilityIconName($this->item);
+
+        return $icon ? Icon::get($icon)->class('page-title-icon-visibility') : null;
     }
 
 }

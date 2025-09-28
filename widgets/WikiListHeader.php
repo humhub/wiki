@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @link https://www.humhub.org/
  * @copyright Copyright (c) 2022 HumHub GmbH & Co. KG
@@ -37,7 +38,7 @@ class WikiListHeader extends Widget
             'icon' => $this->icon,
             'title' => $this->title,
             'contentContainer' => $this->contentContainer,
-            'canCreate' => $this->contentContainer->permissionManager->can(CreatePage::class)
+            'canCreate' => $this->contentContainer->permissionManager->can(CreatePage::class),
         ]);
     }
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @link https://www.humhub.org/
  * @copyright Copyright (c) 2019 HumHub GmbH & Co. KG
@@ -25,7 +26,7 @@ class RevisionController extends BaseController
         $query = $page->getRevisions();
 
         $pagination = $this->handlePagination($query);
-        foreach ($query->all() as $revision) {
+        foreach ($query->each() as $revision) {
             $results[] = RestDefinitions::getWikiPageRevision($revision);
         }
         return $this->returnPagination($query, $pagination, $results);

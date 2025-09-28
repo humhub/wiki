@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @link https://www.humhub.org/
  * @copyright Copyright (c) 2018 HumHub GmbH & Co. KG
@@ -41,9 +42,9 @@ class WikiController extends BaseContentController
 
     private function saveWikiPage(PageEditForm $wikiForm): bool
     {
-        return $wikiForm->load($data = Yii::$app->request->getBodyParams()) &&
-            $wikiForm->save() &&
-            (!method_exists($this, 'updateContent') || $this->updateContent($wikiForm->page, $data));
+        return $wikiForm->load($data = Yii::$app->request->getBodyParams())
+            && $wikiForm->save()
+            && (!method_exists($this, 'updateContent') || $this->updateContent($wikiForm->page, $data));
     }
 
     public function actionCreate($containerId)
@@ -132,10 +133,10 @@ class WikiController extends BaseContentController
         $formParams = [
             'id' => $id,
             'targetId' => $targetPage->id,
-            'index' => isset($requestParams['index']) ? $requestParams['index'] : 0
+            'index' => isset($requestParams['index']) ? $requestParams['index'] : 0,
         ];
         $moveModel = new WikiPageItemDrop(['contentContainer' => $page->content->container]);
-        if($moveModel->load($formParams, '') && $moveModel->save()) {
+        if ($moveModel->load($formParams, '') && $moveModel->save()) {
             return $this->returnSuccess('Wiki page successfully moved!');
         } else {
             Yii::error('Could not move wiki page.', 'api');
@@ -165,13 +166,13 @@ class WikiController extends BaseContentController
         $moveForm = new MoveContentForm(['id' => $page->content->id]);
         $formData['MoveContentForm']['target'][] = $target;
 
-        if($moveForm->load($formData) && $moveForm->save()) {
+        if ($moveForm->load($formData) && $moveForm->save()) {
             return $this->returnSuccess('Wiki page successfully moved!');
         }
 
         if ($moveForm->hasErrors()) {
             return $this->returnError(422, 'Validation failed', [
-                'errors' => $moveForm->getErrors()
+                'errors' => $moveForm->getErrors(),
             ]);
         } else {
             Yii::error('Could not move wiki page.', 'api');

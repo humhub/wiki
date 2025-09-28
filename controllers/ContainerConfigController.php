@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @link https://www.humhub.org/
  * @copyright Copyright (c) 2017 HumHub GmbH & Co. KG
@@ -23,7 +24,6 @@ use Yii;
 
 class ContainerConfigController extends ContentContainerController
 {
-
     /**
      * @inheritdoc
      */
@@ -41,7 +41,7 @@ class ContainerConfigController extends ContentContainerController
         }
 
         return $this->render('@wiki/views/common/defaultConfig', [
-            'model' => $model
+            'model' => $model,
         ]);
     }
 }

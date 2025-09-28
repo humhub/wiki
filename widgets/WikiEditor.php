@@ -1,8 +1,6 @@
 <?php
 
-
 namespace humhub\modules\wiki\widgets;
-
 
 use humhub\modules\content\widgets\richtext\ProsemirrorRichTextEditor;
 use humhub\modules\content\widgets\richtext\RichText;
@@ -18,8 +16,8 @@ class WikiEditor extends ProsemirrorRichTextEditor
         $this->placeholder = Yii::t('WikiModule.base', 'Page content');
     }
 
-    public static  $renderer = [
-        'class' => WikiRichText::class
+    public static $renderer = [
+        'class' => WikiRichText::class,
     ];
 
 }

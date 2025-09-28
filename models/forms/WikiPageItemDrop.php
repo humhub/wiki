@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: kingb
@@ -8,7 +9,6 @@
 
 namespace humhub\modules\wiki\models\forms;
 
-
 use humhub\modules\content\components\ContentContainerActiveRecord;
 use humhub\modules\wiki\models\WikiPage;
 use yii\db\ActiveQuery;
@@ -16,7 +16,6 @@ use yii\db\Expression;
 
 class WikiPageItemDrop extends ItemDrop
 {
-
     /**
      * @var string
      */

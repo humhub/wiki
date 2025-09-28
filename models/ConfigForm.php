@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @link https://www.humhub.org/
  * @copyright Copyright (c) HumHub GmbH & Co. KG
@@ -15,13 +16,16 @@ class ConfigForm extends Model
 {
     public bool $contentHiddenDefault = false;
 
+    public bool $hideNavigationEntryDefault = false;
+
     /**
      * @inheritdoc
      */
     public function init()
     {
         parent::init();
-        $this->contentHiddenDefault = $this->getModule()->getContentHiddenGlobalDefault();
+        $this->contentHiddenDefault = $this->getModule()->contentHiddenGlobalDefault;
+        $this->hideNavigationEntryDefault = $this->getModule()->hideNavigationEntryDefault;
     }
 
     public function getModule(): Module
@@ -35,7 +39,14 @@ class ConfigForm extends Model
     public function rules()
     {
         return [
-            [['contentHiddenDefault'], 'boolean'],
+            [['contentHiddenDefault', 'hideNavigationEntryDefault'], 'boolean'],
+        ];
+    }
+
+    public function attributeLabels()
+    {
+        return [
+            'hideNavigationEntryDefault' => Yii::t('WikiModule.base', 'Hide Navigation Entries of this module globally by default'),
         ];
     }
 
@@ -46,6 +57,7 @@ class ConfigForm extends Model
         }
 
         $this->getModule()->settings->set('contentHiddenGlobalDefault', $this->contentHiddenDefault);
+        $this->getModule()->settings->set('hideNavigationEntryDefault', $this->hideNavigationEntryDefault);
 
         return true;
     }

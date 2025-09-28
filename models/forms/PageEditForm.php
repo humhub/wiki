@@ -72,7 +72,7 @@ class PageEditForm extends Model
         return [
             ['topics', 'safe'],
             [['isPublic', 'confirmOverwriting', 'backOverwriting', 'hidden'], 'boolean'],
-            ['latestRevisionNumber', 'validateLatestRevisionNumber']
+            ['latestRevisionNumber', 'validateLatestRevisionNumber'],
         ];
     }
 
@@ -113,7 +113,7 @@ class PageEditForm extends Model
         if (!$this->isNewPage()) {
             $labels['confirmOverwriting'] = Yii::t('WikiModule.base', 'Overwrite all changes made by :userName on :dateTime.', [
                 ':dateTime' => Yii::$app->formatter->asDate($this->page->content->updated_at, 'medium') . ' - ' . Yii::$app->formatter->asTime($this->page->content->updated_at, 'short'),
-                ':userName' => $this->page->content->updatedBy ? $this->page->content->updatedBy->displayName : ''
+                ':userName' => $this->page->content->updatedBy ? $this->page->content->updatedBy->displayName : '',
             ]);
         }
 
@@ -149,15 +149,15 @@ class PageEditForm extends Model
     {
         $this->page = WikiPage::find()->contentContainer($this->container)->readable()->where(['wiki_page.id' => $id])->one();
 
-        if(!$this->page && !$this->canCreatePage()) {
+        if (!$this->page && !$this->canCreatePage()) {
             throw new HttpException(403);
         }
 
-        if($this->page && !$this->page->canEditContent()) {
+        if ($this->page && !$this->page->canEditContent()) {
             throw new HttpException(403);
         }
 
-        if(!$this->page) {
+        if (!$this->page) {
             $this->page = new WikiPage($this->container, ['title' => $title]);
             $this->setScenario(WikiPage::SCENARIO_CREATE);
         } else {
@@ -170,9 +170,9 @@ class PageEditForm extends Model
         }
 
         $category = null;
-        if($categoryId) {
+        if ($categoryId) {
             $category = WikiPage::find()->contentContainer($this->container)->readable()->where(['wiki_page.id' => $categoryId])->one();
-            if($category) {
+            if ($category) {
                 $this->page->parent_page_id = $categoryId;
             }
         }
@@ -194,7 +194,7 @@ class PageEditForm extends Model
 
     private function getPageVisibility($category = null)
     {
-        if($this->page->isNewRecord && $category) {
+        if ($this->page->isNewRecord && $category) {
             return $category->content->visibility;
         }
 
@@ -229,7 +229,7 @@ class PageEditForm extends Model
      */
     public function save()
     {
-        if(!$this->validate()) {
+        if (!$this->validate()) {
             return false;
         }
 
@@ -241,7 +241,7 @@ class PageEditForm extends Model
             $this->page->content->hidden = $this->hidden;
         }
 
-        return WikiPage::getDb()->transaction(function($db) {
+        return WikiPage::getDb()->transaction(function ($db) {
             if ($this->page->save()) {
                 $this->revision->wiki_page_id = $this->page->id;
 
@@ -249,7 +249,7 @@ class PageEditForm extends Model
                     $this->page->fileManager->attach(Yii::$app->request->post('fileList'));
 
                     // This check is required because of a bug prior to HumHub v1.3.18 (https://github.com/humhub/humhub-modules-wiki/issues/103)
-                    if($this->page->content->container->can(AddTopic::class)) {
+                    if ($this->page->content->container->can(AddTopic::class)) {
                         Topic::attach($this->page->content, $this->topics);
                     }
 
@@ -288,7 +288,7 @@ class PageEditForm extends Model
             $categories[] = Yii::t('WikiModule.base', 'None');
         }
 
-        foreach ($query->all() as $category) {
+        foreach ($query->each() as $category) {
             /* @var WikiPage $category */
             $categories[$category->id] = str_repeat('-', $level) . ' ' . $category->title;
             if ($subCategories = $this->getCategoryList($category->id, ++$level)) {
@@ -313,7 +313,7 @@ class PageEditForm extends Model
     }
 
     /**
-     * @return boolean can create new wiki site
+     * @return bool can create new wiki site
      * @throws \yii\base\InvalidConfigException
      */
     public function canCreatePage()
@@ -322,7 +322,7 @@ class PageEditForm extends Model
     }
 
     /**
-     * @return boolean can manage wiki sites?
+     * @return bool can manage wiki sites?
      * @throws \yii\base\InvalidConfigException
      */
     public function canAdminister()
@@ -344,7 +344,7 @@ class PageEditForm extends Model
     {
         $scenarios = $model->scenarios();
 
-        if(!isset($scenarios[$model->scenario])) {
+        if (!isset($scenarios[$model->scenario])) {
             return false;
         }
 

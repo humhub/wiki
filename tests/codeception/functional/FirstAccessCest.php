@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @link https://www.humhub.org/
  * @copyright Copyright (c) 2017 HumHub GmbH & Co. KG
@@ -12,7 +13,6 @@ use wiki\FunctionalTester;
 
 class FirstAccessCest
 {
-
     /**
      * @param FunctionalTester $I
      */

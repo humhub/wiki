@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @link https://www.humhub.org/
  * @copyright Copyright (c) 2017 HumHub GmbH & Co. KG
@@ -10,9 +11,6 @@ return [
     'modules' => ['wiki'],
     'fixtures' => [
         'default',
-        'wiki' => 'humhub\modules\wiki\tests\codeception\fixtures\WikiPageFixture'
-    ]
+        'wiki' => 'humhub\modules\wiki\tests\codeception\fixtures\WikiPageFixture',
+    ],
 ];
-
-
-

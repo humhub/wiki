@@ -1,8 +1,6 @@
 <?php
 
-
 namespace humhub\modules\wiki\widgets;
-
 
 use humhub\modules\content\components\ContentContainerActiveRecord;
 use humhub\modules\ui\form\widgets\JsInputWidget;
@@ -56,21 +54,21 @@ class WikiSearchInput extends JsInputWidget
      */
     public function loadItems()
     {
-        /** @var WikiPage[] $pages */
         $pages = WikiPage::find()
             ->contentContainer($this->contentContainer)
             ->readable()
             ->orderBy([
                 'parent_page_id' => SORT_ASC,
                 'sort_order' => SORT_ASC,
-            ])
-            ->all();
-        foreach ($pages as $page) {
+            ]);
+
+        foreach ($pages->each() as $page) {
+            /* @var WikiPage $page */
             $this->items[$page->id] = StringHelper::truncate(
-                ($page->categoryPage ? $page->categoryPage->title . ' -> ' : '') .
-                $page->title,
+                ($page->categoryPage ? $page->categoryPage->title . ' -> ' : '')
+                . $page->title,
                 250,
-                ' [...]'
+                ' [...]',
             );
         }
 
@@ -85,7 +83,7 @@ class WikiSearchInput extends JsInputWidget
         return [
             'class' => 'form-control',
             'placeholder' => $this->placeholder,
-            'style' => 'width:100%'
+            'style' => 'width:100%',
         ];
     }
 
@@ -96,7 +94,7 @@ class WikiSearchInput extends JsInputWidget
     {
         $data = [
             'search-url' => Url::to(['/wiki/search/search']),
-            'ui-select2' => ''
+            'ui-select2' => '',
         ];
 
         if ((new WikiPage($this->contentContainer))->content->canEdit()) {

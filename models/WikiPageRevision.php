@@ -11,11 +11,11 @@ use Yii;
  * This is the model class for table "wiki_page_revision".
  *
  * The followings are the available columns in table 'wiki_page_revision':
- * @property integer $id
- * @property integer $revision
- * @property integer $is_latest
- * @property integer $wiki_page_id
- * @property integer $user_id
+ * @property int $id
+ * @property int $revision
+ * @property int $is_latest
+ * @property int $wiki_page_id
+ * @property int $user_id
  * @property string $content
  *
  * @property-read WikiPage $page
@@ -25,7 +25,7 @@ class WikiPageRevision extends ActiveRecord
     /**
      * @var bool
      */
-    var $isCurrentlyEditing = false;
+    public $isCurrentlyEditing = false;
 
     /**
      * @return string the associated database table name
@@ -64,14 +64,14 @@ class WikiPageRevision extends ActiveRecord
      */
     public function attributeLabels()
     {
-        return array(
+        return [
             'id' => 'ID',
             'revision' => 'Revision',
             'is_latest' => 'Is Latest',
             'wiki_page_id' => 'Wiki Page',
             'user_id' => 'User',
             'content' => 'Content',
-        );
+        ];
     }
 
     /**
@@ -132,8 +132,8 @@ class WikiPageRevision extends ActiveRecord
      */
     private function createOrFindPageByTitle(string $title): ?WikiPage
     {
-        if (preg_match('/^\d+$/', $title) &&
-            WikiPage::find()->contentContainer($this->page->content->container)->where(['wiki_page.id' => $title])->exists()) {
+        if (preg_match('/^\d+$/', $title)
+            && WikiPage::find()->contentContainer($this->page->content->container)->where(['wiki_page.id' => $title])->exists()) {
             // Exclude case when title is ID of the existing Wiki Page
             return null;
         }

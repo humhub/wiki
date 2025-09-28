@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: kingb
@@ -31,12 +32,12 @@ class HeadlineExtractor extends Parser
     protected function renderHeadline($block)
     {
         try {
-            if(count($block['content']) === 1) {
+            if (count($block['content']) === 1) {
                 $this->headLines[] = $block['content'][0][1];
             }
         } catch (\Exception $e) {
             Yii::error($e);
         }
-        return $this->renderAbsy($block['content']) ."\n";
+        return $this->renderAbsy($block['content']) . "\n";
     }
 }

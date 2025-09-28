@@ -6,13 +6,13 @@
  */
 
 use humhub\modules\content\components\ContentContainerActiveRecord;
+use humhub\modules\content\search\ResultSet;
 use humhub\modules\wiki\assets\Assets;
 use humhub\modules\wiki\widgets\WikiListHeader;
-use humhub\modules\wiki\widgets\WikiListTable;
-use yii\data\ActiveDataProvider;
+use humhub\modules\wiki\widgets\WikiSearchTable;
 
 /* @var $contentContainer ContentContainerActiveRecord */
-/* @var $dataProvider ActiveDataProvider */
+/* @var $resultSet ResultSet */
 
 Assets::register($this);
 ?>
@@ -23,6 +23,6 @@ Assets::register($this);
             'contentContainer' => $contentContainer,
         ]) ?>
 
-        <?= WikiListTable::widget(['dataProvider' => $dataProvider]) ?>
+        <?= WikiSearchTable::widget(['resultSet' => $resultSet]) ?>
     </div>
 </div>

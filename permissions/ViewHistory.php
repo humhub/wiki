@@ -16,7 +16,6 @@ use humhub\modules\user\models\User;
  */
 class ViewHistory extends \humhub\libs\BasePermission
 {
-
     /**
      * @inheritdoc
      */

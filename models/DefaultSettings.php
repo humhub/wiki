@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @link https://www.humhub.org/
  * @copyright Copyright (c) 2017 HumHub GmbH & Co. KG
@@ -22,8 +23,9 @@ use yii\base\Model;
 
 class DefaultSettings extends Model
 {
-    const SETTING_MODULE_LABEL = 'defaults.moduleLabel';
-    const SETTING_CONTENT_HIDDEN_DEFAULT = 'contentHiddenDefault';
+    public const SETTING_MODULE_LABEL = 'defaults.moduleLabel';
+    public const SETTING_CONTENT_HIDDEN_DEFAULT = 'contentHiddenDefault';
+    public const SETTING_HIDE_NAVIGATION_ENTRY = 'hideNavigationEntry';
 
     /**
      * @var ContentContainerActiveRecord
@@ -40,6 +42,8 @@ class DefaultSettings extends Model
      */
     public bool $contentHiddenDefault = false;
 
+    public bool $hideNavigationEntry = false;
+
     /**
      * @var Module
      */
@@ -51,13 +55,19 @@ class DefaultSettings extends Model
 
         $this->module_label = $this->getSettings()->get(
             self::SETTING_MODULE_LABEL,
-            Yii::t('WikiModule.base', 'Wiki')
+            Yii::t('WikiModule.base', 'Wiki'),
         );
 
         $this->contentHiddenDefault = $this->getSettings()->get(
             self::SETTING_CONTENT_HIDDEN_DEFAULT,
-            $this->module->getContentHiddenGlobalDefault()
+            $this->module->contentHiddenGlobalDefault,
         );
+
+        $this->hideNavigationEntry = $this->getSettings()->get(
+            self::SETTING_HIDE_NAVIGATION_ENTRY,
+            $this->module->hideNavigationEntryDefault,
+        );
+
     }
 
     private function getSettings(): ContentContainerSettingsManager
@@ -72,7 +82,7 @@ class DefaultSettings extends Model
     {
         return [
             [['module_label'], 'string'],
-            [['contentHiddenDefault'], 'boolean'],
+            [['contentHiddenDefault', 'hideNavigationEntry'], 'boolean'],
         ];
     }
 
@@ -80,9 +90,9 @@ class DefaultSettings extends Model
     {
         return [
             'module_label' => Yii::t('WikiModule.base', 'Module name'),
+            'hideNavigationEntry' => Yii::t('WikiModule.base', 'Hide Navigation Entry'),
         ];
     }
-
     public function save(): bool
     {
         if (!$this->validate()) {
@@ -91,6 +101,7 @@ class DefaultSettings extends Model
 
         $this->getSettings()->set(self::SETTING_MODULE_LABEL, $this->module_label);
         $this->getSettings()->set(self::SETTING_CONTENT_HIDDEN_DEFAULT, $this->contentHiddenDefault);
+        $this->getSettings()->set(self::SETTING_HIDE_NAVIGATION_ENTRY, $this->hideNavigationEntry);
 
         return true;
     }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @link https://www.humhub.org/
  * @copyright Copyright (c) 2022 HumHub GmbH & Co. KG
@@ -34,7 +35,7 @@ class WikiListTable extends JsWidget
     {
         return $this->render('wikiListTable', [
             'dataProvider' => $this->dataProvider,
-            'options' => $this->getOptions()
+            'options' => $this->getOptions(),
         ]);
     }
 

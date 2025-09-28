@@ -1,5 +1,5 @@
 <?php
-return array (
+return [
   '({n,plural,=1{+1 subpage}other{+{count} subpages}})' => '({n,plural,=1{+1 subpagina}other{+{count} subpaginas}})',
   '<strong>Confirm</strong> page reverting' => '<strong>Bevestig</strong> het terugzetten van de pagina',
   '<strong>Warning!</strong><br><br>Another user has updated this page since you have started editing it. Please confirm that you want to overwrite those changes.<br>:linkToCompare' => '<strong>Waarschuwing!</strong><br><br>Een andere gebruiker heeft deze pagina bijgewerkt nadat u deze hebt veranderd. Bevestig dat u de andere wijzigingen wilt overschrijven.<br>:linkToCompare',
@@ -31,12 +31,13 @@ return array (
   'Go back' => 'Ga terug',
   'Headline' => 'Kop',
   'Here you can configure default settings the wiki module.' => 'Hier stelt u de standaardinstellingen van de wiki-module in.',
+  'Hide Navigation Entries of this module globally by default' => 'Navigatie-items van deze module standaard overal verbergen',
+  'Hide Navigation Entry' => 'Navigatie-items verbergen',
   'History' => 'Geschiedenis',
   'Home' => 'Startpagina',
   'In order to edit all fields, you need the permission to administer wiki pages.' => 'Om alle velden te kunnen bewerken, hebt u de toestemming nodig om wikipagina\'s te beheren.',
   'Index' => 'Inhoudsopgave',
   'Invalid category!' => 'Ongeldige categorie!',
-  'Invalid character in page title!' => 'Ongeldig teken in paginatitel!',
   'Is Public' => 'Is openbaar',
   'Is homepage' => 'Is startpagina',
   'Label' => 'Label',
@@ -47,6 +48,7 @@ return array (
   'Module name' => 'Module naam',
   'New page' => 'Nieuwe pagina',
   'New page title' => 'Nieuwe paginakop',
+  'No wiki pages found.' => 'Geen wikipagina\'s gevonden.',
   'None' => 'Geen',
   'Overwrite' => 'Overschrijven',
   'Overwrite all changes made by :userName on :dateTime.' => 'Overschrijf alle wijzigingen die zijn aangebracht door :userName op :dateTime.',
@@ -57,7 +59,6 @@ return array (
   'Page not editable!' => 'Pagina is niet aanpasbaar.',
   'Page not found' => 'Pagina niet gevonden',
   'Page not found.' => 'Pagina niet gevonden.',
-  'Page title already in use!' => 'Paginakop reeds in gebruik',
   'Parent Page' => 'Bovenliggende pagina',
   'Permission denied. You have no rights to view the history.' => 'Toegang geweigerd. U hebt geen rechten om de historie te bekijken.',
   'Protected' => 'Beschermd',
@@ -77,11 +78,14 @@ return array (
   'There are no entries yet :(' => 'Er zijn nog geen gegevens :(',
   'This field only allows a maximum 1 page.' => 'Dit veld staat maximaal 1 pagina toe.',
   'This page is empty.' => 'Deze pagina is leeg.',
+  'Whenever someone edits a wiki page.' => 'Wanneer iemand een wikipagina bewerkt.',
   'Wiki' => 'Wiki',
   'Wiki page' => 'Wikipagina',
+  'Wiki page content ID' => 'Wikipagina-inhouds-ID',
+  'Wiki pages' => 'Wikipagina\'s',
   'Your current version' => 'Uw huidige versie',
   'by' => 'door',
   'last update {dateTime}' => 'laatste wijziging {dateTime}',
   'show changes' => 'wijzigingen tonen',
   '{userName} edited the Wiki page "{wikiPageTitle}".' => '{userName} heeft de wiki-pagina "{wikiPageTitle}" bewerkt.',
-);
+];

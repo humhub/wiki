@@ -1,9 +1,58 @@
 Changelog
 =========
 
-2.4.0 (Unreleased)
+2.5.4 (Unreleased)
 -------------------------
 - Fix #330: Update module resources path
+
+2.5.3 (August 25, 2025)
+-----------------------
+- Enh #376: Migration to Bootstrap 5 for HumHub 1.18
+
+2.4.0 (July 11, 2025)
+---------------------
+- Enh #380: Use content ID in the "Custom Pages" extension
+
+2.3.9 (June 30, 2025)
+---------------------
+- Enh #378: Extension for module "Custom Pages"
+
+2.3.8 (May 13, 2025)
+--------------------
+- Fix #374: Make activity "Wiki page edited" configurable
+
+2.3.7 (February 12, 2025)
+-------------------------
+- Enh #358: Replaced the `fa-file-word-o` icon with the `fa-book` icon
+- Fix #361: Fix wiki link added by RichText editor
+- Fix #367: Fix wall entry controls style
+- Enh #365: Update edit page layout
+
+2.3.6 (October 4, 2024)
+-----------------------
+- Fix #348: Collect user data for Legal module
+- Fix #352: Fix "Move content" menu item visibility for anonymous user
+- Fix #355: Optimize sidebar for big data
+
+2.3.5 (August 7, 2024)
+----------------------
+- Fix #344: Fix searching from other content containers
+- Fix #345: Move child pages to the top level after deleting a parent page
+
+2.3.4 (July 30, 2024)
+---------------------
+- Fix #341: Controller not found if the Wiki title contains a slash and URL title param cleanup
+
+2.3.3 (June 28, 2024)
+---------------------
+- Enh #336: Display page visibility icon
+- Enh #333: Added config option `Hide Navigation Entry`
+- Fix #337: Change search input color
+- Enh #338: Use PHP CS Fixer
+
+2.3.2 (June 25, 2024)
+---------------------
+- Enh #322: Use content searching
 
 2.3.1 (May 21, 2024)
 ---------------------

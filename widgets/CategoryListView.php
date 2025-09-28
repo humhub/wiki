@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: kingb
@@ -8,11 +9,9 @@
 
 namespace humhub\modules\wiki\widgets;
 
-
 use humhub\modules\content\components\ContentContainerActiveRecord;
-use humhub\modules\wiki\models\WikiPage;
+use humhub\modules\wiki\services\HierarchyListService;
 use humhub\widgets\JsWidget;
-use yii\db\Expression;
 
 class CategoryListView extends JsWidget
 {
@@ -31,15 +30,14 @@ class CategoryListView extends JsWidget
      */
     public $init = true;
 
+    public ?HierarchyListService $service = null;
+
     /**
      * @var ContentContainerActiveRecord
      */
     public $contentContainer;
 
-    /**
-     * @var int|null
-     */
-    public $parentCategoryId = null;
+    public ?int $parentId = null;
 
     /**
      * @var bool
@@ -67,34 +65,39 @@ class CategoryListView extends JsWidget
     public $maxLevel;
 
     /**
+     * @inheritdoc
+     */
+    public function init()
+    {
+        parent::init();
+
+        if ($this->service === null) {
+            $this->service = new HierarchyListService($this->contentContainer);
+        }
+    }
+
+    /**
      * @return string
      * @throws \yii\base\Exception
      */
     public function run()
     {
-        if ($this->parentCategoryId) {
-            // Get pages of the requested category
-            $categories = WikiPage::findByCategoryId($this->contentContainer, $this->parentCategoryId)->all();
-        } else {
-            // Get root categories
-            $categories = WikiPage::findCategories($this->contentContainer)
-                ->andWhere(['IS', 'wiki_page.parent_page_id', new Expression('NULL')])
-                ->all();
-        }
+        $items = $this->service->getItemsByParentId($this->parentId);
 
-        if (empty($categories)) {
+        if ($items === []) {
             return '';
         }
 
         return $this->render('categoryListView', [
             'options' => $this->getOptions(),
-            'categories' => $categories,
+            'service' => $this->service,
+            'items' => $items,
             'contentContainer' => $this->contentContainer,
             'showAddPage' => $this->showAddPage,
             'showDrag' => $this->showDrag,
             'level' => $this->level,
             'levelIndent' => $this->levelIndent,
-            'maxLevel' => $this->maxLevel
+            'maxLevel' => $this->maxLevel,
         ]);
     }
 
@@ -105,7 +108,7 @@ class CategoryListView extends JsWidget
     {
         $attrs = ['class' => 'wiki-page-list'];
 
-        if ($this->isFolded()) {
+        if ($this->service->isFoldedItemById($this->parentId)) {
             $attrs['style'] = 'display:none';
         }
 
@@ -120,16 +123,4 @@ class CategoryListView extends JsWidget
             'icon-category' => 'fa fa-caret-down',
         ];
     }
-
-    private function getParent(): ?WikiPage
-    {
-        return $this->parentCategoryId ? WikiPage::findOne($this->parentCategoryId) : null;
-    }
-
-    private function isFolded(): bool
-    {
-        $parent = $this->getParent();
-        return $parent && $parent->isFolded();
-    }
-
 }

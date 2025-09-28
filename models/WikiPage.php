@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * @link https://www.humhub.org/
+ * @copyright Copyright (c) HumHub GmbH & Co. KG
+ * @license https://www.humhub.com/licences
+ */
+
 namespace humhub\modules\wiki\models;
 
 use humhub\modules\content\components\ActiveQueryContent;
@@ -20,27 +26,24 @@ use yii\db\Expression;
  * This is the model class for table "wiki_page".
  *
  * The followings are the available columns in table 'wiki_page':
- * @property integer $id
+ * @property int $id
  * @property string $title
- * @property integer $is_home
- * @property integer $admin_only
- * @property integer $parent_page_id
- * @property integer $sort_order
- * @property integer $is_container_menu
- * @property integer $container_menu_order
+ * @property int $is_home
+ * @property int $admin_only
+ * @property int $parent_page_id
+ * @property int $sort_order
+ * @property int $is_container_menu
+ * @property int $container_menu_order
  *
  * @property-read WikiPage|null $categoryPage
  * @property-read WikiPageRevision $latestRevision
  * @property-read bool $isCategory
- * @property-read int $childrenCount
- *
  */
 class WikiPage extends ContentActiveRecord implements Searchable
 {
-    const SCENARIO_CREATE = 'create';
-    const SCENARIO_ADMINISTER = 'admin';
-    const SCENARIO_EDIT = 'edit';
-    const CACHE_CHILDREN_COUNT_KEY = 'wikiChildrenCount_%s';
+    public const SCENARIO_CREATE = 'create';
+    public const SCENARIO_ADMINISTER = 'admin';
+    public const SCENARIO_EDIT = 'edit';
     public $moduleId = 'wiki';
     /**
      * @inheritdoc
@@ -72,21 +75,6 @@ class WikiPage extends ContentActiveRecord implements Searchable
     }
 
     /**
-     * @param ContentContainerActiveRecord $container
-     * @return ActiveQueryContent
-     * @throws \yii\base\Exception
-     */
-    public static function findCategories(ContentContainerActiveRecord $container)
-    {
-        return static::find()->contentContainer($container)
-            ->readable()
-            ->orderBy([
-                static::tableName() . '.sort_order' => SORT_ASC,
-                static::tableName() . '.title' => SORT_ASC
-            ]);
-    }
-
-    /**
      * @return string the associated database table name
      */
     public static function tableName()
@@ -95,19 +83,22 @@ class WikiPage extends ContentActiveRecord implements Searchable
     }
 
     /**
+     * Find Wiki Page by parent page ID
+     *
      * @param ContentContainerActiveRecord $container
-     * @param int $categoryId
+     * @param int|null $parentId
      * @return ActiveQueryContent
      * @throws \yii\base\Exception
      */
-    public static function findByCategoryId(ContentContainerActiveRecord $container, int $categoryId)
+    public static function findByParentId(ContentContainerActiveRecord $container, ?int $parentId = null): ActiveQueryContent
     {
         return static::find()
             ->contentContainer($container)
-            ->andWhere(['wiki_page.parent_page_id' => $categoryId])
+            ->readable()
+            ->andWhere(['wiki_page.parent_page_id' => $parentId])
             ->orderBy([
                 static::tableName() . '.sort_order' => SORT_ASC,
-                static::tableName() . '.title' => SORT_ASC
+                static::tableName() . '.title' => SORT_ASC,
             ]);
     }
 
@@ -120,7 +111,7 @@ class WikiPage extends ContentActiveRecord implements Searchable
             ['title', 'required'],
             ['title', 'string', 'max' => 255],
             ['parent_page_id', 'validateParentPage'],
-            [['is_home', 'admin_only', 'is_container_menu', 'container_menu_order'], 'integer']
+            [['is_home', 'admin_only', 'is_container_menu', 'container_menu_order'], 'integer'],
         ];
 
     }
@@ -194,7 +185,7 @@ class WikiPage extends ContentActiveRecord implements Searchable
             $query->andWhere(['wiki_page.is_home' => 1]);
             $query->andWhere(['!=', 'wiki_page.id', $this->id]);
 
-            foreach ($query->all() as $page) {
+            foreach ($query->each() as $page) {
                 $page->is_home = 0;
                 $page->save();
             }
@@ -204,29 +195,11 @@ class WikiPage extends ContentActiveRecord implements Searchable
             WikiPageEditedActivity::instance()->from(Yii::$app->user->getIdentity())->about($this)->create();
         }
 
-        if ($insert || array_key_exists('parent_page_id', $changedAttributes)) {
-            $this->flushChildrenCountCache();
-        }
-
         parent::afterSave($insert, $changedAttributes);
 
         if ($insert) {
             $this->sortOnTop();
         }
-    }
-
-    protected function flushChildrenCountCache(): bool
-    {
-        return Yii::$app->cache->delete($this->getChildrenCountCacheKey());
-    }
-
-    protected function getChildrenCountCacheKey(?string $type = null): string
-    {
-        if ($type === 'access') {
-            return $this->content->container->canAccessPrivateContent() ? 'private' : 'public';
-        }
-
-        return sprintf(static::CACHE_CHILDREN_COUNT_KEY, $this->content->contentcontainer_id);
     }
 
     /**
@@ -239,7 +212,7 @@ class WikiPage extends ContentActiveRecord implements Searchable
             ->andWhere(['!=', static::tableName() . '.id', $this->id])
             ->orderBy([
                 static::tableName() . '.sort_order' => SORT_ASC,
-                static::tableName() . '.title' => SORT_ASC
+                static::tableName() . '.title' => SORT_ASC,
             ]);
 
         if (empty($this->parent_page_id)) {
@@ -251,7 +224,7 @@ class WikiPage extends ContentActiveRecord implements Searchable
         $sort_order = 1;
         $this->updateAttributes(['sort_order' => $sort_order++]);
 
-        foreach ($pages->all() as $page) {
+        foreach ($pages->each() as $page) {
             /* @var WikiPage $page */
             $page->updateAttributes(['sort_order' => $sort_order++]);
         }
@@ -260,24 +233,15 @@ class WikiPage extends ContentActiveRecord implements Searchable
     /**
      * @inheritdoc
      */
-    public function updateAttributes($attributes)
+    public function afterSoftDelete()
     {
-        $updated = parent::updateAttributes($attributes);
-
-        if ($updated && array_key_exists('parent_page_id', $attributes)) {
-            $this->flushChildrenCountCache();
-        }
-
-        return $updated;
+        $this->updateChildrenAfterDelete();
+        parent::afterSoftDelete();
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function afterDelete()
+    private function updateChildrenAfterDelete()
     {
-        $this->flushChildrenCountCache();
-        parent::afterDelete();
+        WikiPage::updateAll(['parent_page_id' => $this->parent_page_id], ['parent_page_id' => $this->id]);
     }
 
     /**
@@ -297,9 +261,9 @@ class WikiPage extends ContentActiveRecord implements Searchable
         }
 
         // Additional checking when user has no permission "Administer pages"
-        return !$this->isNewRecord &&
-            !$this->admin_only &&
-            $this->content->container->getPermissionManager($user)->can(EditPages::class);
+        return !$this->isNewRecord
+            && !$this->admin_only
+            && $this->content->container->getPermissionManager($user)->can(EditPages::class);
     }
 
     /**
@@ -312,7 +276,7 @@ class WikiPage extends ContentActiveRecord implements Searchable
         $rev->user_id = Yii::$app->user->id;
         $rev->revision = time();
 
-        $lastRevision = WikiPageRevision::find()->where(array('is_latest' => 1, 'wiki_page_id' => $this->id))->one();
+        $lastRevision = WikiPageRevision::find()->where(['is_latest' => 1, 'wiki_page_id' => $this->id])->one();
         if ($lastRevision !== null) {
             $rev->content = $lastRevision->content;
         }
@@ -325,11 +289,16 @@ class WikiPage extends ContentActiveRecord implements Searchable
         return $rev;
     }
 
+    /**
+     * @inheritdoc
+     */
     public function beforeDelete()
     {
         foreach ($this->revisions as $revision) {
             $revision->delete();
         }
+
+        $this->updateChildrenAfterDelete();
 
         return parent::beforeDelete();
     }
@@ -412,67 +381,29 @@ class WikiPage extends ContentActiveRecord implements Searchable
             $content = $this->latestRevision->content;
         }
 
-        return array(
+        return [
             'title' => $this->title,
             'lastPageContent' => $content,
-        );
+        ];
     }
 
     public function getIcon()
     {
-        return 'fa-file-word-o';
-    }
-
-    public function getChildrenCount(): int
-    {
-        if ($this->isNewRecord) {
-            return 0;
-        }
-
-        $childrenCount = Yii::$app->cache->get($this->getChildrenCountCacheKey());
-        $childrenCount = $childrenCount[$this->getChildrenCountCacheKey('access')][$this->id] ?? null;
-
-        if ($childrenCount !== null) {
-            return $childrenCount;
-        }
-
-        /* @var WikiPage[] $subpages */
-        $subpages = $this->findChildren()->all();
-
-        $childrenCount = count($subpages);
-        foreach ($subpages as $subpage) {
-            $childrenCount += $subpage->getChildrenCount();
-        }
-
-        $this->setChildrenCountCache($childrenCount);
-
-        return $childrenCount;
+        return 'fa-book';
     }
 
     /**
-     * @return \humhub\modules\content\components\ActiveQueryContent
+     * @return ActiveQueryContent
      */
-    public function findChildren()
+    public function findChildren(): ActiveQueryContent
     {
-        return static::find()->andWhere(['parent_page_id' => $this->id])->readable()
+        return static::find()
+            ->andWhere(['parent_page_id' => $this->id])
+            ->readable()
             ->orderBy([
                 static::tableName() . '.sort_order' => SORT_ASC,
-                static::tableName() . '.title' => SORT_ASC
+                static::tableName() . '.title' => SORT_ASC,
             ]);
-    }
-
-    protected function setChildrenCountCache(int $newCount): bool
-    {
-        $cacheID = $this->getChildrenCountCacheKey();
-        $childrenCount = Yii::$app->cache->get($cacheID);
-
-        if (!is_array($childrenCount)) {
-            $childrenCount = [];
-        }
-
-        $childrenCount[$this->getChildrenCountCacheKey('access')][$this->id] = $newCount;
-
-        return Yii::$app->cache->set($cacheID, $childrenCount, Yii::$app->settings->get('cache.expireTime'));
     }
 
     public function getCategoryPage()
@@ -482,9 +413,8 @@ class WikiPage extends ContentActiveRecord implements Searchable
 
     public function afterMove(ContentContainerActiveRecord $container = null)
     {
-
         if ($this->isCategory) {
-            foreach ($this->findChildren()->all() as $childPage) {
+            foreach ($this->findChildren()->each() as $childPage) {
                 $childPage->updateAttributes(['parent_page_id' => new Expression('NULL')]);
             }
         }
@@ -493,30 +423,11 @@ class WikiPage extends ContentActiveRecord implements Searchable
         $this->updateAttributes(['is_home' => 0]);
     }
 
-    public function isFolded(): bool
-    {
-        if (!$this->isCategory) {
-            return false;
-        }
-
-        if (Yii::$app->user->isGuest) {
-            return false;
-        }
-
-        return (bool)Yii::$app->user->getIdentity()->getSettings()->get('wiki.foldedCategory.' . $this->id);
-    }
-
     public function getIsCategory(): bool
     {
-        if (isset($this->_isCategory)) {
-            return $this->_isCategory;
+        if (!isset($this->_isCategory)) {
+            $this->_isCategory = !$this->isNewRecord && $this->findChildren()->exists();
         }
-
-        if ($this->isNewRecord) {
-            return false;
-        }
-
-        $this->_isCategory = $this->findChildren()->exists();
 
         return $this->_isCategory;
     }

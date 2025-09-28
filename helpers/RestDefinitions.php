@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @link https://www.humhub.org/
  * @copyright Copyright (c) 2018 HumHub GmbH & Co. KG
@@ -12,7 +13,6 @@ use humhub\modules\rest\definitions\UserDefinitions;
 use humhub\modules\wiki\models\WikiPage;
 use humhub\modules\wiki\models\WikiPageRevision;
 use yii\helpers\Url;
-
 
 /**
  * Class RestDefinitions
@@ -31,7 +31,7 @@ class RestDefinitions
             'parent_page_id' => $page->parent_page_id,
             'permalink' => static::getPagePermalink($page),
             'latest_revision' => static::getWikiPageRevision($page->latestRevision),
-            'content' => ContentDefinitions::getContent($page->content)
+            'content' => ContentDefinitions::getContent($page->content),
         ];
     }
 

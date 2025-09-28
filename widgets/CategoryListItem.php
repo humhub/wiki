@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: kingb
@@ -8,21 +9,17 @@
 
 namespace humhub\modules\wiki\widgets;
 
-
 use humhub\components\Widget;
 use humhub\modules\content\components\ContentContainerActiveRecord;
-use humhub\modules\user\models\User;
+use humhub\modules\wiki\models\HierarchyItem;
 use humhub\modules\wiki\models\WikiPage;
 use humhub\modules\wiki\permissions\AdministerPages;
-use humhub\modules\wiki\permissions\EditPages;
-use Yii;
+use humhub\modules\wiki\services\HierarchyListService;
 
 class CategoryListItem extends Widget
 {
-    /**
-     * @var WikiPage
-     */
-    public $category;
+    public ?HierarchyListService $service = null;
+    public ?HierarchyItem $item = null;
 
     /**
      * @var string
@@ -34,9 +31,9 @@ class CategoryListItem extends Widget
     public ?string $iconCategory = null;
 
     /**
-     * @var WikiPage[]
+     * @var HierarchyItem[]
      */
-    public $pages;
+    public $subItems;
 
     /**
      * @var ContentContainerActiveRecord
@@ -105,27 +102,30 @@ class CategoryListItem extends Widget
             $this->showAddPage = $this->canCreate();
         }
 
-        if ($this->category) {
-            $this->title = $this->category->title;
-            $this->pages = $this->category->findChildren()->all();
+        $displaySubPages = $this->maxLevel === null || $this->level < $this->maxLevel;
+
+        if ($this->item) {
+            $this->title = $this->item->title;
+            $this->subItems = $displaySubPages ? $this->service->getItemsByParentId($this->item->id) : [];
         }
 
         return $this->render('categoryListItem', [
+            'service' => $this->service,
             'icon' => $this->icon,
             'iconPage' => $this->iconPage,
             'iconCategory' => $this->iconCategory,
             'title' => $this->title,
-            'pages' => $this->pages,
+            'subItems' => $this->subItems,
             'hideTitle' => $this->hideTitle,
             'showAddPage' => $this->showAddPage,
             'showDrag' => $this->showDrag,
             'showNumFoldedSubpages' => $this->showNumFoldedSubpages,
             'contentContainer' => $this->contentContainer,
-            'category' => $this->category,
+            'item' => $this->item,
             'level' => $this->level,
             'levelIndent' => $this->levelIndent,
             'maxLevel' => $this->maxLevel,
-            'displaySubPages' => $this->maxLevel === null || $this->level < $this->maxLevel
+            'displaySubPages' => $displaySubPages,
         ]);
     }
 
@@ -137,7 +137,7 @@ class CategoryListItem extends Widget
 
     private function canAdminister()
     {
-        if(static::$canAdminister === null) {
+        if (static::$canAdminister === null) {
             static::$canAdminister =  $this->contentContainer->can(AdministerPages::class);
         }
 
@@ -146,32 +146,10 @@ class CategoryListItem extends Widget
 
     private function canCreate()
     {
-        if(static::$canCreate === null) {
+        if (static::$canCreate === null) {
             static::$canCreate = (new WikiPage($this->contentContainer))->content->canEdit();
         }
 
         return static::$canCreate;
     }
-
-    public function canEdit(WikiPage $page)
-    {
-        if (Yii::$app->user->isGuest || ($this->contentContainer instanceof User && !$this->contentContainer->isCurrentUser())) {
-            return false;
-        }
-
-        if ($this->contentContainer->can(AdministerPages::class)) {
-            return true;
-        }
-
-        if (!$page->admin_only && $this->contentContainer->can(EditPages::class)) {
-            return true;
-        }
-
-        if (!Yii::$app->user->isGuest && !$page->admin_only && $page->content->created_by === Yii::$app->user->id) {
-            return true;
-        }
-
-        return false;
-    }
-
 }

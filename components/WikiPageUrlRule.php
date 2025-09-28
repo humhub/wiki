@@ -14,6 +14,7 @@ use humhub\modules\wiki\models\WikiPage;
 use Yii;
 use yii\base\Component;
 use yii\base\Exception;
+use yii\helpers\BaseInflector;
 use yii\web\UrlManager;
 use yii\web\UrlRuleInterface;
 
@@ -24,7 +25,6 @@ use yii\web\UrlRuleInterface;
  */
 class WikiPageUrlRule extends Component implements UrlRuleInterface, ContentContainerUrlRuleInterface
 {
-
     /**
      * @inheritdoc
      * @throws Exception
@@ -71,9 +71,11 @@ class WikiPageUrlRule extends Component implements UrlRuleInterface, ContentCont
     {
         if ($route === 'wiki/page/view' && isset($params['id'])) {
             $url = $containerUrlPath . '/wiki/' . $params['id'];
+
             if (!empty($params['title'])) {
-                $url .= '/' . urlencode($params['title']);
+                $url .= '/' . BaseInflector::slug($params['title']);
             }
+
             unset($params['id'], $params['title']);
 
             if (!empty($params) && ($query = http_build_query($params)) !== '') {
