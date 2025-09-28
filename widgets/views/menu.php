@@ -12,15 +12,6 @@ use humhub\modules\wiki\widgets\WikiMenu;
 /* @var $menu WikiMenu */
 /* @var $entries MenuEntry[] */
 /* @var $options array */
-
-$js = <<<JS
-$('.dropdown-navigation .dropdown-toggle').click(() => {
-    $('.dropdown-navigation .dropdown-menu').toggleClass('show');
-});
-JS;
-// Temp solution, changed in bs5 branch
-$this->registerJs($js);
-
 ?>
 <div class="wiki-menu">
     <?php foreach ($menu->buttons as $button) : ?>
@@ -29,7 +20,7 @@ $this->registerJs($js);
 
     <?php if (!empty($entries)) : ?>
         <?= Html::beginTag('div', $options) ?>
-            <button type="button" class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true">
+            <button class="btn btn-info btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"">
                 <span class="caret"></span>
             </button>
             <ul class="dropdown-menu pull-right">
