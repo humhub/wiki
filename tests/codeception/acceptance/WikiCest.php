@@ -166,25 +166,25 @@ class WikiCest
 
         $I->amGoingTo('check admin(with permission "Administer pages") can edit and delete the Wiki Page');
         $I->click('.preferences .dropdown-toggle', '[data-stream-entry]:nth-of-type(1)');
-        $I->waitForText('Edit', 15, '.dropdown.show');
-        $I->see('Delete', '.dropdown.show');
-        $I->see('Topics', '.dropdown.show');
-        $I->see('Change to "Private"', '.dropdown.show');
-        $I->see('Lock comments', '.dropdown.show');
-        $I->see('Pin to top', '.dropdown.show');
+        $I->waitForText('Edit', 15, '.dropdown-menu.show');
+        $I->see('Delete', '.dropdown-menu.show');
+        $I->see('Topics', '.dropdown-menu.show');
+        $I->see('Change to "Private"', '.dropdown-menu.show');
+        $I->see('Lock comments', '.dropdown-menu.show');
+        $I->see('Pin to top', '.dropdown-menu.show');
 
         $I->amGoingTo('check member(with permission "Edit pages") can only edit the Wiki Page');
         $I->amUser2(true);
         $I->amOnSpace1();
         $I->waitForText('Single Edit pages permission');
         $I->click('.preferences .dropdown-toggle', '[data-stream-entry]:nth-of-type(1)');
-        $I->waitForText('Edit', 15, '.dropdown.show');
-        $I->dontSee('Delete', '.dropdown.show');
-        $I->dontSee('Topics', '.dropdown.show');
-        $I->dontSee('Change to "Private"', '.dropdown.show');
-        $I->dontSee('Lock comments', '.dropdown.show');
-        $I->dontSee('Pin to top', '.dropdown.show');
-        $I->click('Edit', '[data-stream-entry]:nth-of-type(1) .dropdown.show');
+        $I->waitForText('Edit', 15, '.dropdown-menu.show');
+        $I->dontSee('Delete', '.dropdown-menu.show');
+        $I->dontSee('Topics', '.dropdown-menu.show');
+        $I->dontSee('Change to "Private"', '.dropdown-menu.show');
+        $I->dontSee('Lock comments', '.dropdown-menu.show');
+        $I->dontSee('Pin to top', '.dropdown-menu.show');
+        $I->click('Edit', '[data-stream-entry]:nth-of-type(1) .dropdown-menu.show');
         $I->waitForText('Edit page', 15, '.wiki-page-title');
         $I->seeElement('#wikipage-title[disabled]');
         $I->fillField('#wikipagerevision-content .humhub-ui-richtext', 'Updated: Wiki Page for test single permission "Edit pages" without "Administer pages"');
