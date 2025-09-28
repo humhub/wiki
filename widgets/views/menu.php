@@ -12,6 +12,15 @@ use humhub\modules\wiki\widgets\WikiMenu;
 /* @var $menu WikiMenu */
 /* @var $entries MenuEntry[] */
 /* @var $options array */
+
+$js = <<<JS
+$('.dropdown-navigation .dropdown-toggle').click(() => {
+    $('.dropdown-navigation .dropdown-menu').toggleClass('show');
+});
+JS;
+// Temp solution, changed in bs5 branch
+$this->registerJs($js);
+
 ?>
 <div class="wiki-menu">
     <?php foreach ($menu->buttons as $button) : ?>
