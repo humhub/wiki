@@ -103,7 +103,7 @@ class WikiCest
 
         $I->amOnSpace(2);
         $I->click('Wiki', '.layout-nav-container');
-        $I->waitForText('Wiki', null, '.wiki-content');
+        $I->waitForText('Wiki', 15, '.wiki-content');
         $I->see('First Public Space Wiki Page', '.wiki-page-list');
         $I->dontSee('First Private Space Wiki Page', '.wiki-page-list');
     }
@@ -162,11 +162,11 @@ class WikiCest
         $I->seeSuccess();
 
         $I->amOnSpace1();
-        $I->waitForText('Single Edit pages permission');
+        $I->waitForText('Single Edit pages permission', 15);
 
         $I->amGoingTo('check admin(with permission "Administer pages") can edit and delete the Wiki Page');
         $I->click('.preferences .dropdown-toggle', '[data-stream-entry]:nth-of-type(1)');
-        $I->waitForText('Edit', null, '.dropdown.open');
+        $I->waitForText('Edit', 15, '.dropdown.open');
         $I->see('Delete', '.dropdown.open');
         $I->see('Topics', '.dropdown.open');
         $I->see('Change to "Private"', '.dropdown.open');
@@ -178,18 +178,18 @@ class WikiCest
         $I->amOnSpace1();
         $I->waitForText('Single Edit pages permission');
         $I->click('.preferences .dropdown-toggle', '[data-stream-entry]:nth-of-type(1)');
-        $I->waitForText('Edit', null, '.dropdown.open');
+        $I->waitForText('Edit', 15, '.dropdown.open');
         $I->dontSee('Delete', '.dropdown.open');
         $I->dontSee('Topics', '.dropdown.open');
         $I->dontSee('Change to "Private"', '.dropdown.open');
         $I->dontSee('Lock comments', '.dropdown.open');
         $I->dontSee('Pin to top', '.dropdown.open');
         $I->click('Edit', '[data-stream-entry]:nth-of-type(1) .dropdown.open');
-        $I->waitForText('Edit page', null, '.wiki-page-title');
+        $I->waitForText('Edit page', 15, '.wiki-page-title');
         $I->seeElement('#wikipage-title[disabled]');
         $I->fillField('#wikipagerevision-content .humhub-ui-richtext', 'Updated: Wiki Page for test single permission "Edit pages" without "Administer pages"');
         $I->click('Save', '#wiki-page-edit form');
         $I->seeSuccess();
-        $I->waitForText('Updated: Wiki Page for test single permission', null, '.wiki-page-body');
+        $I->waitForText('Updated: Wiki Page for test single permission', 15, '.wiki-page-body');
     }
 }
