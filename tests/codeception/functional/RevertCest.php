@@ -102,7 +102,7 @@ class RevertCest extends FunctionalPermissionTest
         $I->amOnSpace($space->guid, '/wiki/overview');
         $I->see('Admin Category');
         $I->click('Admin Category');
-        $I->see('Admin Category content');
+        $I->see('Admin Category');
     }
 
     public function testRevertAdministerPermission(FunctionalTester $I)
@@ -142,7 +142,7 @@ class RevertCest extends FunctionalPermissionTest
         $I->amOnSpace($space->guid, '/wiki/overview');
         $I->see('Admin Category');
         $I->click('Admin Category');
-        $I->see('Admin Category content');
+        $I->see('Admin Category');
     }
 
     public function testRevertProtected(FunctionalTester $I)

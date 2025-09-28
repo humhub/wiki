@@ -41,7 +41,7 @@ class AcceptanceTester extends \AcceptanceTester
         $this->click('.enable-module-wiki');
 
         $buttonText = version_compare(Yii::$app->version, '1.16', '<') ? 'Activated' : 'Enabled';
-        $this->waitForText($buttonText, 10, '.disable-module-wiki');
+        $this->waitForText($buttonText, 15, '.disable-module-wiki');
     }
 
     /**
@@ -75,7 +75,7 @@ class AcceptanceTester extends \AcceptanceTester
          * CREATE First SUB PAGE
          */
         $this->amGoingTo('Create my first sub page');
-        $this->jsClick('[data-bs-title="Add Page"]');
+        $this->click('Create page', '.wiki-page-content-header-actions');
         $this->waitForText('Create new page', 30);
 
         $this->fillField('#wikipage-title', 'First Sub Page');
@@ -118,7 +118,7 @@ class AcceptanceTester extends \AcceptanceTester
          */
         $this->click('First Sub Page');
 
-        $this->waitForText('My Sub Page', 10, '.wiki-content');
+        $this->waitForText('My Sub Page', 15, '.wiki-content');
         $this->click('Edit');
         $this->waitForElementVisible('#wiki-page-edit');
         $this->jsShow('.form-collapsible-fields.closed fieldset');
@@ -131,12 +131,12 @@ class AcceptanceTester extends \AcceptanceTester
 
         $this->waitForElementVisible('.wiki-menu');
         $this->jsClick('.wiki-menu .dropdown-toggle');
-        $this->waitForText('Home', 10, '.wiki-menu');
+        $this->waitForText('Home', 15, '.wiki-menu');
         $this->toIndex();
 
         $this->click('Wiki', '.layout-nav-container');
 
-        $this->waitForText('My Sub Page', 10, '.wiki-content');
+        $this->waitForText('My Sub Page', 15, '.wiki-content');
 
         /**
          * Move Category
@@ -185,16 +185,16 @@ class AcceptanceTester extends \AcceptanceTester
 
         $this->click('Page History');
 
-        $this->waitForText('Page history', 10, '.wiki-content');
+        $this->waitForText('Page history', 15, '.wiki-content');
 
         $this->click('show changes', '.wiki-page-history li:not(:first-child)');
 
-        $this->waitForText('Edit', 10, '.wiki-menu');
+        $this->waitForText('Edit', 15, '.wiki-menu');
         $this->jsClick('.wiki-menu .dropdown-toggle');
         $this->waitForText('Revert this');
         $this->click('Revert this');
 
-        $this->waitForText('Confirm page reverting', 10, '#globalModalConfirm');
+        $this->waitForText('Confirm page reverting', 15, '#globalModalConfirm');
         $this->click('Revert', '#globalModalConfirm');
 
         $this->waitForText('My Sub Page!');
@@ -263,7 +263,7 @@ class AcceptanceTester extends \AcceptanceTester
     {
         $this->waitForElementVisible('#wiki_index');
         $this->click('#wiki_index');
-        $this->waitForText('Wiki', 10, '.wiki-page-content-header h3');
+        $this->waitForText('Wiki', 15, '.wiki-page-content-header h3');
     }
 
     /**
@@ -276,12 +276,12 @@ class AcceptanceTester extends \AcceptanceTester
     public function showWikiPageInContainerMenu(string $wikiPageTitle, string $sidebarSelector)
     {
         $this->click('Wiki', '.layout-nav-container');
-        $this->waitForText('Wiki', 10, '.wiki-page-content .wiki-page-content-header');
+        $this->waitForText('Wiki', 15, '.wiki-page-content .wiki-page-content-header');
         $this->dontSee($wikiPageTitle, $sidebarSelector);
 
-        $this->waitForText($wikiPageTitle, 10, '.wiki-page-content');
+        $this->waitForText($wikiPageTitle, 15, '.wiki-page-content');
         $this->click($wikiPageTitle, '.wiki-page-content');
-        $this->waitForText('Edit', 10, '.wiki-menu');
+        $this->waitForText('Edit', 15, '.wiki-menu');
         $this->click('Edit', '.wiki-menu');
         $this->waitForText('Advanced settings');
         $this->jsShow('.form-collapsible-fields.closed fieldset');

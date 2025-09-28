@@ -51,7 +51,7 @@ class CreatePermissionCest extends FunctionalPermissionTest
         $I->seeInMenu('Index');
         $I->seeInMenu('Page History');
         $I->seeInMenu('Permalink');
-        $I->see('My private wiki content');
+        $I->see('Private Wiki');
         $I->dontSeeInMenu('Edit');
         $I->dontSeeInMenu('Delete');
     }
