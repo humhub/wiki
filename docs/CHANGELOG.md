@@ -4,6 +4,7 @@ Changelog
 2.5.4 (Unreleased)
 -------------------------
 - Fix #330: Update module resources path
+- Fix #390: Improved Module Test GitHub Actions
 
 2.5.3 (August 25, 2025)
 -----------------------
