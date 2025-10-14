@@ -139,7 +139,6 @@ humhub.module('wiki', function(module, require, $) {
 humhub.module('wiki.Page', function (module, require, $) {
     var Widget = require('ui.widget').Widget;
     var wikiView = require('wiki');
-    var additions = require('ui.additions');
 
     /**
      * This widget represents a wiki page and wraps the actual page content.
