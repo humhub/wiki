@@ -47,8 +47,11 @@ humhub.module('wiki.Page', function (module, require, $) {
 
         // Wrap header + content below(before next header) into a block,
         // in order to make the header-edit-link visible only on hover the block
-        this.$.html(this.$.html().replace(/(<h([1-3]).*?>.+?<\/h\2>([\s\S]*?(?=<h[1-3]|$)))/ig,
-            '<div class="wiki-page-header-wrapper">$1</div>'));
+        this.$.find('h1, h2, h3').each(function () {
+            if (!$(this).parent().hasClass('wiki-page-header-wrapper')) {
+                $(this).nextUntil('h1, h2, h3').addBack().wrapAll('<div class="wiki-page-header-wrapper"></div>');
+            }
+        });
 
         this.$.find('h1,h2,h3').each(function () {
             const anchor = $(this).find('a.header-anchor');

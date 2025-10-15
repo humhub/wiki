@@ -5,6 +5,7 @@ Changelog
 -------------------------
 - Fix #330: Update module resources path
 - Fix #390: Improved Module Test GitHub Actions
+- Fix #391: Fix embedded videos after confirming consent
 
 2.5.3 (August 25, 2025)
 -----------------------
