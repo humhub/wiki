@@ -1,7 +1,7 @@
 // Import Bootstrap breakpoint functions
-@import "/opt/humhub/protected/vendor/bower-asset/bootstrap/scss/functions";
-@import "/opt/humhub/protected/vendor/bower-asset/bootstrap/scss/variables";
-@import "/opt/humhub/protected/vendor/bower-asset/bootstrap/scss/mixins/breakpoints";
+@import "/opt/humhub/protected/vendor/npm-asset/bootstrap/scss/functions";
+@import "/opt/humhub/protected/vendor/npm-asset/bootstrap/scss/variables";
+@import "/opt/humhub/protected/vendor/npm-asset/bootstrap/scss/mixins/breakpoints";
 
 $wiki-mobile-grid-breakpoints: 520px;
 
@@ -804,18 +804,17 @@ $wiki-mobile-grid-breakpoints: 520px;
     }
 
     .drag-icon {
-        visibility: hidden;
         color: var(--hh-wiki-text-color-control);
+        transition: opacity .3s ease;
+        cursor: move;
+
+        // .visible class is added/removed via JS after a delay
+        &:not(.visible) {
+            visibility: hidden;
+        }
 
         .fa {
             font-size: 11px;
-        }
-    }
-
-    .page-title:hover {
-        .drag-icon {
-            visibility: visible;
-            cursor: move;
         }
     }
 }
