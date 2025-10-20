@@ -588,15 +588,15 @@
   margin-bottom: -2px;
 }
 #category_list_view .drag-icon {
-  visibility: hidden;
   color: var(--hh-wiki-text-color-control);
+  transition: opacity 0.3s ease;
+  cursor: move;
+}
+#category_list_view .drag-icon:not(.visible) {
+  visibility: hidden;
 }
 #category_list_view .drag-icon .fa {
   font-size: 11px;
-}
-#category_list_view .page-title:hover .drag-icon {
-  visibility: visible;
-  cursor: move;
 }
 
 .wiki-page-sidebar {
