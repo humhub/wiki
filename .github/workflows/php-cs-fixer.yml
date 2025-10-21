@@ -1,7 +1,9 @@
 name: PHP CS Fixer
 
-on: push
+on:
+  push:
+  workflow_dispatch:
 
 jobs:
-  tests:
-    uses: humhub/actions/.github/workflows/module-php-cs-fixer.yml@main
+  fixers:
+    uses: humhub/module-coding-standards/.github/workflows/php-cs-fixer.yml@main
