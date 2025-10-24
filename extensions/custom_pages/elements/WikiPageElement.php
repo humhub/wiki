@@ -19,7 +19,7 @@ use Yii;
  *
  * @property-read WikiPage|null $record
  */
-class WikiPageElement extends BaseContentRecordElement
+class WikiPageElement extends BaseContentRecordElement implements \Stringable
 {
     protected const RECORD_CLASS = WikiPage::class;
 
@@ -41,9 +41,9 @@ class WikiPageElement extends BaseContentRecordElement
         ];
     }
 
-    public function __toString()
+    public function __toString(): string
     {
-        return Html::encode($this->record?->title);
+        return (string) Html::encode($this->record?->title);
     }
 
     /**

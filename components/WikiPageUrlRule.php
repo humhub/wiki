@@ -31,7 +31,7 @@ class WikiPageUrlRule extends Component implements UrlRuleInterface, ContentCont
      */
     public function parseContentContainerRequest(ContentContainerActiveRecord $container, UrlManager $manager, string $containerUrlPath, array $urlParams)
     {
-        if (strpos($containerUrlPath, 'wiki/') === 0) {
+        if (str_starts_with($containerUrlPath, 'wiki/')) {
             $parts = explode('/', $containerUrlPath);
             if (empty($parts[1])) {
                 return false;

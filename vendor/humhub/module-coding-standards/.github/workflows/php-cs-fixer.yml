@@ -1,0 +1,70 @@
+name: Module PHP CS Fixer
+
+on:
+  workflow_call:
+    inputs:
+      php-version:
+        required: false
+        type: string
+        default: '8.2'
+jobs:
+  php-cs-fixer:
+    name: PHP Coding Standards Fixer
+    runs-on: ubuntu-latest
+    env:
+      skip_phpcs: 'false'
+    steps:
+      - name: Checkout Module
+        uses: actions/checkout@v4
+
+      - name: Check if branch is allowed
+        run: |
+          ALLOWED_BRANCHES=("master" "main" "develop" "bs5")
+          CURRENT_BRANCH="${GITHUB_REF_NAME}"
+          if [[ ! " ${ALLOWED_BRANCHES[@]} " =~ " ${CURRENT_BRANCH} " ]]; then
+            echo "skip_phpcs=true" >> $GITHUB_ENV
+            echo "This workflow runs only for master, main, develop and bs5 branches."
+          fi
+        shell: bash
+
+      - name: Check the commit message for skipping PHP-CS-Fixer
+        if: env.skip_phpcs == 'false'
+        run: |
+          if git log -1 --pretty=%B | grep -q '\[SKIP-PHPCS\]'; then
+            echo "skip_phpcs=true" >> $GITHUB_ENV
+            echo "Skip PHP-CS-Fixer because the commit message contains [SKIP-PHPCS]."
+          fi
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ inputs.php-version }}
+          tools: composer
+
+      - name: Install dependencies
+        run: composer install --no-interaction --no-progress --prefer-dist
+
+      - name: Run Rector
+        run: composer fixer
+
+      - name: Create branch and Pull Request for new changes
+        if: env.skip_phpcs == 'false'
+        run: |
+          git config user.name "GitHub Action"
+          git config user.email "action@github.com"
+          if git diff --quiet; then
+            echo "No changes detected by PHP-CS-Fixer. Skipping commit and PR creation."
+            exit 0
+          fi
+          PHP_FIXER_DATETIME=$(date +%Y-%m-%d-%H%M%S)
+          git checkout -b "php-fixer/$PHP_FIXER_DATETIME"
+          git add -u
+          git commit -m "Autocommit PHP CS Fixer"
+          git push origin "php-fixer/$PHP_FIXER_DATETIME"
+          gh pr create \
+            --title "PHP CS Fixer $PHP_FIXER_DATETIME" \
+            --body "This Pull Request includes automated changes from PHP-CS-Fixer." \
+            --base "${{ github.ref_name }}" \
+            --head "php-fixer/$PHP_FIXER_DATETIME"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

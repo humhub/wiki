@@ -1,0 +1,72 @@
+name: module-tests-master
+
+on:
+  workflow_call:
+    inputs:
+      humhub-branch:
+        description: Test against HumHub Branch.
+        required: false
+        default: master
+        type: string
+      php:
+        description: PHP versions to test, separated by comma.
+        default: >-
+          ['8.1', '8.2', '8.3']
+        type: string
+      os:
+        description: Os to test, separated by comma.
+        default: >-
+          ['ubuntu-latest']
+        type: string
+      module-id:
+        description: Module ID.
+        required: true
+        type: string
+      extensions:
+        description: List of extensions to PHP.
+        default: curl, intl, pdo, pdo_mysql, zip, exif, fileinfo, mbstring, gd, ldap
+        type: string
+      mysql:
+        description: MySQL versions to test, separated by comma.
+        default: >-
+          ['5.7']
+        type: string
+      use-rest-module:
+        description: Activate REST API module for api tests.
+        default: false
+        type: boolean
+      run-solr:
+        description: Run Apache Solr.
+        default: false
+        type: boolean
+      run-clamav:
+        description: Run virus scanner ClamAV.
+        default: false
+        type: boolean
+      additional-module-id:
+        description: Additional Module ID.
+        type: string
+      additional-module-repo:
+        description: Additional Module Repository.
+        type: string
+        default: humhub
+      additional-module-branch:
+        description: Additional Module Branch.
+        type: string
+        default: master
+
+jobs:
+  call-base:
+    uses: ./.github/workflows/codeception-base.yml
+    with:
+      module-id: ${{ inputs.module-id }}
+      humhub-branch: ${{ inputs.humhub-branch }}
+      php: ${{ inputs.php }}
+      extensions: ${{ inputs.extensions }}
+      mysql: ${{ inputs.mysql }}
+      use-rest-module: ${{ inputs.use-rest-module }}
+      run-solr: ${{ inputs.run-solr }}
+      run-clamav: ${{ inputs.run-clamav }}
+      additional-module-id: ${{ inputs.additional-module-id }}
+      additional-module-repo: ${{ inputs.additional-module-repo }}
+      additional-module-branch: ${{ inputs.additional-module-branch }}

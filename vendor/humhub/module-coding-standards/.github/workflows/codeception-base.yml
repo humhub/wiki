@@ -1,0 +1,338 @@
+name: module-tests-base
+
+on:
+  workflow_call:
+    inputs:
+      module-id:
+        description: Module ID.
+        required: true
+        type: string
+      humhub-branch:
+        description: Test against HumHub Branch.
+        required: false
+        default: develop
+        type: string
+      os:
+        description: Os to test, separated by comma.
+        default: >-
+          ['ubuntu-latest']
+        type: string
+      php:
+        description: PHP versions to test, separated by comma.
+        default: >-
+          ['8.2', '8.3', '8.4']
+        type: string
+      extensions:
+        description: List of extensions to PHP.
+        default: curl, intl, pdo, pdo_mysql, zip, exif, fileinfo, mbstring, gd, ldap
+        type: string
+      mysql:
+        description: MySQL versions to test, separated by comma.
+        default: >-
+          ['5.7']
+        type: string
+      use-rest-module:
+        description: Activate REST API module for api tests.
+        default: false
+        type: boolean
+      run-solr:
+        description: Run Apache Solr.
+        default: false
+        type: boolean
+      run-clamav:
+        description: Run virus scanner ClamAV.
+        default: false
+        type: boolean
+      additional-module-id:
+        description: Additional Module ID.
+        type: string
+      additional-module-repo:
+        description: Additional Module Repository.
+        type: string
+        default: humhub
+      additional-module-branch:
+        description: Additional Module Branch.
+        type: string
+        default: master
+jobs:
+  check-compatibility:
+    runs-on: ubuntu-latest
+    outputs:
+      skip: ${{ steps.check.outputs.skip }}
+      humhub_version: ${{ steps.humhub.outputs.version }}
+    env:
+      HUMHUB_BRANCH: ${{ inputs.humhub-branch }}
+    steps:
+      - name: Checkout HumHub Core
+        uses: actions/checkout@v4
+        with:
+          repository: humhub/humhub
+          ref: ${{ env.HUMHUB_BRANCH }}
+
+      - name: Get HumHub version
+        id: humhub
+        run: |
+          version=$(grep -oP "'version'\s*=>\s*'[^']+'" protected/humhub/config/common.php | sed -E "s/.*'([^']+)'.*/\1/")
+          echo "Found HumHub version: $version"
+          echo "version=$version" >> $GITHUB_OUTPUT
+
+      - name: Checkout Module
+        uses: actions/checkout@v4
+        with:
+          path: protected/modules/${{ inputs.module-id }}
+
+      - name: Read module.json
+        id: module
+        run: |
+          min=$(jq -r '.humhub.minVersion' protected/modules/${{ inputs.module-id }}/module.json)
+          max=$(jq -r '.humhub.maxVersion // empty' protected/modules/${{ inputs.module-id }}/module.json)
+          echo "min=$min" >> $GITHUB_OUTPUT
+          echo "max=$max" >> $GITHUB_OUTPUT
+      - name: Check version compatibility
+        id: check
+        run: |
+          HUMHUB="${{ steps.humhub.outputs.version }}"
+          BRANCH="${{ env.HUMHUB_BRANCH }}"
+          MIN="${{ steps.module.outputs.min }}"
+          MAX="${{ steps.module.outputs.max }}"
+          
+          echo "---------------------------------------------------"
+          echo " Checking HumHub compatibility (raw values)"
+          echo "   - HumHub branch  : $BRANCH"
+          echo "   - HumHub version : $HUMHUB"
+          echo "   - Module min     : $MIN"
+          echo "   - Module max     : ${MAX:-∞}"
+          echo "---------------------------------------------------"
+          
+          # Strip leading "v"
+          HUMHUB="${HUMHUB#v}"
+          
+          # Remove "-master" / "-develop" suffixes (nur für Dev-Builds)
+          if [[ "$HUMHUB" =~ -master$ ]] || [[ "$HUMHUB" =~ -develop$ ]]; then
+            HUMHUB=$(echo "$HUMHUB" | sed -E 's/-(master|develop)$//')
+          fi
+          
+          # Add Patch-Level if only major.minor
+          if [[ "$MIN" =~ ^[0-9]+\.[0-9]+$ ]]; then
+            MIN="${MIN}.0"
+          fi
+          
+          # Normalize MAX (x.y.999)
+          if [[ "$MAX" =~ ^[0-9]+\.[0-9]+$ ]]; then
+            MAX="${MAX}.999"
+          fi
+          
+          echo " Normalized values:"
+          echo "   - HumHub version : $HUMHUB"
+          echo "   - Module min     : $MIN"
+          echo "   - Module max     : ${MAX:-∞}"
+          echo "---------------------------------------------------"
+          
+          skip=false
+          reason=""
+          
+          # Check minVersion
+          if dpkg --compare-versions "$HUMHUB" lt "$MIN"; then
+            skip=true
+            reason="HumHub $HUMHUB is lower than required minVersion $MIN"
+          else
+            echo "Comparison result: $HUMHUB >= $MIN"
+          fi
+          
+          # Check maxVersion if set
+          if [ -n "$MAX" ]; then
+            if dpkg --compare-versions "$HUMHUB" gt "$MAX"; then
+              skip=true
+              reason="HumHub $HUMHUB is higher than allowed maxVersion $MAX"
+            else
+              echo "Comparison result: $HUMHUB <= $MAX"
+            fi
+          fi
+          
+          echo "skip=$skip" >> $GITHUB_OUTPUT
+          echo "humhub=$HUMHUB" >> $GITHUB_OUTPUT
+          echo "branch=$BRANCH" >> $GITHUB_OUTPUT
+          echo "min=$MIN" >> $GITHUB_OUTPUT
+          echo "max=$MAX" >> $GITHUB_OUTPUT
+          echo "reason=$reason" >> $GITHUB_OUTPUT
+          
+          if [ "$skip" = true ]; then
+            echo "⚠️ Module NOT compatible!"
+            echo "   Reason: $reason"
+          else
+            echo "✅ Module IS compatible with HumHub $HUMHUB ($BRANCH)"
+          fi
+
+  tests:
+    name: PHP ${{ matrix.php }}-mysql-${{ matrix.mysql }}-humhub-${{ inputs.humhub-branch }}
+
+    needs: check-compatibility
+    if: needs.check-compatibility.outputs.skip == 'false'
+
+    env:
+      module-id: ${{ inputs.module-id }}
+      extensions: ${{ inputs.extensions }}
+      key: cache-v1
+      HUMHUB_BRANCH: ${{ inputs.humhub-branch }}
+
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: ${{ fromJson(inputs.os) }}
+        php: ${{ fromJson(inputs.php) }}
+        mysql: ${{ fromJson(inputs.mysql) }}
+
+    services:
+      mysql:
+        image: mysql:${{ matrix.mysql }}
+        env:
+          MYSQL_DATABASE: humhub_test
+          MYSQL_ROOT_PASSWORD: root
+        ports:
+          - 3306:3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+
+    steps:
+      - name: Start Selenium
+        run: |
+          docker run --detach --net=host --shm-size="2g" selenium/standalone-chrome:108.0-20250123
+                
+      - uses: actions/setup-node@v4
+
+      - name: Checkout HumHub Core
+        uses: actions/checkout@v4
+        with:
+          repository: humhub/humhub
+          ref: ${{ env.HUMHUB_BRANCH }}
+
+      - name: Checkout Module
+        uses: actions/checkout@v4
+        with:
+          path: protected/modules/${{ env.module-id }}
+
+      - name: Checkout Additional Module
+        if: ${{ inputs.additional-module-id }}
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ inputs.additional-module-repo }}/${{ inputs.additional-module-id }}
+          ref: ${{ inputs.additional-module-branch }}
+          path: protected/modules/${{ inputs.additional-module-id }}
+
+      - name: Run Apache Solr
+        if: ${{ inputs.run-solr }}
+        run: |
+          docker run --name humhub_solr \
+            -d -p 127.0.0.1:8983:8983 \
+            -v ${GITHUB_WORKSPACE}/protected/modules/${{ env.module-id }}/resources/solr:/humhubcore_config/conf \
+            solr:9 solr-precreate humhubcore /humhubcore_config
+
+      - name: Run virus scanner ClamAV
+        if: ${{ inputs.run-clamav }}
+        run: |
+          docker run -d --name clamav \
+            -v ${GITHUB_WORKSPACE}/protected/modules/${{ env.module-id }}:/usr/local/share/clamav \
+            -p 3310:3310 clamav/clamav
+
+      - name: Install PHP with extensions
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: ${{ env.extensions }}
+          ini-values: date.timezone='UTC'
+
+      - name: Determine composer cache directory
+        if: matrix.os == 'ubuntu-latest'
+        run: echo "COMPOSER_CACHE_DIR=$(composer config cache-dir)" >> $GITHUB_ENV
+
+      - name: Validate composer.json and composer.lock
+        run: composer validate
+
+      - name: Cache dependencies installed with composer
+        uses: actions/cache@v4
+        with:
+          path: ${{ env.COMPOSER_CACHE_DIR }}
+          key: php${{ matrix.php }}-composer-${{ matrix.dependencies }}-${{ hashFiles('**/composer.json') }}
+          restore-keys: |
+            php${{ matrix.php }}-composer-${{ matrix.dependencies }}-
+
+      - name: Install dependencies with composer
+        run: composer install --prefer-dist --no-interaction --no-progress --optimize-autoloader --ansi
+
+      - name: Install npm dependencies
+        run: npm install
+
+      - name: Build production assets
+        run: grunt build-assets
+
+      - name: Run migrations
+        run: php protected/humhub/tests/codeception/bin/yii migrate/up --includeModuleMigrations=1 --interactive=0
+
+      - name: Run installer
+        run: php protected/humhub/tests/codeception/bin/yii installer/auto
+
+      - name: Checkout REST Module
+        if: ${{ inputs.use-rest-module }}
+        uses: actions/checkout@v4
+        with:
+          repository: 'humhub/rest'
+          ref: 'master'
+          path: 'protected/modules/rest'
+
+# This module should be activated on HumHubApiTestCest::_before()
+# Don't to do it here because it has a requirement to Pretty URLs
+#      - name: Activate REST Module
+#        if: ${{ inputs.use-rest-module }}
+#        run: php protected/humhub/tests/codeception/bin/yii module/enable rest
+
+      - name: Rebuild search index
+        run: php protected/humhub/tests/codeception/bin/yii content-search/rebuild
+
+      - name: Build codeception core files
+        run: |
+          cd $GITHUB_WORKSPACE/protected/humhub/tests
+          php ../../vendor/bin/codecept build
+
+      - name: Run test server
+        run: |
+          # Temporary condition while branch "master" doesn't use pretty URLs on acceptance tests
+          if cat $GITHUB_WORKSPACE/.github/workflows/php-test.yml | grep -q ":8080 index-test.php"
+          then
+            php --server 127.0.0.1:8080 index-test.php &>/tmp/phpserver.log &
+          else
+            php --server 127.0.0.1:8080 &>/tmp/phpserver.log &
+          fi
+
+#      - name: Setup chromedriver
+#        run: chromedriver --url-base=/wd/hub &
+
+      - name: Valdiate test server
+        run: sleep 5 && curl --fail --head http://127.0.0.1:8080/index-test.php
+
+      - name: Install module dependencies
+        if: ${{ hashFiles(format('{0}/protected/modules/{1}/composer.json', github.workspace, env.module-id)) != '' }}
+        run: |
+          cd $GITHUB_WORKSPACE/protected/modules/${{ env.module-id }}
+          composer install --prefer-dist --no-interaction --no-progress --optimize-autoloader --ansi
+
+      - name: Install module dependencies for the additional module
+        if: ${{ hashFiles(format('{0}/protected/modules/{1}/composer.json', github.workspace, inputs.additional-module-id)) != '' }}
+        run: |
+          cd $GITHUB_WORKSPACE/protected/modules/${{ inputs.additional-module-id }}
+          composer install --prefer-dist --no-interaction --no-progress --optimize-autoloader --ansi
+
+      - name: Run test suite
+        run: |
+          export HUMHUB_PATH=$GITHUB_WORKSPACE
+          cd $GITHUB_WORKSPACE/protected/modules/${{ env.module-id }}/tests
+          php $GITHUB_WORKSPACE/protected/vendor/bin/codecept build
+          php $GITHUB_WORKSPACE/protected/vendor/bin/codecept run --env github
+          
+      - name: Upload Codeception Output
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: codeception-output
+          path: |
+            protected/modules/*/tests/codeception/_output/*
+            protected/runtime/logs/*

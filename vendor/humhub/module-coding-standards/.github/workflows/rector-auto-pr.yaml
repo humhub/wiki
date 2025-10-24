@@ -1,0 +1,50 @@
+name: Rector
+
+on:
+  workflow_call:
+    inputs:
+      php-version:
+        required: false
+        type: string
+        default: '8.2'
+
+jobs:
+  rector:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ inputs.php-version }}
+          tools: composer
+
+      - name: Install dependencies
+        run: composer update --no-interaction --no-progress --prefer-dist
+
+      - name: Run Rector
+        run: composer rector
+
+      - name: Check diff vs base branch
+        run: |
+          git fetch origin ${{ github.event.repository.default_branch }}
+          git diff --stat origin/${{ github.event.repository.default_branch }} || true
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ env.GH_TOKEN }}
+          branch: rector/auto-update
+          title: "chore: automated Rector updates"
+          body: "Automated Rector run (weekly)"
+          delete-branch: true
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -18,14 +18,14 @@ use Yii;
 
 class HierarchyListService
 {
-    private ContentContainerActiveRecord $container;
+    private readonly ContentContainerActiveRecord $container;
 
     /**
      * @var HierarchyItem[] $items
      */
     private array $items = [];
 
-    private ?int $currentItemId;
+    private readonly ?int $currentItemId;
 
     public function __construct(ContentContainerActiveRecord $container)
     {

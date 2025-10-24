@@ -1,0 +1,11 @@
+on:
+  push:
+    tags:
+    - 'v*'
+
+name: Upload to HumHub Marketplace
+
+jobs:
+  build:
+    uses: humhub/module-coding-standards/.github/workflows/marketplace-upload.yml@main
+    secrets: inherit

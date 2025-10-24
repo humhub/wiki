@@ -1,0 +1,46 @@
+name: Upload Module to HumHub Marketplace
+
+on:
+  workflow_call:
+    inputs:
+      module-id:
+        description: Marketplace ID of the Module
+        default: ${{ github.event.repository.name }}
+        required: false
+        type: string
+      
+jobs:
+  build:
+    name: Build and Upload Module Package
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with: 
+          path: ${{ inputs.module-id }}
+
+      - name: Install Composer
+        if: ${{ hashFiles(format('{0}/composer.json', inputs.module-id)) != '' }}
+        run: cd ${{ inputs.module-id }}; composer install --prefer-dist --no-interaction --no-progress --optimize-autoloader --no-dev --ansi
+
+      - name: Install NPM
+        if: ${{ hashFiles(format('{0}/package.json', inputs.module-id)) != '' }}
+        run: cd ${{ inputs.module-id }}; npm install
+
+      - name: Build project
+        run: |
+          zip -r ${{ inputs.module-id }}.zip ${{ inputs.module-id }}/
+
+      - name: Upload Package to HumHub Marketplace
+        run: |
+          curl --fail \
+          -F "key=${{secrets.MARKETPLACE_API_KEY}}" \
+          -F "ModuleVersionUpload[zipFile]=@${{ inputs.module-id }}.zip" \
+          https://api.humhub.com/v1/marketplace/upload?moduleId=${{ inputs.module-id }}
+
+      - name: Upload Package to HumHub Marketplace (Integration)
+        run: |
+          curl --fail \
+          -F "key=${{secrets.MARKETPLACE_API_KEY_INT}}" \
+          -F "ModuleVersionUpload[zipFile]=@${{ inputs.module-id }}.zip" \
+          https://api.humhub.dev/v1/marketplace/upload?moduleId=${{ inputs.module-id }}

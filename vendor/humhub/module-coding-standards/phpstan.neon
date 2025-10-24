@@ -1,0 +1,8 @@
+parameters:
+    level: 7
+    paths:
+        - src
+    excludePaths:
+        - vendor
+        - messages
+    checkMissingIterableValueType: false

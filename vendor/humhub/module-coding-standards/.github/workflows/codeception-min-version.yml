@@ -1,0 +1,122 @@
+name: module-tests-min-version
+
+on:
+  workflow_call:
+    inputs:
+      os:
+        description: Os to test, separated by comma.
+        default: >-
+          ['ubuntu-latest']
+        type: string
+      module-id:
+        description: Module ID.
+        required: true
+        type: string
+      extensions:
+        description: List of extensions to PHP.
+        default: curl, intl, pdo, pdo_mysql, zip, exif, fileinfo, mbstring, gd, ldap
+        type: string
+      mysql:
+        description: MySQL versions to test, separated by comma.
+        default: >-
+          ['5.7']
+        type: string
+      use-rest-module:
+        description: Activate REST API module for api tests.
+        default: false
+        type: boolean
+      run-solr:
+        description: Run Apache Solr.
+        default: false
+        type: boolean
+      run-clamav:
+        description: Run virus scanner ClamAV.
+        default: false
+        type: boolean
+      additional-module-id:
+        description: Additional Module ID.
+        type: string
+      additional-module-repo:
+        description: Additional Module Repository.
+        type: string
+        default: humhub
+      additional-module-branch:
+        description: Additional Module Branch.
+        type: string
+        default: master
+
+jobs:
+  determine-min-version:
+    runs-on: ubuntu-latest
+    outputs:
+      humhub-tag: ${{ steps.get-tag.outputs.humhub-tag }}
+      php-version: ${{ steps.get-php.outputs.php-version }}
+    steps:
+      - name: Checkout Module
+        uses: actions/checkout@v4
+        with:
+          path: protected/modules/${{ inputs.module-id }}
+
+      - name: Read minVersion from module.json
+        id: get-min
+        run: |
+          min=$(jq -r '.humhub.minVersion' protected/modules/${{ inputs.module-id }}/module.json)
+          echo "minVersion=$min" >> $GITHUB_OUTPUT
+          echo "ℹ️ Module requires HumHub minVersion: $min"
+    
+
+      - name: Get latest HumHub patch tag
+        # Example
+        # minVersion: "1.18"
+        # → find v1.18.0, v1.18.1, v1.18.2
+        # → choose v1.18.2
+        #
+        # minVersion: "1.18.0"
+        # → find v1.18.0, v1.18.0-beta.1, v1.18.0-beta.2
+        # → choose v1.18.0
+        #
+        # minVersion: "1.18.0-beta"
+        # → find v1.18.0-beta.1, v1.18.0-beta.2
+        # → choose v1.18.0-beta.2.
+        id: get-tag
+        run: |
+          git clone --quiet --filter=blob:none --tags https://github.com/humhub/humhub.git humhub-core
+          cd humhub-core
+          base="${{ steps.get-min.outputs.minVersion }}"
+          
+          # Search with "v" Prefix
+          tags=$(git tag -l "v${base}*")
+          if [ -n "$tags" ]; then
+            latest=$(echo "$tags" | sort -V | tail -n1)
+          else
+            echo "❌ No tag found for base ${base}"
+            exit 1
+          fi
+          
+          echo "Found latest patch tag: $latest"
+          echo "humhub-tag=$latest" >> $GITHUB_OUTPUT
+
+      - name: Read minRecommendedPhpVersion
+        id: get-php
+        run: |
+          cd humhub-core
+          git checkout ${{ steps.get-tag.outputs.humhub-tag }}
+          phpmin=$(grep -oP "'minRecommendedPhpVersion'\s*=>\s*'[^']+'" protected/humhub/config/common.php | sed -E "s/.*'([^']+)'.*/\1/")
+          echo "Minimum recommended PHP: $phpmin"
+          echo "php-version=[\"$phpmin\"]" >> $GITHUB_OUTPUT
+
+  call-base:
+    uses: ./.github/workflows/codeception-base.yml
+    needs: determine-min-version
+    with:
+      module-id: ${{ inputs.module-id }}
+      humhub-branch: ${{ needs.determine-min-version.outputs.humhub-tag }}
+      php: ${{ needs.determine-min-version.outputs.php-version }}
+      extensions: ${{ inputs.extensions }}
+      mysql: ${{ inputs.mysql }}
+      use-rest-module: ${{ inputs.use-rest-module }}
+      run-solr: ${{ inputs.run-solr }}
+      run-clamav: ${{ inputs.run-clamav }}
+      additional-module-id: ${{ inputs.additional-module-id }}
+      additional-module-repo: ${{ inputs.additional-module-repo }}
+      additional-module-branch: ${{ inputs.additional-module-branch }}

@@ -1,0 +1,22 @@
+{
+  "name": "humhub/module-coding-standards",
+  "description": "Central code quality and Rector rules for HumHub modules",
+  "type": "library",
+  "license": "MIT",
+  "require": {
+    "php": "^8.2",
+    "rector/rector": "^2.2",
+    "friendsofphp/php-cs-fixer": "^3.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "HumHubUtils\\RectorRules\\": "src/RectorRules",
+      "HumHubUtils\\": "src/HumHubUtils"
+    }
+  },
+  "scripts": {
+    "rector": "vendor/bin/rector process --config=vendor/humhub/module-coding-standards/rector.php",
+    "phpstan": "vendor/bin/phpstan analyse --configuration=vendor/humhub/module-coding-standards/phpstan.neon",
+    "fixer": "vendor/bin/php-cs-fixer fix --config=vendor/humhub/module-coding-standards/php-cs-fixer.php"
+  }
+}
