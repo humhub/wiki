@@ -2,7 +2,7 @@
 nbproject
 .idea/*
 .gitmodules
-/composer.lock
+/vendor/
 
 node_modules
 
