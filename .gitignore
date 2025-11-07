@@ -3,7 +3,7 @@ nbproject
 .idea/*
 .gitmodules
 /vendor/
-
+composer.lock
 node_modules
 
 /.buildpath
