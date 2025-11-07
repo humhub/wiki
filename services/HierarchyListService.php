@@ -18,19 +18,15 @@ use Yii;
 
 class HierarchyListService
 {
-    private ContentContainerActiveRecord $container;
-
     /**
      * @var HierarchyItem[] $items
      */
     private array $items = [];
 
-    private ?int $currentItemId;
+    private readonly ?int $currentItemId;
 
-    public function __construct(ContentContainerActiveRecord $container)
+    public function __construct(private readonly ContentContainerActiveRecord $container)
     {
-        $this->container = $container;
-
         $query = WikiPage::find()
             ->select([
                 WikiPage::tableName() . '.id',

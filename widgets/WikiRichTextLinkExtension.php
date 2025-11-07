@@ -34,9 +34,7 @@ class WikiRichTextLinkExtension extends RichTextLinkExtension
      */
     public function parseWikiLinks(bool $isEdit, string $output)
     {
-        return static::replace($output, function (RichTextLinkExtensionMatch $match) use ($isEdit) {
-            return $this->toWikiLink($isEdit, $match->getText(), WikiPage::findOne(['id' => $match->getExtensionId()]), null, $match->getTitle());
-        });
+        return static::replace($output, fn(RichTextLinkExtensionMatch $match) => $this->toWikiLink($isEdit, $match->getText(), WikiPage::findOne(['id' => $match->getExtensionId()]), null, $match->getTitle()));
     }
 
     /**
@@ -54,13 +52,13 @@ class WikiRichTextLinkExtension extends RichTextLinkExtension
                 return $match[0];
             }
 
-            if (strpos($url, "file-guid-") !== 0 && strpos($url, "file-guid:") !== 0 && $url[0] !== '.' && $url[0] !== '/' && strpos($url, ':') === false) {
+            if (!str_starts_with($url, "file-guid-") && !str_starts_with($url, "file-guid:") && $url[0] !== '.' && $url[0] !== '/' && !str_contains($url, ':')) {
                 $page = WikiPage::findOne(['title' => $match[2]]);
                 return $this->toWikiLink($isEdit, $match[1], $page);
             }
 
             if (!$isEdit) {
-                if (strpos($url, "file-guid-") === 0) {
+                if (str_starts_with($url, "file-guid-")) {
                     $guid = str_replace('file-guid-', '', $url);
                     $file = File::findOne(['guid' => $guid]);
                     if ($file !== null) {
@@ -93,7 +91,7 @@ class WikiRichTextLinkExtension extends RichTextLinkExtension
             $url = $isEdit ? $page->id : Url::toWiki($page);
 
             if ($anchor) {
-                $url .= '#' . urlencode($anchor);
+                $url .= '#' . urlencode((string) $anchor);
             }
 
             return $this->toWikiLink($isEdit, $label, $url, $page->title);
