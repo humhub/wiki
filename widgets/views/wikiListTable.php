@@ -23,9 +23,7 @@ use yii\data\ActiveDataProvider;
         [
             'attribute' => 'title',
             'format' => 'raw',
-            'value' => function (WikiPage $model) {
-                return $this->render('wikiListTableRow', ['wikiPage' => $model]);
-            },
+            'value' => fn(WikiPage $model) => $this->render('wikiListTableRow', ['wikiPage' => $model]),
         ],
     ],
 ]) ?>

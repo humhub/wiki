@@ -120,9 +120,7 @@ class Events
 
     public static function onLegalModuleUserDataExport(UserDataCollectionEvent $event)
     {
-        $event->addExportData('wiki', array_map(function ($page) {
-            return RestDefinitions::getWikiPage($page);
-        }, WikiPage::find()
+        $event->addExportData('wiki', array_map(RestDefinitions::getWikiPage(...), WikiPage::find()
             ->joinWith('content')
             ->andWhere(['content.created_by' => $event->user->id])
             ->all()));

@@ -133,7 +133,7 @@ class WikiController extends BaseContentController
         $formParams = [
             'id' => $id,
             'targetId' => $targetPage->id,
-            'index' => isset($requestParams['index']) ? $requestParams['index'] : 0,
+            'index' => $requestParams['index'] ?? 0,
         ];
         $moveModel = new WikiPageItemDrop(['contentContainer' => $page->content->container]);
         if ($moveModel->load($formParams, '') && $moveModel->save()) {
