@@ -254,7 +254,7 @@ class WikiPage extends ContentActiveRecord implements Searchable
      * @throws \yii\base\InvalidConfigException
      * @throws \yii\db\IntegrityException
      */
-    public function canEditContent(User $user = null): bool
+    public function canEditContent(?User $user = null): bool
     {
         if ($this->content->canEdit()) {
             return true;
@@ -411,7 +411,7 @@ class WikiPage extends ContentActiveRecord implements Searchable
         return $this->hasOne(static::class, ['id' => 'parent_page_id']);
     }
 
-    public function afterMove(ContentContainerActiveRecord $container = null)
+    public function afterMove(?ContentContainerActiveRecord $container = null)
     {
         if ($this->isCategory) {
             foreach ($this->findChildren()->each() as $childPage) {

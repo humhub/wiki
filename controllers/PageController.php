@@ -55,7 +55,7 @@ class PageController extends BaseController
      * @throws StaleObjectException
      * @throws Throwable
      */
-    public function actionView(int $id = null, $revisionId = null)
+    public function actionView(?int $id = null, $revisionId = null)
     {
         $page = $this->getWikiPage($id);
         if (!$page) {
@@ -404,7 +404,7 @@ class PageController extends BaseController
         return $this->asJson($output);
     }
 
-    public function actionEntry(int $id = null)
+    public function actionEntry(?int $id = null)
     {
         if ($page = $this->getWikiPage($id)) {
             $revision = $this->getRevision($page);

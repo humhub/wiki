@@ -8,6 +8,7 @@ Changelog
 - Fix #391: Fix embedded videos after confirming consent
 - Fix #393: The "delayed loading" of the wiki Move article tree icon is missing
 - Fix #394: Implemented `module-coding-standards`
+- Fix #397: Fix null params for PHP 8.4
 
 2.5.3 (August 25, 2025)
 -----------------------
