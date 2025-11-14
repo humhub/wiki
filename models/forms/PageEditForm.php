@@ -268,7 +268,7 @@ class PageEditForm extends Model
      * @return array
      * @throws \yii\base\Exception
      */
-    public function getCategoryList(int $parentCategoryId = null, int $level = 0)
+    public function getCategoryList(?int $parentCategoryId = null, int $level = 0)
     {
         $categories = [];
 

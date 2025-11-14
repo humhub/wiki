@@ -58,7 +58,7 @@ class Url extends \yii\helpers\Url
         return static::to([static::ROUTE_WIKI_HISTORY, 'id' => $page->id, 'container' => $page->content->container]);
     }
 
-    public static function toWikiDiff(WikiPage $page, WikiPageRevision $revision1 = null, WikiPageRevision $revision2 = null)
+    public static function toWikiDiff(WikiPage $page, ?WikiPageRevision $revision1 = null, ?WikiPageRevision $revision2 = null)
     {
         $rev1 = $revision1 ? $revision1->revision : null;
         $rev2 = $revision2 ? $revision2->revision : null;
@@ -104,7 +104,7 @@ class Url extends \yii\helpers\Url
      * @param WikiPageRevision $revision
      * @return string
      */
-    public static function toWiki(WikiPage $page, WikiPageRevision $revision = null)
+    public static function toWiki(WikiPage $page, ?WikiPageRevision $revision = null)
     {
         $rev = $revision ? $revision->revision : null;
         return static::to([static::ROUTE_WIKI_PAGE, 'id' => $page->id, 'title' => $page->title, 'revisionId' => $rev, 'container' => $page->content->container]);
