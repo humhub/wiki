@@ -1,701 +1,808 @@
-swagger: '2.0'
+openapi: 3.0.0
 info:
   description: |
     Welcome to the HumHub wiki module API reference.
-
   version: 1.0.0
   title: HumHub - Wiki API
   contact:
     email: info@humhub.com
   license:
     name: AGPLv2
-    url: 'https://www.humhub.org/en/licences'
-basePath: /api/v1
-
+    url: https://www.humhub.org/en/licences
 paths:
-  '/wiki':
+  /wiki:
     get:
       tags:
         - Wiki
       summary: Find all wiki pages
-      description: ''
-      produces:
-        - application/json
-        - application/xml
+      description: ""
       parameters:
-        - $ref: 'https://raw.githubusercontent.com/humhub/rest/master/docs/swagger/common.yaml#/components/parameters/pageParam'
-        - $ref: 'https://raw.githubusercontent.com/humhub/rest/master/docs/swagger/common.yaml#/components/parameters/limitParam'
+        - $ref: https://raw.githubusercontent.com/humhub/rest/master/docs/swagger/common.yaml#/components/parameters/pageParam
+        - $ref: https://raw.githubusercontent.com/humhub/rest/master/docs/swagger/common.yaml#/components/parameters/limitParam
       responses:
-        '200':
+        "200":
           description: Success
-          schema:
-            type: object
-            properties:
-              total:
-                $ref: 'https://raw.githubusercontent.com/humhub/rest/master/docs/swagger/common.yaml#/components/properties/totalProperty'
-              page:
-                $ref: 'https://raw.githubusercontent.com/humhub/rest/master/docs/swagger/common.yaml#/components/properties/pageProperty'
-              results:
-                type: array
-                items:
-                  $ref: '#/definitions/WikiPage'
-
-  '/wiki/container/{id}':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  total:
+                    $ref: https://raw.githubusercontent.com/humhub/rest/master/docs/swagger/common.yaml#/components/schemas/totalProperty
+                  page:
+                    $ref: https://raw.githubusercontent.com/humhub/rest/master/docs/swagger/common.yaml#/components/schemas/pageProperty
+                  results:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/WikiPage"
+            application/xml:
+              schema:
+                type: object
+                properties:
+                  total:
+                    $ref: https://raw.githubusercontent.com/humhub/rest/master/docs/swagger/common.yaml#/components/schemas/totalProperty
+                  page:
+                    $ref: https://raw.githubusercontent.com/humhub/rest/master/docs/swagger/common.yaml#/components/schemas/pageProperty
+                  results:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/WikiPage"
+  "/wiki/container/{id}":
     get:
       tags:
         - Wiki
       summary: Find all wiki pages by container
-      description: ''
-      produces:
-        - application/json
-        - application/xml
+      description: ""
       parameters:
         - name: id
           in: path
           description: ID of content container
           required: true
-          type: integer
-        - $ref: 'https://raw.githubusercontent.com/humhub/rest/master/docs/swagger/content.yaml#/components/parameters/topicsParam'
-        - $ref: 'https://raw.githubusercontent.com/humhub/rest/master/docs/swagger/common.yaml#/components/parameters/pageParam'
-        - $ref: 'https://raw.githubusercontent.com/humhub/rest/master/docs/swagger/common.yaml#/components/parameters/limitParam'
-      responses:
-        200:
-          description: Success
           schema:
-            type: object
-            properties:
-              total:
-                $ref: 'https://raw.githubusercontent.com/humhub/rest/master/docs/swagger/common.yaml#/components/properties/totalProperty'
-              page:
-                $ref: 'https://raw.githubusercontent.com/humhub/rest/master/docs/swagger/common.yaml#/components/properties/pageProperty'
-              results:
-                type: array
-                items:
-                  $ref: '#/definitions/WikiPage'
-
+            type: integer
+        - $ref: https://raw.githubusercontent.com/humhub/rest/master/docs/swagger/content.yaml#/components/parameters/topicsParam
+        - $ref: https://raw.githubusercontent.com/humhub/rest/master/docs/swagger/common.yaml#/components/parameters/pageParam
+        - $ref: https://raw.githubusercontent.com/humhub/rest/master/docs/swagger/common.yaml#/components/parameters/limitParam
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  total:
+                    $ref: https://raw.githubusercontent.com/humhub/rest/master/docs/swagger/common.yaml#/components/schemas/totalProperty
+                  page:
+                    $ref: https://raw.githubusercontent.com/humhub/rest/master/docs/swagger/common.yaml#/components/schemas/pageProperty
+                  results:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/WikiPage"
+            application/xml:
+              schema:
+                type: object
+                properties:
+                  total:
+                    $ref: https://raw.githubusercontent.com/humhub/rest/master/docs/swagger/common.yaml#/components/schemas/totalProperty
+                  page:
+                    $ref: https://raw.githubusercontent.com/humhub/rest/master/docs/swagger/common.yaml#/components/schemas/pageProperty
+                  results:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/WikiPage"
     post:
       tags:
         - Wiki Page
       summary: Create new wiki page
-      description: ''
-      produces:
-        - application/json
+      description: ""
       parameters:
         - in: path
           name: id
           description: The id of content container
           required: true
-          type: integer
-        - $ref: "#/definitions/WikiPageParams"
+          schema:
+            type: integer
+      requestBody:
+        $ref: "#/components/requestBodies/Body"
       responses:
-        200:
+        "200":
           description: Success
-          schema:
-            $ref: "#/definitions/WikiPage"
-        404:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WikiPage"
+        "404":
           description: Not found
-          schema:
-            type: object
-            properties:
-              code:
-                type: integer
-                example: 404
-              message:
-                type: string
-                example: Content container not found!
-        422:
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 404
+                  message:
+                    type: string
+                    example: Content container not found!
+        "422":
           description: Validation failed
-        500:
+        "500":
           description: Internal server error
-          schema:
-            type: object
-            properties:
-              code:
-                type: integer
-                example: 500
-              message:
-                type: string
-                example: Internal error while save valid wiki page!
-
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 500
+                  message:
+                    type: string
+                    example: Internal error while save valid wiki page!
     delete:
       tags:
         - Wiki
       summary: Deletes a wiki pages by container
-      produces:
-        - application/json
       parameters:
         - name: id
           in: path
           description: The id of content container
           required: true
-          type: integer
+          schema:
+            type: integer
       responses:
-        200:
+        "200":
           description: Success
-          schema:
-            type: object
-            properties:
-              code:
-                type: integer
-                example: 200
-              message:
-                type: string
-                example: Records successfully deleted!
-        404:
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 200
+                  message:
+                    type: string
+                    example: Records successfully deleted!
+        "404":
           description: Not found
-          schema:
-            type: object
-            properties:
-              code:
-                type: integer
-                example: 404
-              message:
-                type: string
-                example: Content container not found!
-
-
-  '/wiki/page/{id}':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 404
+                  message:
+                    type: string
+                    example: Content container not found!
+  "/wiki/page/{id}":
     get:
       tags:
         - Wiki Page
       summary: Get wiki page by id
-      description: ''
-      produces:
-        - application/json
+      description: ""
       parameters:
         - name: id
           in: path
           description: The id of the wiki page
           required: true
-          type: integer
+          schema:
+            type: integer
       responses:
-        200:
+        "200":
           description: Success
-          schema:
-            $ref: "#/definitions/WikiPage"
-        404:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WikiPage"
+        "404":
           description: Not found
-          schema:
-            type: object
-            properties:
-              code:
-                type: integer
-                example: 404
-              message:
-                type: string
-                example: Requested content not found!
-
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 404
+                  message:
+                    type: string
+                    example: Requested content not found!
     put:
       tags:
         - Wiki Page
       summary: Update wiki page by id
-      description: ''
-      produces:
-        - application/json
+      description: ""
       parameters:
         - name: id
           in: path
           description: The id of the wiki page
           required: true
-          type: integer
-        - $ref: "#/definitions/WikiPageParams"
+          schema:
+            type: integer
+      requestBody:
+        $ref: "#/components/requestBodies/Body"
       responses:
-        200:
+        "200":
           description: Success
-          schema:
-            $ref: "#/definitions/WikiPage"
-        404:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WikiPage"
+        "404":
           description: Not found
-          schema:
-            type: object
-            properties:
-              code:
-                type: integer
-                example: 404
-              message:
-                type: string
-                example: Page not found!
-        422:
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 404
+                  message:
+                    type: string
+                    example: Page not found!
+        "422":
           description: Validation failed
-        500:
+        "500":
           description: Internal server error
-          schema:
-            type: object
-            properties:
-              code:
-                type: integer
-                example: 500
-              message:
-                type: string
-                example: Internal error while update wiki page!
-
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 500
+                  message:
+                    type: string
+                    example: Internal error while update wiki page!
     delete:
       tags:
         - Wiki Page
       summary: Deletes a wiki page by id
-      produces:
-        - application/json
       parameters:
         - name: id
           in: path
           description: The id of wiki page
           required: true
-          type: integer
+          schema:
+            type: integer
       responses:
-        200:
+        "200":
           description: Success
-          schema:
-            type: object
-            properties:
-              code:
-                type: integer
-                example: 200
-              message:
-                type: string
-                example: Successfully deleted!
-        404:
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 200
+                  message:
+                    type: string
+                    example: Successfully deleted!
+        "404":
           description: Not found
-          schema:
-            type: object
-            properties:
-              code:
-                type: integer
-                example: 404
-              message:
-                type: string
-                description: Content record not found!
-
-#-----------------------------------------------------------------------------------------------------------------------
-# Begin Wiki Page Management
-#-----------------------------------------------------------------------------------------------------------------------
-
-  '/wiki/page/{id}/change-index':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 404
+                  message:
+                    type: string
+                    description: Content record not found!
+  "/wiki/page/{id}/change-index":
     patch:
       tags:
         - Wiki Page Management
       summary: Move page to another category
-      description: ''
-      produces:
-        - application/json
+      description: ""
       parameters:
         - name: id
           in: path
           description: The id of the wiki page
           required: true
-          type: integer
-        - name: body
-          in: body
-          required: true
           schema:
-            type: object
-            required:
-              - target_id
-            properties:
-              target_id:
-                type: integer
-                format: int64
-                example: 2
-                description: Wiki page category id
-              index:
-                type: integer
-                format: int64
-                default: 0
-                example: 2
-                description: Index for order
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - target_id
+              properties:
+                target_id:
+                  type: integer
+                  format: int64
+                  example: 2
+                  description: Wiki page category id
+                index:
+                  type: integer
+                  format: int64
+                  default: 0
+                  example: 2
+                  description: Index for order
+        required: true
       responses:
-        200:
+        "200":
           description: Success
-          schema:
-            type: object
-            properties:
-              code:
-                type: integer
-                example: 200
-              message:
-                type: string
-                example: Wiki page successfully moved!
-        400:
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 200
+                  message:
+                    type: string
+                    example: Wiki page successfully moved!
+        "400":
           description: Bad request
-          schema:
-            type: object
-            properties:
-              code:
-                type: integer
-                example: 400
-              message:
-                type: string
-                example: Wrong target category.
-        404:
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 400
+                  message:
+                    type: string
+                    example: Wrong target category.
+        "404":
           description: Not found
-          schema:
-            type: object
-            properties:
-              code:
-                type: integer
-                example: 404
-              message:
-                type: string
-                example: Page not found!
-        500:
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 404
+                  message:
+                    type: string
+                    example: Page not found!
+        "500":
           description: Internal server error
-          schema:
-            type: object
-            properties:
-              code:
-                type: integer
-                example: 500
-              message:
-                type: string
-                example: Internal error while change wiki page index!
-
-  '/wiki/page/{id}/move':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 500
+                  message:
+                    type: string
+                    example: Internal error while change wiki page index!
+  "/wiki/page/{id}/move":
     patch:
       tags:
         - Wiki Page Management
       summary: Move page to another space
-      description: ''
-      produces:
-        - application/json
+      description: ""
       parameters:
         - name: id
           in: path
           description: The id of the wiki page
           required: true
-          type: integer
-        - name: body
-          in: body
-          required: true
           schema:
-            type: object
-            required:
-              - target
-            properties:
-              target:
-                type: string
-                example: c1c1c7dc-8197-471b-b5fe-2c12b183623a
-                description: Guid of target space container
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - target
+              properties:
+                target:
+                  type: string
+                  example: c1c1c7dc-8197-471b-b5fe-2c12b183623a
+                  description: Guid of target space container
+        required: true
       responses:
-        200:
+        "200":
           description: Success
-          schema:
-            type: object
-            properties:
-              code:
-                type: integer
-                example: 200
-              message:
-                type: string
-                example: Wiki page successfully moved!
-        400:
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 200
+                  message:
+                    type: string
+                    example: Wiki page successfully moved!
+        "400":
           description: Bad request
-          schema:
-            type: object
-            properties:
-              code:
-                type: integer
-                example: 400
-              message:
-                type: string
-                example: Target content container guid is required!
-        404:
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 400
+                  message:
+                    type: string
+                    example: Target content container guid is required!
+        "404":
           description: Not found
-          schema:
-            type: object
-            properties:
-              code:
-                type: integer
-                example: 404
-              message:
-                type: string
-                example: Page not found!
-        422:
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 404
+                  message:
+                    type: string
+                    example: Page not found!
+        "422":
           description: Validation failed
-        500:
+        "500":
           description: Internal server error
-          schema:
-            type: object
-            properties:
-              code:
-                type: integer
-                example: 500
-              message:
-                type: string
-                example: Internal error while move wiki page!
-
-#-----------------------------------------------------------------------------------------------------------------------
-# Begin Wiki Page Revision
-#-----------------------------------------------------------------------------------------------------------------------
-
-  '/wiki/page/{pageId}/revisions':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 500
+                  message:
+                    type: string
+                    example: Internal error while move wiki page!
+  "/wiki/page/{pageId}/revisions":
     get:
       tags:
         - Wiki Page Revision
       summary: Find all revisions for page
-      description: ''
-      produces:
-        - application/json
+      description: ""
       parameters:
         - name: pageId
           in: path
           description: ID of wiki page
           required: true
-          type: integer
-        - $ref: 'https://raw.githubusercontent.com/humhub/rest/master/docs/swagger/common.yaml#/components/parameters/pageParam'
-        - $ref: 'https://raw.githubusercontent.com/humhub/rest/master/docs/swagger/common.yaml#/components/parameters/limitParam'
+          schema:
+            type: integer
+        - $ref: https://raw.githubusercontent.com/humhub/rest/master/docs/swagger/common.yaml#/components/parameters/pageParam
+        - $ref: https://raw.githubusercontent.com/humhub/rest/master/docs/swagger/common.yaml#/components/parameters/limitParam
       responses:
-        200:
+        "200":
           description: Success
-          schema:
-            type: object
-            properties:
-              total:
-                $ref: 'https://raw.githubusercontent.com/humhub/rest/master/docs/swagger/common.yaml#/components/properties/totalProperty'
-              page:
-                $ref: 'https://raw.githubusercontent.com/humhub/rest/master/docs/swagger/common.yaml#/components/properties/pageProperty'
-              pages:
-                $ref: 'https://raw.githubusercontent.com/humhub/rest/master/docs/swagger/common.yaml#/components/properties/pagesProperty'
-              links:
-                $ref: 'https://raw.githubusercontent.com/humhub/rest/master/docs/swagger/common.yaml#/components/properties/linksProperty'
-              results:
-                type: array
-                items:
-                  $ref: '#/definitions/WikiPageRevision'
-        404:
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  total:
+                    $ref: https://raw.githubusercontent.com/humhub/rest/master/docs/swagger/common.yaml#/components/schemas/totalProperty
+                  page:
+                    $ref: https://raw.githubusercontent.com/humhub/rest/master/docs/swagger/common.yaml#/components/schemas/pageProperty
+                  pages:
+                    $ref: https://raw.githubusercontent.com/humhub/rest/master/docs/swagger/common.yaml#/components/schemas/pagesProperty
+                  links:
+                    $ref: https://raw.githubusercontent.com/humhub/rest/master/docs/swagger/common.yaml#/components/schemas/linksProperty
+                  results:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/WikiPageRevision"
+        "404":
           description: Not found
-          schema:
-            type: object
-            properties:
-              code:
-                type: integer
-                example: 404
-              message:
-                type: string
-                example: Page not found!
-
-  '/wiki/revision/{id}':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 404
+                  message:
+                    type: string
+                    example: Page not found!
+  "/wiki/revision/{id}":
     get:
       tags:
         - Wiki Page Revision
       summary: Get revision by id
-      description: ''
-      produces:
-        - application/json
+      description: ""
       parameters:
         - name: id
           in: path
           description: The id of the revision
           required: true
-          type: integer
+          schema:
+            type: integer
       responses:
-        200:
+        "200":
           description: Success
-          schema:
-            $ref: "#/definitions/WikiPageRevision"
-        404:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WikiPageRevision"
+        "404":
           description: Not found
-          schema:
-            type: object
-            properties:
-              code:
-                type: integer
-                example: 404
-              message:
-                type: string
-                example: Wiki page revision not found!
-
-  '/wiki/revision/{id}/revert':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 404
+                  message:
+                    type: string
+                    example: Wiki page revision not found!
+  "/wiki/revision/{id}/revert":
     patch:
       tags:
         - Wiki Page Revision
       summary: Revert page by revision id
-      produces:
-        - application/json
       parameters:
         - name: id
           in: path
           description: The id of the revision
           required: true
-          type: integer
+          schema:
+            type: integer
       responses:
-        200:
+        "200":
           description: Success
-          schema:
-            type: object
-            properties:
-              code:
-                type: integer
-                example: 200
-              message:
-                type: string
-                example: Wiki page revision successfully reverted
-        400:
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 200
+                  message:
+                    type: string
+                    example: Wiki page revision successfully reverted
+        "400":
           description: Success
-          schema:
-            type: object
-            properties:
-              code:
-                type: integer
-                example: 400
-              message:
-                type: string
-                example: Revert not possible. Already latest revision!
-        403:
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 400
+                  message:
+                    type: string
+                    example: Revert not possible. Already latest revision!
+        "403":
           description: Success
-          schema:
-            type: object
-            properties:
-              code:
-                type: integer
-                example: 403
-              message:
-                type: string
-                example: Page not editable!
-        404:
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 403
+                  message:
+                    type: string
+                    example: Page not editable!
+        "404":
           description: Not found
-          schema:
-            type: object
-            properties:
-              code:
-                type: integer
-                example: 404
-              message:
-                type: string
-                example: Wiki page revision not found!
-        500:
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 404
+                  message:
+                    type: string
+                    example: Wiki page revision not found!
+        "500":
           description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 404
+                  message:
+                    type: string
+                    example: Internal error while revert wiki page!
+servers:
+  - url: /api/v1
+components:
+  requestBodies:
+    Body:
+      content:
+        application/json:
           schema:
             type: object
+            required:
+              - WikiPage
+              - WikiPageRevision
             properties:
-              code:
-                type: integer
-                example: 404
-              message:
-                type: string
-                example: Internal error while revert wiki page!
-
-
-securityDefinitions:
-  $ref: "https://raw.githubusercontent.com/humhub/rest/master/docs/swagger/common.yaml#/securityDefinitions"
-
-definitions:
-  WikiPage:
-    type: object
-    properties:
-      id:
-        type: integer
-        format: int64
-        readOnly: true
-        example: 201
-      title:
-        type: string
-        example: "Some Wikipage title"
-      is_home:
-        type: integer
-        format: int64
-        example: 1
-      admin_only:
-        type: integer
-        format: int64
-        example: 1
-      parent_page_id:
-        type: integer
-        format: int64
-        example: null
-      permalink:
-        type: string
-        example: http://localhost/content/perma?id=609
-      latest_revision:
-        readOnly: true
-        $ref: "#/definitions/WikiPageRevision"
-      content:
-        $ref: "https://raw.githubusercontent.com/humhub/rest/master/docs/swagger/content.yaml#/definitions/Content"
-
-  WikiPageRevision:
-    type: object
-    properties:
-      id:
-        type: integer
-        format: int64
-        readOnly: true
-        example: 2424
-      revision:
-        type: integer
-        format: int64
-        readOnly: true
-        example: 1534454147
-      is_latest:
-        type: integer
-        format: int64
-        readOnly: true
-        example: 1
-      wiki_page_id:
-        type: integer
-        format: int64
-        readOnly: true
-        example: 201
-      created_by:
-        readOnly: true
-        $ref: "https://raw.githubusercontent.com/humhub/rest/master/docs/swagger/user.yaml#/definitions/UserShort"
-      message:
-        type: string
-        example: "The wiki page content in markdown."
-
-  WikiPageParams:
-    in: body
-    name: body
-    required: true
-    description: Wiki page information
-    schema:
+              WikiPage:
+                type: object
+                required:
+                  - title
+                properties:
+                  title:
+                    type: string
+                    example: First api page
+                  is_home:
+                    type: integer
+                    format: int64
+                    example: 0
+                  admin_only:
+                    type: integer
+                    format: int64
+                    example: 0
+                  parent_page_id:
+                    type: integer
+                    format: int64
+                    example: 0
+              WikiPageRevision:
+                type: object
+                required:
+                  - content
+                properties:
+                  content:
+                    type: string
+                    example: First api page content
+              PageEditForm:
+                type: object
+                properties:
+                  isPublic:
+                    type: boolean
+                    example: 0
+                  hidden:
+                    type: boolean
+                    example: 1
+                  topics:
+                    type: array
+                    description: Topic id's
+                    items:
+                      type: integer
+                      format: int64
+                    example:
+                      - 2
+                      - 8
+              content:
+                $ref: https://raw.githubusercontent.com/humhub/rest/master/docs/swagger/content.yaml#/components/schemas/Content
+      description: Wiki page information
+  securitySchemes:
+    _ref: https://raw.githubusercontent.com/humhub/rest/master/docs/swagger/common.yaml#/securityDefinitions
+  schemas:
+    WikiPage:
       type: object
-      required:
-        - WikiPage
-        - WikiPageRevision
       properties:
-        WikiPage:
-          type: object
-          required:
-            - title
-          properties:
-            title:
-              type: string
-              example: First api page
-            is_home:
-              type: integer
-              format: int64
-              example: 0
-            admin_only:
-              type: integer
-              format: int64
-              example: 0
-            parent_page_id:
-              type: integer
-              format: int64
-              example: 0
-        WikiPageRevision:
-          type: object
-          required:
-            - content
-          properties:
-            content:
-              type: string
-              example: First api page content
-        PageEditForm:
-          type: object
-          properties:
-            isPublic:
-              type: boolean
-              example: 0
-            hidden:
-              type: boolean
-              example: 1
-            topics:
-              type: array
-              description: Topic id's
-              items:
+        id:
+          type: integer
+          format: int64
+          readOnly: true
+          example: 201
+        title:
+          type: string
+          example: Some Wikipage title
+        is_home:
+          type: integer
+          format: int64
+          example: 1
+        admin_only:
+          type: integer
+          format: int64
+          example: 1
+        parent_page_id:
+          type: integer
+          format: int64
+          example: null
+        permalink:
+          type: string
+          example: http://localhost/content/perma?id=609
+        latest_revision:
+          $ref: "#/components/schemas/WikiPageRevision"
+        content:
+          $ref: https://raw.githubusercontent.com/humhub/rest/master/docs/swagger/content.yaml#/components/schemas/Content
+    WikiPageRevision:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          readOnly: true
+          example: 2424
+        revision:
+          type: integer
+          format: int64
+          readOnly: true
+          example: 1534454147
+        is_latest:
+          type: integer
+          format: int64
+          readOnly: true
+          example: 1
+        wiki_page_id:
+          type: integer
+          format: int64
+          readOnly: true
+          example: 201
+        created_by:
+          $ref: https://raw.githubusercontent.com/humhub/rest/master/docs/swagger/user.yaml#/components/schemas/UserShort
+        message:
+          type: string
+          example: The wiki page content in markdown.
+    WikiPageParams:
+      in: body
+      name: body
+      description: Wiki page information
+      schema:
+        type: object
+        required:
+          - WikiPage
+          - WikiPageRevision
+        properties:
+          WikiPage:
+            type: object
+            required:
+              - title
+            properties:
+              title:
+                type: string
+                example: First api page
+              is_home:
                 type: integer
                 format: int64
-              example:
-                - 2
-                - 8
-        content:
-          $ref: "https://raw.githubusercontent.com/humhub/rest/master/docs/swagger/content.yaml#/definitions/Content"
+                example: 0
+              admin_only:
+                type: integer
+                format: int64
+                example: 0
+              parent_page_id:
+                type: integer
+                format: int64
+                example: 0
+          WikiPageRevision:
+            type: object
+            required:
+              - content
+            properties:
+              content:
+                type: string
+                example: First api page content
+          PageEditForm:
+            type: object
+            properties:
+              isPublic:
+                type: boolean
+                example: 0
+              hidden:
+                type: boolean
+                example: 1
+              topics:
+                type: array
+                description: Topic id's
+                items:
+                  type: integer
+                  format: int64
+                example:
+                  - 2
+                  - 8
+          content:
+            $ref: https://raw.githubusercontent.com/humhub/rest/master/docs/swagger/content.yaml#/components/schemas/Content
+      x-s2o-delete: true

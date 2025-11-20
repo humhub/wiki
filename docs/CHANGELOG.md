@@ -9,6 +9,7 @@ Changelog
 - Fix #393: The "delayed loading" of the wiki Move article tree icon is missing
 - Fix #394: Implemented `module-coding-standards`
 - Fix #397: Fix null params for PHP 8.4
+- Enh #399: Convert swagger docs to OpenAPI 3.0
 
 2.5.3 (August 25, 2025)
 -----------------------
