@@ -62,7 +62,7 @@
 }
 @media (min-width: 480px) {
   .layout-content-container .wiki-page-index {
-    width: 50%;
+    width: 100%;
   }
 }
 .layout-content-container .wiki-page-index .nav {
@@ -173,7 +173,7 @@
 }
 @media (min-width: 480px) {
   .layout-content-container .wiki-page-content .wiki-sub-pages {
-    width: 50%;
+    width: 100%;
   }
 }
 .layout-content-container .wiki-page-content .wiki-sub-pages ul.wiki-page-list {

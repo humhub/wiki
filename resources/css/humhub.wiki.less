@@ -1,4 +1,4 @@
-@BOOTSTRAP: "../../../../../protected/vendor/npm-asset/bootstrap";
+@BOOTSTRAP: "../../../humhub/protected/vendor/npm-asset/bootstrap";
 @import "@{BOOTSTRAP}/less/variables.less";
 @screen-small-max: @screen-lg - 1; // 1199px
 @screen-mobile: 520px;
@@ -113,7 +113,7 @@
 
   .wiki-page-index {
     @media (min-width: @screen-xs) {
-      width: 50%;
+      width: 100%;
     }
     border: 1px solid @border-color-content;
     .border-radius();
@@ -264,7 +264,7 @@
       padding: 15px 0;
       margin-bottom: 10px;
       @media (min-width: @screen-xs) {
-        width: 50%;
+        width: 100%;
       }
 
       ul.wiki-page-list {
