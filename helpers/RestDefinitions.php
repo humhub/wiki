@@ -26,6 +26,7 @@ class RestDefinitions
         return [
             'id' => $page->id,
             'title' => $page->title,
+            'tree_title' => $page->tree_title,
             'is_home' => $page->is_home,
             'admin_only' => $page->admin_only,
             'parent_page_id' => $page->parent_page_id,

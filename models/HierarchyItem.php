@@ -22,7 +22,10 @@ class HierarchyItem
     {
         $this->id = $wikiPage['id'];
         $this->parentId = $wikiPage['parent_page_id'];
-        $this->title = $wikiPage['title'];
+        $this->title = $wikiPage['tree_title'];
+        if ($this->title == null || trim($this->title) == "") {
+            $this->title = $wikiPage['title'];
+        }
         $this->contentVisibility = $wikiPage['content']['visibility'] ?? null;
     }
 }

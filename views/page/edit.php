@@ -92,6 +92,12 @@ Assets::register($this);
                         'disabled' => $model->isDisabledField('title'),
                     ])->label(false); ?>
 
+                <?= $form->field($model->page, 'tree_title')
+                    ->textInput([
+                        'placeholder' => Yii::t('WikiModule.base', 'Tree title'),
+                        'disabled' => $model->isDisabledField('tree_title'),
+                    ])->label(false); ?>
+
                 <?= $form->field($model->revision, 'content')->widget(WikiEditor::class)->label(false) ?>
 
                 <?php $category = $form->field($model->page, 'parent_page_id') ?>

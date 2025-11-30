@@ -36,11 +36,13 @@ class HierarchyListService
                 WikiPage::tableName() . '.id',
                 WikiPage::tableName() . '.parent_page_id',
                 WikiPage::tableName() . '.title',
+                WikiPage::tableName() . '.tree_title',
             ])
             ->contentContainer($this->container)
             ->readable()
             ->orderBy([
                 WikiPage::tableName() . '.sort_order' => SORT_ASC,
+                WikiPage::tableName() . '.tree_title',
                 WikiPage::tableName() . '.title' => SORT_ASC,
             ])
             ->asArray();

@@ -28,6 +28,7 @@ use yii\db\Expression;
  * The followings are the available columns in table 'wiki_page':
  * @property int $id
  * @property string $title
+ * @property string $tree_title
  * @property int $is_home
  * @property int $admin_only
  * @property int $parent_page_id
@@ -110,6 +111,7 @@ class WikiPage extends ContentActiveRecord implements Searchable
         return [
             ['title', 'required'],
             ['title', 'string', 'max' => 255],
+            ['tree_title', 'string', 'max' => 255],
             ['parent_page_id', 'validateParentPage'],
             [['is_home', 'admin_only', 'is_container_menu', 'container_menu_order'], 'integer'],
         ];
@@ -122,9 +124,9 @@ class WikiPage extends ContentActiveRecord implements Searchable
     public function scenarios()
     {
         $scenarios = parent::scenarios();
-        $scenarios[static::SCENARIO_CREATE] = ['title', 'parent_page_id'];
-        $scenarios[static::SCENARIO_EDIT] = ($this->isOwner()) ? ['title', 'parent_page_id'] : [];
-        $scenarios[static::SCENARIO_ADMINISTER] = ['title', 'is_home', 'admin_only', 'parent_page_id', 'is_container_menu', 'container_menu_order'];
+        $scenarios[static::SCENARIO_CREATE] = ['title', 'tree_title', 'parent_page_id'];
+        $scenarios[static::SCENARIO_EDIT] = ($this->isOwner()) ? ['title', 'tree_title', 'parent_page_id'] : [];
+        $scenarios[static::SCENARIO_ADMINISTER] = ['title', 'tree_title', 'is_home', 'admin_only', 'parent_page_id', 'is_container_menu', 'container_menu_order'];
         return $scenarios;
     }
 
@@ -150,6 +152,7 @@ class WikiPage extends ContentActiveRecord implements Searchable
         return [
             'id' => 'ID',
             'title' => 'Title',
+            'tree_title' => 'Title (Tree)',
             'is_home' => Yii::t('WikiModule.base', 'Is homepage'),
             'admin_only' => Yii::t('WikiModule.base', 'Protected'),
             'parent_page_id' => Yii::t('WikiModule.base', 'Parent Page'),

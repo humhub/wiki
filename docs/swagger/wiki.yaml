@@ -589,6 +589,9 @@ definitions:
       title:
         type: string
         example: "Some Wikipage title"
+      tree_title:
+        type: string
+        example: "Some Wikipage tree title"
       is_home:
         type: integer
         format: int64
@@ -657,6 +660,9 @@ definitions:
             - title
           properties:
             title:
+              type: string
+              example: First api page
+            tree_title:
               type: string
               example: First api page
             is_home:
