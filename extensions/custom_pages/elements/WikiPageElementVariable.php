@@ -16,7 +16,7 @@ use yii\db\ActiveRecord;
 class WikiPageElementVariable extends BaseContentRecordElementVariable
 {
     public string $title;
-    public string $tree_title;
+    public string $treeTitle;
     public string $content;
     public string $isHome;
     public string $isAdminOnly;
@@ -29,7 +29,7 @@ class WikiPageElementVariable extends BaseContentRecordElementVariable
     {
         if ($record instanceof WikiPage) {
             $this->title = $record->title;
-            $this->tree_title = $record->tree_title;
+            $this->treeTitle = $record->tree_title;
             $this->content = $record->latestRevision->content;
             $this->isHome = (bool) $record->is_home;
             $this->isAdminOnly = (bool) $record->admin_only;

@@ -42,7 +42,6 @@ class HierarchyListService
             ->readable()
             ->orderBy([
                 WikiPage::tableName() . '.sort_order' => SORT_ASC,
-                WikiPage::tableName() . '.tree_title',
                 WikiPage::tableName() . '.title' => SORT_ASC,
             ])
             ->asArray();
