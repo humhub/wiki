@@ -48,6 +48,7 @@ return [
   'Module name' => 'Module naam',
   'New page' => 'Nieuwe pagina',
   'New page title' => 'Nieuwe paginakop',
+  'Tree title' => 'Titel in de boom',
   'No wiki pages found.' => 'Geen wikipagina\'s gevonden.',
   'None' => 'Geen',
   'Overwrite' => 'Overschrijven',

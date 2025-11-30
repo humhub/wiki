@@ -49,6 +49,7 @@ return [
     'Module name' => 'Názov modulu',
     'New page' => 'Nová stránka',
     'New page title' => 'Nový názov stránky',
+    'Tree title' => 'Názov v strome',
     'No wiki pages found.' => 'Nenašli sa žiadne wiki stránky.',
     'None' => 'Žiadne',
     'Overwrite' => 'Prepísať',

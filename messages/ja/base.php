@@ -49,6 +49,7 @@ return [
     'Module name' => 'モジュール名',
     'New page' => '新しいページ',
     'New page title' => '新しいページタイトル',
+    'Tree title' => 'ツリー内のタイトル',
     'No wiki pages found.' => 'ウィキページが見つかりません。',
     'None' => 'なし',
     'Overwrite' => '上書き',

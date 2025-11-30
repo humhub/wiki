@@ -53,6 +53,7 @@ return [
     'Module name' => '',
     'New page' => '',
     'New page title' => '',
+    'Tree title' => '',
     'No wiki pages found.' => '',
     'Overwrite' => '',
     'Overwrite all changes made by :userName on :dateTime.' => '',

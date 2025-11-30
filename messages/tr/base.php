@@ -18,6 +18,7 @@ return [
     'Let\'s go!' => 'Kullanmaya Başla!',
     'New page' => 'Yeni sayfa',
     'New page title' => 'Yeni Sayfa Başlığı',
+    'Tree title' => 'Ağaçtaki başlık',
     'None' => 'Hiçbiri',
     'Page History' => 'Sayfa Geçmişi',
     'Page content' => 'Sayfa içeriği',

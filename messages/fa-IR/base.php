@@ -16,6 +16,7 @@ return [
     'Let\'s go!' => 'برویم!',
     'New page' => 'صفحه‌ی جدید',
     'New page title' => 'عنوان صفحه‌ی جدید',
+    'Tree title' => 'عنوان روی درخت',
     'None' => 'هیچ‌کدام',
     'Page History' => 'تاریخچه‌ی صفحه',
     'Page content' => 'محتوای صفحه',

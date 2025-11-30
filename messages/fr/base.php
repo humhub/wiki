@@ -48,6 +48,7 @@ return [
   'Module name' => 'Nom du module',
   'New page' => 'Nouvelle page',
   'New page title' => 'Titre de la nouvelle page',
+  'Tree title' => 'Titre dans l\'arbre',
   'No wiki pages found.' => 'Aucune page de wiki trouvée.',
   'None' => 'Aucune',
   'Overwrite' => 'Écraser',

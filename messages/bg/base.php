@@ -32,6 +32,7 @@ return [
     'Module name' => 'Име на модула',
     'New page' => 'Нова страница',
     'New page title' => 'Заглавие на нова страница',
+    'Tree title' => 'Заглавие в дървото',
     'None' => 'Никакви',
     'Overwrite the wiki index start page?' => 'Презаписване на началната страница на индекса на Wiki?',
     'Page History' => 'История на страницата',

@@ -29,6 +29,7 @@ return [
     'Let\'s go!' => 'Kom igjen!',
     'New page' => 'Ny side',
     'New page title' => 'Ny sidetittel',
+    'Tree title' => 'Lohateny amin\'ny hazo',
     'None' => 'Ingen',
     'Overwrite the wiki index start page?' => 'Skriv over startsiden til wikien?',
     'Page History' => 'Sidehistorikk',

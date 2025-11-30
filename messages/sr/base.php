@@ -33,6 +33,7 @@ return [
     'Module name' => 'Naziv modula',
     'New page' => 'Nova stranica',
     'New page title' => 'Novi naziv stranice',
+    'Tree title' => 'Naslov u stablu',
     'None' => 'Nijedan',
     'Overwrite the wiki index start page?' => 'Zameniti početnu stranicu wiki indeksa?',
     'Page History' => 'Istorija stranice',

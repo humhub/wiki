@@ -29,6 +29,7 @@ return [
     'Let\'s go!' => 'Aloita tästä!',
     'New page' => 'Uusi sivu',
     'New page title' => 'Uusi sivun nimi',
+    'Tree title' => 'Otsikko puussa',
     'None' => 'Ei mitään',
     'Overwrite the wiki index start page?' => 'Korvaa wikin aloitussivu?',
     'Page History' => 'Sivun historia',

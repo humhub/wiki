@@ -48,6 +48,7 @@ return [
   'Module name' => 'Modulets navn',
   'New page' => 'Ny side',
   'New page title' => 'Ny side titel',
+  'Tree title' => 'Titel i træet',
   'No wiki pages found.' => 'Ingen wiki-sider fundet.',
   'None' => 'Ingen',
   'Overwrite' => 'Overskriv',

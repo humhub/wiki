@@ -51,6 +51,7 @@ return [
     'Module name' => '',
     'New page' => '',
     'New page title' => '',
+    'Tree title' => '',
     'No wiki pages found.' => '',
     'None' => '',
     'Overwrite' => '',

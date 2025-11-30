@@ -45,6 +45,7 @@ return [
     'Module name' => 'Nome del modulo',
     'New page' => 'Nuova pagina',
     'New page title' => 'Titolo nuova pagina',
+    'Tree title' => 'Titolo nell\'albero',
     'None' => 'Nessuno',
     'Overwrite' => 'Sovrascrivi',
     'Overwrite all changes made by :userName on :dateTime.' => 'Sovrascrivi tutte le variazione fatte da :userName il :dateTime.',

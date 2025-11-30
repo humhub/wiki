@@ -49,6 +49,7 @@ return [
     'Module name' => 'Modul neve',
     'New page' => 'Új oldal',
     'New page title' => 'Oldal új címe',
+    'Tree title' => 'Cím a fában',
     'No wiki pages found.' => 'Nem található wiki oldal.',
     'None' => 'Nincs',
     'Overwrite' => 'Felülírás',

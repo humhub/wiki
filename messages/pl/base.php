@@ -49,6 +49,7 @@ return [
     'Module name' => 'Nazwa modułu',
     'New page' => 'Nowa strona',
     'New page title' => 'Nowy tytuł strony',
+    'Tree title' => 'Tytuł w drzewie',
     'No wiki pages found.' => 'Brak stron wiki.',
     'None' => 'Brak',
     'Overwrite' => 'Nadpisz',

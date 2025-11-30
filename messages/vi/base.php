@@ -19,6 +19,7 @@ return [
     'Let\'s go!' => 'Triển khai thôi!',
     'New page' => 'Trang mới',
     'New page title' => 'Tiêu đề trang mới',
+    'Tree title' => 'Tiêu đề trong cây',
     'None' => 'Không',
     'Page History' => 'Lịch sử trang',
     'Page content' => 'Nội dung trang',

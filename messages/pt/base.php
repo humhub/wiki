@@ -36,6 +36,7 @@ return [
     'Module name' => 'Nome do módulo',
     'New page' => 'Nova página',
     'New page title' => 'Título da nova página',
+    'Tree title' => 'Título na árvore',
     'None' => 'Nenhuma',
     'Overwrite' => 'Reescrever',
     'Overwrite all changes made by :userName on :dateTime.' => 'Escrever por cima de todas as alterações escritas por :userName em :dateTime.',

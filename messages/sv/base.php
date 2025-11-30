@@ -49,6 +49,7 @@ return [
     'Module name' => 'Modulnamn',
     'New page' => 'Ny sida',
     'New page title' => 'Ny sidrubrik',
+    'Tree title' => 'Titel på sidan',
     'No wiki pages found.' => 'Inga wikisidor hittades.',
     'None' => 'Inga',
     'Overwrite' => 'Skriva över',

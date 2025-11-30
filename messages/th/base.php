@@ -33,6 +33,7 @@ return [
     'Module name' => 'ชื่อโมดูล',
     'New page' => 'หน้าใหม่',
     'New page title' => 'ชื่อหน้าใหม่',
+    'Tree title' => 'ชื่อในต้นไม้',
     'None' => 'ไม่มี',
     'Overwrite the wiki index start page?' => 'เขียนทับหน้าเริ่มต้นดัชนี wiki?',
     'Page History' => 'ประวัติหน้า',

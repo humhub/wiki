@@ -46,6 +46,7 @@ return [
     'Module name' => 'Название модуля',
     'New page' => 'Новая страница',
     'New page title' => 'Название новой страницы',
+    'Tree title' => 'Название в дереве',
     'None' => 'Ничего',
     'Overwrite' => 'Перезаписать',
     'Overwrite all changes made by :userName on :dateTime.' => 'Перезаписать все изменения, сделанные :userName в :dateTime.',

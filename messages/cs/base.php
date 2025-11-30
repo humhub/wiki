@@ -45,6 +45,7 @@ return [
     'Module name' => 'Název modulu',
     'New page' => 'Nová stránka',
     'New page title' => 'Titulek stránky',
+    'Tree title' => 'Název stromu',
     'None' => 'Žádný',
     'Overwrite' => 'Přepsat',
     'Overwrite all changes made by :userName on :dateTime.' => 'Přepsat všechny změny provedené uživatelem :userName na :dateTime.',

@@ -18,6 +18,7 @@ return [
     'Let\'s go!' => 'Pirmyn!',
     'New page' => 'Naujas puslapis',
     'New page title' => 'Naujo puslapio pavadinimas',
+    'Tree title' => 'Pavadinimas medyje',
     'None' => 'Nieko',
     'Page History' => 'Puslapio istorija',
     'Page content' => 'Puslapio turinys',
