@@ -169,7 +169,7 @@ jobs:
           while IFS=\$'\\t' read -r status path; do
             [[ -z "\$path" ]] && continue
 
-            TARGET="\$ROOT_DIR/protected/\$path"
+            TARGET="\$ROOT_DIR/protected/modules/wiki/\$path"
             SOURCE="\$WORK/new/\$path"
             BACKUP="\$BKP_DIR/\$STAMP-$SHA/\$path"
 
@@ -234,7 +234,7 @@ jobs:
           while IFS= read -r -d '' file; do
             REL="\${file#./}"
             SRC="\$BACKUP_ROOT/\$REL"
-            DST="\$ROOT_DIR/protected/\$REL"
+            DST="\$ROOT_DIR/protected/modules/wiki/\$REL"
 
             mkdir -p "\$(dirname "\$DST")"
             cp -a "\$SRC" "\$DST"
