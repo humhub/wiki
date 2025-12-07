@@ -254,8 +254,8 @@ jobs:
           STAMP="${{ steps.pack.outputs.stamp }}"
           ZIP="${{ steps.pack.outputs.zip }}"
           MAN="${{ steps.pack.outputs.man }}"
-          UPG="upgrade-${STAMP}.sh"
-          DOW="downgrade-${STAMP}.sh"
+          UPG="commit-${STAMP}-upgrade.sh"
+          DOW="commit-${STAMP}-downgrade.sh"
 
           lftp -e "
             set ssl:verify-certificate no;
