@@ -162,7 +162,7 @@ jobs:
           unzip -q "\$ZIP_FILE" -d "\$WORK/new"
 
           echo ">> Creating backup at: \$BKP_DIR/\$STAMP"
-          mkdir -p "\$BKP_DIR/\$STAMP"
+          mkdir -p "\$BKP_DIR-${SHA}/\$STAMP"
 
           # Manifest format: STATUS<TAB>path
           while IFS=\$'\\t' read -r status path; do
@@ -170,7 +170,7 @@ jobs:
 
             TARGET="\$ROOT_DIR/protected/\$path"
             SOURCE="\$WORK/new/\$path"
-            BACKUP="\$BKP_DIR/\$STAMP/\$path"
+            BACKUP="\$BKP_DIR-${SHA}/\$STAMP/\$path"
 
             # If the commit removed a file
             if [[ "\$status" == "D" ]]; then
@@ -218,7 +218,7 @@ jobs:
           # ==================================
 
           STAMP="${STAMP}"
-          BACKUP_ROOT="\$BKP_DIR/\$STAMP"
+          BACKUP_ROOT="\$BKP_DIR/\$STAMP-${SHA}"
 
           if [[ ! -d "\$BACKUP_ROOT" ]]; then
             echo "Backup not found: \$BACKUP_ROOT"
@@ -232,7 +232,7 @@ jobs:
           while IFS= read -r -d '' file; do
             REL="\${file#./}"
             SRC="\$BACKUP_ROOT/\$REL"
-            DST="\$ROOT_DIR/\$REL"
+            DST="\$ROOT_DIR/protected/\$REL"
 
             mkdir -p "\$(dirname "\$DST")"
             cp -a "\$SRC" "\$DST"
