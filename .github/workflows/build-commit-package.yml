@@ -137,7 +137,7 @@ jobs:
           #!/usr/bin/env bash
           set -eu
 
-          ROOT_DIR=${{ secrets.HUMHUB_PROTECTED_DIR }}
+          ROOT_DIR=${{ secrets.HUMHUB_DIR }}
           PKG_DIR="\${PKG_DIR:-\$ROOT_DIR/github-commit-packages}"
           BKP_DIR="\${BKP_DIR:-\$ROOT_DIR/github-commit-packages/backups}"
 
@@ -213,7 +213,7 @@ jobs:
           set -euo pipefail
 
           # ========= CONFIGURE HERE =========
-          ROOT_DIR=${{ secrets.HUMHUB_PROTECTED_DIR }}
+          ROOT_DIR=${{ secrets.HUMHUB_DIR }}
           BKP_DIR="\${BKP_DIR:-\$ROOT_DIR/github-commit-packages/backups}"
           # ==================================
 
@@ -249,7 +249,7 @@ jobs:
           FTP_HOST: ${{ secrets.FTP_HOST }}
           FTP_USER: ${{ secrets.FTP_USER }}
           FTP_PASS: ${{ secrets.FTP_PASS }}
-          REMOTE_DIR: ${{ secrets.FTP_HUMHUB_PROTECTED_DIR }}
+          REMOTE_DIR: ${{ secrets.FTP_HUMHUB_DIR }}
         shell: bash
         run: |
           SHA="${{ steps.commit.outputs.sha }}"
