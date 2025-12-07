@@ -277,11 +277,12 @@ jobs:
           REMOTE_DIR: ${{ secrets.FTP_HUMHUB_PROTECTED_DIR }}
         shell: bash
         run: |
+          SHA="${{ steps.commit.outputs.sha }}"
           STAMP="${{ steps.commit.outputs.stamp }}"
           ZIP="${{ steps.pack.outputs.zip }}"
           MAN="${{ steps.pack.outputs.man }}"
-          UPG="commit-${STAMP}-upgrade.sh"
-          DOW="commit-${STAMP}-downgrade.sh"
+          UPG="commit-${STAMP}-${SHA}-upgrade.sh"
+          DOW="commit-${STAMP}-${SHA}-downgrade.sh"
 
           lftp -e "
             set ssl:verify-certificate no;
