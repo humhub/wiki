@@ -248,7 +248,7 @@ jobs:
           FTP_HOST: ${{ secrets.FTP_HOST }}
           FTP_USER: ${{ secrets.FTP_USER }}
           FTP_PASS: ${{ secrets.FTP_PASS }}
-          REMOTE_DIR: ${{ secrets.FTP_REMOTE_DIR }}
+          REMOTE_DIR: ${{ secrets.FTP_HUMHUB_PROTECTED_DIR }}
         shell: bash
         run: |
           STAMP="${{ steps.pack.outputs.stamp }}"
