@@ -54,11 +54,7 @@ jobs:
           # Ensure we are on the correct commit
           git checkout "$SHA"
 
-          # Timestamp UNIX do commit (committer date)
           COMMIT_EPOCH="$(git show -s --format=%ct "$SHA")"
-
-          # Formata para algo seguro para nome de arquivo
-          # Ex: 20251207-105906
           COMMIT_STAMP="$(date -u -d "@$COMMIT_EPOCH" +%Y%m%d-%H%M%S)"
 
           echo "epoch=$COMMIT_EPOCH" >> $GITHUB_OUTPUT
@@ -70,8 +66,6 @@ jobs:
         run: |
           SHA="${{ steps.commit.outputs.sha }}"
 
-          # List changes from the commit (status + paths)
-          # When there is rename/copy, the output has 3 columns: Rxxx old new
           git diff-tree --no-commit-id --name-status -r "$SHA" > _raw_manifest.txt
 
           > manifest.tsv
@@ -99,12 +93,6 @@ jobs:
 
           echo "Changed files:"
           cat changed_files.txt || true
-
-          if grep -q "/migrations/" changed_files.txt; then
-            echo "has_migrations=1" >> $GITHUB_OUTPUT
-          else
-            echo "has_migrations=0" >> $GITHUB_OUTPUT
-          fi
 
       - name: Build ZIP with commit changes
         id: pack
@@ -149,67 +137,58 @@ jobs:
           #!/usr/bin/env bash
           set -euo pipefail
 
-          # ========= CONFIGURE AQUI =========
-          # Ajuste o caminho real do seu HumHub no servidor
           ROOT_DIR=${{ secrets.HUMHUB_PROTECTED_DIR }}
           PKG_DIR="\${PKG_DIR:-\$ROOT_DIR/github-commit-packages}"
           BKP_DIR="\${BKP_DIR:-\$ROOT_DIR/github-commit-packages/backups}"
-          # ==================================
 
           STAMP="${STAMP}"
           ZIP_FILE="\$PKG_DIR/${ZIP}"
           MANIFEST="\$PKG_DIR/${MAN}"
 
           if [[ ! -f "\$ZIP_FILE" ]]; then
-            echo "ZIP não encontrado: \$ZIP_FILE"
+            echo "ZIP file not found: \$ZIP_FILE"
             exit 1
           fi
 
           if [[ ! -f "\$MANIFEST" ]]; then
-            echo "Manifest não encontrado: \$MANIFEST"
+            echo "Manifest file not found: \$MANIFEST"
             exit 1
           fi
 
           WORK="\$(mktemp -d)"
           trap 'rm -rf "\$WORK"' EXIT
 
-          echo ">> Extraindo pacote..."
+          echo ">> Extracting package..."
           unzip -q "\$ZIP_FILE" -d "\$WORK/new"
 
-          echo ">> Criando backup em: \$BKP_DIR/\$STAMP"
+          echo ">> Creating backup at: \$BKP_DIR/\$STAMP"
           mkdir -p "\$BKP_DIR/\$STAMP"
 
-          HAS_MIGRATIONS=0
-
-          # Formato manifest: STATUS<TAB>path
+          # Manifest format: STATUS<TAB>path
           while IFS=\$'\\t' read -r status path; do
             [[ -z "\$path" ]] && continue
-
-            if [[ "\$path" == *"/migrations/"* ]]; then
-              HAS_MIGRATIONS=1
-            fi
 
             TARGET="\$ROOT_DIR/\$path"
             SOURCE="\$WORK/new/\$path"
             BACKUP="\$BKP_DIR/\$STAMP/\$path"
 
-            # Se o commit removeu arquivo
+            # If the commit removed a file
             if [[ "\$status" == "D" ]]; then
               if [[ -f "\$TARGET" ]]; then
                 mkdir -p "\$(dirname "\$BACKUP")"
                 cp -a "\$TARGET" "\$BACKUP"
                 rm -f "\$TARGET"
-                echo ">> Removido: \$path (backup feito)"
+                echo ">> Removed: \$path (backup made)"
               fi
               continue
             fi
 
             if [[ ! -f "\$SOURCE" ]]; then
-              echo "!! Fonte não encontrada no pacote: \$path (status \$status)"
+              echo "!! Source not found in package: \$path (status \$status)"
               continue
             fi
 
-            # Backup do arquivo atual se existir
+            # Backup current file if exists
             if [[ -f "\$TARGET" ]]; then
               mkdir -p "\$(dirname "\$BACKUP")"
               cp -a "\$TARGET" "\$BACKUP"
@@ -217,27 +196,23 @@ jobs:
 
             mkdir -p "\$(dirname "\$TARGET")"
             cp -a "\$SOURCE" "\$TARGET"
-            echo ">> Atualizado: \$path"
+            echo ">> Updated: \$path"
 
           done < "\$MANIFEST"
 
-          if [[ "\$HAS_MIGRATIONS" -eq 1 ]]; then
-            echo ">> Migrations detectadas. Executando..."
-            cd "\$ROOT_DIR/protected"
-            php yii migrate/up --includeModuleMigrations=1 --interactive=0
-            echo ">> Migrations concluídas."
-          else
-            echo ">> Nenhuma migration detectada."
-          fi
+          echo ">> Executing migrations..."
+          cd "\$ROOT_DIR/protected"
+          php yii migrate/up --includeModuleMigrations=1 --interactive=0
+          echo ">> Migrations completed."
 
-          echo ">> Upgrade finalizado. Stamp: \$STAMP"
+          echo ">> Upgrade completed. Stamp: \$STAMP"
           EOF
 
-                    cat > "$DOW" <<EOF
+          cat > "$DOW" <<EOF
           #!/usr/bin/env bash
           set -euo pipefail
 
-          # ========= CONFIGURE AQUI =========
+          # ========= CONFIGURE HERE =========
           ROOT_DIR=${{ secrets.HUMHUB_PROTECTED_DIR }}
           BKP_DIR="\${BKP_DIR:-\$ROOT_DIR/github-commit-packages/backups}"
           # ==================================
@@ -246,11 +221,11 @@ jobs:
           BACKUP_ROOT="\$BKP_DIR/\$STAMP"
 
           if [[ ! -d "\$BACKUP_ROOT" ]]; then
-            echo "Backup não encontrado: \$BACKUP_ROOT"
+            echo "Backup not found: \$BACKUP_ROOT"
             exit 1
           fi
 
-          echo ">> Restaurando backup de: \$BACKUP_ROOT"
+          echo ">> Restoring backup from: \$BACKUP_ROOT"
 
           cd "\$BACKUP_ROOT"
 
@@ -261,10 +236,10 @@ jobs:
 
             mkdir -p "\$(dirname "\$DST")"
             cp -a "\$SRC" "\$DST"
-            echo ">> Restaurado: \$REL"
+            echo ">> Restored: \$REL"
           done < <(find . -type f -print0)
 
-          echo ">> Downgrade finalizado. Stamp: \$STAMP"
+          echo ">> Downgrade completed. Stamp: \$STAMP"
           EOF
 
           chmod +x "$UPG" "$DOW"
