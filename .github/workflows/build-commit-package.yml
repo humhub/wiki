@@ -1,0 +1,282 @@
+name: Build commit package for HostGator
+
+on:
+  push:
+    branches: [ "v2.4*" ]
+
+  workflow_dispatch:
+    inputs:
+      sha:
+        description: "Commit SHA for packaging"
+        required: true
+        type: string
+
+jobs:
+  build-and-upload:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout (full history)
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install tools
+        run: sudo apt-get update && sudo apt-get install -y zip lftp
+
+      - name: Resolve commit SHA
+        id: commit
+        shell: bash
+        run: |
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+            SHA="${{ inputs.sha }}"
+          else
+            SHA="${{ github.sha }}"
+          fi
+
+          echo "sha=$SHA" >> $GITHUB_OUTPUT
+
+          # Ensure we are on the correct commit
+          git checkout "$SHA"
+
+      - name: Generate manifest from single commit
+        id: manifest
+        shell: bash
+        run: |
+          SHA="${{ steps.commit.outputs.sha }}"
+
+          # List changes from the commit (status + paths)
+          # When there is rename/copy, the output has 3 columns: Rxxx old new
+          git diff-tree --no-commit-id --name-status -r "$SHA" > _raw_manifest.txt
+
+          > manifest.tsv
+          > changed_files.txt
+
+          while read -r status a b; do
+            [[ -z "$status" ]] && continue
+
+            case "$status" in
+              R*|C*)
+                path="$b"
+                ;;
+              *)
+                path="$a"
+                ;;
+            esac
+
+            printf "%s\t%s\n" "$status" "$path" >> manifest.tsv
+
+            # For the ZIP, we ignore deletions
+            if [[ "$status" != "D" ]]; then
+              echo "$path" >> changed_files.txt
+            fi
+          done < _raw_manifest.txt
+
+          echo "Changed files:"
+          cat changed_files.txt || true
+
+          if grep -q "/migrations/" changed_files.txt; then
+            echo "has_migrations=1" >> $GITHUB_OUTPUT
+          else
+            echo "has_migrations=0" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Build ZIP with commit changes
+        id: pack
+        shell: bash
+        run: |
+          SHA="${{ steps.commit.outputs.sha }}"
+          TS="$(date -u +%Y%m%d-%H%M%S)"
+          SHORT="${SHA:0:8}"
+          STAMP="${TS}-${SHORT}"
+
+          ZIP="package-${STAMP}.zip"
+          MAN="manifest-${STAMP}.tsv"
+
+          # Create zip preserving structure
+          if [[ -s changed_files.txt ]]; then
+            zip -r "$ZIP" -@ < changed_files.txt
+          else
+            # Commit without files (rare, but possible)
+            zip -r "$ZIP" README.md >/dev/null 2>&1 || true
+          fi
+
+          cp manifest.tsv "$MAN"
+
+          echo "ts=$TS" >> $GITHUB_OUTPUT
+          echo "short=$SHORT" >> $GITHUB_OUTPUT
+          echo "stamp=$STAMP" >> $GITHUB_OUTPUT
+          echo "zip=$ZIP" >> $GITHUB_OUTPUT
+          echo "man=$MAN" >> $GITHUB_OUTPUT
+
+      - name: Create upgrade & downgrade bash
+        shell: bash
+        run: |
+          STAMP="${{ steps.pack.outputs.stamp }}"
+          ZIP="${{ steps.pack.outputs.zip }}"
+          MAN="${{ steps.pack.outputs.man }}"
+
+          UPG="upgrade-${STAMP}.sh"
+          DOW="downgrade-${STAMP}.sh"
+
+          cat > "$UPG" <<EOF
+          #!/usr/bin/env bash
+          set -euo pipefail
+
+          # ========= CONFIGURE AQUI =========
+          # Ajuste o caminho real do seu HumHub no servidor
+          ROOT_DIR=${{ secrets.ROOT_DIR }}
+          PKG_DIR="\${PKG_DIR:-\$ROOT_DIR/_deploy_packages}"
+          BKP_DIR="\${BKP_DIR:-\$ROOT_DIR/_deploy_backups}"
+          # ==================================
+
+          STAMP="${STAMP}"
+          ZIP_FILE="\$PKG_DIR/${ZIP}"
+          MANIFEST="\$PKG_DIR/${MAN}"
+
+          if [[ ! -f "\$ZIP_FILE" ]]; then
+            echo "ZIP não encontrado: \$ZIP_FILE"
+            exit 1
+          fi
+
+          if [[ ! -f "\$MANIFEST" ]]; then
+            echo "Manifest não encontrado: \$MANIFEST"
+            exit 1
+          fi
+
+          WORK="\$(mktemp -d)"
+          trap 'rm -rf "\$WORK"' EXIT
+
+          echo ">> Extraindo pacote..."
+          unzip -q "\$ZIP_FILE" -d "\$WORK/new"
+
+          echo ">> Criando backup em: \$BKP_DIR/\$STAMP"
+          mkdir -p "\$BKP_DIR/\$STAMP"
+
+          HAS_MIGRATIONS=0
+
+          # Formato manifest: STATUS<TAB>path
+          while IFS=\$'\\t' read -r status path; do
+            [[ -z "\$path" ]] && continue
+
+            if [[ "\$path" == *"/migrations/"* ]]; then
+              HAS_MIGRATIONS=1
+            fi
+
+            TARGET="\$ROOT_DIR/\$path"
+            SOURCE="\$WORK/new/\$path"
+            BACKUP="\$BKP_DIR/\$STAMP/\$path"
+
+            # Se o commit removeu arquivo
+            if [[ "\$status" == "D" ]]; then
+              if [[ -f "\$TARGET" ]]; then
+                mkdir -p "\$(dirname "\$BACKUP")"
+                cp -a "\$TARGET" "\$BACKUP"
+                rm -f "\$TARGET"
+                echo ">> Removido: \$path (backup feito)"
+              fi
+              continue
+            fi
+
+            if [[ ! -f "\$SOURCE" ]]; then
+              echo "!! Fonte não encontrada no pacote: \$path (status \$status)"
+              continue
+            fi
+
+            # Backup do arquivo atual se existir
+            if [[ -f "\$TARGET" ]]; then
+              mkdir -p "\$(dirname "\$BACKUP")"
+              cp -a "\$TARGET" "\$BACKUP"
+            fi
+
+            mkdir -p "\$(dirname "\$TARGET")"
+            cp -a "\$SOURCE" "\$TARGET"
+            echo ">> Atualizado: \$path"
+
+          done < "\$MANIFEST"
+
+          if [[ "\$HAS_MIGRATIONS" -eq 1 ]]; then
+            echo ">> Migrations detectadas. Executando..."
+            cd "\$ROOT_DIR/protected"
+            php yii migrate/up --includeModuleMigrations=1 --interactive=0
+            echo ">> Migrations concluídas."
+          else
+            echo ">> Nenhuma migration detectada."
+          fi
+
+          echo ">> Upgrade finalizado. Stamp: \$STAMP"
+          EOF
+
+                    cat > "$DOW" <<EOF
+          #!/usr/bin/env bash
+          set -euo pipefail
+
+          # ========= CONFIGURE AQUI =========
+          ROOT_DIR="\${ROOT_DIR:-/home/SEU_USUARIO/public_html}"
+          BKP_DIR="\${BKP_DIR:-\$ROOT_DIR/_deploy_backups}"
+          # ==================================
+
+          STAMP="${STAMP}"
+          BACKUP_ROOT="\$BKP_DIR/\$STAMP"
+
+          if [[ ! -d "\$BACKUP_ROOT" ]]; then
+            echo "Backup não encontrado: \$BACKUP_ROOT"
+            exit 1
+          fi
+
+          echo ">> Restaurando backup de: \$BACKUP_ROOT"
+
+          cd "\$BACKUP_ROOT"
+
+          while IFS= read -r -d '' file; do
+            REL="\${file#./}"
+            SRC="\$BACKUP_ROOT/\$REL"
+            DST="\$ROOT_DIR/\$REL"
+
+            mkdir -p "\$(dirname "\$DST")"
+            cp -a "\$SRC" "\$DST"
+            echo ">> Restaurado: \$REL"
+          done < <(find . -type f -print0)
+
+          echo ">> Downgrade finalizado. Stamp: \$STAMP"
+          EOF
+
+          chmod +x "$UPG" "$DOW"
+
+      - name: Upload package + scripts to HostGator via FTP
+        env:
+          FTP_HOST: ${{ secrets.FTP_HOST }}
+          FTP_USER: ${{ secrets.FTP_USER }}
+          FTP_PASS: ${{ secrets.FTP_PASS }}
+          REMOTE_DIR: ${{ secrets.REMOTE_DIR }}
+        shell: bash
+        run: |
+          STAMP="${{ steps.pack.outputs.stamp }}"
+          ZIP="${{ steps.pack.outputs.zip }}"
+          MAN="${{ steps.pack.outputs.man }}"
+          UPG="upgrade-${STAMP}.sh"
+          DOW="downgrade-${STAMP}.sh"
+
+          lftp -e "
+            set ssl:verify-certificate no;
+            open -u $FTP_USER,$FTP_PASS $FTP_HOST;
+            mkdir -p $REMOTE_DIR;
+            put -O $REMOTE_DIR $ZIP;
+            put -O $REMOTE_DIR $MAN;
+            put -O $REMOTE_DIR $UPG;
+            put -O $REMOTE_DIR $DOW;
+            bye
+          "
+
+      - name: Upload artifact (optional)
+        uses: actions/upload-artifact@v4
+        with:
+          name: deploy-package-${{ steps.pack.outputs.stamp }}
+          path: |
+            changed_files.txt
+            manifest.tsv
+            _raw_manifest.txt
+            package-*.zip
+            manifest-*.tsv
+            upgrade-*.sh
+            downgrade-*.sh
