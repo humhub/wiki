@@ -168,7 +168,7 @@ jobs:
           while IFS=\$'\\t' read -r status path; do
             [[ -z "\$path" ]] && continue
 
-            TARGET="\$ROOT_DIR/\$path"
+            TARGET="\$ROOT_DIR/protected/\$path"
             SOURCE="\$WORK/new/\$path"
             BACKUP="\$BKP_DIR/\$STAMP/\$path"
 
@@ -201,7 +201,7 @@ jobs:
           done < "\$MANIFEST"
 
           echo ">> Executing migrations..."
-          cd "\$ROOT_DIR"
+          cd "\$ROOT_DIR/protected"
           php yii migrate/up --includeModuleMigrations=1 --interactive=0
           echo ">> Migrations completed."
 
