@@ -141,6 +141,7 @@ jobs:
           PKG_DIR="\${PKG_DIR:-\$ROOT_DIR/github-commit-packages}"
           BKP_DIR="\${BKP_DIR:-\$ROOT_DIR/github-commit-packages/backups}"
 
+          SHA="${SHA}"
           STAMP="${STAMP}"
           ZIP_FILE="\$PKG_DIR/${ZIP}"
           MANIFEST="\$PKG_DIR/${MAN}"
@@ -161,8 +162,8 @@ jobs:
           echo ">> Extracting package..."
           unzip -q "\$ZIP_FILE" -d "\$WORK/new"
 
-          echo ">> Creating backup at: \$BKP_DIR/\$STAMP"
-          mkdir -p "\$BKP_DIR-${SHA}/\$STAMP"
+          echo ">> Creating backup at: \$BKP_DIR/\$STAMP-$SHA"
+          mkdir -p "\$BKP_DIR/\$STAMP-$SHA"
 
           # Manifest format: STATUS<TAB>path
           while IFS=\$'\\t' read -r status path; do
@@ -170,7 +171,7 @@ jobs:
 
             TARGET="\$ROOT_DIR/protected/\$path"
             SOURCE="\$WORK/new/\$path"
-            BACKUP="\$BKP_DIR-${SHA}/\$STAMP/\$path"
+            BACKUP="\$BKP_DIR/\$STAMP-$SHA/\$path"
 
             # If the commit removed a file
             if [[ "\$status" == "D" ]]; then
@@ -218,7 +219,8 @@ jobs:
           # ==================================
 
           STAMP="${STAMP}"
-          BACKUP_ROOT="\$BKP_DIR/\$STAMP-${SHA}"
+          SHA="${SHA}"
+          BACKUP_ROOT="\$BKP_DIR/\$STAMP-$SHA"
 
           if [[ ! -d "\$BACKUP_ROOT" ]]; then
             echo "Backup not found: \$BACKUP_ROOT"
