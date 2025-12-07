@@ -39,7 +39,7 @@ jobs:
       - name: Install tools
         run: sudo apt-get update && sudo apt-get install -y zip lftp
 
-      - name: Resolve commit SHA
+      - name: Resolve commit
         id: commit
         shell: bash
         run: |
@@ -53,6 +53,16 @@ jobs:
 
           # Ensure we are on the correct commit
           git checkout "$SHA"
+
+          # Timestamp UNIX do commit (committer date)
+          COMMIT_EPOCH="$(git show -s --format=%ct "$SHA")"
+
+          # Formata para algo seguro para nome de arquivo
+          # Ex: 20251207-105906
+          COMMIT_STAMP="$(date -u -d "@$COMMIT_EPOCH" +%Y%m%d-%H%M%S)"
+
+          echo "epoch=$COMMIT_EPOCH" >> $GITHUB_OUTPUT
+          echo "stamp=$COMMIT_STAMP" >> $GITHUB_OUTPUT
 
       - name: Generate manifest from single commit
         id: manifest
@@ -103,10 +113,10 @@ jobs:
           SHA="${{ steps.commit.outputs.sha }}"
           TS="$(date -u +%Y%m%d-%H%M%S)"
           SHORT="${SHA:0:8}"
-          STAMP="${TS}-${SHORT}"
+          STAMP="${{ steps.commit.outputs.stamp }}"
 
-          ZIP="commit-${STAMP}-package.zip"
-          MAN="commit-${STAMP}-manifest.tsv"
+          ZIP="commit-${STAMP}-${SHA}-package.zip"
+          MAN="commit-${STAMP}-${SHA}-manifest.tsv"
 
           # Create zip preserving structure
           if [[ -s changed_files.txt ]]; then
@@ -127,12 +137,13 @@ jobs:
       - name: Create upgrade & downgrade bash
         shell: bash
         run: |
-          STAMP="${{ steps.pack.outputs.stamp }}"
+          SHA="${{ steps.commit.outputs.sha }}"
+          STAMP="${{ steps.commit.outputs.stamp }}"
           ZIP="${{ steps.pack.outputs.zip }}"
           MAN="${{ steps.pack.outputs.man }}"
 
-          UPG="commit-${STAMP}-upgrade.sh"
-          DOW="commit-${STAMP}-downgrade.sh"
+          UPG="commit-${STAMP}-${SHA}-upgrade.sh"
+          DOW="commit-${STAMP}-${SHA}-downgrade.sh"
 
           cat > "$UPG" <<EOF
           #!/usr/bin/env bash
@@ -266,7 +277,7 @@ jobs:
           REMOTE_DIR: ${{ secrets.FTP_HUMHUB_PROTECTED_DIR }}
         shell: bash
         run: |
-          STAMP="${{ steps.pack.outputs.stamp }}"
+          STAMP="${{ steps.commit.outputs.stamp }}"
           ZIP="${{ steps.pack.outputs.zip }}"
           MAN="${{ steps.pack.outputs.man }}"
           UPG="commit-${STAMP}-upgrade.sh"
