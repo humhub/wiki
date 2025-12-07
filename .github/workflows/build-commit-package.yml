@@ -1,4 +1,4 @@
-name: Build commit package for HostGator
+name: Build commit package
 
 on:
   push:
@@ -90,8 +90,8 @@ jobs:
           SHORT="${SHA:0:8}"
           STAMP="${TS}-${SHORT}"
 
-          ZIP="package-${STAMP}.zip"
-          MAN="manifest-${STAMP}.tsv"
+          ZIP="commit-${STAMP}-package.zip"
+          MAN="commit-${STAMP}-manifest.tsv"
 
           # Create zip preserving structure
           if [[ -s changed_files.txt ]]; then
@@ -116,8 +116,8 @@ jobs:
           ZIP="${{ steps.pack.outputs.zip }}"
           MAN="${{ steps.pack.outputs.man }}"
 
-          UPG="upgrade-${STAMP}.sh"
-          DOW="downgrade-${STAMP}.sh"
+          UPG="commit-${STAMP}-upgrade.sh"
+          DOW="commit-${STAMP}-downgrade.sh"
 
           cat > "$UPG" <<EOF
           #!/usr/bin/env bash
@@ -125,9 +125,9 @@ jobs:
 
           # ========= CONFIGURE AQUI =========
           # Ajuste o caminho real do seu HumHub no servidor
-          ROOT_DIR=${{ secrets.ROOT_DIR }}
-          PKG_DIR="\${PKG_DIR:-\$ROOT_DIR/_deploy_packages}"
-          BKP_DIR="\${BKP_DIR:-\$ROOT_DIR/_deploy_backups}"
+          ROOT_DIR=${{ secrets.HUMHUB_PROTECTED_DIR }}
+          PKG_DIR="\${PKG_DIR:-\$ROOT_DIR/github-commit-packages}"
+          BKP_DIR="\${BKP_DIR:-\$ROOT_DIR/github-commit-packages/backups}"
           # ==================================
 
           STAMP="${STAMP}"
@@ -212,8 +212,8 @@ jobs:
           set -euo pipefail
 
           # ========= CONFIGURE AQUI =========
-          ROOT_DIR="\${ROOT_DIR:-/home/SEU_USUARIO/public_html}"
-          BKP_DIR="\${BKP_DIR:-\$ROOT_DIR/_deploy_backups}"
+          ROOT_DIR=${{ secrets.HUMHUB_PROTECTED_DIR }}
+          BKP_DIR="\${BKP_DIR:-\$ROOT_DIR/github-commit-packages/backups}"
           # ==================================
 
           STAMP="${STAMP}"
@@ -243,12 +243,12 @@ jobs:
 
           chmod +x "$UPG" "$DOW"
 
-      - name: Upload package + scripts to HostGator via FTP
+      - name: Upload package + scripts via FTP
         env:
           FTP_HOST: ${{ secrets.FTP_HOST }}
           FTP_USER: ${{ secrets.FTP_USER }}
           FTP_PASS: ${{ secrets.FTP_PASS }}
-          REMOTE_DIR: ${{ secrets.REMOTE_DIR }}
+          REMOTE_DIR: ${{ secrets.FTP_REMOTE_DIR }}
         shell: bash
         run: |
           STAMP="${{ steps.pack.outputs.stamp }}"
@@ -276,7 +276,7 @@ jobs:
             changed_files.txt
             manifest.tsv
             _raw_manifest.txt
-            package-*.zip
-            manifest-*.tsv
-            upgrade-*.sh
-            downgrade-*.sh
+            commit-*-package.zip
+            commit-*-manifest.tsv
+            commit-*-upgrade.sh
+            commit-*-downgrade.sh
