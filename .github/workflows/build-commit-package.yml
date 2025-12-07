@@ -3,6 +3,21 @@ name: Build commit package
 on:
   push:
     branches: [ "v2.4*" ]
+    paths:
+      - '**.php'
+      - '**.js'
+      - '**.css'
+      - '**.scss'
+      - '**.yaml'
+      - '**.yml'
+      - '**.xml'
+      - '**.json'
+      - '**.twig'
+      - '**.md'
+      - '!**/README.md'
+      - '!**/docs/**'
+      - '!**/tests/**'
+      - '!**/.github/**'
 
   workflow_dispatch:
     inputs:
@@ -261,10 +276,10 @@ jobs:
             set ssl:verify-certificate no;
             open -u $FTP_USER,$FTP_PASS $FTP_HOST;
             mkdir -p $REMOTE_DIR;
-            put -O $REMOTE_DIR $ZIP;
-            put -O $REMOTE_DIR $MAN;
-            put -O $REMOTE_DIR $UPG;
-            put -O $REMOTE_DIR $DOW;
+            put -O $REMOTE_DIR/github-commit-packages $ZIP;
+            put -O $REMOTE_DIR/github-commit-packages $MAN;
+            put -O $REMOTE_DIR/github-commit-packages $UPG;
+            put -O $REMOTE_DIR/github-commit-packages $DOW;
             bye
           "
 
