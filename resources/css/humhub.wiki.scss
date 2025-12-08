@@ -749,11 +749,8 @@ $wiki-mobile-grid-breakpoints: 520px;
         top: 0;
         background: none;
         padding: 5px 8px;
-
-        &:focus {
-            background: none;
-            box-shadow: none;
-        }
+        border: none;
+        box-shadow: none;
 
         i.fa {
             color: var(--hh-text-color-secondary) !important;

@@ -551,9 +551,7 @@
   top: 0;
   background: none;
   padding: 5px 8px;
-}
-.wiki-search-form button[type=submit]:focus {
-  background: none;
+  border: none;
   box-shadow: none;
 }
 .wiki-search-form button[type=submit] i.fa {

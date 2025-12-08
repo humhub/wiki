@@ -10,6 +10,7 @@ Changelog
 - Fix #394: Implemented `module-coding-standards`
 - Fix #397: Fix null params for PHP 8.4
 - Enh #399: Convert swagger docs to OpenAPI 3.0
+- Fix: Search Bar submit button border and shadow
 
 2.5.3 (August 25, 2025)
 -----------------------
