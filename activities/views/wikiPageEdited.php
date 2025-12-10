@@ -9,5 +9,5 @@ use yii\helpers\Html;
 
 echo Yii::t('WikiModule.base', '{userName} edited the Wiki page "{wikiPageTitle}".', [
     '{userName}' => Html::tag('strong', Html::encode($originator->displayName)),
-    '{wikiPageTitle}' => Html::encode($this->context->getContentInfo($source, false)),
+    '{wikiPageTitle}' => $this->context->getContentInfo($source, false),
 ]);
