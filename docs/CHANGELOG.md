@@ -1,7 +1,7 @@
 Changelog
 =========
 
-2.5.4 (Unreleased)
+2.5.4 (December 12, 2025)
 -------------------------
 - Fix #330: Update module resources path
 - Fix #390: Improved Module Test GitHub Actions
