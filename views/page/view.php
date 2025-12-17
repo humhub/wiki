@@ -16,17 +16,19 @@ Assets::register($this);
 ?>
 <div class="panel panel-default">
     <div class="panel-body">
-        <div class="row">
-            <?php WikiContent::begin(['cssClass' => 'wiki-page-content']) ?>
+        <div class="container gx-0 overflow-x-hidden">
+            <div class="row">
+                <?php WikiContent::begin(['cssClass' => 'wiki-page-content']) ?>
 
-                <?= $this->render('_view_body', [
-                    'page' => $page,
-                    'revision' => $revision,
-                    'canEdit' => $canEdit,
-                    'content' => $content,
-                ]) ?>
+                    <?= $this->render('_view_body', [
+                        'page' => $page,
+                        'revision' => $revision,
+                        'canEdit' => $canEdit,
+                        'content' => $content,
+                    ]) ?>
 
-            <?php WikiContent::end() ?>
+                <?php WikiContent::end() ?>
+            </div>
         </div>
     </div>
 </div>
