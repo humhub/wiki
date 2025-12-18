@@ -10,11 +10,6 @@ $wiki-mobile-grid-breakpoints: 520px;
     --hh-wiki-text-color-control: var(--hh-text-color-soft);
     --hh-wiki-link-color-page: #ec4332;
     --hh-wiki-link-color-page-missed: #4cc159;
-    --hh-wiki-icon-color-add: #4cc159;
-    --hh-wiki-icon-color-delete: #ec4332;
-    --hh-wiki-icon-color-history: #ff8a00;
-    --hh-wiki-icon-color-permalink: #7880dd;
-    --hh-wiki-icon-color-back: var(--hh-text-color-main);
     --hh-wiki-bg-color-input: #F3F3F3;
     --hh-wiki-bg-color-diff-added: #d4fcbc;
     --hh-wiki-bg-color-diff-deleted: #fbb6c2;
@@ -22,7 +17,7 @@ $wiki-mobile-grid-breakpoints: 520px;
     --hh-wiki-bg-color-highlight-warning: rgba(255, 193, 7, 0.12);
     --hh-wiki-border-color-dragdrop-marker: #000;
     --hh-wiki-border-color-main: #AEAEAE;
-    --hh-wiki-border-color-main-600: lighten(#AEAEAE, 20%);
+    --hh-wiki-border-color-main-600: #{lighten(#AEAEAE, 20%)};
     --hh-wiki-border-color-content: #eee;
     --hh-wiki-border-color-subpages: #ddd;
     --hh-wiki-border-radius: 4px;
@@ -445,13 +440,12 @@ $wiki-mobile-grid-breakpoints: 520px;
                 > div {
                     display: flex;
                     overflow: hidden;
+                    margin-left: -6px;
 
                     .page-title-text {
                         overflow: hidden;
                         white-space: nowrap;
                         text-overflow: ellipsis;
-
-                        color: var(--hh-wiki-text-color-title);
                     }
 
                     > i.fa {
@@ -591,29 +585,6 @@ $wiki-mobile-grid-breakpoints: 520px;
             font-size: 14px;
         }
     }
-
-    .wiki-content {
-        .new {
-            color: var(--hh-wiki-icon-color-add);
-        }
-
-        .delete {
-            color: var(--hh-wiki-icon-color-delete);
-        }
-
-        .history {
-            color: var(--hh-wiki-icon-color-history);
-        }
-
-        .fa-link {
-            color: var(--hh-wiki-icon-color-permalink);
-            margin-right: 4px;
-        }
-
-        .back {
-            color: var(--hh-wiki-icon-color-back);
-        }
-    }
 }
 
 @include media-breakpoint-down(sm) {
@@ -628,11 +599,9 @@ $wiki-mobile-grid-breakpoints: 520px;
     padding: 10px 10px;
 
     h3 {
-        float: left;
         font-size: 28px;
+        line-height: 28px;
         white-space: nowrap;
-        margin: 0 30px 0 0;
-        padding: 0 0 0 15px;
 
         &, a {
             color: var(--hh-wiki-text-color-title);
@@ -809,10 +778,6 @@ $wiki-mobile-grid-breakpoints: 520px;
         &:not(.visible) {
             visibility: hidden;
         }
-
-        .fa {
-            font-size: 11px;
-        }
     }
 }
 
@@ -844,10 +809,7 @@ $wiki-mobile-grid-breakpoints: 520px;
         border: none;
 
         h3 {
-            font-size: 28px;
             font-weight: 600;
-            padding: 0;
-            margin: 5px 0;
 
             &, a {
                 color: var(--hh-wiki-text-color-title);
@@ -860,9 +822,7 @@ $wiki-mobile-grid-breakpoints: 520px;
         }
 
         .btn-add-page {
-            float: left;
             padding: 4px 6px;
-            margin: 9px 0 0 9px;
             line-height: 9px;
 
             &:active {
