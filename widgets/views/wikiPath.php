@@ -16,7 +16,7 @@ use humhub\widgets\bootstrap\Link;
 $pathLength = count($path);
 ?>
 <div class="wiki-page-path wiki-page-path-length-<?= $pathLength ?>">
-    <?= Link::to('', Url::toHome($page->content->container))->icon('home')->id('wiki_index') ?>
+    <?= Link::to('', Url::toHome($page->content->container))->icon('home')->cssClass('link-icon-only')->id('wiki_index') ?>
     <span class="wiki-page-path-categories">
     <?php foreach ($path as $i => $categoryPage) : ?>
 

@@ -12,6 +12,7 @@ use humhub\modules\wiki\widgets\WikiEditor;
 use humhub\modules\wiki\widgets\WikiLinkJsModal;
 use humhub\modules\wiki\widgets\WikiPagePicker;
 use humhub\modules\wiki\widgets\WikiPath;
+use humhub\widgets\bootstrap\Alert;
 use humhub\widgets\bootstrap\Button;
 use humhub\widgets\form\ActiveForm;
 use humhub\widgets\form\ContentHiddenCheckbox;
@@ -64,12 +65,13 @@ Assets::register($this);
 
                 <?= $form->field($model, 'latestRevisionNumber')->hiddenInput()->label(false); ?>
                 <?php if ($requireConfirmation) : ?>
-                    <div class="alert alert-danger">
-                        <?= Yii::t(
+                    <?= Alert::danger(Yii::t(
                             'WikiModule.base',
                             '<strong>Warning!</strong><br><br>Another user has updated this page since you have started editing it. Please confirm that you want to overwrite those changes.<br>:linkToCompare',
-                            [':linkToCompare' => Button::asLink(Yii::t('WikiModule.base', 'Compare changes'))->icon('arrow-right')->action('compareOverwriting', $diffUrl)->cssClass('text-danger')],
-                        ); ?>
+                            [':linkToCompare' => Button::asLink(Yii::t('WikiModule.base', 'Compare changes'))->icon('arrow-right')->action('compareOverwriting', $diffUrl)->cssClass('link-danger')],
+                        ))
+                        ->closeButton(false)
+                        ->style('display: block !important') // Prevent the POST action to hide the alert box ?>
                     </div>
                     <?= $form->field($model, 'backOverwriting')->hiddenInput()->label(false); ?>
                     <?= $form->field($model, 'confirmOverwriting')->checkbox()->label(); ?>

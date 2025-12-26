@@ -270,19 +270,19 @@ humhub.module('wiki.CategoryListView', function(module, require, $) {
     CategoryListView.prototype.initDragButtonHoverDelay = function() {
         const HOVER_DELAY = 1000;
         const dragClass = '.wiki-page-control.drag-icon';
-    
+
         this.$.find('.page-title').each(function () {
             const $item = $(this);
             const $dragBtn = $item.find(dragClass);
-    
+
             let timer = null;
-    
+
             $item.on('mouseenter', function () {
                 timer = setTimeout(() => {
                     $dragBtn.addClass('visible');
                 }, HOVER_DELAY);
             });
-    
+
             $item.on('mouseleave', function () {
                 clearTimeout(timer);
                 $dragBtn.removeClass('visible');
