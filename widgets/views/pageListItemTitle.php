@@ -24,8 +24,11 @@ use humhub\widgets\bootstrap\Button;
 ?>
 <?= Html::beginTag('div', $options) ?>
     <div>
-        <?= Button::asLink()->icon('arrows')->cssClass('wiki-page-control drag-icon')->visible($item && $showDrag) ?>
-        <?= ($icon ? Icon::get($icon) . ' ' : '') . Html::tag($url ? 'a' : 'span', Html::encode($title), ['href' => $url, 'class' => 'page-title-text']) ?>
+        <?= Button::asLink()->icon('arrows')
+            ->cssClass('wiki-page-control drag-icon link-icon-only')
+            ->visible($item && $showDrag) ?>
+        <?= ($icon ? Icon::get($icon) . ' ' : '') ?>
+        <?= Html::tag($url ? 'a' : 'span', Html::encode($title), ['href' => $url, 'class' => 'page-title-text']) ?>
         <?php if ($titleInfo) : ?>
             <span class="page-title-info"><?= $titleInfo ?></span>
         <?php endif; ?>

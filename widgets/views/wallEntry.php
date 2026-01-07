@@ -18,7 +18,7 @@ Assets::register($this);
                 : $content ?>
         </div>
 
-        <?= Button::asLink(Yii::t('UiModule.base', 'Read more'), Url::toWiki($wiki)) ?>
+        <?= Button::asLink(Yii::t('UiModule.base', 'Read more'), Url::toWiki($wiki))->cssClass('link-accent') ?>
     </div>
 
 </div>
