@@ -156,11 +156,9 @@ class WikiCest
         $I->waitForText('Create new page', 30);
         $I->fillField('#wikipage-title', 'Single Edit pages permission');
         $I->fillField('#wikipagerevision-content .humhub-ui-richtext', 'Wiki Page for test single permission "Edit pages" without "Administer pages"');
-        $I->jsShow('.form-collapsible-fields.closed fieldset');
+        $I->jsClick('.form-collapsible-fields-label.collapsed label');
         $I->jsClick('#pageeditform-ispublic');
-        $I->scrollTo('button[type="submit"]');
-        $I->wait(1);
-        $I->click('Save', '#wiki-page-edit form');
+        $I->click('Save');
         $I->seeSuccess();
 
         $I->amOnSpace1();
@@ -190,9 +188,7 @@ class WikiCest
         $I->waitForText('Edit page', 15, '.wiki-page-title');
         $I->seeElement('#wikipage-title[disabled]');
         $I->fillField('#wikipagerevision-content .humhub-ui-richtext', 'Updated: Wiki Page for test single permission "Edit pages" without "Administer pages"');
-        $I->scrollTo('button[type="submit"]');
-        $I->wait(1);
-        $I->click('Save', '#wiki-page-edit form');
+        $I->click('Save');
         $I->seeSuccess();
         $I->waitForText('Updated: Wiki Page for test single permission', 15, '.wiki-page-body');
     }
