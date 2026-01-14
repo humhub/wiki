@@ -43,7 +43,8 @@ Assets::register($this);
                         <?php if (!$requireConfirmation) : ?>
                             <div>
                                 <?= Button::light(Yii::t('WikiModule.base', 'Cancel'))
-                                    ->link($model->page->isNewRecord ? Url::toOverview($model->container) : Url::toWiki($model->page)) ?>
+                                    ->link($model->page->isNewRecord ? Url::toOverview($model->container) : Url::toWiki($model->page))
+                                    ->loader(false) ?>
                                 <?= Button::save()->action('wiki.Form.submit') ?>
                             </div>
                         <?php endif; ?>
@@ -147,7 +148,8 @@ Assets::register($this);
                     <hr>
 
                     <?= Button::light(Yii::t('WikiModule.base', 'Cancel'))
-                        ->link($model->page->isNewRecord ? Url::toOverview($model->container) : Url::toWiki($model->page)) ?>
+                        ->link($model->page->isNewRecord ? Url::toOverview($model->container) : Url::toWiki($model->page))
+                        ->loader(false) ?>
                     <?= Button::save()->submit() ?>
                 </div>
 
