@@ -5,7 +5,8 @@
     "keywords": ["wiki"],
     "version": "2.5.5",
     "humhub": {
-        "minVersion": "1.18"
+        "minVersion": "1.18",
+        "maxVersion": "1.19",
     },
     "homepage": "https://github.com/humhub/wiki",
     "authors": [
