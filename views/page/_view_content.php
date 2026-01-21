@@ -3,10 +3,10 @@
 use humhub\components\View;
 use humhub\helpers\Html;
 use humhub\modules\topic\models\Topic;
-use humhub\modules\topic\widgets\TopicBadge;
 use humhub\modules\wiki\helpers\Url;
 use humhub\modules\wiki\models\WikiPage;
 use humhub\modules\wiki\widgets\WikiRichText;
+use humhub\modules\wiki\widgets\WikiTopicBadge;
 use humhub\widgets\bootstrap\Button;
 
 /* @var $this View */
@@ -16,7 +16,7 @@ use humhub\widgets\bootstrap\Button;
 ?>
 <div class="topic-badge-list">
 <?php foreach ($page->content->getTags(Topic::class)->all() as $topic) : ?>
-    <?= TopicBadge::forTopic($topic) ?>
+    <?= WikiTopicBadge::getWikiTopicBadge($topic, $page) ?>
 <?php endforeach; ?>
 </div>
 

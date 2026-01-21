@@ -4,6 +4,7 @@ Changelog
 2.5.5 (Unreleased)
 -----------------------
 - Fix #404: `.row` HTML elements without `.container` overflow
+- Enh #412: Improve topic url of hidden wiki pages on stream
 
 2.5.4 (December 12, 2025)
 -------------------------
