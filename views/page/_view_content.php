@@ -16,7 +16,7 @@ use humhub\widgets\bootstrap\Button;
 ?>
 <div class="topic-badge-list">
 <?php foreach ($page->content->getTags(Topic::class)->all() as $topic) : ?>
-    <?= TopicBadge::topic($topic, $page->content) ?>
+    <?= TopicBadge::forTopic($topic, $page->content) ?>
 <?php endforeach; ?>
 </div>
 
