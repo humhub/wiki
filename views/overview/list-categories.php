@@ -32,22 +32,18 @@ $settings = new DefaultSettings(['contentContainer' => $contentContainer]);
 ?>
 <div class="panel panel-default">
     <div class="panel-body">
-        <div class="container gx-0 overflow-x-hidden">
-            <div class="row">
-                <?php WikiContent::begin(['cssClass' => 'wiki-page-content']) ?>
-                <div class="wiki-page-content-header clearfix">
-                    <h3><?= Html::encode($settings->module_label) ?></h3>
-                    <?= WikiSearchForm::widget(['contentContainer' => $contentContainer, 'cssClass' => 'float-start']) ?>
-                    <div class="wiki-page-content-header-actions">
-                        <?= Button::accent(Yii::t('WikiModule.base', 'Last edited'))->sm()->link(Url::toLastEdited($contentContainer))->cssClass(Helper::isEnterpriseTheme() ? 'd-lg-none' : '') ?>
-                        <?= Button::accent($createPageTitle)->icon('fa-plus')->sm()->link(Url::toWikiCreate($contentContainer))->visible($canCreate) ?>
-                    </div>
-                </div>
-
-                <?= CategoryListView::widget(['contentContainer' => $contentContainer]) ?>
-
-                <?php WikiContent::end() ?>
+        <?php WikiContent::begin(['cssClass' => 'wiki-page-content']) ?>
+        <div class="wiki-page-content-header clearfix">
+            <h3><?= Html::encode($settings->module_label) ?></h3>
+            <?= WikiSearchForm::widget(['contentContainer' => $contentContainer, 'cssClass' => 'float-start']) ?>
+            <div class="wiki-page-content-header-actions">
+                <?= Button::accent(Yii::t('WikiModule.base', 'Last edited'))->sm()->link(Url::toLastEdited($contentContainer))->cssClass(Helper::isEnterpriseTheme() ? 'd-lg-none' : '') ?>
+                <?= Button::accent($createPageTitle)->icon('fa-plus')->sm()->link(Url::toWikiCreate($contentContainer))->visible($canCreate) ?>
             </div>
         </div>
+
+        <?= CategoryListView::widget(['contentContainer' => $contentContainer]) ?>
+
+        <?php WikiContent::end() ?>
     </div>
 </div>
