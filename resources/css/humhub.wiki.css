@@ -3,11 +3,6 @@
   --hh-wiki-text-color-control: var(--hh-text-color-soft);
   --hh-wiki-link-color-page: #ec4332;
   --hh-wiki-link-color-page-missed: #4cc159;
-  --hh-wiki-icon-color-add: #4cc159;
-  --hh-wiki-icon-color-delete: #ec4332;
-  --hh-wiki-icon-color-history: #ff8a00;
-  --hh-wiki-icon-color-permalink: #7880dd;
-  --hh-wiki-icon-color-back: var(--hh-text-color-main);
   --hh-wiki-bg-color-input: #F3F3F3;
   --hh-wiki-bg-color-diff-added: #d4fcbc;
   --hh-wiki-bg-color-diff-deleted: #fbb6c2;
@@ -15,7 +10,7 @@
   --hh-wiki-bg-color-highlight-warning: rgba(255, 193, 7, 0.12);
   --hh-wiki-border-color-dragdrop-marker: #000;
   --hh-wiki-border-color-main: #AEAEAE;
-  --hh-wiki-border-color-main-600: lighten(#AEAEAE, 20%);
+  --hh-wiki-border-color-main-600: #e1e1e1;
   --hh-wiki-border-color-content: #eee;
   --hh-wiki-border-color-subpages: #ddd;
   --hh-wiki-border-radius: 4px;
@@ -323,12 +318,12 @@
 .layout-content-container .wiki-content ul.wiki-page-list .page-title > div {
   display: flex;
   overflow: hidden;
+  margin-left: -6px;
 }
 .layout-content-container .wiki-content ul.wiki-page-list .page-title > div .page-title-text {
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
-  color: var(--hh-wiki-text-color-title);
 }
 .layout-content-container .wiki-content ul.wiki-page-list .page-title > div > i.fa {
   padding: 3px 2px;
@@ -432,22 +427,6 @@
 .layout-content-container .wiki-page-history-title .fa {
   font-size: 14px;
 }
-.layout-content-container .wiki-content .new {
-  color: var(--hh-wiki-icon-color-add);
-}
-.layout-content-container .wiki-content .delete {
-  color: var(--hh-wiki-icon-color-delete);
-}
-.layout-content-container .wiki-content .history {
-  color: var(--hh-wiki-icon-color-history);
-}
-.layout-content-container .wiki-content .fa-link {
-  color: var(--hh-wiki-icon-color-permalink);
-  margin-right: 4px;
-}
-.layout-content-container .wiki-content .back {
-  color: var(--hh-wiki-icon-color-back);
-}
 
 @media (max-width: 575.98px) {
   .wiki-page-content {
@@ -461,11 +440,9 @@
   display: block !important;
 }
 .wiki-page-content-header h3 {
-  float: left;
   font-size: 28px;
+  line-height: 28px;
   white-space: nowrap;
-  margin: 0 30px 0 0;
-  padding: 0 0 0 15px;
 }
 .wiki-page-content-header h3, .wiki-page-content-header h3 a {
   color: var(--hh-wiki-text-color-title);
@@ -593,9 +570,6 @@
 #category_list_view .drag-icon:not(.visible) {
   visibility: hidden;
 }
-#category_list_view .drag-icon .fa {
-  font-size: 11px;
-}
 
 .wiki-page-sidebar {
   padding-right: 0;
@@ -623,10 +597,7 @@
   }
 }
 .wiki-page-sidebar .wiki-page-content-header h3 {
-  font-size: 28px;
   font-weight: 600;
-  padding: 0;
-  margin: 5px 0;
 }
 .wiki-page-sidebar .wiki-page-content-header h3, .wiki-page-sidebar .wiki-page-content-header h3 a {
   color: var(--hh-wiki-text-color-title);
@@ -636,9 +607,7 @@
   margin: 0;
 }
 .wiki-page-sidebar .wiki-page-content-header .btn-add-page {
-  float: left;
   padding: 4px 6px;
-  margin: 9px 0 0 9px;
   line-height: 9px;
 }
 .wiki-page-sidebar .wiki-page-content-header .btn-add-page:active {
