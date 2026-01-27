@@ -17,60 +17,56 @@ humhub\modules\wiki\assets\Assets::register($this);
 ?>
 <div class="panel panel-default">
     <div class="panel-body">
-        <div class="container gx-0 overflow-x-hidden">
-            <div class="row">
-                <?php WikiContent::begin(['cssClass' => 'wiki-page-content wiki-page-diff']) ?>
+        <?php WikiContent::begin(['cssClass' => 'wiki-page-content wiki-page-diff']) ?>
 
-                <?= $this->render('_view_header', [
-                    'page' => $page,
-                    'buttons' => WikiMenu::LINK_REVERT,
-                    'revision' => $revision1
-                ]) ?>
+        <?= $this->render('_view_header', [
+            'page' => $page,
+            'buttons' => WikiMenu::LINK_REVERT,
+            'revision' => $revision1
+        ]) ?>
 
-                <div class="row">
-                    <div class="col-6">
-                        <strong>
-                            <?php if ($revision1->isCurrentlyEditing) : ?>
-                                <?= Yii::t('WikiModule.base', 'Your current version'); ?>
-                            <?php else : ?>
-                                <?= Yii::t('WikiModule.base', 'Edited at'); ?>
-                                <?= Yii::$app->formatter->asDateTime($revision1->revision); ?>
-                                <?= Yii::t('WikiModule.base', 'by'); ?>
-                                <?= Html::a(Html::encode($revision1->author->displayName), $revision1->author->getUrl(), ['class' => 'wiki-author-link']); ?>
-                            <?php endif; ?>
-                        </strong>
-                    </div>
-                    <div class="col-6">
-                        <strong>
-                            <?php if ($revision2->isCurrentlyEditing) : ?>
-                                <?= Yii::t('WikiModule.base', 'Your current version'); ?>
-                            <?php else : ?>
-                                <?= Yii::t('WikiModule.base', 'Edited at'); ?>
-                                <?= Yii::$app->formatter->asDateTime($revision2->revision); ?>
-                                <?= Yii::t('WikiModule.base', 'by'); ?>
-                                <?= Html::a(Html::encode($revision2->author->displayName), $revision2->author->getUrl(), ['class' => 'wiki-author-link']); ?>
-                            <?php endif; ?>
-                        </strong>
-                    </div>
-                </div>
-
-                <hr class="wiki-headline-seperator">
-
-                <div class="row">
-                    <div class="col-6 wiki-page-revision1">
-                        <div id="wiki-page-revision1" class="markdown-render" data-ui-widget="wiki.Page" data-ui-init="1" style="display:none">
-                            <?= WikiRichText::output($revision1->content, ['id' => 'wiki-page-richtext']) ?>
-                        </div>
-                    </div>
-                    <div class="col-6 wiki-page-revision2">
-                        <div class="markdown-render" data-ui-widget="wiki.Page" data-ui-init="1" data-diff="#wiki-page-revision1" style="display:none">
-                            <?= WikiRichText::output($revision2->content, ['id' => 'wiki-page-richtext']) ?>
-                        </div>
-                    </div>
-                </div>
-
-                <?php WikiContent::end() ?>
+        <div class="row">
+            <div class="col-6">
+                <strong>
+                    <?php if ($revision1->isCurrentlyEditing) : ?>
+                        <?= Yii::t('WikiModule.base', 'Your current version'); ?>
+                    <?php else : ?>
+                        <?= Yii::t('WikiModule.base', 'Edited at'); ?>
+                        <?= Yii::$app->formatter->asDateTime($revision1->revision); ?>
+                        <?= Yii::t('WikiModule.base', 'by'); ?>
+                        <?= Html::a(Html::encode($revision1->author->displayName), $revision1->author->getUrl(), ['class' => 'wiki-author-link']); ?>
+                    <?php endif; ?>
+                </strong>
+            </div>
+            <div class="col-6">
+                <strong>
+                    <?php if ($revision2->isCurrentlyEditing) : ?>
+                        <?= Yii::t('WikiModule.base', 'Your current version'); ?>
+                    <?php else : ?>
+                        <?= Yii::t('WikiModule.base', 'Edited at'); ?>
+                        <?= Yii::$app->formatter->asDateTime($revision2->revision); ?>
+                        <?= Yii::t('WikiModule.base', 'by'); ?>
+                        <?= Html::a(Html::encode($revision2->author->displayName), $revision2->author->getUrl(), ['class' => 'wiki-author-link']); ?>
+                    <?php endif; ?>
+                </strong>
             </div>
         </div>
+
+        <hr class="wiki-headline-seperator">
+
+        <div class="row">
+            <div class="col-6 wiki-page-revision1">
+                <div id="wiki-page-revision1" class="markdown-render" data-ui-widget="wiki.Page" data-ui-init="1" style="display:none">
+                    <?= WikiRichText::output($revision1->content, ['id' => 'wiki-page-richtext']) ?>
+                </div>
+            </div>
+            <div class="col-6 wiki-page-revision2">
+                <div class="markdown-render" data-ui-widget="wiki.Page" data-ui-init="1" data-diff="#wiki-page-revision1" style="display:none">
+                    <?= WikiRichText::output($revision2->content, ['id' => 'wiki-page-richtext']) ?>
+                </div>
+            </div>
+        </div>
+
+        <?php WikiContent::end() ?>
     </div>
 </div>
