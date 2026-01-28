@@ -1,6 +1,10 @@
 Changelog
 =========
 
+2.6.0 (Unreleased)
+-----------------------
+- Enh #410: Update for HumHub 1.19
+
 2.5.5 (Unreleased)
 -----------------------
 - Fix #404: `.row` HTML elements without `.container` overflow
