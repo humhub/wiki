@@ -35,4 +35,4 @@ Assets::register($this);
     ]) ?>
 </div>
 
-<?= Comments::widget(['object' => $page]) ?>
+<?= Comments::widget(['content' => $page->content]) ?>

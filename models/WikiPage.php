@@ -8,6 +8,7 @@
 
 namespace humhub\modules\wiki\models;
 
+use humhub\modules\activity\services\ActivityManager;
 use humhub\modules\content\components\ActiveQueryContent;
 use humhub\modules\content\components\ContentActiveRecord;
 use humhub\modules\content\components\ContentContainerActiveRecord;
@@ -192,7 +193,7 @@ class WikiPage extends ContentActiveRecord implements Searchable
         }
 
         if (!$insert && !Yii::$app->user->isGuest) {
-            WikiPageEditedActivity::instance()->from(Yii::$app->user->getIdentity())->about($this)->create();
+            ActivityManager::dispatch(WikiPageEditedActivity::class, $this);
         }
 
         parent::afterSave($insert, $changedAttributes);
