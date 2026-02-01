@@ -20,10 +20,6 @@ class WikiPageEditedActivity extends BaseContentActivity implements Configurable
 
     protected function getMessage(array $params): string
     {
-        // Backward compatibility of translation placeholders
-        $params['userName'] = $params['displayName'];
-        $params['wikiPageTitle'] = $params['contentTitle'];
-
-        return Yii::t('WikiModule.base', '{userName} edited the Wiki page "{wikiPageTitle}".', $params);
+        return Yii::t('WikiModule.base', '{displayName} edited the Wiki page "{contentTitle}".', $params);
     }
 }
