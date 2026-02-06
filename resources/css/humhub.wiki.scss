@@ -982,6 +982,10 @@ $wiki-mobile-grid-breakpoints: 520px;
     .wiki-right-part:not(.d-none) {
         width: 100% !important;
     }
+    
+    .layout-content-container .wiki-page-index {
+        width: 100%;
+    }
 }
 
 @include media-breakpoint-down(sm) {

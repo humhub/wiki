@@ -734,6 +734,9 @@
   .wiki-right-part:not(.d-none) {
     width: 100% !important;
   }
+  .layout-content-container .wiki-page-index {
+    width: 100%;
+  }
 }
 @media (max-width: 575.98px) {
   .layout-content-container .wiki-page-content .wiki-page-body {
