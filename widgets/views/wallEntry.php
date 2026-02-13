@@ -3,7 +3,7 @@
 use humhub\modules\wiki\assets\Assets;
 use humhub\modules\wiki\helpers\Url;
 use humhub\modules\wiki\models\WikiPage;
-use humhub\widgets\bootstrap\Button;
+use humhub\widgets\bootstrap\Link;
 
 /* @var $wiki WikiPage */
 /* @var $content string */
@@ -18,7 +18,7 @@ Assets::register($this);
                 : $content ?>
         </div>
 
-        <?= Button::asLink(Yii::t('UiModule.base', 'Read more'), Url::toWiki($wiki)) ?>
+        <?= Link::to(Yii::t('UiModule.base', 'Read more'), Url::toWiki($wiki)) ?>
     </div>
 
 </div>
