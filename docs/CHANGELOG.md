@@ -1,7 +1,7 @@
 Changelog
 =========
 
-2.5.5 (Unreleased)
+2.5.5 (February 13, 2026)
 -----------------------
 - Fix #404: `.row` HTML elements without `.container` overflow
 - Fix: Wiki width on large screens
