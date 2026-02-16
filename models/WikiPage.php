@@ -40,7 +40,7 @@ use yii\db\Expression;
  * @property-read WikiPageRevision $latestRevision
  * @property-read bool $isCategory
  */
-class WikiPage extends ContentActiveRecord implements Searchable
+class WikiPage extends ContentActiveRecord
 {
     public const SCENARIO_CREATE = 'create';
     public const SCENARIO_ADMINISTER = 'admin';
