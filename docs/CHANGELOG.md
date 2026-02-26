@@ -1,6 +1,10 @@
 Changelog
 =========
 
+2.5.6 (Unreleased)
+-----------------------
+- Fix #422: Improve Table of Contents style after aligned images
+
 2.5.5 (February 13, 2026)
 -----------------------
 - Fix #404: `.row` HTML elements without `.container` overflow

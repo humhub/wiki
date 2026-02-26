@@ -1,7 +1,7 @@
 // Import Bootstrap breakpoint functions
-@import "/opt/humhub/protected/vendor/twbs/bootstrap/scss/functions";
-@import "/opt/humhub/protected/vendor/twbs/bootstrap/scss/variables";
-@import "/opt/humhub/protected/vendor/twbs/bootstrap/scss/mixins/breakpoints";
+@import "../../../../vendor/twbs/bootstrap/scss/functions";
+@import "../../../../vendor/twbs/bootstrap/scss/variables";
+@import "../../../../vendor/twbs/bootstrap/scss/mixins/breakpoints";
 
 $wiki-mobile-grid-breakpoints: 520px;
 
@@ -119,6 +119,7 @@ $wiki-mobile-grid-breakpoints: 520px;
         @include border-radius();
         padding: 3px 5px;
         margin: 30px 0;
+        clear: both;
 
         .nav {
             padding: 0;
@@ -260,6 +261,10 @@ $wiki-mobile-grid-breakpoints: 520px;
 
         .markdown-render {
             margin-bottom: 10px;
+        }
+
+        #wiki-page-richtext > p:first-child {
+            display: flow-root;
         }
 
         .wiki-sub-pages {
