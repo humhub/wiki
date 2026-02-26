@@ -6,7 +6,6 @@
  */
 
 use humhub\helpers\Html;
-use humhub\modules\ui\icon\widgets\Icon;
 use humhub\widgets\bootstrap\Button;
 use humhub\widgets\form\ActiveForm;
 
@@ -19,6 +18,6 @@ use humhub\widgets\form\ActiveForm;
 
 <?= Html::textInput('keyword', $keyword, ['placeholder' => $placeholder, 'class' => 'form-control']) ?>
 
-<?= Button::light(Icon::get('search'))->submit() ?>
+<?= Button::light()->icon('search')->submit() ?>
 
 <?php ActiveForm::end() ?>
