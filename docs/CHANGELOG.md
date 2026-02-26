@@ -1,6 +1,10 @@
 Changelog
 =========
 
+2.5.6 (Unreleased)
+-----------------------
+- Fix #421: Labels encoding (see [migration guide](https://github.com/humhub/humhub/blob/master/MIGRATE-DEV.md#version-1181))
+
 2.5.5 (February 13, 2026)
 -----------------------
 - Fix #404: `.row` HTML elements without `.container` overflow
