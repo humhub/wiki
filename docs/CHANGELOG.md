@@ -1,8 +1,8 @@
 Changelog
 =========
 
-2.5.6 (Unreleased)
------------------------
+2.5.6 (Februrary 26, 2025)
+--------------------------
 - Fix #421: Labels encoding (see [migration guide](https://github.com/humhub/humhub/blob/master/MIGRATE-DEV.md#version-1181))
 
 2.5.5 (February 13, 2026)
