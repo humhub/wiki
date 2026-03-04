@@ -1,8 +1,8 @@
 Changelog
 =========
 
-2.5.7 (Unreleased)
---------------------------
+2.5.7 (March 4, 2026)
+----------------------
 - Fix #423: Fix button icon
 
 2.5.6 (Februrary 26, 2025)
