@@ -10,6 +10,7 @@ namespace humhub\modules\wiki\permissions;
 
 use humhub\modules\space\models\Space;
 use humhub\modules\user\models\User;
+use Yii;
 
 /**
  * Edit page Permission
@@ -30,12 +31,18 @@ class ViewHistory extends \humhub\libs\BasePermission
     /**
      * @inheritdoc
      */
-    protected $title = "View History";
+    public function getTitle()
+    {
+        return Yii::t('WikiModule.base', 'View History');
+    }
 
     /**
      * @inheritdoc
      */
-    protected $description = "Allows the user to view the history of wiki pages";
+    public function getDescription()
+    {
+        return Yii::t('WikiModule.base', 'Allows the user to view the history of wiki pages');
+    }
 
     /**
      * @inheritdoc

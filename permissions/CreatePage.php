@@ -10,6 +10,7 @@ namespace humhub\modules\wiki\permissions;
 
 use humhub\modules\space\models\Space;
 use humhub\modules\user\models\User;
+use Yii;
 
 /**
  * CreatePage Permission
@@ -41,12 +42,18 @@ class CreatePage extends \humhub\libs\BasePermission
     /**
      * @inheritdoc
      */
-    protected $title = "Create pages";
+    public function getTitle()
+    {
+        return Yii::t('WikiModule.base', 'Create pages');
+    }
 
     /**
      * @inheritdoc
      */
-    protected $description = "Allows the user to create new pages";
+    public function getDescription()
+    {
+        return Yii::t('WikiModule.base', 'Allows the user to create new pages');
+    }
 
     /**
      * @inheritdoc

@@ -10,6 +10,7 @@ namespace humhub\modules\wiki\permissions;
 
 use humhub\modules\space\models\Space;
 use humhub\modules\user\models\User;
+use Yii;
 
 /**
  * Edit page Permission
@@ -41,12 +42,18 @@ class EditPages extends \humhub\libs\BasePermission
     /**
      * @inheritdoc
      */
-    protected $title = "Edit pages";
+    public function getTitle()
+    {
+        return Yii::t('WikiModule.base', 'Edit pages');
+    }
 
     /**
      * @inheritdoc
      */
-    protected $description = "Allows the user to edit or revert pages";
+    public function getDescription()
+    {
+        return Yii::t('WikiModule.base', 'Allows the user to edit or revert pages');
+    }
 
     /**
      * @inheritdoc
