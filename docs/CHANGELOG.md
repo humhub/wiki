@@ -1,7 +1,7 @@
 Changelog
 =========
 
-2.5.8 (Unreleased)
+2.5.8 (March 6, 2026)
 ----------------------
 - Fix #425: Fix missing translations
 
