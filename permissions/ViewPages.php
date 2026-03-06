@@ -10,6 +10,7 @@ namespace humhub\modules\wiki\permissions;
 
 use humhub\modules\space\models\Space;
 use humhub\modules\user\models\User;
+use Yii;
 
 /**
  * Edit page Permission
@@ -42,12 +43,18 @@ class ViewPages extends \humhub\libs\BasePermission
     /**
      * @inheritdoc
      */
-    protected $title = "View pages";
+    public function getTitle()
+    {
+        return Yii::t('WikiModule.base', 'View pages');
+    }
 
     /**
      * @inheritdoc
      */
-    protected $description = "Allows the user to view wiki pages";
+    public function getDescription()
+    {
+        return Yii::t('WikiModule.base', 'Allows the user to view wiki pages');
+    }
 
     /**
      * @inheritdoc

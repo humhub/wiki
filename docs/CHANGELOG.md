@@ -1,6 +1,10 @@
 Changelog
 =========
 
+2.5.8 (Unreleased)
+----------------------
+- Fix #425: Fix missing translations
+
 2.5.7 (March 4, 2026)
 ----------------------
 - Fix #423: Fix button icon
