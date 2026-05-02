@@ -1,6 +1,10 @@
 Changelog
 =========
 
+2.5.9 (Unreleased)
+----------------------
+- Fix #427: Add hidden filter to topic badges
+
 2.5.8 (March 6, 2026)
 ----------------------
 - Fix #425: Fix missing translations
