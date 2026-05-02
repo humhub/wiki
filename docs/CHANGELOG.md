@@ -1,8 +1,8 @@
 Changelog
 =========
 
-2.5.9 (Unreleased)
-----------------------
+2.5.9 (May 2, 2026)
+-------------------
 - Fix #427: Add hidden filter to topic badges
 
 2.5.8 (March 6, 2026)
