@@ -183,6 +183,9 @@
 .layout-content-container .wiki-page-content .markdown-render {
   margin-bottom: 10px;
 }
+.layout-content-container .wiki-page-content #wiki-page-richtext > p:first-child {
+  display: flow-root;
+}
 .layout-content-container .wiki-page-content .wiki-sub-pages {
   border: 1px solid var(--hh-wiki-border-color-subpages);
   padding: 15px 0;
