@@ -1,6 +1,10 @@
 Changelog
 =========
 
+2.5.10 (Unreleased)
+-------------------
+- Fix #428: Improve Table of Contents style after aligned images
+
 2.5.9 (May 2, 2026)
 -------------------
 - Fix #427: Add hidden filter to topic badges
