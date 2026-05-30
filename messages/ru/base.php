@@ -79,7 +79,6 @@ return [
     'by' => 'от',
     'last update {dateTime}' => 'Последнее обновление {dateTime}',
     'show changes' => 'посмотреть изменения',
-    '{userName} edited the Wiki page "{wikiPageTitle}".' => '{userName} отредактировал wiki страницу "{wikiPageTitle}".',
     'Hide Navigation Entries of this module globally by default' => '',
     'Hide Navigation Entry' => '',
     'Label' => '',
@@ -89,4 +88,5 @@ return [
     'Whenever someone edits a wiki page.' => '',
     'Wiki page content ID' => '',
     'Wiki pages' => '',
+    '{displayName} edited the Wiki page "{contentTitle}".' => '',
 ];

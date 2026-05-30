@@ -85,8 +85,8 @@ return [
     'by' => 'általa:',
     'last update {dateTime}' => 'utolsó frissítés: {dateTime}',
     'show changes' => 'változások megjelenítése',
-    '{userName} edited the Wiki page "{wikiPageTitle}".' => '{userName} szerkesztette a "{wikiPageTitle}" Wiki-oldalt.',
     'Whenever someone edits a wiki page.' => '',
     'Wiki page content ID' => '',
     'Wiki pages' => '',
+    '{displayName} edited the Wiki page "{contentTitle}".' => '',
 ];

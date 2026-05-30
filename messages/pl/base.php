@@ -86,7 +86,7 @@ return [
     'by' => 'przez',
     'last update {dateTime}' => 'ostatnia aktualizacja {dateTime}',
     'show changes' => 'pokaż zmiany',
-    '{userName} edited the Wiki page "{wikiPageTitle}".' => '{userName} edytował stronę wiki "{wikiPageTitle}".',
     'Wiki page content ID' => '',
     'Wiki pages' => '',
+    '{displayName} edited the Wiki page "{contentTitle}".' => '',
 ];

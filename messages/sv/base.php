@@ -85,8 +85,8 @@ return [
     'by' => 'av',
     'last update {dateTime}' => 'senaste uppdatering {dateTime}',
     'show changes' => 'visa ändringar',
-    '{userName} edited the Wiki page "{wikiPageTitle}".' => '{userName} redigerade Wiki-sidan "{wikiPageTitle}".',
     'Whenever someone edits a wiki page.' => '',
     'Wiki page content ID' => '',
     'Wiki pages' => '',
+    '{displayName} edited the Wiki page "{contentTitle}".' => '',
 ];

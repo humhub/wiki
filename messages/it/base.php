@@ -77,7 +77,6 @@ return [
     'by' => 'da',
     'last update {dateTime}' => 'Ultimo aggiornamento {dateTime}',
     'show changes' => 'mostra le modifiche',
-    '{userName} edited the Wiki page "{wikiPageTitle}".' => '{userName} ha modificato la pagina Wiki "{wikiPageTitle}".',
     '({n,plural,=1{+1 subpage}other{+{count} subpages}})' => '',
     '<strong>Wiki</strong> module configuration' => '',
     'Hide Navigation Entries of this module globally by default' => '',
@@ -89,4 +88,5 @@ return [
     'Whenever someone edits a wiki page.' => '',
     'Wiki page content ID' => '',
     'Wiki pages' => '',
+    '{displayName} edited the Wiki page "{contentTitle}".' => '',
 ];

@@ -85,8 +85,8 @@ return [
     'by' => 'por',
     'last update {dateTime}' => 'última actualización {dateTime}',
     'show changes' => 'mostrar los cambios',
-    '{userName} edited the Wiki page "{wikiPageTitle}".' => '{userName} ha editado la página del wiki "{wikiPageTitle}".',
     'Whenever someone edits a wiki page.' => '',
     'Wiki page content ID' => '',
     'Wiki pages' => '',
+    '{displayName} edited the Wiki page "{contentTitle}".' => '',
 ];

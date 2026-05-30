@@ -88,5 +88,5 @@ return [
     'by' => '',
     'last update {dateTime}' => '',
     'show changes' => '',
-    '{userName} edited the Wiki page "{wikiPageTitle}".' => '',
+    '{displayName} edited the Wiki page "{contentTitle}".' => '',
 ];

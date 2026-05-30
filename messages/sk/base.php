@@ -85,8 +85,8 @@ return [
     'by' => 'podľa',
     'last update {dateTime}' => 'posledná aktualizácia {dateTime}',
     'show changes' => 'zobraziť zmeny',
-    '{userName} edited the Wiki page "{wikiPageTitle}".' => '{userName} upravil Wiki stránku "{wikiPageTitle}".',
     'Whenever someone edits a wiki page.' => '',
     'Wiki page content ID' => '',
     'Wiki pages' => '',
+    '{displayName} edited the Wiki page "{contentTitle}".' => '',
 ];

@@ -80,7 +80,6 @@ return [
     'by' => 'uživatelem',
     'last update {dateTime}' => 'poslední aktualizace {dateTime}',
     'show changes' => 'zobrazit změny',
-    '{userName} edited the Wiki page "{wikiPageTitle}".' => '{userName} upravil Wiki stránku "{wikiPageTitle}".',
     '({n,plural,=1{+1 subpage}other{+{count} subpages}})' => '',
     '<strong>Wiki</strong> module configuration' => '',
     'Hide Navigation Entries of this module globally by default' => '',
@@ -89,4 +88,5 @@ return [
     'Whenever someone edits a wiki page.' => '',
     'Wiki page content ID' => '',
     'Wiki pages' => '',
+    '{displayName} edited the Wiki page "{contentTitle}".' => '',
 ];
