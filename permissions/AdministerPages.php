@@ -10,6 +10,7 @@ namespace humhub\modules\wiki\permissions;
 
 use humhub\modules\space\models\Space;
 use humhub\modules\user\models\User;
+use Yii;
 
 /**
  * Page Administration Permission
@@ -40,12 +41,18 @@ class AdministerPages extends \humhub\libs\BasePermission
     /**
      * @inheritdoc
      */
-    protected $title = "Administer pages";
+    public function getTitle()
+    {
+        return Yii::t('WikiModule.base', 'Administer pages');
+    }
 
     /**
      * @inheritdoc
      */
-    protected $description = "Allows the user to administer  pages (rename, delete, protect, make homepage)";
+    public function getDescription()
+    {
+        return Yii::t('WikiModule.base', 'Allows the user to administer pages (rename, delete, protect, make homepage)');
+    }
 
     /**
      * @inheritdoc

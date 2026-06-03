@@ -20,23 +20,19 @@ humhub\modules\wiki\assets\Assets::register($this);
 <div class="panel panel-default wiki-bg">
 
     <div class="panel-body">
-        <div class="container gx-0 overflow-x-hidden">
-            <div class="row">
-                <?php WikiContent::begin() ?>
+        <?php WikiContent::begin() ?>
 
-                    <div class="text-center wiki-welcome">
-                        <h1><?= Yii::t('WikiModule.base', 'There are no entries yet :(') ?></h1>
-                        <?php if ($canCreatePage): ?>
-                            <h2><?= Yii::t('WikiModule.base', 'Get your very own knowledge base off the ground by being the first one to create a Wiki page! Gather information, facilitate knowledge transfer and make it available to your users in the easiest way possible.') ?></h2>
-                            <br>
-                            <p>
-                                <?= Button::accent( Yii::t('WikiModule.base', 'Let\'s go!'))->link(Url::toWikiCreate($contentContainer)) ?>
-                            </p>
-                        <?php endif; ?>
-                    </div>
-
-                <?php WikiContent::end() ?>
+            <div class="text-center wiki-welcome">
+                <h1><?= Yii::t('WikiModule.base', 'There are no entries yet :(') ?></h1>
+                <?php if ($canCreatePage): ?>
+                    <h2><?= Yii::t('WikiModule.base', 'Get your very own knowledge base off the ground by being the first one to create a Wiki page! Gather information, facilitate knowledge transfer and make it available to your users in the easiest way possible.') ?></h2>
+                    <br>
+                    <p>
+                        <?= Button::accent( Yii::t('WikiModule.base', 'Let\'s go!'))->link(Url::toWikiCreate($contentContainer)) ?>
+                    </p>
+                <?php endif; ?>
             </div>
-        </div>
+
+        <?php WikiContent::end() ?>
     </div>
 </div>

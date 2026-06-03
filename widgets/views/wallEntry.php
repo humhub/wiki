@@ -18,7 +18,7 @@ Assets::register($this);
                 : $content ?>
         </div>
 
-        <?= Link::to(Yii::t('UiModule.base', 'Read more'), Url::toWiki($wiki)) ?>
+        <?= Link::to(Yii::t('UiModule.base', 'Read more'), Url::toWiki($wiki))->cssClass('link-accent') ?>
     </div>
 
 </div>

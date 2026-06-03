@@ -31,7 +31,7 @@ Assets::register($this);
 <div class="wall-entry-controls social-controls">
     <?= ContentObjectLinks::widget([
         'object' => $page,
-        'seperator' => '&middot;',
+        'seperator' => ' &middot; ',
     ]) ?>
 </div>
 

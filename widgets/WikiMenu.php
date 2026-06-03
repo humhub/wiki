@@ -247,7 +247,8 @@ class WikiMenu extends WallEntryControls
             } else {
                 $btnTypeClass = 'btn-accent';
             }
-            return Link::to($button->icon . ' ' . $button->getLabel(), $button->getUrl())
+            return Link::to($button->getLabel(), $button->getUrl())
+                ->icon($button->icon)
                 ->cssClass('btn btn-sm ' . $btnTypeClass)
                 ->options($htmlOptions);
         }

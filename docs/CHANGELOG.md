@@ -5,9 +5,32 @@ Changelog
 -----------------------
 - Enh #410: Update for HumHub 1.19
 
-2.5.5 (Unreleased)
+2.5.10 (May 18, 2026)
+---------------------
+- Fix #428: Improve Table of Contents style after aligned images
+
+2.5.9 (May 2, 2026)
+-------------------
+- Fix #427: Add hidden filter to topic badges
+
+2.5.8 (March 6, 2026)
+----------------------
+- Fix #425: Fix missing translations
+
+2.5.7 (March 4, 2026)
+----------------------
+- Fix #423: Fix button icon
+
+2.5.6 (Februrary 26, 2025)
+--------------------------
+- Fix #421: Labels encoding (see [migration guide](https://github.com/humhub/humhub/blob/master/MIGRATE-DEV.md#version-1181))
+
+2.5.5 (February 13, 2026)
 -----------------------
 - Fix #404: `.row` HTML elements without `.container` overflow
+- Fix: Wiki width on large screens
+- Fix #405: Various styling fixes since migration to Bootstrap 5
+- Fix #418: Fix Wiki Page Index on Smaller Screens
 
 2.5.4 (December 12, 2025)
 -------------------------

@@ -20,7 +20,6 @@ class WikiContent extends JsWidget
     public $cssClass;
     public $title;
     public $titleIcon;
-    public $cols = 12;
 
     public function init()
     {
@@ -41,11 +40,8 @@ class WikiContent extends JsWidget
 
     public function getAttributes()
     {
-        $cssClass = 'col-xl-' . $this->cols . ' col-lg-' . $this->cols . ' col-md-' . $this->cols . ' wiki-content';
-        $cssClass .= ($this->cssClass) ? ' ' . $this->cssClass : '';
-
         return [
-            'class' => $cssClass,
+            'class' => 'wiki-content' . ($this->cssClass ? ' ' . $this->cssClass : ''),
         ];
     }
 
