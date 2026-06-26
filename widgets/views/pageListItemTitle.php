@@ -24,8 +24,10 @@ use humhub\widgets\bootstrap\Link;
 ?>
 <?= Html::beginTag('div', $options) ?>
     <div>
-        <?= Link::to()->icon('arrows')
+        <?= Link::to()
+            ->icon('arrows')
             ->cssClass('wiki-page-control drag-icon link-icon-only')
+            ->options(['aria-label' => Yii::t('WikiModule.base', 'Drag to reorder')])
             ->visible($item && $showDrag) ?>
         <?= ($icon ? Icon::get($icon) . ' ' : '') ?>
         <?= Html::tag($url ? 'a' : 'span', Html::encode($title), ['href' => $url, 'class' => 'page-title-text']) ?>
