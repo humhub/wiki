@@ -94,6 +94,7 @@ return [
     'Allows the user to edit or revert pages' => '',
     'Allows the user to view the history of wiki pages' => '',
     'Create pages' => '',
+    'Drag to reorder' => '',
     'Edit pages' => '',
     'View History' => '',
     '{displayName} edited the Wiki page "{contentTitle}".' => '',

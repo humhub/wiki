@@ -32,6 +32,7 @@ return [
     'Disable edit access for non wiki administrators?' => '',
     'Discard my changes' => '',
     'Do you really want to revert this page?' => '',
+    'Drag to reorder' => '',
     'Edit' => '',
     'Edit page' => '',
     'Edit pages' => '',

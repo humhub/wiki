@@ -67,6 +67,7 @@ return [
     'Create pages' => '',
     'Created by {author}' => '',
     'Discard my changes' => '',
+    'Drag to reorder' => '',
     'Edit pages' => '',
     'Get your very own knowledge base off the ground by being the first one to create a Wiki page! Gather information, facilitate knowledge transfer and make it available to your users in the easiest way possible.' => '',
     'Hide Navigation Entries of this module globally by default' => '',

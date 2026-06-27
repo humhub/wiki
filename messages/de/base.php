@@ -96,5 +96,6 @@ return [
     'by' => 'von',
     'last update {dateTime}' => 'letztes Update {dateTime}',
     'show changes' => 'Änderungen anzeigen',
+    'Drag to reorder' => '',
     '{displayName} edited the Wiki page "{contentTitle}".' => '',
 ];
