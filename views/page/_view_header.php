@@ -54,5 +54,6 @@ if (empty($buttons)) {
             <?= Icon::get('lock')->tooltip(Yii::t('ContentModule.widgets_views_label', 'Protected')) ?>
         <?php endif; ?>
 
-         <?= StateBadge::widget(['model' => $page]) ?>    </div>
+         <?= StateBadge::widget(['model' => $page]) ?>
+    </div>
 </div>
