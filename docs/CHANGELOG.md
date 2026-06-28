@@ -1,6 +1,10 @@
 Changelog
 =========
 
+2.5.11 (Unreleased)
+---------------------
+- Enh: Add State badge to wiki page header
+
 2.5.10 (May 18, 2026)
 ---------------------
 - Fix #428: Improve Table of Contents style after aligned images
