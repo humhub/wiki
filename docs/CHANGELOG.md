@@ -9,6 +9,10 @@ Changelog
 ---------------------
 - Enh #410: Update for HumHub 1.19
 
+2.5.11 (July 8, 2026)
+---------------------
+- Enh #432: Add State badge to wiki page header
+
 2.5.10 (May 18, 2026)
 ---------------------
 - Fix #428: Improve Table of Contents style after aligned images

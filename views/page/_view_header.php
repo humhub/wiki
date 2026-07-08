@@ -1,6 +1,7 @@
 <?php
 
 use humhub\helpers\Html;
+use humhub\modules\content\widgets\StateBadge;
 use humhub\modules\ui\icon\widgets\Icon;
 use humhub\modules\wiki\helpers\Url;
 use humhub\modules\wiki\models\WikiPage;
@@ -52,5 +53,7 @@ if (empty($buttons)) {
         <?php if ($page->admin_only) : ?>
             <?= Icon::get('lock')->tooltip(Yii::t('ContentModule.widgets_views_label', 'Protected')) ?>
         <?php endif; ?>
+
+         <?= StateBadge::widget(['model' => $page]) ?>
     </div>
 </div>
