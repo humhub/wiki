@@ -1,7 +1,7 @@
 Changelog
 =========
 
-2.5.11 (Unreleased)
+2.5.11 (July 8, 2026)
 ---------------------
 - Enh #432: Add State badge to wiki page header
 
