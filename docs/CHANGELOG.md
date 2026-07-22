@@ -1,6 +1,14 @@
 Changelog
 =========
 
+2.6.1 (July 8, 2026)
+--------------------
+- Enh #431: Add aria-label attribute for icon-only buttons
+
+2.6.0 (June 5, 2026)
+---------------------
+- Enh #410: Update for HumHub 1.19
+
 2.5.11 (July 8, 2026)
 ---------------------
 - Enh #432: Add State badge to wiki page header
