@@ -29,7 +29,12 @@ $settings = new DefaultSettings(['contentContainer' => $contentContainer]);
         <div class="wiki-page-content-header clearfix">
             <div class="d-flex align-items-end gap-3 py-2">
                 <h3 class="m-0 p-0"><?= Link::to($settings->module_label, Url::toLastEdited($contentContainer)) ?></h3>
-                <?= Button::accent()->icon('fa-plus')->link(Url::toWikiCreate($contentContainer))->cssClass('btn-add-page my-1')->sm() ?>
+                <?= Button::accent()
+                    ->icon('plus')
+                    ->options(['aria-label' => Yii::t('WikiModule.base', 'Create page')])
+                    ->link(Url::toWikiCreate($contentContainer))
+                    ->cssClass('btn-add-page my-1')
+                    ->sm() ?>
             </div>
             <?= WikiSearchForm::widget(['contentContainer' => $contentContainer]) ?>
             <div class="wiki-page-content-header-actions">

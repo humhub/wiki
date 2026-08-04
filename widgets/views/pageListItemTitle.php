@@ -9,7 +9,7 @@ use humhub\helpers\Html;
 use humhub\modules\ui\icon\widgets\Icon;
 use humhub\modules\wiki\models\HierarchyItem;
 use humhub\modules\wiki\services\HierarchyListService;
-use humhub\widgets\bootstrap\Button;
+use humhub\widgets\bootstrap\Link;
 
 /* @var $service HierarchyListService */
 /* @var $item HierarchyItem */
@@ -24,8 +24,10 @@ use humhub\widgets\bootstrap\Button;
 ?>
 <?= Html::beginTag('div', $options) ?>
     <div>
-        <?= Button::asLink()->icon('arrows')
+        <?= Link::to()
+            ->icon('arrows')
             ->cssClass('wiki-page-control drag-icon link-icon-only')
+            ->options(['aria-label' => Yii::t('WikiModule.base', 'Drag to reorder')])
             ->visible($item && $showDrag) ?>
         <?= ($icon ? Icon::get($icon) . ' ' : '') ?>
         <?= Html::tag($url ? 'a' : 'span', Html::encode($title), ['href' => $url, 'class' => 'page-title-text']) ?>
@@ -37,7 +39,7 @@ use humhub\widgets\bootstrap\Button;
         <span class="page-title-icon"><?= Icon::get($titleIcon) ?></span>
     <?php endif; ?>
     <?php if ($item && $showAddPage) : ?>
-        <?= Button::asLink(null, $service->getNewWikiPageUrl($item))
+        <?= Link::to(null, $service->getNewWikiPageUrl($item))
             ->icon('plus')
             ->cssClass('wiki-page-control wiki-category-add')
             ->tooltip(Yii::t('WikiModule.base', 'Add Page')) ?>

@@ -8,8 +8,8 @@ class m150705_081309_namespace extends Migration
 {
     public function up()
     {
-        $this->renameClass('WikiPage', WikiPage::className());
-        $this->renameClass('WikiPageRevision', WikiPageRevision::className());
+        $this->renameClass('WikiPage', WikiPage::class);
+        $this->renameClass('WikiPageRevision', WikiPageRevision::class);
     }
 
     public function down()

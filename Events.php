@@ -2,6 +2,7 @@
 
 namespace humhub\modules\wiki;
 
+use humhub\helpers\ControllerHelper;
 use humhub\helpers\Html;
 use humhub\modules\content\components\ContentContainerActiveRecord;
 use humhub\modules\content\widgets\WallEntryControls;
@@ -45,7 +46,7 @@ class Events
                 'label' => Html::encode($settings->module_label),
                 'url' => $container->createUrl('/wiki/page'),
                 'icon' => 'book',
-                'isActive' => MenuLink::isActiveState('wiki'),
+                'isActive' => ControllerHelper::isActivePath('wiki'),
             ]));
         }
 
@@ -61,7 +62,7 @@ class Events
                 'label' => Html::encode($containerMenuWikiPage->title),
                 'url' => $containerMenuWikiPage->getUrl(),
                 // @TODO: change to use 4th argument of `isActiveState` after v17 release
-                'isActive' => $containerMenuWikiPage->id == Yii::$app->request->get('id') && MenuLink::isActiveState('wiki', 'page', 'view'),
+                'isActive' => $containerMenuWikiPage->id == Yii::$app->request->get('id') && ControllerHelper::isActivePath('wiki', 'page', 'view'),
                 'icon' => 'file-text-o',
                 'sortOrder' => $containerMenuWikiPage->container_menu_order,
             ]));
