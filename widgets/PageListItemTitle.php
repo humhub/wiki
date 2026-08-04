@@ -86,6 +86,9 @@ class PageListItemTitle extends Widget
             && ($this->maxLevel !== null && $this->level === $this->maxLevel)) {
             if ($childrenCount = $this->service->getItemChildrenCount($this->item->id)) {
                 $this->titleInfo = Yii::t('WikiModule.base', '({n,plural,=1{+1 subpage}other{+{count} subpages}})', ['n' => $childrenCount, 'count' => $childrenCount]);
+                // Display only number on small screens
+                $this->titleInfo = '<span class="d-none d-sm-inline">' . $this->titleInfo . '</span>'
+                    . '<span class="d-sm-none">(+' . $childrenCount . ')</span>';
             }
         }
 
