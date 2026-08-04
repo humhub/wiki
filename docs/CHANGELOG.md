@@ -1,8 +1,8 @@
 Changelog
 =========
 
-2.5.12 (Unreleased)
----------------------
+2.5.12 (August 4, 2026)
+-----------------------
 - Fix #436: Fix subpages box width on small screens
 
 2.5.11 (July 8, 2026)
