@@ -112,7 +112,7 @@ $wiki-mobile-grid-breakpoints: 520px;
     }
 
     .wiki-page-index {
-        @include media-breakpoint-up(xs) {
+        @include media-breakpoint-up(sm) {
             width: 50%;
         }
         border: 1px solid var(--hh-wiki-border-color-content);
@@ -270,7 +270,10 @@ $wiki-mobile-grid-breakpoints: 520px;
             border: 1px solid var(--hh-wiki-border-color-subpages);
             padding: 15px 0;
             margin-bottom: 10px;
-            @include media-breakpoint-up(xs) {
+            @include media-breakpoint-up(sm) {
+                width: 75%;
+            }
+            @include media-breakpoint-up(md) {
                 width: 50%;
             }
 
@@ -648,7 +651,7 @@ $wiki-mobile-grid-breakpoints: 520px;
         }
     }
 
-    @include media-breakpoint-down(xs) {
+    @include media-breakpoint-down(sm) {
         display: block !important;
         .wiki-search-form {
             width: auto;
