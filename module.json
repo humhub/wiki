@@ -2,13 +2,10 @@
     "id": "wiki",
     "name": "Wiki",
     "description": "Create and edit pages with this powerful tool. Build a collaborative knowledge base, view and share information with your colleagues.",
-    "keywords": [
-        "wiki"
-    ],
-    "version": "2.5.13",
+    "keywords": ["wiki"],
+    "version": "2.6.2",
     "humhub": {
-        "minVersion": "1.18.1",
-        "maxVersion": "1.18"
+        "minVersion": "1.19"
     },
     "homepage": "https://github.com/humhub/wiki",
     "authors": [
