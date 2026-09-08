@@ -71,9 +71,7 @@ class CategoryListView extends JsWidget
     {
         parent::init();
 
-        if ($this->service === null) {
-            $this->service = new HierarchyListService($this->contentContainer);
-        }
+        $this->service ??= new HierarchyListService($this->contentContainer);
     }
 
     /**

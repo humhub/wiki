@@ -426,9 +426,7 @@ class WikiPage extends ContentActiveRecord
 
     public function getIsCategory(): bool
     {
-        if (!isset($this->_isCategory)) {
-            $this->_isCategory = !$this->isNewRecord && $this->findChildren()->exists();
-        }
+        $this->_isCategory ??= !$this->isNewRecord && $this->findChildren()->exists();
 
         return $this->_isCategory;
     }

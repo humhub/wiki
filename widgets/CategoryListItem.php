@@ -94,13 +94,9 @@ class CategoryListItem extends Widget
             return '';
         }
 
-        if ($this->showDrag === null) {
-            $this->showDrag = $this->canAdminister();
-        }
+        $this->showDrag ??= $this->canAdminister();
 
-        if ($this->showAddPage === null) {
-            $this->showAddPage = $this->canCreate();
-        }
+        $this->showAddPage ??= $this->canCreate();
 
         $displaySubPages = $this->maxLevel === null || $this->level < $this->maxLevel;
 
@@ -137,18 +133,14 @@ class CategoryListItem extends Widget
 
     private function canAdminister()
     {
-        if (static::$canAdminister === null) {
-            static::$canAdminister =  $this->contentContainer->can(AdministerPages::class);
-        }
+        static::$canAdminister ??= $this->contentContainer->can(AdministerPages::class);
 
         return static::$canAdminister;
     }
 
     private function canCreate()
     {
-        if (static::$canCreate === null) {
-            static::$canCreate = (new WikiPage($this->contentContainer))->content->canEdit();
-        }
+        static::$canCreate ??= (new WikiPage($this->contentContainer))->content->canEdit();
 
         return static::$canCreate;
     }

@@ -9,6 +9,10 @@ Changelog
 ---------------------
 - Enh #410: Update for HumHub 1.19
 
+2.5.13 (Unreleased)
+-------------------
+- Enh: Automated code refactoring for HumHub 1.18.1 using Rector
+
 2.5.12 (August 4, 2026)
 -----------------------
 - Fix #436: Fix subpages box width on small screens
