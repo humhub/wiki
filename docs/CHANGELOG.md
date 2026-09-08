@@ -1,6 +1,11 @@
 Changelog
 =========
 
+2.6.2 (Unreleased)
+------------------
+- Fix #436: Subpages box width on small screens (from 2.5.12)
+- Enh: Automated code refactoring using Rector (from 2.5.13)
+
 2.6.1 (July 8, 2026)
 --------------------
 - Enh #431: Add aria-label attribute for icon-only buttons
