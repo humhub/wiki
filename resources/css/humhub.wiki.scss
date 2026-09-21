@@ -1037,4 +1037,60 @@ $wiki-mobile-grid-breakpoints: 520px;
     #page-content-wrapper {
         padding: 0;
     }
+
+    // Print only the page itself: no breadcrumb/home icon, panel frame or trailing separator
+    .wiki-headline,
+    .wiki-page-content > hr {
+        display: none;
+    }
+
+    .space-layout-container {
+        max-width: none;
+        padding: 0;
+    }
+
+    .layout-content-container {
+        flex: 0 0 100%;
+        width: 100%;
+        max-width: 100%;
+        padding: 0;
+
+        .panel {
+            border: none;
+            box-shadow: none;
+            background: none;
+        }
+
+        .panel-body {
+            padding: 0;
+        }
+    }
+
+    // Let long pages flow across printed pages instead of being clipped by flex/overflow containers
+    .space-content {
+        display: block;
+    }
+
+    .markdown-render,
+    #wiki-page-richtext {
+        overflow: visible;
+    }
+
+    .wiki-page-index {
+        width: 100%;
+
+        .nav li {
+            break-inside: avoid;
+        }
+    }
+
+    .wiki-page-content {
+        h1, h2, h3, h4, h5, h6 {
+            break-after: avoid;
+        }
+
+        table, img {
+            break-inside: avoid;
+        }
+    }
 }
