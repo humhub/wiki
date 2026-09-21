@@ -791,4 +791,45 @@
   #page-content-wrapper {
     padding: 0;
   }
+  .wiki-headline,
+  .wiki-page-content > hr {
+    display: none;
+  }
+  .space-layout-container {
+    max-width: none;
+    padding: 0;
+  }
+  .layout-content-container {
+    flex: 0 0 100%;
+    width: 100%;
+    max-width: 100%;
+    padding: 0;
+  }
+  .layout-content-container .panel {
+    border: none;
+    box-shadow: none;
+    background: none;
+  }
+  .layout-content-container .panel-body {
+    padding: 0;
+  }
+  .space-content {
+    display: block;
+  }
+  .markdown-render,
+  #wiki-page-richtext {
+    overflow: visible;
+  }
+  .wiki-page-index {
+    width: 100%;
+  }
+  .wiki-page-index .nav li {
+    break-inside: avoid;
+  }
+  .wiki-page-content h1, .wiki-page-content h2, .wiki-page-content h3, .wiki-page-content h4, .wiki-page-content h5, .wiki-page-content h6 {
+    break-after: avoid;
+  }
+  .wiki-page-content table, .wiki-page-content img {
+    break-inside: avoid;
+  }
 }

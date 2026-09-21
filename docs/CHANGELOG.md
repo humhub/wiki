@@ -4,6 +4,7 @@ Changelog
 2.5.13 (Unreleased)
 -------------------
 - Enh: Automated code refactoring for HumHub 1.18.1 using Rector
+- Fix #442: Improve print view, hide breadcrumb and panel frame, prevent clipping of long pages
 
 2.5.12 (August 4, 2026)
 -----------------------
