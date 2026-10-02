@@ -3,7 +3,7 @@ Changelog
 
 2.6.3 (Unreleased)
 ------------------
-- Fix: PHP 8.5 deprecation "Using null as an array offset" on the wiki page list
+- Fix #443: PHP 8.5 deprecation "Using null as an array offset" on the wiki page list
 
 2.6.2 (September 8, 2026)
 -------------------------
