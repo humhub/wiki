@@ -4,6 +4,7 @@ Changelog
 2.6.3 (Unreleased)
 ------------------
 - Fix #443: PHP 8.5 deprecation "Using null as an array offset" on the wiki page list
+- Fix: Refined page sorting
 
 2.6.2 (September 8, 2026)
 -------------------------
@@ -21,6 +22,7 @@ Changelog
 2.5.13 (Unreleased)
 -------------------
 - Enh: Automated code refactoring for HumHub 1.18.1 using Rector
+- Fix: Refined page sorting
 
 2.5.12 (August 4, 2026)
 -----------------------
