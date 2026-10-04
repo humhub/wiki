@@ -21,6 +21,9 @@ class RevisionController extends BaseController
         if (! $page) {
             return $this->returnError(404, 'Page not found!');
         }
+        if (!$page->content->canView()) {
+            return $this->returnError(403, 'You cannot view this page!');
+        }
 
         $results = [];
         $query = $page->getRevisions();
@@ -38,6 +41,9 @@ class RevisionController extends BaseController
 
         if ($revision === null) {
             return $this->returnError(404, 'Wiki page revision not found!');
+        }
+        if (!$revision->page || !$revision->page->content->canView()) {
+            return $this->returnError(403, 'You cannot view this page!');
         }
 
         return RestDefinitions::getWikiPageRevision($revision);
