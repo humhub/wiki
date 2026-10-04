@@ -5,6 +5,7 @@ Changelog
 -------------------
 - Enh: Automated code refactoring for HumHub 1.18.1 using Rector
 - Fix: Refined page sorting
+- Fix: Refined revision API handling
 
 2.5.12 (August 4, 2026)
 -----------------------
