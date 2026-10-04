@@ -65,6 +65,10 @@ abstract class ItemDrop extends Model
 
     public function save()
     {
+        if (!$this->validate() || !$this->getModel()) {
+            return false;
+        }
+
         try {
             return $this->moveItemIndex($this->id, $this->index);
         } catch (\Throwable $e) {
