@@ -43,8 +43,8 @@ class WikiPageRevision extends ActiveRecord
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return [
-            [['revision', 'wiki_page_id', 'user_id'], 'required'],
-            [['revision', 'is_latest', 'wiki_page_id', 'user_id'], 'integer'],
+            [['!revision', 'wiki_page_id', '!user_id'], 'required'],
+            [['!revision', 'is_latest', 'wiki_page_id', '!user_id'], 'integer'],
             ['content', 'safe'],
         ];
     }
