@@ -14,6 +14,7 @@ use humhub\modules\wiki\widgets\WikiPagePicker;
 use humhub\modules\wiki\widgets\WikiPath;
 use humhub\widgets\bootstrap\Alert;
 use humhub\widgets\bootstrap\Button;
+use humhub\widgets\bootstrap\Link;
 use humhub\widgets\form\ActiveForm;
 use humhub\widgets\form\ContentHiddenCheckbox;
 use humhub\widgets\form\ContentVisibilitySelect;
@@ -66,7 +67,7 @@ Assets::register($this);
             <?= Alert::danger(Yii::t(
                     'WikiModule.base',
                     '<strong>Warning!</strong><br><br>Another user has updated this page since you have started editing it. Please confirm that you want to overwrite those changes.<br>:linkToCompare',
-                    [':linkToCompare' => Button::asLink(Yii::t('WikiModule.base', 'Compare changes'))->icon('arrow-right')->action('compareOverwriting', $diffUrl)->cssClass('link-danger')],
+                    [':linkToCompare' => Link::to(Yii::t('WikiModule.base', 'Compare changes'))->icon('arrow-right')->action('compareOverwriting', $diffUrl)->cssClass('link-danger')],
                 ))
                     ->closeButton(false)
                     ->style('display: block !important') // Prevent the POST action to hide the alert box ?>

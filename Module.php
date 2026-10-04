@@ -2,7 +2,6 @@
 
 namespace humhub\modules\wiki;
 
-use humhub\components\console\Application as ConsoleApplication;
 use humhub\modules\content\components\ContentContainerActiveRecord;
 use humhub\modules\content\components\ContentContainerModule;
 use humhub\modules\space\models\Space;
@@ -27,19 +26,6 @@ class Module extends ContentContainerModule
      * @var int Maximum number of H3 type titles, after which they are hidden in the Table of Contents (TOC)
      */
     public $tocMaxH3 = 20;
-
-    /**
-     * @inheritdoc
-     */
-    public function init()
-    {
-        parent::init();
-
-        if (Yii::$app instanceof ConsoleApplication) {
-            // Prevents the Yii HelpCommand from crawling all web controllers and possibly throwing errors at REST endpoints if the REST module is not available.
-            $this->controllerNamespace = 'wiki/commands';
-        }
-    }
 
     /**
      * @inheritdoc

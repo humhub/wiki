@@ -18,6 +18,9 @@ use humhub\widgets\form\ActiveForm;
 
 <?= Html::textInput('keyword', $keyword, ['placeholder' => $placeholder, 'class' => 'form-control']) ?>
 
-<?= Button::light()->icon('search')->submit() ?>
+<?= Button::light()
+    ->icon('search')
+    ->options(['aria-label' => Yii::t('base', 'Search')])
+    ->submit() ?>
 
 <?php ActiveForm::end() ?>

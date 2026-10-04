@@ -124,7 +124,7 @@ class HierarchyListService
 
     public function isFoldedItemById(?int $itemId): bool
     {
-        return isset($this->items[$itemId]) ? $this->items[$itemId]->isFolded : false;
+        return $itemId !== null && isset($this->items[$itemId]) && $this->items[$itemId]->isFolded;
     }
 
     public function getCurrentPageId(): ?int

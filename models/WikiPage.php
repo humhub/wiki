@@ -8,10 +8,10 @@
 
 namespace humhub\modules\wiki\models;
 
+use humhub\modules\activity\services\ActivityManager;
 use humhub\modules\content\components\ActiveQueryContent;
 use humhub\modules\content\components\ContentActiveRecord;
 use humhub\modules\content\components\ContentContainerActiveRecord;
-use humhub\modules\search\interfaces\Searchable;
 use humhub\modules\space\models\Space;
 use humhub\modules\user\models\User;
 use humhub\modules\wiki\activities\WikiPageEditedActivity;
@@ -39,7 +39,7 @@ use yii\db\Expression;
  * @property-read WikiPageRevision $latestRevision
  * @property-read bool $isCategory
  */
-class WikiPage extends ContentActiveRecord implements Searchable
+class WikiPage extends ContentActiveRecord
 {
     public const SCENARIO_CREATE = 'create';
     public const SCENARIO_ADMINISTER = 'admin';
@@ -192,7 +192,7 @@ class WikiPage extends ContentActiveRecord implements Searchable
         }
 
         if (!$insert && !Yii::$app->user->isGuest) {
-            WikiPageEditedActivity::instance()->from(Yii::$app->user->getIdentity())->about($this)->create();
+            ActivityManager::dispatch(WikiPageEditedActivity::class, $this);
         }
 
         parent::afterSave($insert, $changedAttributes);
