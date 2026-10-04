@@ -12,7 +12,6 @@ use humhub\modules\activity\services\ActivityManager;
 use humhub\modules\content\components\ActiveQueryContent;
 use humhub\modules\content\components\ContentActiveRecord;
 use humhub\modules\content\components\ContentContainerActiveRecord;
-use humhub\modules\search\interfaces\Searchable;
 use humhub\modules\space\models\Space;
 use humhub\modules\user\models\User;
 use humhub\modules\wiki\activities\WikiPageEditedActivity;

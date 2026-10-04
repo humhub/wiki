@@ -1,6 +1,10 @@
 Changelog
 =========
 
+2.6.3 (Unreleased)
+------------------
+- Fix #443: PHP 8.5 deprecation "Using null as an array offset" on the wiki page list
+
 2.6.2 (September 8, 2026)
 -------------------------
 - Fix #436: Subpages box width on small screens (from 2.5.12)
