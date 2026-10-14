@@ -113,7 +113,9 @@ $wiki-mobile-grid-breakpoints: 520px;
 
     .wiki-page-index {
         @include media-breakpoint-up(sm) {
-            width: 50%;
+            width: fit-content;
+            min-width: 50%;
+            max-width: 100%;
         }
         border: 1px solid var(--hh-wiki-border-color-content);
         @include border-radius();
@@ -132,6 +134,7 @@ $wiki-mobile-grid-breakpoints: 520px;
                     color: var(--bs-accent) !important;
 
                     > span {
+                        flex-shrink: 0;
                         font-weight: 600;
                         color: var(--hh-text-color-highlight) !important;
                         margin-right: 10px;
@@ -148,6 +151,8 @@ $wiki-mobile-grid-breakpoints: 520px;
 
         .wiki-page-index-section {
             .header-anchor {
+                display: flex;
+                align-items: baseline;
                 text-overflow: ellipsis;
                 overflow: hidden;
                 padding-left: 20px;

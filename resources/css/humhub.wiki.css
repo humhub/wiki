@@ -82,7 +82,9 @@
 }
 @media (min-width: 576px) {
   .layout-content-container .wiki-page-index {
-    width: 50%;
+    width: fit-content;
+    min-width: 50%;
+    max-width: 100%;
   }
 }
 .layout-content-container .wiki-page-index .nav {
@@ -97,6 +99,7 @@
   color: var(--bs-accent) !important;
 }
 .layout-content-container .wiki-page-index .nav li a > span {
+  flex-shrink: 0;
   font-weight: 600;
   color: var(--hh-text-color-highlight) !important;
   margin-right: 10px;
@@ -107,6 +110,8 @@
   color: var(--hh-text-color-highlight) !important;
 }
 .layout-content-container .wiki-page-index .wiki-page-index-section .header-anchor {
+  display: flex;
+  align-items: baseline;
   text-overflow: ellipsis;
   overflow: hidden;
   padding-left: 20px;

@@ -1,6 +1,10 @@
 Changelog
 =========
 
+2.6.4 (Unreleased)
+------------------
+- Fix: Page index uses the available width for long headings and aligns wrapped lines
+
 2.6.3 (October 13, 2026)
 ------------------------
 - Fix #443: PHP 8.5 deprecation "Using null as an array offset" on the wiki page list
