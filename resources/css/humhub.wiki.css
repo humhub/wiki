@@ -110,7 +110,7 @@
   color: var(--hh-text-color-highlight) !important;
 }
 .layout-content-container .wiki-page-index .wiki-page-index-section .header-anchor {
-  display: flex;
+  display: flex !important;
   align-items: baseline;
   text-overflow: ellipsis;
   overflow: hidden;
