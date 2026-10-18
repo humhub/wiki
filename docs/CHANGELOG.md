@@ -4,6 +4,7 @@ Changelog
 2.6.4 (Unreleased)
 ------------------
 - Fix: Use own "Read more" translation instead of the `UiModule.base` category removed in HumHub 1.20
+- Fix: "Move content" menu entry broke with the reworked `MoveContentLink` in HumHub 1.20
 - Fix: Page index uses the available width for long headings and aligns wrapped lines
 
 2.6.3 (October 13, 2026)

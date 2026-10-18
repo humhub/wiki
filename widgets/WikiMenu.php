@@ -10,7 +10,6 @@
 namespace humhub\modules\wiki\widgets;
 
 use humhub\modules\content\components\ContentContainerActiveRecord;
-use humhub\modules\content\widgets\MoveContentLink;
 use humhub\modules\content\widgets\WallEntryControls;
 use humhub\modules\ui\menu\DropdownDivider;
 use humhub\modules\ui\menu\MenuLink;
@@ -369,14 +368,18 @@ class WikiMenu extends WallEntryControls
                 ]);
             case static::LINK_MOVE:
                 if (!$this->object->isNewRecord && $this->object->canMove() === true) {
-                    $moveLink = new MoveContentLink(['model' => $this->object]);
-                    return $moveLink->preventRender() ? null : new MenuLink([
+                    // Same visibility as the core MoveContentLink, whose API differs between 1.19 and 1.20
+                    $content = $this->object->content;
+                    if (!$content->container || !$content->checkMovePermission()) {
+                        return null;
+                    }
+                    return new MenuLink([
                         'label' => Yii::t('ContentModule.base', 'Move content'),
                         'url' => '#',
-                        'icon' => $moveLink->icon,
+                        'icon' => 'fa-arrows-h',
                         'htmlOptions' => [
-                            'data-action-click' => $moveLink->action,
-                            'data-action-url' => $moveLink->getActionUrl(),
+                            'data-action-click' => 'ui.modal.load',
+                            'data-action-url' => $content->container->createUrl('/content/move/move', ['id' => $content->id]),
                         ],
                     ]);
                 }
