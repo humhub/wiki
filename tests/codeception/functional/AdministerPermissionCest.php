@@ -124,7 +124,7 @@ class AdministerPermissionCest extends FunctionalPermissionTest
         $I->saveWiki();
 
         $I->seeInMenu('Home');
-        $I->seeElement('.fa-globe');
+        $I->seeElement('.fa-globe, .ti-world');
         $I->see('Changed to category', '.wiki-page-content');
         $I->see('Changed content', '.wiki-page-content');
 

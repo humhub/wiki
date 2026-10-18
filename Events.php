@@ -30,9 +30,9 @@ class Events
      * Initialize Space/Profile menu items
      *
      * @param ContentContainerActiveRecord $container
-     * @param LeftNavigation $menu
+     * @param LeftNavigation $menu not type-hinted: the class is a deprecated alias of a different class in HumHub 1.20
      */
-    public static function InitContainerMenus(ContentContainerActiveRecord $container, LeftNavigation $menu)
+    public static function InitContainerMenus(ContentContainerActiveRecord $container, $menu)
     {
         if (empty($container) || !$container->moduleManager->isEnabled('wiki')) {
             return;

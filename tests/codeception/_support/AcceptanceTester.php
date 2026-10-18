@@ -213,7 +213,7 @@ class AcceptanceTester extends \AcceptanceTester
         $this->wait(1);
         $this->see("My First Wiki {$type} Public Page!", 'h1');
 
-        $this->seeElement('.fa-globe');
+        $this->seeElement('.fa-globe, .ti-world');
         $this->toIndex();
         $this->see("First Public {$type} Wiki Page", '.wiki-page-list');
 
