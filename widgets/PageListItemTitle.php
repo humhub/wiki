@@ -121,7 +121,10 @@ class PageListItemTitle extends Widget
         return $options;
     }
 
-    public function getVisibilityIcon(): ?Icon
+    /**
+     * @return Icon|null not type-hinted: the class is a deprecated alias of a different class in HumHub 1.20
+     */
+    public function getVisibilityIcon()
     {
         $icon = $this->service->getItemVisibilityIconName($this->item);
 
