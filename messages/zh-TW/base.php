@@ -74,6 +74,7 @@ return [
     'Parent Page' => '',
     'Permission denied. You have no rights to view the history.' => '',
     'Protected' => '',
+    'Read more' => '',
     'Revert' => '',
     'Revert not possible. Already latest revision!' => '',
     'Revert this' => '',

@@ -87,6 +87,7 @@ return [
     'No wiki pages found.' => '',
     'Page history' => '',
     'Parent Page' => '',
+    'Read more' => '',
     'Search results' => '',
     'Subpages' => '',
     'Table of Contents' => '',

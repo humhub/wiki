@@ -78,6 +78,7 @@ return [
     'Parent Page' => '',
     'Permission denied. You have no rights to view the history.' => '',
     'Protected' => '',
+    'Read more' => '',
     'Revert not possible. Already latest revision!' => '',
     'Search for Wiki Title' => '',
     'Search results' => '',

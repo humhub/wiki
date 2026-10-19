@@ -97,5 +97,6 @@ return [
     'last update {dateTime}' => 'última atualização {dateTime}',
     'show changes' => 'mostrar mudanças',
     'Drag to reorder' => '',
+    'Read more' => '',
     '{displayName} edited the Wiki page "{contentTitle}".' => '',
 ];

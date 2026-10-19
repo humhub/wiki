@@ -79,6 +79,7 @@ return [
     'Page history' => '',
     'Page not found' => '',
     'Parent Page' => '',
+    'Read more' => '',
     'Search for Wiki Title' => '',
     'Search results' => '',
     'Show in Profile menu' => '',

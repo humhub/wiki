@@ -93,6 +93,7 @@ return [
     'No wiki pages found.' => '',
     'Page history' => '',
     'Parent Page' => '',
+    'Read more' => '',
     'Subpages' => '',
     'Whenever someone edits a wiki page.' => '',
     'Wiki page content ID' => '',

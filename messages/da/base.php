@@ -96,6 +96,7 @@ return [
     'Create pages' => '',
     'Drag to reorder' => '',
     'Edit pages' => '',
+    'Read more' => '',
     'View History' => '',
     '{displayName} edited the Wiki page "{contentTitle}".' => '',
 ];

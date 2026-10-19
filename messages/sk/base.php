@@ -93,6 +93,7 @@ return [
     'Create pages' => '',
     'Drag to reorder' => '',
     'Edit pages' => '',
+    'Read more' => '',
     'View History' => '',
     'Whenever someone edits a wiki page.' => '',
     'Wiki page content ID' => '',

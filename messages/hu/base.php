@@ -94,6 +94,7 @@ return [
     'Create pages' => '',
     'Drag to reorder' => '',
     'Edit pages' => '',
+    'Read more' => '',
     'Whenever someone edits a wiki page.' => '',
     'Wiki page content ID' => '',
     'Wiki pages' => '',

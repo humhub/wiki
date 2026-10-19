@@ -91,6 +91,7 @@ return [
     'Hide Navigation Entry' => '',
     'Label' => '',
     'No wiki pages found.' => '',
+    'Read more' => '',
     'Revert not possible. Already latest revision!' => '',
     'Search for Wiki Title' => '',
     'View History' => '',

@@ -82,6 +82,7 @@ return [
     'Overwrite all changes made by :userName on :dateTime.' => '',
     'Page history' => '',
     'Parent Page' => '',
+    'Read more' => '',
     'Search results' => '',
     'Show in Profile menu' => '',
     'Show in Space menu' => '',
