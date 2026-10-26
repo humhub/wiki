@@ -1,8 +1,8 @@
 Changelog
 =========
 
-2.6.4 (Unreleased)
-------------------
+2.6.4 (October 26, 2026)
+------------------------
 - Fix: Use own "Read more" translation instead of the `UiModule.base` category removed in HumHub 1.20
 - Fix: Page index uses the available width for long headings and aligns wrapped lines
 
