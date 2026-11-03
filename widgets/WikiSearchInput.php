@@ -80,11 +80,17 @@ class WikiSearchInput extends JsInputWidget
      */
     public function getAttributes()
     {
-        return [
+        $attributes = [
             'class' => 'form-control',
-            'placeholder' => $this->placeholder,
+            'data-picker-placeholder' => $this->placeholder,
             'style' => 'width:100%',
         ];
+
+        if ((new WikiPage($this->contentContainer))->content->canEdit()) {
+            $attributes['data-picker-allow-new'] = true;
+        }
+
+        return $attributes;
     }
 
     /**
@@ -92,16 +98,8 @@ class WikiSearchInput extends JsInputWidget
      */
     public function getData()
     {
-        $data = [
+        return [
             'search-url' => Url::to(['/wiki/search/search']),
-            'ui-select2' => '',
         ];
-
-        if ((new WikiPage($this->contentContainer))->content->canEdit()) {
-            $data['ui-select2-allow-new'] = '';
-            $data['ui-select2-new-sign'] = '➕';
-        }
-
-        return $data;
     }
 }
