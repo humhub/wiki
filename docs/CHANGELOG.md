@@ -4,6 +4,7 @@ Changelog
 2.7.0 (Unreleased)
 ------------------
 - Enh: Compatibility with the core picker that replaces Select2 (humhub/humhub#8677)
+- Enh: Drop the separators between the Comment and Like links, the core action row spaces them (humhub/humhub#8681)
 
 2.6.5 (Unreleased)
 ------------------
