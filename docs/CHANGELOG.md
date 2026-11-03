@@ -1,6 +1,10 @@
 Changelog
 =========
 
+2.6.5 (Unreleased)
+------------------
+- Fix #451: Topics selected on a wiki page were dropped on save for users without the "Add Topics" permission
+
 2.6.4 (October 26, 2026)
 ------------------------
 - Fix: Use own "Read more" translation instead of the `UiModule.base` category removed in HumHub 1.20
