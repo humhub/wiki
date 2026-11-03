@@ -3,6 +3,7 @@ humhub.module('wiki.linkExtension', function (module, require, $) {
     var Widget = require('ui.widget').Widget;
     var modal = require('ui.modal');
     var client = require('client');
+    var picker = require('ui.picker');
 
     var markdown = richtext.api.plugin.markdown;
     var menu = richtext.api.menu;
@@ -142,7 +143,7 @@ humhub.module('wiki.linkExtension', function (module, require, $) {
 
         $('.field-wikipagesearch-anchor').hide();
 
-        $('#wikipagesearch-anchor').empty();
+        $('#wikipagesearch-anchor').empty().trigger('change');
 
         var linkModal = modal.get('#wikiLinkModal');
 
@@ -153,7 +154,7 @@ humhub.module('wiki.linkExtension', function (module, require, $) {
                 return;
             }
 
-            $('#wikipagesearch-label').val($('#wikipagesearch-title').select2('data')[0].text);
+            $('#wikipagesearch-label').val(picker.getItems($('#wikipagesearch-title'))[0].text);
 
             client.get(module.config.extractTitleUrl, {data: {id:  $('#wikipagesearch-title').val()}}).then(function(response) {
                 var slugs = {};
@@ -175,6 +176,9 @@ humhub.module('wiki.linkExtension', function (module, require, $) {
                 if (attrs && attrs.anchor) {
                     $('#wikipagesearch-anchor').val(attrs.anchor)
                 }
+
+                // Lets the picker read the new options
+                $('#wikipagesearch-anchor').trigger('change');
 
                 $('.field-wikipagesearch-anchor').show();
             }).catch(function(e) {

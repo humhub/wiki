@@ -1,6 +1,10 @@
 Changelog
 =========
 
+2.7.0 (Unreleased)
+------------------
+- Enh: Compatibility with the core picker that replaces Select2 (humhub/humhub#8677)
+
 2.6.5 (Unreleased)
 ------------------
 - Fix #451: Topics selected on a wiki page were dropped on save for users without the "Add Topics" permission
