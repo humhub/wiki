@@ -57,7 +57,7 @@ class WikiSidebar extends JsWidget
     protected function getAttributes()
     {
         return [
-            'class' => 'wiki-page-sidebar col-xl-4 ' . ($this->hideOnSmallScreen ? 'd-none d-lg-block' : 'col-lg-12'),
+            'class' => 'wiki-page-sidebar col-xl-4 ' . ($this->hideOnSmallScreen ? 'd-none d-xl-block' : ''),
         ];
     }
 

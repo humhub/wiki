@@ -643,10 +643,12 @@ $wiki-mobile-grid-breakpoints: 520px;
     .wiki-search-form {
         width: 100%;
         max-width: none;
+        margin-left: 24px;
         margin-right: 50px !important;
     }
 
     .wiki-page-content-header-actions {
+        margin-left: auto;
         white-space: nowrap;
     }
 
@@ -660,6 +662,7 @@ $wiki-mobile-grid-breakpoints: 520px;
         display: block !important;
         .wiki-search-form {
             width: auto;
+            margin-left: 0;
             margin-right: 0 !important;
         }
 
@@ -728,14 +731,16 @@ $wiki-mobile-grid-breakpoints: 520px;
     button[type=submit] {
         position: absolute;
         top: 0;
+        display: flex;
+        align-items: center;
+        height: 36px;
         background: none;
-        padding: 5px 8px;
+        padding: 0 8px;
         border: none;
         box-shadow: none;
 
         i.fa {
             color: var(--hh-text-color-secondary) !important;
-            margin-top: 6px;
         }
     }
 }
@@ -816,6 +821,7 @@ $wiki-mobile-grid-breakpoints: 520px;
         display: block;
         @include media-breakpoint-down(xl) {
             display: flex;
+            align-items: center;
         }
         padding: 3px 0 0;
         border: none;
@@ -848,7 +854,7 @@ $wiki-mobile-grid-breakpoints: 520px;
     }
 
     .wiki-search-form {
-        margin: 55px 0 15px;
+        margin: 15px 0 15px;
         display: block;
         float: none;
         clear: both;
@@ -868,12 +874,11 @@ $wiki-mobile-grid-breakpoints: 520px;
     @include media-breakpoint-down(xl) {
         padding-right: 15px;
 
-        &:not(.d-none) {
-            width: 100% !important;
+        // Below xl only one column is shown: ignore the width cached in localStorage
+        width: 100% !important;
 
-            .ui-resizable-handle {
-                display: none;
-            }
+        .ui-resizable-handle {
+            display: none;
         }
 
         #category_list_view.wiki-page-list {
@@ -886,11 +891,9 @@ $wiki-mobile-grid-breakpoints: 520px;
         }
 
         .wiki-page-content-header {
-            padding: 14px 8px 20px;
+            padding: 3px 0 10px;
 
             h3 {
-                color: var(--hh-text-color-main);
-                font-weight: normal;
                 text-transform: none;
                 font-size: 12px;
                 margin-right: 16px;
@@ -914,7 +917,11 @@ $wiki-mobile-grid-breakpoints: 520px;
             float: left;
             clear: none;
             max-width: none;
-            margin: 0;
+            margin: 0 0 0 24px;
+
+            @include media-breakpoint-down(sm) {
+                margin-left: 0;
+            }
         }
     }
 }
@@ -991,7 +998,7 @@ $wiki-mobile-grid-breakpoints: 520px;
         border: none;
     }
 
-    .wiki-right-part:not(.d-none) {
+    .wiki-right-part {
         width: 100% !important;
     }
     
