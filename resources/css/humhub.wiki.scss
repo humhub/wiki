@@ -10,17 +10,23 @@ $wiki-mobile-grid-breakpoints: 520px;
     --hh-wiki-text-color-control: var(--bs-body-color);
     --hh-wiki-link-color-page: #ec4332;
     --hh-wiki-link-color-page-missed: #4cc159;
-    --hh-wiki-bg-color-input: #F3F3F3;
+    --hh-wiki-bg-color-input: var(--bs-secondary-bg);
     --hh-wiki-bg-color-diff-added: #d4fcbc;
     --hh-wiki-bg-color-diff-deleted: #fbb6c2;
-    --hh-wiki-bg-color-highlight-info: rgba(33, 161, 179, 0.12);
+    --hh-wiki-bg-color-highlight-info: rgba(var(--bs-accent-rgb), 0.12);
     --hh-wiki-bg-color-highlight-warning: rgba(255, 193, 7, 0.12);
-    --hh-wiki-border-color-dragdrop-marker: #000;
-    --hh-wiki-border-color-main: #AEAEAE;
-    --hh-wiki-border-color-main-600: #{lighten(#AEAEAE, 20%)};
-    --hh-wiki-border-color-content: #eee;
-    --hh-wiki-border-color-subpages: #ddd;
+    --hh-wiki-border-color-dragdrop-marker: var(--bs-emphasis-color);
+    --hh-wiki-border-color-main: var(--bs-tertiary-color);
+    --hh-wiki-border-color-main-600: var(--bs-border-color);
+    --hh-wiki-border-color-content: var(--bs-secondary-bg);
+    --hh-wiki-border-color-subpages: var(--bs-border-color);
     --hh-wiki-border-radius: 4px;
+}
+
+// The diff colours in the dark mode
+[data-bs-theme=dark] {
+    --hh-wiki-bg-color-diff-added: var(--bs-success-bg-subtle);
+    --hh-wiki-bg-color-diff-deleted: var(--bs-danger-bg-subtle);
 }
 
 @mixin border-radius($radius: var(--hh-wiki-border-radius)){

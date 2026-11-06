@@ -3,6 +3,7 @@ Changelog
 
 2.7.0 (Unreleased)
 ------------------
+- Enh: Dark mode: hard-coded greys and light backgrounds became colour tokens of the core (humhub/humhub#8710)
 - Enh: Colour tokens of the core 1.20 instead of the deprecated ones (humhub/humhub#8707)
 - Enh: Compatibility with the core picker that replaces Select2 (humhub/humhub#8677)
 - Enh: Drop the separators between the Comment and Like links, the core action row spaces them (humhub/humhub#8681)
