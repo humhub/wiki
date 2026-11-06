@@ -25,7 +25,7 @@ Assets::register($this);
 
 $createPageTitle = Yii::t('WikiModule.base', 'Create page');
 if (Helper::isEnterpriseTheme()) {
-    $createPageTitle = Html::tag('span', $createPageTitle, ['class' => 'd-lg-none']);
+    $createPageTitle = Html::tag('span', $createPageTitle, ['class' => 'd-xl-none']);
 }
 
 $settings = new DefaultSettings(['contentContainer' => $contentContainer]);
@@ -37,7 +37,7 @@ $settings = new DefaultSettings(['contentContainer' => $contentContainer]);
             <h3><?= Html::encode($settings->module_label) ?></h3>
             <?= WikiSearchForm::widget(['contentContainer' => $contentContainer, 'cssClass' => 'float-start']) ?>
             <div class="wiki-page-content-header-actions">
-                <?= Button::accent(Yii::t('WikiModule.base', 'Last edited'))->sm()->link(Url::toLastEdited($contentContainer))->cssClass(Helper::isEnterpriseTheme() ? 'd-lg-none' : '') ?>
+                <?= Button::accent(Yii::t('WikiModule.base', 'Last edited'))->sm()->link(Url::toLastEdited($contentContainer))->cssClass(Helper::isEnterpriseTheme() ? 'd-xl-none' : '') ?>
                 <?= Button::accent($createPageTitle)->icon('fa-plus')->sm()->link(Url::toWikiCreate($contentContainer))->visible($canCreate) ?>
             </div>
         </div>

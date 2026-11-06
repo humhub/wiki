@@ -486,9 +486,11 @@
 .wiki-page-content-header .wiki-search-form {
   width: 100%;
   max-width: none;
+  margin-left: 24px;
   margin-right: 50px !important;
 }
 .wiki-page-content-header .wiki-page-content-header-actions {
+  margin-left: auto;
   white-space: nowrap;
 }
 @media (max-width: 767.98px) {
@@ -502,6 +504,7 @@
   }
   .wiki-page-content-header .wiki-search-form {
     width: auto;
+    margin-left: 0;
     margin-right: 0 !important;
   }
   .wiki-page-content-header .wiki-page-content-header-actions {
@@ -551,14 +554,16 @@
 .wiki-search-form button[type=submit] {
   position: absolute;
   top: 0;
+  display: flex;
+  align-items: center;
+  height: 36px;
   background: none;
-  padding: 5px 8px;
+  padding: 0 8px;
   border: none;
   box-shadow: none;
 }
 .wiki-search-form button[type=submit] i.fa {
   color: var(--hh-text-color-secondary) !important;
-  margin-top: 6px;
 }
 
 #category_list_view.wiki-page-list > li > div > .page-title-text {
@@ -619,6 +624,7 @@
 @media (max-width: 1199.98px) {
   .wiki-page-sidebar .wiki-page-content-header {
     display: flex;
+    align-items: center;
   }
 }
 .wiki-page-sidebar .wiki-page-content-header h3 {
@@ -642,7 +648,7 @@
   padding: 0;
 }
 .wiki-page-sidebar .wiki-search-form {
-  margin: 55px 0 15px;
+  margin: 15px 0 15px;
   display: block;
   float: none;
   clear: both;
@@ -657,11 +663,9 @@
 @media (max-width: 1199.98px) {
   .wiki-page-sidebar {
     padding-right: 15px;
-  }
-  .wiki-page-sidebar:not(.d-none) {
     width: 100% !important;
   }
-  .wiki-page-sidebar:not(.d-none) .ui-resizable-handle {
+  .wiki-page-sidebar .ui-resizable-handle {
     display: none;
   }
   .wiki-page-sidebar #category_list_view.wiki-page-list {
@@ -672,11 +676,9 @@
     border-radius: var(--hh-wiki-border-radius);
   }
   .wiki-page-sidebar .wiki-page-content-header {
-    padding: 14px 8px 20px;
+    padding: 3px 0 10px;
   }
   .wiki-page-sidebar .wiki-page-content-header h3 {
-    color: var(--hh-text-color-main);
-    font-weight: normal;
     text-transform: none;
     font-size: 12px;
     margin-right: 16px;
@@ -695,7 +697,12 @@
     float: left;
     clear: none;
     max-width: none;
-    margin: 0;
+    margin: 0 0 0 24px;
+  }
+}
+@media (max-width: 1199.98px) and (max-width: 575.98px) {
+  .wiki-page-sidebar .wiki-search-form {
+    margin-left: 0;
   }
 }
 
@@ -756,7 +763,7 @@
   .wiki-page-list-table .table-responsive {
     border: none;
   }
-  .wiki-right-part:not(.d-none) {
+  .wiki-right-part {
     width: 100% !important;
   }
   .layout-content-container .wiki-page-index {

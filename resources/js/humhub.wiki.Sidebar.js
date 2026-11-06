@@ -26,7 +26,10 @@ humhub.module('wiki.Sidebar', function(module, require, $) {
     }
 
     Sidebar.prototype.setWidth = function(sidebarWidth) {
-        if (sidebarWidth) {
+        sidebarWidth = parseFloat(sidebarWidth);
+        if (isFinite(sidebarWidth)) {
+            // Keep both blocks in a usable proportion, same limits as the resize handle
+            sidebarWidth = Math.min(75, Math.max(25, sidebarWidth));
             this.$.css('width', sidebarWidth + '%');
             this.$.next().css('width', (100 - sidebarWidth) + '%');
         }

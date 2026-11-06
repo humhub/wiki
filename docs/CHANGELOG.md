@@ -4,6 +4,7 @@ Changelog
 2.6.5 (November 6, 2026)
 ------------------------
 - Fix #451: Topics selected on a wiki page were dropped on save for users without the "Add Topics" permission
+- Fix #454: Wiki header layout: title/search spacing, search icon, right-aligned "Create page"; Sidebar width limited to 25–75%; Single column below xl
 
 2.6.4 (October 26, 2026)
 ------------------------
