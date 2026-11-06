@@ -1,6 +1,6 @@
 :root {
-  --hh-wiki-text-color-title: var(--hh-text-color-highlight);
-  --hh-wiki-text-color-control: var(--hh-text-color-soft);
+  --hh-wiki-text-color-title: var(--bs-emphasis-color);
+  --hh-wiki-text-color-control: var(--bs-body-color);
   --hh-wiki-link-color-page: #ec4332;
   --hh-wiki-link-color-page-missed: #4cc159;
   --hh-wiki-bg-color-input: #F3F3F3;
@@ -101,13 +101,13 @@
 .layout-content-container .wiki-page-index .nav li a > span {
   flex-shrink: 0;
   font-weight: 600;
-  color: var(--hh-text-color-highlight) !important;
+  color: var(--bs-emphasis-color) !important;
   margin-right: 10px;
 }
 .layout-content-container .wiki-page-index .nav li:first-child a {
   font-size: 14px;
   font-weight: 600;
-  color: var(--hh-text-color-highlight) !important;
+  color: var(--bs-emphasis-color) !important;
 }
 .layout-content-container .wiki-page-index .wiki-page-index-section .header-anchor {
   display: flex !important;
@@ -123,7 +123,7 @@
   padding-left: 80px;
 }
 .layout-content-container .current-anchor-header {
-  background: var(--hh-background-color-highlight);
+  background: var(--bs-accent-bg-subtle);
   width: fit-content;
   border-radius: var(--hh-wiki-border-radius);
 }
@@ -176,7 +176,7 @@
   color: var(--bs-accent);
 }
 .layout-content-container .wiki-page-content .wiki-headline .wiki-page-path a:hover {
-  color: var(--hh-text-color-highlight);
+  color: var(--bs-emphasis-color);
 }
 .layout-content-container .wiki-page-content hr.wiki-headline-seperator {
   margin: 20px 0 10px;
@@ -216,7 +216,7 @@
 }
 .layout-content-container .wiki-page-content .wiki-sub-pages ul.wiki-page-list .page-title .fa {
   font-size: 11px;
-  color: var(--hh-text-color-main);
+  color: var(--bs-body-color);
   margin: 0 5px;
 }
 .layout-content-container .wiki-page-content .wiki-sub-pages ul.wiki-page-list .page-title:hover {
@@ -225,7 +225,7 @@
 .layout-content-container .wiki-page-content .wiki-sub-pages a, .layout-content-container .wiki-page-content .wiki-sub-pages span.page-title-info {
   font-size: 13px;
   font-weight: 500;
-  color: var(--hh-text-color-main);
+  color: var(--bs-body-color);
   white-space: nowrap;
   padding-left: 3px;
 }
@@ -248,14 +248,14 @@
   color: var(--hh-wiki-text-color-title);
 }
 .layout-content-container .wiki-page-list-row-details, .layout-content-container .wiki-page-list-row-details a, .layout-content-container .wiki-page-list-row-details .time {
-  color: var(--hh-text-color-secondary);
+  color: var(--bs-secondary-color);
   font-size: 12px;
 }
 .layout-content-container .wiki-content .wiki-content-info {
   margin-top: 5px;
 }
 .layout-content-container .wiki-content .wiki-content-info a {
-  color: var(--hh-text-color-main);
+  color: var(--bs-body-color);
 }
 .layout-content-container .wiki-content .wiki-content-info a:hover {
   color: var(--bs-accent);
@@ -292,10 +292,10 @@
   padding-bottom: 6px;
 }
 .layout-content-container .wiki-content ul.wiki-page-list .wiki-list-item-selected {
-  background: var(--hh-background-color-highlight-soft);
+  background: var(--hh-accent-bg-soft);
 }
 .layout-content-container .wiki-content ul.wiki-page-list .wiki-list-item-selected > .page-title {
-  background: var(--hh-background-color-highlight);
+  background: var(--bs-accent-bg-subtle);
 }
 .layout-content-container .wiki-content ul.wiki-page-list .page-title {
   padding: 4px 12px;
@@ -318,10 +318,10 @@
   padding-left: 24px;
 }
 .layout-content-container .wiki-content ul.wiki-page-list .page-title .wiki-page-control {
-  color: var(--hh-text-color-secondary);
+  color: var(--bs-secondary-color);
 }
 .layout-content-container .wiki-content ul.wiki-page-list .page-title .wiki-page-control.wiki-category-add {
-  color: var(--hh-text-color-highlight);
+  color: var(--bs-emphasis-color);
   margin-left: 8px;
 }
 .layout-content-container .wiki-content ul.wiki-page-list .page-title .wiki-category-add {
@@ -353,7 +353,7 @@
   margin-left: 8px;
 }
 .layout-content-container .wiki-content ul.wiki-page-list .page-title .page-title-icon .page-title-icon-visibility {
-  color: var(--hh-text-color-soft2);
+  color: var(--bs-tertiary-color);
 }
 .layout-content-container .wiki-content ul.wiki-page-list .page-title.wiki-page-dropped {
   background: var(--hh-wiki-bg-color-highlight-warning);
@@ -386,7 +386,7 @@
 }
 .layout-content-container .wiki-content ul.wiki-page-history > li:first-child::before {
   content: "";
-  background: var(--hh-background-color-main);
+  background: var(--bs-body-bg);
   display: block;
   position: absolute;
   top: 0;
@@ -438,7 +438,7 @@
 .layout-content-container .wiki-content.wiki-page-diff del {
   text-decoration: line-through;
   background-color: var(--hh-wiki-bg-color-diff-deleted);
-  color: var(--hh-text-color-main);
+  color: var(--bs-body-color);
 }
 .layout-content-container .wiki-page-history-title {
   padding-left: 15px;
@@ -517,7 +517,7 @@
 }
 .wiki-page-header-wrapper a.header-edit-link {
   display: none;
-  color: var(--hh-text-color-main) !important;
+  color: var(--bs-body-color) !important;
 }
 .wiki-page-header-wrapper:hover .header-edit-link {
   display: inline;
@@ -536,17 +536,17 @@
   background: var(--hh-wiki-bg-color-input);
   font-size: 13px;
   border: none;
-  color: var(--hh-text-color-main);
+  color: var(--bs-body-color);
   padding-left: 26px;
   height: 36px;
   min-height: 36px;
 }
 .wiki-search-form input[name=keyword]::placeholder {
-  color: var(--hh-text-color-secondary) !important;
+  color: var(--bs-secondary-color) !important;
   opacity: 1;
 }
 .wiki-search-form input[name=keyword]:not(:placeholder-shown) + button[type=submit] i.fa {
-  color: var(--hh-text-color-main) !important;
+  color: var(--bs-body-color) !important;
 }
 .wiki-search-form button[type=submit] {
   position: absolute;
@@ -557,7 +557,7 @@
   box-shadow: none;
 }
 .wiki-search-form button[type=submit] i.fa {
-  color: var(--hh-text-color-secondary) !important;
+  color: var(--bs-secondary-color) !important;
   margin-top: 6px;
 }
 
@@ -675,7 +675,7 @@
     padding: 14px 8px 20px;
   }
   .wiki-page-sidebar .wiki-page-content-header h3 {
-    color: var(--hh-text-color-main);
+    color: var(--bs-body-color);
     font-weight: normal;
     text-transform: none;
     font-size: 12px;
@@ -724,7 +724,7 @@
   color: var(--hh-wiki-text-color-title);
 }
 .wiki-page-list-table .table-responsive table .wiki-page-list-row-title a:hover {
-  color: var(--hh-text-color-highlight);
+  color: var(--bs-emphasis-color);
 }
 .wiki-page-list-table .table-responsive table td {
   font-size: 14px;
