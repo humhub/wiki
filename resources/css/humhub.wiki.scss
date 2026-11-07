@@ -137,7 +137,7 @@ $wiki-mobile-grid-breakpoints: 520px;
 
                 a {
                     padding: 3px 15px;
-                    color: var(--bs-accent) !important;
+                    color: var(--hh-accent-fg) !important;
 
                     > span {
                         flex-shrink: 0;
@@ -246,7 +246,7 @@ $wiki-mobile-grid-breakpoints: 520px;
 
             .wiki-page-path {
                 a {
-                    color: var(--bs-accent);
+                    color: var(--hh-accent-fg);
 
                     &:hover {
                         color: var(--bs-emphasis-color);
@@ -314,7 +314,7 @@ $wiki-mobile-grid-breakpoints: 520px;
             }
 
             a {
-                color: var(--bs-accent);
+                color: var(--hh-accent-fg);
             }
 
             ul.wiki-page-list {
@@ -353,7 +353,7 @@ $wiki-mobile-grid-breakpoints: 520px;
                 color: var(--bs-body-color);
 
                 &:hover {
-                    color: var(--bs-accent);
+                    color: var(--hh-accent-fg);
                 }
             }
         }
@@ -944,7 +944,7 @@ $wiki-mobile-grid-breakpoints: 520px;
 
         table {
             a:hover {
-                color: var(--bs-accent);
+                color: var(--hh-accent-fg);
             }
 
             .wiki-page-list-row-title {
