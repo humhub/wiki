@@ -101,7 +101,7 @@
 }
 .layout-content-container .wiki-page-index .nav li a {
   padding: 3px 15px;
-  color: var(--bs-accent) !important;
+  color: var(--hh-accent-fg) !important;
 }
 .layout-content-container .wiki-page-index .nav li a > span {
   flex-shrink: 0;
@@ -178,7 +178,7 @@
   margin-left: 2px;
 }
 .layout-content-container .wiki-page-content .wiki-headline .wiki-page-path a {
-  color: var(--bs-accent);
+  color: var(--hh-accent-fg);
 }
 .layout-content-container .wiki-page-content .wiki-headline .wiki-page-path a:hover {
   color: var(--bs-emphasis-color);
@@ -235,7 +235,7 @@
   padding-left: 3px;
 }
 .layout-content-container .wiki-page-content .wiki-sub-pages a {
-  color: var(--bs-accent);
+  color: var(--hh-accent-fg);
 }
 .layout-content-container .wiki-page-content .wiki-sub-pages ul.wiki-page-list {
   padding: 0;
@@ -263,7 +263,7 @@
   color: var(--bs-body-color);
 }
 .layout-content-container .wiki-content .wiki-content-info a:hover {
-  color: var(--bs-accent);
+  color: var(--hh-accent-fg);
 }
 .layout-content-container .wiki-content [data-wiki-page] {
   color: var(--hh-wiki-link-color-wiki-page) !important;
@@ -718,7 +718,7 @@
   margin-bottom: 0;
 }
 .wiki-page-list-table .table-responsive table a:hover {
-  color: var(--bs-accent);
+  color: var(--hh-accent-fg);
 }
 .wiki-page-list-table .table-responsive table .wiki-page-list-row-title {
   font-size: 14px;
