@@ -3,6 +3,7 @@ Changelog
 
 2.7.0 (Unreleased)
 ------------------
+- Fix: The actions dropdown button of a wiki page has an accessible name (humhub/humhub#8721)
 - Enh: The accent colour as text takes the readable shade of the core (humhub/humhub#8715)
 - Enh: Dark mode: hard-coded greys and light backgrounds became colour tokens of the core (humhub/humhub#8710)
 - Enh: Colour tokens of the core 1.20 instead of the deprecated ones (humhub/humhub#8707)
