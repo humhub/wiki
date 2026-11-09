@@ -17,12 +17,12 @@ use humhub\widgets\bootstrap\Button;
 /* @var $contentContainer ContentContainerActiveRecord */
 /* @var $canCreate bool */
 ?>
-<div class="wiki-page-content-header clearfix">
+<div class="wiki-page-content-header clearfix<?= Helper::isEnterpriseTheme() ? ' wiki-page-content-header-enterprise' : '' ?>">
     <h3><?= ($icon ? Icon::get($icon) : '') . $title ?></h3>
-    <?= WikiSearchForm::widget(['contentContainer' => $contentContainer, 'cssClass' => Helper::isEnterpriseTheme() ? 'd-xl-none' : '']) ?>
+    <?= WikiSearchForm::widget(['contentContainer' => $contentContainer, 'cssClass' => Helper::isEnterpriseTheme() ? 'd-lg-none' : '']) ?>
     <div class="wiki-page-content-header-actions">
         <?= Button::accent(Yii::t('WikiModule.base', 'Index'))->icon('fa-home')
-            ->link(Url::toHome($contentContainer))->sm()->cssClass(Helper::isEnterpriseTheme() ? 'd-xl-none' : '') ?>
+            ->link(Url::toHome($contentContainer))->sm()->cssClass(Helper::isEnterpriseTheme() ? 'd-lg-none' : '') ?>
         <?= Button::accent(Yii::t('WikiModule.base', 'Create page'))->icon('fa-plus')
             ->link(Url::toWikiCreate($contentContainer))->visible($canCreate)->sm() ?>
     </div>

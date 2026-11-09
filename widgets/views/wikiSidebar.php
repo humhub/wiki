@@ -18,6 +18,7 @@ use humhub\widgets\bootstrap\Link;
 /* @var $options array */
 /* @var $contentContainer ContentContainerActiveRecord */
 /* @var $canCreate bool */
+/* @var $actionsCssClass string */
 
 $settings = new DefaultSettings(['contentContainer' => $contentContainer]);
 ?>
@@ -38,9 +39,9 @@ $settings = new DefaultSettings(['contentContainer' => $contentContainer]);
             </div>
             <?= WikiSearchForm::widget(['contentContainer' => $contentContainer]) ?>
             <div class="wiki-page-content-header-actions">
-                <?= Button::accent(Yii::t('WikiModule.base', 'Last edited'))->sm()->link(Url::toLastEdited($contentContainer))->cssClass('d-xl-none') ?>
+                <?= Button::accent(Yii::t('WikiModule.base', 'Last edited'))->sm()->link(Url::toLastEdited($contentContainer))->cssClass($actionsCssClass) ?>
                 <?php if ($canCreate) : ?>
-                    <?= Button::accent(Yii::t('WikiModule.base', 'Create page'))->icon('fa-plus')->link(Url::toWikiCreate($contentContainer))->cssClass('d-xl-none')->sm() ?>
+                    <?= Button::accent(Yii::t('WikiModule.base', 'Create page'))->icon('fa-plus')->link(Url::toWikiCreate($contentContainer))->cssClass($actionsCssClass)->sm() ?>
                 <?php endif; ?>
             </div>
         </div>

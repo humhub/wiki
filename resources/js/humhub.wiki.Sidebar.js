@@ -3,6 +3,9 @@ humhub.module('wiki.Sidebar', function(module, require, $) {
 
     const Sidebar = Widget.extend();
 
+    // Same value as $wiki-column-min-width in humhub.wiki.scss
+    const MIN_COLUMN_WIDTH = 320;
+
     Sidebar.prototype.init = function() {
         const that = this;
         const sidebar = this.$;
@@ -11,8 +14,8 @@ humhub.module('wiki.Sidebar', function(module, require, $) {
         const padding = sidebar.outerWidth() - sidebar.width() + content.outerWidth() - content.width();
 
         sidebar.resizable({
-            minWidth: wrapper.width() * 0.25,
-            maxWidth: wrapper.width() * 0.75,
+            minWidth: Math.max(wrapper.width() * 0.25, MIN_COLUMN_WIDTH),
+            maxWidth: Math.min(wrapper.width() * 0.75, wrapper.width() - MIN_COLUMN_WIDTH),
             handles: 'e',
             resize: function() {
                 content.width(wrapper.width() - sidebar.width() - padding);

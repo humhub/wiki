@@ -20,7 +20,7 @@ Assets::register($this);
 
 $resizableCacheKey = 'wiki.sidebar';
 ?>
-<div class="row">
+<div class="row wiki-columns">
     <?= WikiSidebar::widget([
         'contentContainer' => $contentContainer,
         'hideOnSmallScreen' => $hideSidebarOnSmallScreen,
