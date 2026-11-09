@@ -59,6 +59,7 @@ return [
     'Let\'s go!' => '',
     'Link to page...' => '',
     'Module name' => '',
+    'More actions' => '',
     'New page' => '',
     'New page title' => '',
     'No wiki pages found.' => '',

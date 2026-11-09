@@ -76,6 +76,7 @@ return [
     'Last edited' => '',
     'Link to page...' => '',
     'Module name' => '',
+    'More actions' => '',
     'No wiki pages found.' => '',
     'Overwrite' => '',
     'Overwrite all changes made by :userName on :dateTime.' => '',
