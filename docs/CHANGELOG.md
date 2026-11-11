@@ -1,10 +1,13 @@
 Changelog
 =========
 
+2.6.6 (Unreleased)
+------------------
+- Fix #454: Wiki header layout: search spacing and icon, right-aligned "Create page"; Minimum sidebar column width; "Last Edited" hidden on index below xl
+
 2.6.5 (November 6, 2026)
 ------------------------
 - Fix #451: Topics selected on a wiki page were dropped on save for users without the "Add Topics" permission
-- Fix #454: Wiki header layout: search spacing and icon, right-aligned "Create page"; Minimum sidebar column width; "Last Edited" hidden on index below xl
 
 2.6.4 (October 26, 2026)
 ------------------------
