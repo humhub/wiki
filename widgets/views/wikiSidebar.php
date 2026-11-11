@@ -38,10 +38,10 @@ $settings = new DefaultSettings(['contentContainer' => $contentContainer]);
                     ->sm() ?>
             </div>
             <?= WikiSearchForm::widget(['contentContainer' => $contentContainer]) ?>
-            <div class="wiki-page-content-header-actions">
-                <?= Button::accent(Yii::t('WikiModule.base', 'Last edited'))->sm()->link(Url::toLastEdited($contentContainer))->cssClass($actionsCssClass) ?>
+            <div class="wiki-page-content-header-actions <?= $actionsCssClass ?>">
+                <?= Button::accent(Yii::t('WikiModule.base', 'Last edited'))->sm()->link(Url::toLastEdited($contentContainer)) ?>
                 <?php if ($canCreate) : ?>
-                    <?= Button::accent(Yii::t('WikiModule.base', 'Create page'))->icon('fa-plus')->link(Url::toWikiCreate($contentContainer))->cssClass($actionsCssClass)->sm() ?>
+                    <?= Button::accent(Yii::t('WikiModule.base', 'Create page'))->icon('fa-plus')->link(Url::toWikiCreate($contentContainer))->sm() ?>
                 <?php endif; ?>
             </div>
         </div>
