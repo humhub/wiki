@@ -14,8 +14,8 @@ Changelog
 - Fix: The page menu used the removed `MoveContentLink::preventRender()`, the "Edit Page" entry is a `MenuLink` now
 - Enh: The edit activity is sent by `WikiPageEditedActivity::send()` instead of the deprecated `ActivityManager::dispatch()`
 
-2.6.5 (Unreleased)
-------------------
+2.6.5 (November 6, 2026)
+------------------------
 - Fix #451: Topics selected on a wiki page were dropped on save for users without the "Add Topics" permission
 
 2.6.4 (October 26, 2026)
