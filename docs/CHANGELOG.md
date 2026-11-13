@@ -9,6 +9,10 @@ Changelog
 - Enh: Colour tokens of the core 1.20 instead of the deprecated ones (humhub/humhub#8707)
 - Enh: Compatibility with the core picker that replaces Select2 (humhub/humhub#8677)
 - Enh: Drop the separators between the Comment and Like links, the core action row spaces them (humhub/humhub#8681)
+- Enh: Menu, icon and form widgets of the core namespaces instead of the deprecated `ui` module classes
+- Enh: Tabler icons instead of Font Awesome in PHP, JS, SCSS and tests, the folding of the page tree works with them
+- Fix: The page menu used the removed `MoveContentLink::preventRender()`, the "Edit Page" entry is a `MenuLink` now
+- Enh: The edit activity is sent by `WikiPageEditedActivity::send()` instead of the deprecated `ActivityManager::dispatch()`
 
 2.6.5 (Unreleased)
 ------------------

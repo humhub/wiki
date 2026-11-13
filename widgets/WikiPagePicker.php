@@ -8,8 +8,8 @@
 
 namespace humhub\modules\wiki\widgets;
 
-use humhub\modules\ui\form\widgets\BasePicker;
 use humhub\modules\wiki\models\WikiPage;
+use humhub\widgets\form\BasePicker;
 use Yii;
 
 /**

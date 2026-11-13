@@ -8,8 +8,6 @@ use humhub\modules\content\components\ContentContainerActiveRecord;
 use humhub\modules\content\widgets\WallEntryControls;
 use humhub\modules\legal\events\UserDataCollectionEvent;
 use humhub\modules\space\widgets\Menu;
-use humhub\modules\ui\menu\MenuLink;
-use humhub\modules\ui\menu\widgets\LeftNavigation;
 use humhub\modules\user\widgets\ProfileMenu;
 use humhub\modules\wiki\extensions\custom_pages\elements\WikiPageElement;
 use humhub\modules\wiki\extensions\custom_pages\elements\WikiPagesElement;
@@ -17,6 +15,8 @@ use humhub\modules\wiki\helpers\RestDefinitions;
 use humhub\modules\wiki\models\DefaultSettings;
 use humhub\modules\wiki\models\WikiPage;
 use humhub\modules\wiki\widgets\EditPageLink;
+use humhub\widgets\menu\LeftNavigation;
+use humhub\widgets\menu\MenuLink;
 use Yii;
 
 /**
@@ -63,7 +63,7 @@ class Events
                 'url' => $containerMenuWikiPage->getUrl(),
                 // @TODO: change to use 4th argument of `isActiveState` after v17 release
                 'isActive' => $containerMenuWikiPage->id == Yii::$app->request->get('id') && ControllerHelper::isActivePath('wiki', 'page', 'view'),
-                'icon' => 'file-text-o',
+                'icon' => 'file-text',
                 'sortOrder' => $containerMenuWikiPage->container_menu_order,
             ]));
         }

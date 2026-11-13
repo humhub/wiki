@@ -79,7 +79,7 @@ Assets::register($this);
             <?= Button::light(Yii::t('WikiModule.base', 'Back'))->action('backOverwriting')->icon('back')->loader(false); ?>
 
             <div class="float-end">
-                <?= Button::danger(Yii::t('WikiModule.base', 'Discard my changes'))->link($discardChangesUrl)->icon('close')->loader(true); ?>
+                <?= Button::danger(Yii::t('WikiModule.base', 'Discard my changes'))->link($discardChangesUrl)->icon('x')->loader(true); ?>
             </div>
         <?php else : ?>
             <?= $form->field($model, 'confirmOverwriting')->hiddenInput()->label(false); ?>

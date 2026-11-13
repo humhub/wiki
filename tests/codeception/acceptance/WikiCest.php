@@ -57,10 +57,10 @@ class WikiCest
         $I->allowGuestAccess();
 
         $I->amUser1(true);
-        $I->amOnRoute(['/user/account/edit-settings']);
-        $I->waitForElement('#accountsettings-visibility');
-        $I->selectOption('#accountsettings-visibility', 2);
-        $I->seeOptionIsSelected('#accountsettings-visibility', 'Visible for all (also unregistered users)');
+        $I->amOnRoute(['/user/security/privacy']);
+        $I->waitForElement('#privacysettings-visibility');
+        $I->selectOption('#privacysettings-visibility', 2);
+        $I->seeOptionIsSelected('#privacysettings-visibility', 'Visible for all (also unregistered users)');
         $I->click('Save');
         $I->wait(1);
 

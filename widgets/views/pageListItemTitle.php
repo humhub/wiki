@@ -6,10 +6,10 @@
  */
 
 use humhub\helpers\Html;
-use humhub\modules\ui\icon\widgets\Icon;
 use humhub\modules\wiki\models\HierarchyItem;
 use humhub\modules\wiki\services\HierarchyListService;
 use humhub\widgets\bootstrap\Link;
+use humhub\widgets\Icon;
 
 /* @var $service HierarchyListService */
 /* @var $item HierarchyItem */
@@ -25,7 +25,7 @@ use humhub\widgets\bootstrap\Link;
 <?= Html::beginTag('div', $options) ?>
     <div>
         <?= Link::to()
-            ->icon('arrows')
+            ->icon('arrows-move')
             ->cssClass('wiki-page-control drag-icon link-icon-only')
             ->options(['aria-label' => Yii::t('WikiModule.base', 'Drag to reorder')])
             ->visible($item && $showDrag) ?>

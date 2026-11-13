@@ -6,8 +6,8 @@
  */
 
 use humhub\helpers\Html;
-use humhub\modules\ui\menu\MenuEntry;
 use humhub\modules\wiki\widgets\WikiMenu;
+use humhub\widgets\menu\MenuEntry;
 
 /* @var $menu WikiMenu */
 /* @var $entries MenuEntry[] */

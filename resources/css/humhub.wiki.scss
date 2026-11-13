@@ -82,7 +82,7 @@ $wiki-mobile-grid-breakpoints: 520px;
         font-size: 13px;
 
         &.wiki-page-path-length-0 {
-            .fa {
+            .ti {
                 font-size: 28px;
             }
         }
@@ -98,7 +98,7 @@ $wiki-mobile-grid-breakpoints: 520px;
                 display: none;
             }
 
-            .fa {
+            .ti {
                 font-size: 28px;
             }
         }
@@ -217,7 +217,7 @@ $wiki-mobile-grid-breakpoints: 520px;
                 color: var(--hh-wiki-text-color-title);
             }
 
-            i.fa {
+            i.ti {
                 margin-right: 4px;
             }
         }
@@ -293,7 +293,7 @@ $wiki-mobile-grid-breakpoints: 520px;
                 padding-left: 2px;
 
                 .page-title {
-                    .fa {
+                    .ti {
                         font-size: 11px;
                         color: var(--bs-body-color);
                         margin: 0 5px;
@@ -412,7 +412,7 @@ $wiki-mobile-grid-breakpoints: 520px;
                 cursor: pointer;
                 transition: background 1s ease;
 
-                .fa[class*="fa-caret"] {
+                .ti[class*="ti-caret"] {
                     cursor: default;
                 }
 
@@ -443,15 +443,15 @@ $wiki-mobile-grid-breakpoints: 520px;
                     display: none;
                 }
 
-                .fa {
+                .ti {
                     font-size: 14px;
                 }
 
-                .fa-caret-down {
+                .ti-caret-down-filled {
                     margin: 0 6px;
                 }
 
-                .fa-caret-right {
+                .ti-caret-right-filled {
                     margin: 0 8px 0 7px;
                 }
 
@@ -466,7 +466,7 @@ $wiki-mobile-grid-breakpoints: 520px;
                         text-overflow: ellipsis;
                     }
 
-                    > i.fa {
+                    > i.ti {
                         padding: 3px 2px;
                     }
                 }
@@ -599,7 +599,7 @@ $wiki-mobile-grid-breakpoints: 520px;
         font-weight: 600;
         font-size: 20px;
 
-        .fa {
+        .ti {
             font-size: 14px;
         }
     }
@@ -625,7 +625,7 @@ $wiki-mobile-grid-breakpoints: 520px;
             color: var(--hh-wiki-text-color-title);
         }
 
-        .fa {
+        .ti {
             font-size: 20px;
             margin-right: 8px;
             position: relative;
@@ -725,7 +725,7 @@ $wiki-mobile-grid-breakpoints: 520px;
             opacity: 1;
         }
         &:not(:placeholder-shown) + button[type=submit] {
-            i.fa {
+            i.ti {
                 color: var(--bs-body-color) !important;
             }
         }
@@ -739,7 +739,7 @@ $wiki-mobile-grid-breakpoints: 520px;
         border: none;
         box-shadow: none;
 
-        i.fa {
+        i.ti {
             color: var(--bs-secondary-color) !important;
             margin-top: 6px;
         }
@@ -776,7 +776,7 @@ $wiki-mobile-grid-breakpoints: 520px;
     .ui-sortable-helper {
         visibility: hidden;
 
-        .fa {
+        .ti {
             display: none;
         }
     }
@@ -833,7 +833,7 @@ $wiki-mobile-grid-breakpoints: 520px;
                 color: var(--hh-wiki-text-color-title);
             }
 
-            .fa {
+            .ti {
                 font-size: 16px;
                 margin: 0;
             }
@@ -901,7 +901,7 @@ $wiki-mobile-grid-breakpoints: 520px;
                 font-size: 12px;
                 margin-right: 16px;
 
-                &, .fa {
+                &, .ti {
                     font-size: 28px;
                 }
             }

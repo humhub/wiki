@@ -2,13 +2,13 @@
 
 use humhub\helpers\Html;
 use humhub\modules\content\widgets\StateBadge;
-use humhub\modules\ui\icon\widgets\Icon;
 use humhub\modules\wiki\helpers\Url;
 use humhub\modules\wiki\models\WikiPage;
 use humhub\modules\wiki\models\WikiPageRevision;
 use humhub\modules\wiki\widgets\WikiMenu;
 use humhub\modules\wiki\widgets\WikiPath;
 use humhub\widgets\bootstrap\Link;
+use humhub\widgets\Icon;
 use humhub\widgets\TimeAgo;
 
 /* @var $page WikiPage */
@@ -47,7 +47,7 @@ if (empty($buttons)) {
         <?php endif; ?>
 
         <?php if ($page->content->isPublic()) : ?>
-            <?= Icon::get('globe')->tooltip(Yii::t('ContentModule.widgets_views_label', 'Public'))->color('accent') ?>
+            <?= Icon::get('world')->tooltip(Yii::t('ContentModule.widgets_views_label', 'Public'))->color('accent') ?>
         <?php endif; ?>
 
         <?php if ($page->admin_only) : ?>

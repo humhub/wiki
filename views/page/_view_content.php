@@ -31,5 +31,5 @@ use humhub\widgets\bootstrap\Button;
 <?php else: ?>
     <br>
     <?= Yii::t('WikiModule.base', 'This page is empty.')?><br><br>
-    <?= Button::accent(Yii::t('WikiModule.base', 'Edit page'))->link(Url::toWikiEdit($page))->icon('fa-pencil-square-o')->visible($canEdit) ?>
+    <?= Button::accent(Yii::t('WikiModule.base', 'Edit page'))->link(Url::toWikiEdit($page))->icon('edit')->visible($canEdit) ?>
 <?php endif; ?>

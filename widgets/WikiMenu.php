@@ -12,14 +12,14 @@ namespace humhub\modules\wiki\widgets;
 use humhub\modules\content\components\ContentContainerActiveRecord;
 use humhub\modules\content\widgets\MoveContentLink;
 use humhub\modules\content\widgets\WallEntryControls;
-use humhub\modules\ui\menu\DropdownDivider;
-use humhub\modules\ui\menu\MenuLink;
 use humhub\modules\wiki\helpers\Url;
 use humhub\modules\wiki\models\WikiPage;
 use humhub\modules\wiki\models\WikiPageRevision;
 use humhub\modules\wiki\permissions\AdministerPages;
 use humhub\modules\wiki\permissions\ViewHistory;
 use humhub\widgets\bootstrap\Link;
+use humhub\widgets\menu\DropdownDivider;
+use humhub\widgets\menu\MenuLink;
 use Yii;
 
 class WikiMenu extends WallEntryControls
@@ -269,31 +269,31 @@ class WikiMenu extends WallEntryControls
                 return $this->home ? new MenuLink([
                     'label' => Yii::t('WikiModule.base', 'Home'),
                     'url' => Url::toWiki($this->home),
-                    'icon' => 'fa-home',
+                    'icon' => 'home',
                 ]) : null;
             case static::LINK_INDEX:
                 return new MenuLink([
                     'label' => Yii::t('WikiModule.base', 'Index'),
                     'url' => Url::toOverview($this->container),
-                    'icon' => 'fa-list-alt',
+                    'icon' => 'list-details',
                 ]);
             case static::LINK_EDIT:
                 return $this->canEdit && !empty($this->object->latestRevision->content) ? new MenuLink([
                     'label' => Yii::t('WikiModule.base', 'Edit'),
                     'url' => Url::toWikiEdit($this->object),
-                    'icon' => 'fa-pencil',
+                    'icon' => 'pencil',
                 ]) : null;
             case static::LINK_HISTORY:
                 return $this->canViewHistory() ? new MenuLink([
                     'label' => Yii::t('WikiModule.base', 'Page History'),
                     'url' => Url::toWikiHistory($this->object),
-                    'icon' => 'fa-clock-o history',
+                    'icon' => 'clock',
                 ]) : null;
             case static::LINK_PERMA:
                 return new MenuLink([
                     'label' => Yii::t('ContentModule.base', 'Permalink'),
                     'url' => '#',
-                    'icon' => 'fa-link',
+                    'icon' => 'link',
                     'htmlOptions' => [
                         'data-action-click' => 'content.permalink',
                         'data-content-permalink' => \yii\helpers\Url::to(['/content/perma', 'id' => $this->object->content->id], true),
@@ -303,7 +303,7 @@ class WikiMenu extends WallEntryControls
                 return new MenuLink([
                     'label' => Yii::t('ContentModule.base', 'Print'),
                     'url' => '#',
-                    'icon' => 'fa-print',
+                    'icon' => 'printer',
                     'htmlOptions' => [
                         'data-action-click' => 'wiki.Page.print',
                     ],
@@ -312,7 +312,7 @@ class WikiMenu extends WallEntryControls
                 return $this->canEdit ? new MenuLink([
                     'label' => Yii::t('WikiModule.base', 'Revert this'),
                     'url' => '#',
-                    'icon' => 'fa-history',
+                    'icon' => 'history',
                     'htmlOptions' => [
                         'btn-type' => 'warning',
                         'data-action-click' => 'wiki.revertRevision',
@@ -326,19 +326,19 @@ class WikiMenu extends WallEntryControls
                 return new MenuLink([
                     'label' => Yii::t('WikiModule.base', 'Go back'),
                     'url' => Url::toWikiHistory($this->object),
-                    'icon' => 'fa-reply',
+                    'icon' => 'arrow-back-up',
                 ]);
             case static::LINK_NEW:
                 return $this->canCreatePage() ? new MenuLink([
                     'label' => Yii::t('WikiModule.base', 'New page'),
                     'url' => Url::toWikiCreate($this->container, $this->object ? $this->object->id : null),
-                    'icon' => 'fa-plus new',
+                    'icon' => 'plus',
                 ]) : null;
             case static::LINK_EDIT_DELETE:
                 return $this->canDelete ? new MenuLink([
                     'label' => Yii::t('WikiModule.base', 'Delete'),
                     'url' => '#',
-                    'icon' => 'fa-trash-o delete',
+                    'icon' => 'trash',
                     'htmlOptions' => [
                         'data-action-click' => 'wiki.delete',
                         'data-action-click-url' => Url::toWikiDelete($this->object),
@@ -349,13 +349,13 @@ class WikiMenu extends WallEntryControls
                 return new MenuLink([
                     'label' => Yii::t('WikiModule.base', 'Cancel'),
                     'url' => $this->object->isNewRecord ? Url::toOverview($this->container) : Url::toWiki($this->object),
-                    'icon' => 'fa-reply',
+                    'icon' => 'arrow-back-up',
                 ]);
             case static::LINK_EDIT_SAVE:
                 return new MenuLink([
                     'label' => Yii::t('WikiModule.base', 'Save'),
                     'url' => '#',
-                    'icon' => 'fa-save',
+                    'icon' => 'device-floppy',
                     'htmlOptions' => [
                         'btn-type' => 'primary',
                         'data-action-click' => 'wiki.Form.submit',
@@ -365,20 +365,12 @@ class WikiMenu extends WallEntryControls
                 return new MenuLink([
                     'label' => Yii::t('WikiModule.base', 'Back to page'),
                     'url' => Url::toWiki($this->object),
-                    'icon' => 'fa-reply',
+                    'icon' => 'arrow-back-up',
                 ]);
             case static::LINK_MOVE:
                 if (!$this->object->isNewRecord && $this->object->canMove() === true) {
                     $moveLink = new MoveContentLink(['model' => $this->object]);
-                    return $moveLink->preventRender() ? null : new MenuLink([
-                        'label' => Yii::t('ContentModule.base', 'Move content'),
-                        'url' => '#',
-                        'icon' => $moveLink->icon,
-                        'htmlOptions' => [
-                            'data-action-click' => $moveLink->action,
-                            'data-action-url' => $moveLink->getActionUrl(),
-                        ],
-                    ]);
+                    return $moveLink->isVisible() ? $moveLink : null;
                 }
                 return null;
         }

@@ -26,8 +26,8 @@ use humhub\modules\wiki\widgets\CategoryListItem;
                 'levelIndent' => 20,
                 'maxLevel' => 1,
                 'icon' => false,
-                'iconPage' => 'file-text-o',
-                'iconCategory' => 'folder',
+                'iconPage' => 'file-text',
+                'iconCategory' => 'folder-filled',
             ]) ?>
         </ul>
     </div>

@@ -3,8 +3,8 @@
 namespace humhub\modules\wiki\widgets;
 
 use humhub\modules\content\components\ContentContainerActiveRecord;
-use humhub\modules\ui\form\widgets\JsInputWidget;
 use humhub\modules\wiki\models\WikiPage;
+use humhub\widgets\form\JsInputWidget;
 use yii\helpers\StringHelper;
 use yii\helpers\Url;
 

@@ -23,12 +23,12 @@ humhub.module('wiki.CategoryListView', function(module, require, $) {
     }
 
     CategoryListView.prototype.initFoldingSubpages = function() {
-        this.$.on('click', '.fa-caret-down, .fa-caret-right', function() {
+        this.$.on('click', '.ti-caret-down-filled, .ti-caret-right-filled', function() {
             var $icon = $(this);
             var $pageList = $icon.parent().parent().siblings('.wiki-page-list');
             $pageList.slideToggle('fast', function() {
-                var newIconClass = ($pageList.is(':visible')) ? 'fa-caret-down' : 'fa-caret-right';
-                $icon.removeClass('fa-caret-down fa-caret-right').addClass(newIconClass);
+                var newIconClass = ($pageList.is(':visible')) ? 'ti-caret-down-filled' : 'ti-caret-right-filled';
+                $icon.removeClass('ti-caret-down-filled ti-caret-right-filled').addClass(newIconClass);
                 // Update folding state of the Category for current User
                 var $categoryId = $icon.closest('.wiki-category-list-item[data-page-id]').data('page-id');
                 if ($categoryId) {
@@ -70,7 +70,7 @@ humhub.module('wiki.CategoryListView', function(module, require, $) {
             const subPagesList = $(this).next('ul.wiki-page-list');
             if (subPagesList.length && subPagesList.is(':hidden')) {
                 // Unfold subpages
-                $(this).find('.fa-caret-right').trigger('click');
+                $(this).find('.ti-caret-right-filled').trigger('click');
             }
             if (e.target === this) {
                 // Open URL of the page

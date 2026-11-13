@@ -40,7 +40,7 @@ $settings = new DefaultSettings(['contentContainer' => $contentContainer]);
             <div class="wiki-page-content-header-actions">
                 <?= Button::accent(Yii::t('WikiModule.base', 'Last edited'))->sm()->link(Url::toLastEdited($contentContainer))->cssClass('d-lg-none') ?>
                 <?php if ($canCreate) : ?>
-                    <?= Button::accent(Yii::t('WikiModule.base', 'Create page'))->icon('fa-plus')->link(Url::toWikiCreate($contentContainer))->cssClass('d-lg-none')->sm() ?>
+                    <?= Button::accent(Yii::t('WikiModule.base', 'Create page'))->icon('plus')->link(Url::toWikiCreate($contentContainer))->cssClass('d-lg-none')->sm() ?>
                 <?php endif; ?>
             </div>
         </div>

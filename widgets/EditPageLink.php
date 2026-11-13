@@ -8,53 +8,37 @@
 
 namespace humhub\modules\wiki\widgets;
 
-use humhub\modules\content\widgets\WallEntryControlLink;
 use humhub\modules\wiki\helpers\Url;
 use humhub\modules\wiki\models\WikiPage;
+use humhub\widgets\menu\MenuLink;
 use Yii;
-use yii\helpers\Html;
 
 /**
  * The "Edit Page" link is used in wall entry context menu only when user
  * has no permission "Administer pages" but has permission "Edit pages"
  */
-class EditPageLink extends WallEntryControlLink
+class EditPageLink extends MenuLink
 {
     public WikiPage $record;
 
     /**
      * @inheritdoc
      */
-    public $icon = 'fa-pencil';
-
-    /**
-     * @inheritdoc
-     */
-    public $options = ['class' => 'stream-entry-edit-link'];
-
-    /**
-     * @inheritdoc
-     */
-    public function getLabel()
+    public function init()
     {
-        return Yii::t('ContentModule.base', 'Edit');
-    }
+        parent::init();
 
-    /**
-     * @inheritdoc
-     */
-    public function preventRender()
-    {
-        return $this->record->isNewRecord // Exclude new Wiki Page
+        if ($this->record->isNewRecord // Exclude new Wiki Page
             || $this->record->content->canEdit() // User with permission "Administer pages" already can edit it completely
-            || !$this->record->canEditContent(); // Permission "Edit pages" is required for this "Edit Page" link
-    }
+            || !$this->record->canEditContent() // Permission "Edit pages" is required for this "Edit Page" link
+        ) {
+            $this->setIsVisible(false);
+            return;
+        }
 
-    /**
-     * @inheritdoc
-     */
-    protected function renderLink()
-    {
-        return Html::a($this->renderLinkText(), Url::toWikiEdit($this->record), $this->options);
+        $this->setLabel(Yii::t('ContentModule.base', 'Edit'));
+        $this->setIcon('pencil');
+        $this->setUrl(Url::toWikiEdit($this->record));
+        $this->setHtmlOptions(['class' => 'stream-entry-edit-link']);
     }
 }

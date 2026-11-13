@@ -118,7 +118,7 @@ class CategoryListView extends JsWidget
         return [
             'drop-url' => $this->contentContainer->createUrl('/wiki/page/sort'),
             'icon-page' => '',
-            'icon-category' => 'fa fa-caret-down',
+            'icon-category' => 'ti ti-caret-down-filled',
         ];
     }
 }

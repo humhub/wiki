@@ -9,9 +9,9 @@
 namespace humhub\modules\wiki\widgets;
 
 use humhub\components\Widget;
-use humhub\modules\ui\icon\widgets\Icon;
 use humhub\modules\wiki\models\HierarchyItem;
 use humhub\modules\wiki\services\HierarchyListService;
+use humhub\widgets\Icon;
 use Yii;
 
 class PageListItemTitle extends Widget
@@ -31,8 +31,8 @@ class PageListItemTitle extends Widget
 
     public $icon;
     public $iconPage;
-    public $iconCategoryOpened = 'caret-down';
-    public $iconCategoryFolded = 'caret-right';
+    public $iconCategoryOpened = 'caret-down-filled';
+    public $iconCategoryFolded = 'caret-right-filled';
 
     /**
      * @var bool

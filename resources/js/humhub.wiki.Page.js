@@ -55,7 +55,7 @@ humhub.module('wiki.Page', function (module, require, $) {
 
         this.$.find('h1,h2,h3').each(function () {
             const anchor = $(this).find('a.header-anchor');
-            const editIconLink = '<a href="' + editUrl + '" class="header-edit-link"><i class="fa fa-pencil"></i></a>';
+            const editIconLink = '<a href="' + editUrl + '" class="header-edit-link"><i class="ti ti-pencil"></i></a>';
             if (anchor.length) {
                 anchor.before(editIconLink + ' ');
             } else {

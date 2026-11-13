@@ -8,7 +8,6 @@
 
 namespace humhub\modules\wiki\models;
 
-use humhub\modules\activity\services\ActivityManager;
 use humhub\modules\content\components\ActiveQueryContent;
 use humhub\modules\content\components\ContentActiveRecord;
 use humhub\modules\content\components\ContentContainerActiveRecord;
@@ -192,7 +191,7 @@ class WikiPage extends ContentActiveRecord
         }
 
         if (!$insert && !Yii::$app->user->isGuest) {
-            ActivityManager::dispatch(WikiPageEditedActivity::class, $this);
+            WikiPageEditedActivity::send($this);
         }
 
         parent::afterSave($insert, $changedAttributes);
@@ -389,7 +388,7 @@ class WikiPage extends ContentActiveRecord
 
     public function getIcon()
     {
-        return 'fa-book';
+        return 'book';
     }
 
     /**
