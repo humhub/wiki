@@ -47,6 +47,7 @@ class WikiSidebar extends JsWidget
         return $this->render('wikiSidebar', [
             'options' => $this->getOptions(),
             'contentContainer' => $this->contentContainer,
+            'actionsCssClass' => $this->hideOnSmallScreen ? 'd-lg-none' : 'd-xl-none',
             'canCreate' => (new WikiPage($this->contentContainer))->content->canEdit(),
         ]);
     }
@@ -57,7 +58,7 @@ class WikiSidebar extends JsWidget
     protected function getAttributes()
     {
         return [
-            'class' => 'wiki-page-sidebar col-xl-4 ' . ($this->hideOnSmallScreen ? 'd-none d-lg-block' : 'col-lg-12'),
+            'class' => 'wiki-page-sidebar col-xl-4 ' . ($this->hideOnSmallScreen ? 'd-none d-lg-block' : ''),
         ];
     }
 

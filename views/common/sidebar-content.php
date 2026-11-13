@@ -20,13 +20,13 @@ Assets::register($this);
 
 $resizableCacheKey = 'wiki.sidebar';
 ?>
-<div class="row">
+<div class="row wiki-columns">
     <?= WikiSidebar::widget([
         'contentContainer' => $contentContainer,
         'hideOnSmallScreen' => $hideSidebarOnSmallScreen,
         'resizableCacheKey' => $resizableCacheKey,
     ]) ?>
-    <div class="wiki-right-part col-xl-8 <?= $hideSidebarOnSmallScreen ? 'col-lg-12' : 'd-none d-lg-block' ?>">
+    <div class="wiki-right-part col-xl-8 <?= $hideSidebarOnSmallScreen ? '' : 'd-none d-xl-block' ?>">
         <?= $content ?>
     </div>
 </div>
@@ -34,8 +34,11 @@ $resizableCacheKey = 'wiki.sidebar';
 var cache = localStorage.getItem('<?= $resizableCacheKey ?>');
 cache = cache ? JSON.parse(cache) : {};
 if (cache && cache.hasOwnProperty('<?= $contentContainer->id ?>')) {
-    var sidebarWidth = cache['<?= $contentContainer->id ?>'];
-    $('.wiki-page-sidebar').css('width', sidebarWidth + '%');
-    $('.wiki-right-part').css('width', (100 - sidebarWidth) + '%');
+    var sidebarWidth = parseFloat(cache['<?= $contentContainer->id ?>']);
+    if (isFinite(sidebarWidth)) {
+        sidebarWidth = Math.min(75, Math.max(25, sidebarWidth));
+        $('.wiki-page-sidebar').css('width', sidebarWidth + '%');
+        $('.wiki-right-part').css('width', (100 - sidebarWidth) + '%');
+    }
 }
 </script>

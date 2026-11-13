@@ -605,8 +605,12 @@ $wiki-mobile-grid-breakpoints: 520px;
     }
 }
 
+$wiki-column-min-width: 320px;
+
 .wiki-page-content-header {
     display: flex;
+    flex-wrap: wrap;
+    gap: 0 24px;
     margin-bottom: 10px;
     padding: 10px 10px;
 
@@ -640,32 +644,41 @@ $wiki-mobile-grid-breakpoints: 520px;
         }
     }
 
+    // Search takes the free space, but wraps to its own row instead of collapsing in narrow containers
     .wiki-search-form {
-        width: 100%;
+        flex: 1 1 160px;
+        min-width: 160px;
         max-width: none;
-        margin-right: 50px !important;
     }
 
     .wiki-page-content-header-actions {
+        margin-left: auto;
         white-space: nowrap;
-    }
-
-    @include media-breakpoint-down(md) {
-        .wiki-search-form {
-            margin-right: 10px !important;
-        }
     }
 
     @include media-breakpoint-down(sm) {
         display: block !important;
+
         .wiki-search-form {
-            width: auto;
-            margin-right: 0 !important;
+            width: 100%;
         }
 
         .wiki-page-content-header-actions {
             white-space: normal;
         }
+    }
+}
+
+// Enterprise theme: the list headline looks like the sidebar headline
+.wiki-page-content-header-enterprise {
+    h3 {
+        font-weight: 600;
+    }
+
+    // Single column: same side padding as the sidebar header (.wiki-page-content padding)
+    @include media-breakpoint-down(xl) {
+        padding-left: 4px;
+        padding-right: 4px;
     }
 }
 
@@ -728,14 +741,16 @@ $wiki-mobile-grid-breakpoints: 520px;
     button[type=submit] {
         position: absolute;
         top: 0;
+        display: flex;
+        align-items: center;
+        height: 36px;
         background: none;
-        padding: 5px 8px;
+        padding: 0 8px;
         border: none;
         box-shadow: none;
 
         i.fa {
             color: var(--hh-text-color-secondary) !important;
-            margin-top: 6px;
         }
     }
 }
@@ -816,6 +831,7 @@ $wiki-mobile-grid-breakpoints: 520px;
         display: block;
         @include media-breakpoint-down(xl) {
             display: flex;
+            align-items: center;
         }
         padding: 3px 0 0;
         border: none;
@@ -848,7 +864,7 @@ $wiki-mobile-grid-breakpoints: 520px;
     }
 
     .wiki-search-form {
-        margin: 55px 0 15px;
+        margin: 15px 0 15px;
         display: block;
         float: none;
         clear: both;
@@ -866,14 +882,12 @@ $wiki-mobile-grid-breakpoints: 520px;
     }
 
     @include media-breakpoint-down(xl) {
-        padding-right: 15px;
+        // Below xl only one column is shown: ignore the width cached in localStorage
+        width: 100% !important;
 
-        &:not(.d-none) {
-            width: 100% !important;
-
-            .ui-resizable-handle {
-                display: none;
-            }
+        // "!important" is required: jquery.bs5-fix.js shows the handle with "d-revert" (display: revert !important)
+        .ui-resizable-handle {
+            display: none !important;
         }
 
         #category_list_view.wiki-page-list {
@@ -886,11 +900,9 @@ $wiki-mobile-grid-breakpoints: 520px;
         }
 
         .wiki-page-content-header {
-            padding: 14px 8px 20px;
+            padding: 3px 0 10px;
 
             h3 {
-                color: var(--hh-text-color-main);
-                font-weight: normal;
                 text-transform: none;
                 font-size: 12px;
                 margin-right: 16px;
@@ -900,13 +912,19 @@ $wiki-mobile-grid-breakpoints: 520px;
                 }
             }
 
-            .btn-sm {
-                padding: 4px 8px;
-                margin-top: 4px;
-            }
-
             .btn-add-page {
                 display: none;
+            }
+
+            // Stacked layout: same distance between search and buttons as on the "Last Edited" page
+            @include media-breakpoint-down(sm) {
+                .wiki-search-form {
+                    margin-bottom: 10px;
+                }
+
+                .wiki-page-content-header-actions {
+                    padding-top: 5px;
+                }
             }
         }
 
@@ -991,7 +1009,7 @@ $wiki-mobile-grid-breakpoints: 520px;
         border: none;
     }
 
-    .wiki-right-part:not(.d-none) {
+    .wiki-right-part {
         width: 100% !important;
     }
     
@@ -1041,5 +1059,28 @@ $wiki-mobile-grid-breakpoints: 520px;
 
     #page-content-wrapper {
         padding: 0;
+    }
+}
+
+// Below xl only one column is shown: without gutters the negative row margins do not push the page out of its container
+.wiki-columns {
+    @include media-breakpoint-down(xl) {
+        margin-left: 0;
+        margin-right: 0;
+
+        > .wiki-page-sidebar,
+        > .wiki-right-part {
+            padding-left: 0;
+            padding-right: 0;
+        }
+    }
+}
+
+// Enterprise two-column layout: neither column may become narrower than the header content needs
+@include media-breakpoint-up(xl) {
+    .wiki-page-sidebar,
+    .wiki-right-part {
+        min-width: $wiki-column-min-width;
+        max-width: calc(100% - #{$wiki-column-min-width});
     }
 }

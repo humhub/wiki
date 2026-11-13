@@ -456,6 +456,8 @@
 }
 .wiki-page-content-header {
   display: flex;
+  flex-wrap: wrap;
+  gap: 0 24px;
   margin-bottom: 10px;
   padding: 10px 10px;
 }
@@ -484,28 +486,33 @@
   margin-bottom: 4px;
 }
 .wiki-page-content-header .wiki-search-form {
-  width: 100%;
+  flex: 1 1 160px;
+  min-width: 160px;
   max-width: none;
-  margin-right: 50px !important;
 }
 .wiki-page-content-header .wiki-page-content-header-actions {
+  margin-left: auto;
   white-space: nowrap;
-}
-@media (max-width: 767.98px) {
-  .wiki-page-content-header .wiki-search-form {
-    margin-right: 10px !important;
-  }
 }
 @media (max-width: 575.98px) {
   .wiki-page-content-header {
     display: block !important;
   }
   .wiki-page-content-header .wiki-search-form {
-    width: auto;
-    margin-right: 0 !important;
+    width: 100%;
   }
   .wiki-page-content-header .wiki-page-content-header-actions {
     white-space: normal;
+  }
+}
+
+.wiki-page-content-header-enterprise h3 {
+  font-weight: 600;
+}
+@media (max-width: 1199.98px) {
+  .wiki-page-content-header-enterprise {
+    padding-left: 4px;
+    padding-right: 4px;
   }
 }
 
@@ -551,14 +558,16 @@
 .wiki-search-form button[type=submit] {
   position: absolute;
   top: 0;
+  display: flex;
+  align-items: center;
+  height: 36px;
   background: none;
-  padding: 5px 8px;
+  padding: 0 8px;
   border: none;
   box-shadow: none;
 }
 .wiki-search-form button[type=submit] i.fa {
   color: var(--hh-text-color-secondary) !important;
-  margin-top: 6px;
 }
 
 #category_list_view.wiki-page-list > li > div > .page-title-text {
@@ -619,6 +628,7 @@
 @media (max-width: 1199.98px) {
   .wiki-page-sidebar .wiki-page-content-header {
     display: flex;
+    align-items: center;
   }
 }
 .wiki-page-sidebar .wiki-page-content-header h3 {
@@ -642,7 +652,7 @@
   padding: 0;
 }
 .wiki-page-sidebar .wiki-search-form {
-  margin: 55px 0 15px;
+  margin: 15px 0 15px;
   display: block;
   float: none;
   clear: both;
@@ -656,13 +666,10 @@
 }
 @media (max-width: 1199.98px) {
   .wiki-page-sidebar {
-    padding-right: 15px;
-  }
-  .wiki-page-sidebar:not(.d-none) {
     width: 100% !important;
   }
-  .wiki-page-sidebar:not(.d-none) .ui-resizable-handle {
-    display: none;
+  .wiki-page-sidebar .ui-resizable-handle {
+    display: none !important;
   }
   .wiki-page-sidebar #category_list_view.wiki-page-list {
     margin-left: 0;
@@ -672,11 +679,9 @@
     border-radius: var(--hh-wiki-border-radius);
   }
   .wiki-page-sidebar .wiki-page-content-header {
-    padding: 14px 8px 20px;
+    padding: 3px 0 10px;
   }
   .wiki-page-sidebar .wiki-page-content-header h3 {
-    color: var(--hh-text-color-main);
-    font-weight: normal;
     text-transform: none;
     font-size: 12px;
     margin-right: 16px;
@@ -684,13 +689,19 @@
   .wiki-page-sidebar .wiki-page-content-header h3, .wiki-page-sidebar .wiki-page-content-header h3 .fa {
     font-size: 28px;
   }
-  .wiki-page-sidebar .wiki-page-content-header .btn-sm {
-    padding: 4px 8px;
-    margin-top: 4px;
-  }
   .wiki-page-sidebar .wiki-page-content-header .btn-add-page {
     display: none;
   }
+}
+@media (max-width: 1199.98px) and (max-width: 575.98px) {
+  .wiki-page-sidebar .wiki-page-content-header .wiki-search-form {
+    margin-bottom: 10px;
+  }
+  .wiki-page-sidebar .wiki-page-content-header .wiki-page-content-header-actions {
+    padding-top: 5px;
+  }
+}
+@media (max-width: 1199.98px) {
   .wiki-page-sidebar .wiki-search-form {
     float: left;
     clear: none;
@@ -756,7 +767,7 @@
   .wiki-page-list-table .table-responsive {
     border: none;
   }
-  .wiki-right-part:not(.d-none) {
+  .wiki-right-part {
     width: 100% !important;
   }
   .layout-content-container .wiki-page-index {
@@ -795,5 +806,24 @@
   }
   #page-content-wrapper {
     padding: 0;
+  }
+}
+@media (max-width: 1199.98px) {
+  .wiki-columns {
+    margin-left: 0;
+    margin-right: 0;
+  }
+  .wiki-columns > .wiki-page-sidebar,
+  .wiki-columns > .wiki-right-part {
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+
+@media (min-width: 1200px) {
+  .wiki-page-sidebar,
+  .wiki-right-part {
+    min-width: 320px;
+    max-width: calc(100% - 320px);
   }
 }
