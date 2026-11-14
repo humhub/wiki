@@ -9,7 +9,7 @@
   --hh-wiki-bg-color-highlight-info: rgba(var(--bs-accent-rgb), 0.12);
   --hh-wiki-bg-color-highlight-warning: rgba(255, 193, 7, 0.12);
   --hh-wiki-border-color-dragdrop-marker: var(--bs-emphasis-color);
-  --hh-wiki-border-color-main: var(--bs-tertiary-color);
+  --hh-wiki-border-color-main: var(--bs-border-color);
   --hh-wiki-border-color-main-600: var(--bs-border-color);
   --hh-wiki-border-color-content: var(--bs-secondary-bg);
   --hh-wiki-border-color-subpages: var(--bs-border-color);
@@ -360,7 +360,7 @@
   margin-left: 8px;
 }
 .layout-content-container .wiki-content ul.wiki-page-list .page-title .page-title-icon .page-title-icon-visibility {
-  color: var(--bs-tertiary-color);
+  color: var(--bs-secondary-color);
 }
 .layout-content-container .wiki-content ul.wiki-page-list .page-title.wiki-page-dropped {
   background: var(--hh-wiki-bg-color-highlight-warning);
