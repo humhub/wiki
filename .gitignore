@@ -9,6 +9,7 @@ node_modules
 /.buildpath
 /.project
 /.settings/
+/.playwright-mcp/
 
 **/tests/codeception/_support/_generated/**
 **/tests/codeception/_output/**

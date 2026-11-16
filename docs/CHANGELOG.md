@@ -4,6 +4,7 @@ Changelog
 2.6.6 (Unreleased)
 ------------------
 - Fix #454: Wiki header layout: search spacing and icon, right-aligned "Create page"; Minimum sidebar column width; "Last Edited" hidden on index below xl
+- Fix: Enterprise theme sidebar on lg screens behaves like on md (index/last edited toggle instead of stacked panels)
 
 2.6.5 (November 6, 2026)
 ------------------------
