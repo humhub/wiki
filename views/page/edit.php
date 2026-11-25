@@ -90,6 +90,7 @@ Assets::register($this);
             <?= $form->field($model->page, 'title')
                 ->textInput([
                     'placeholder' => Yii::t('WikiModule.base', 'New page title'),
+                    'aria-label' => Yii::t('WikiModule.base', 'Title'),
                     'disabled' => $model->isDisabledField('title'),
                 ])->label(false); ?>
 
@@ -142,7 +143,7 @@ Assets::register($this);
 
             <?= $form->endCollapsibleFields(); ?>
 
-            <?= $form->field($model, 'topics')->widget(TopicPicker::class, ['options' => ['disabled' => $model->isDisabledField('topics')]])->label(false) ?>
+            <?= $form->field($model, 'topics')->widget(TopicPicker::class, ['options' => ['disabled' => $model->isDisabledField('topics'), 'aria-label' => Yii::t('TopicModule.base', 'Topics')]])->label(false) ?>
 
             <hr>
 

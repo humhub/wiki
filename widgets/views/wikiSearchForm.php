@@ -16,7 +16,7 @@ use humhub\widgets\form\ActiveForm;
 ?>
 <?php ActiveForm::begin(['action' => $submitUrl, 'method' => 'get', 'options' => ['class' => 'wiki-search-form' . ($cssClass ? ' ' . $cssClass : '')]]) ?>
 
-<?= Html::textInput('keyword', $keyword, ['placeholder' => $placeholder, 'class' => 'form-control']) ?>
+<?= Html::textInput('keyword', $keyword, ['placeholder' => $placeholder, 'aria-label' => $placeholder, 'class' => 'form-control']) ?>
 
 <?= Button::light()
     ->icon('search')
