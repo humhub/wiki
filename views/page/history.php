@@ -32,8 +32,8 @@ if ($isEnabledDiffTool) {
     ]);
 }
 ?>
-<div class="panel panel-default">
-    <div class="panel-body">
+<div class="card content-card">
+    <div class="card-body">
         <?php WikiContent::begin(['cssClass' => 'wiki-page-content']) ?>
 
         <div class="wiki-headline">

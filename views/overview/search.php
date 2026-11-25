@@ -16,8 +16,8 @@ use humhub\modules\wiki\widgets\WikiSearchTable;
 
 Assets::register($this);
 ?>
-<div class="panel panel-default wiki-page-list-table">
-    <div class="panel-body">
+<div class="card content-card wiki-page-list-table">
+    <div class="card-body">
         <?= WikiListHeader::widget([
             'title' => Yii::t('WikiModule.base', 'Search results'),
             'contentContainer' => $contentContainer,

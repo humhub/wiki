@@ -17,11 +17,11 @@ use humhub\widgets\form\ContentHiddenCheckbox;
 
 Assets::register($this);
 ?>
-<div class="panel panel-default">
+<div class="card content-card">
 
-    <div class="panel-heading"><?= Yii::t('WikiModule.base', 'Default wiki settings'); ?></div>
+    <div class="card-header"><div class="card-title"><?= Yii::t('WikiModule.base', 'Default wiki settings'); ?></div></div>
 
-    <div class="panel-body" data-ui-widget="calendar.Form">
+    <div class="card-body" data-ui-widget="calendar.Form">
         <?php $form = ActiveForm::begin(['action' => $model->getSubmitUrl()]); ?>
             <div class="form-text">
                 <?= Yii::t('WikiModule.base', 'Here you can configure default settings the wiki module.') ?>

@@ -14,8 +14,8 @@ use humhub\modules\wiki\widgets\WikiContent;
 
 Assets::register($this);
 ?>
-<div class="panel panel-default">
-    <div class="panel-body">
+<div class="card content-card">
+    <div class="card-body">
         <?php WikiContent::begin(['cssClass' => 'wiki-page-content']) ?>
 
             <?= $this->render('_view_body', [

@@ -17,9 +17,9 @@ use humhub\widgets\bootstrap\Button;
 
 humhub\modules\wiki\assets\Assets::register($this);
 ?>
-<div class="panel panel-default wiki-bg">
+<div class="card content-card wiki-bg">
 
-    <div class="panel-body">
+    <div class="card-body">
         <?php WikiContent::begin() ?>
 
             <div class="text-center wiki-welcome">

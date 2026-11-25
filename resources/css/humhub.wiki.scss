@@ -20,7 +20,7 @@ $wiki-mobile-grid-breakpoints: 520px;
     --hh-wiki-border-color-main-600: var(--bs-border-color);
     --hh-wiki-border-color-content: var(--bs-secondary-bg);
     --hh-wiki-border-color-subpages: var(--bs-border-color);
-    --hh-wiki-border-radius: 4px;
+    --hh-wiki-border-radius: var(--bs-border-radius-sm);
 }
 
 // The diff colours in the dark mode
@@ -46,23 +46,23 @@ $wiki-mobile-grid-breakpoints: 520px;
 .layout-content-container {
     .wiki-welcome {
         h1 {
-            font-size: 36px;
-            font-weight: bold;
+            font-size: 2.25rem;
+            font-weight: 600;
         }
 
         h2 {
-            font-size: 14px;
-            font-weight: 200;
-            line-height: 24px;
-            margin: 10px 100px;
+            font-size: var(--bs-body-font-size);
+            font-weight: 400;
+            line-height: 1.5rem;
+            margin: .5rem 6.25rem;
             @include media-breakpoint-down(sm) {
-                margin: 10px;
+                margin: .5rem;
             }
         }
     }
 
     .wiki-bg {
-        padding: 150px 0 150px;
+        padding: 9.375rem 0 9.375rem;
         //background-image: url('../wiki-bg.jpg');
         background-repeat: no-repeat;
         background-position: center 100px;
@@ -75,15 +75,15 @@ $wiki-mobile-grid-breakpoints: 520px;
     }
 
     .wiki-page-path {
-        padding-right: 8px;
+        padding-right: .5rem;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
-        font-size: 13px;
+        font-size: var(--hh-font-size-meta);
 
         &.wiki-page-path-length-0 {
             .ti {
-                font-size: 28px;
+                font-size: 1.75rem;
             }
         }
 
@@ -99,7 +99,7 @@ $wiki-mobile-grid-breakpoints: 520px;
             }
 
             .ti {
-                font-size: 28px;
+                font-size: 1.75rem;
             }
         }
         @include media-breakpoint-down(xl) {
@@ -113,7 +113,7 @@ $wiki-mobile-grid-breakpoints: 520px;
         white-space: nowrap;
 
         .btn-group {
-            margin-left: 4px;
+            margin-left: .25rem;
         }
     }
 
@@ -125,8 +125,8 @@ $wiki-mobile-grid-breakpoints: 520px;
         }
         border: 1px solid var(--hh-wiki-border-color-content);
         @include border-radius();
-        padding: 3px 5px;
-        margin: 30px 0;
+        padding: .25rem;
+        margin: 1.5rem 0;
 
         .nav {
             padding: 0;
@@ -136,19 +136,19 @@ $wiki-mobile-grid-breakpoints: 520px;
                 margin: 2px 0;
 
                 a {
-                    padding: 3px 15px;
+                    padding: .25rem 1rem;
                     color: var(--hh-accent-fg) !important;
 
                     > span {
                         flex-shrink: 0;
                         font-weight: 600;
                         color: var(--bs-emphasis-color) !important;
-                        margin-right: 10px;
+                        margin-right: .5rem;
                     }
                 }
 
                 &:first-child a {
-                    font-size: 14px;
+                    font-size: var(--bs-body-font-size);
                     font-weight: 600;
                     color: var(--bs-emphasis-color) !important;
                 }
@@ -161,19 +161,19 @@ $wiki-mobile-grid-breakpoints: 520px;
                 align-items: baseline;
                 text-overflow: ellipsis;
                 overflow: hidden;
-                padding-left: 20px;
+                padding-left: 1.25rem;
             }
         }
 
         .wiki-page-index-section-level2 {
             .header-anchor {
-                padding-left: 50px;
+                padding-left: 3.125rem;
             }
         }
 
         .wiki-page-index-section-level3 {
             .header-anchor {
-                padding-left: 80px;
+                padding-left: 5rem;
             }
         }
     }
@@ -205,12 +205,12 @@ $wiki-mobile-grid-breakpoints: 520px;
 
         .topic-badge-list {
             // Required for compatibility < HumHub 1.9
-            margin-bottom: 10px;
+            margin-bottom: .5rem;
         }
 
         .wiki-page-title {
             font-size: 1.75em;
-            font-weight: 500;
+            font-weight: 600;
             clear: both;
 
             &, a {
@@ -218,20 +218,20 @@ $wiki-mobile-grid-breakpoints: 520px;
             }
 
             i.ti {
-                margin-right: 4px;
+                margin-right: .25rem;
             }
         }
 
         .wiki-page-body {
-            padding: 0 30px 30px;
+            padding: 0 1.5rem 1.5rem;
             .wiki-sub-pages .wiki-page-list .page-title .page-title-text {
                 padding-left: 0;
             }
         }
 
         .wiki-headline {
-            padding-bottom: 8px;
-            margin-bottom: 10px;
+            padding-bottom: .5rem;
+            margin-bottom: .5rem;
             border-bottom: 1px solid var(--hh-wiki-border-color-content);
 
             .wiki-headline-top {
@@ -256,7 +256,7 @@ $wiki-mobile-grid-breakpoints: 520px;
         }
 
         hr.wiki-headline-seperator {
-            margin: 20px 0 10px;
+            margin: 1rem 0 .5rem;
         }
 
         .wiki-category-list-item {
@@ -270,7 +270,7 @@ $wiki-mobile-grid-breakpoints: 520px;
         }
 
         .markdown-render {
-            margin-bottom: 10px;
+            margin-bottom: .5rem;
         }
 
         #wiki-page-richtext > p:first-child {
@@ -279,8 +279,8 @@ $wiki-mobile-grid-breakpoints: 520px;
 
         .wiki-sub-pages {
             border: 1px solid var(--hh-wiki-border-color-subpages);
-            padding: 15px 0;
-            margin-bottom: 10px;
+            padding: 1rem 0;
+            margin-bottom: .5rem;
             @include media-breakpoint-up(sm) {
                 width: 75%;
             }
@@ -294,9 +294,9 @@ $wiki-mobile-grid-breakpoints: 520px;
 
                 .page-title {
                     .ti {
-                        font-size: 11px;
+                        font-size: .6875rem;
                         color: var(--bs-body-color);
-                        margin: 0 5px;
+                        margin: 0 .25rem;
                     }
 
                     &:hover {
@@ -306,11 +306,11 @@ $wiki-mobile-grid-breakpoints: 520px;
             }
 
             a, span.page-title-info {
-                font-size: 13px;
-                font-weight: 500;
+                font-size: var(--hh-font-size-meta);
+                font-weight: 400;
                 color: var(--bs-body-color);
                 white-space: nowrap;
-                padding-left: 3px;
+                padding-left: .25rem;
             }
 
             a {
@@ -328,7 +328,7 @@ $wiki-mobile-grid-breakpoints: 520px;
 
             span.page-title-text {
                 display: inline-block;
-                margin-bottom: 10px;
+                margin-bottom: .5rem;
                 font-weight: 600;
 
                 &, a {
@@ -341,13 +341,13 @@ $wiki-mobile-grid-breakpoints: 520px;
     .wiki-page-list-row-details {
         &, & a, & .time {
             color: var(--bs-secondary-color);
-            font-size: 12px;
+            font-size: var(--hh-font-size-meta);
         }
     }
 
     .wiki-content {
         .wiki-content-info {
-            margin-top: 5px;
+            margin-top: .25rem;
 
             a {
                 color: var(--bs-body-color);
@@ -367,7 +367,7 @@ $wiki-mobile-grid-breakpoints: 520px;
         }
 
         .social-controls {
-            margin-bottom: 10px;
+            margin-bottom: .5rem;
         }
 
         ul.wiki-page-list {
@@ -375,8 +375,8 @@ $wiki-mobile-grid-breakpoints: 520px;
             padding-left: 0;
 
             &.wiki-page-list-droppable-target {
-                height: 15px;
-                bottom: 9px;
+                height: .9375rem;
+                bottom: .5625rem;
                 position: absolute;
                 width: 100%;
                 display: block !important;
@@ -386,14 +386,14 @@ $wiki-mobile-grid-breakpoints: 520px;
                 }
 
                 .ui-sortable-drop-area {
-                    margin-top: 10px !important;
+                    margin-top: .625rem !important;
                     border: none !important;
                 }
             }
 
             li {
-                font-size: 14px;
-                padding-bottom: 6px;
+                font-size: var(--bs-body-font-size);
+                padding-bottom: .375rem;
             }
 
             .wiki-list-item-selected {
@@ -405,7 +405,7 @@ $wiki-mobile-grid-breakpoints: 520px;
             }
 
             .page-title {
-                padding: 4px 12px;
+                padding: .25rem .75rem;
                 border: 1px solid transparent;
                 @include border-radius();
                 display: flex;
@@ -426,7 +426,7 @@ $wiki-mobile-grid-breakpoints: 520px;
 
                 &:not(.page-is-category) {
                     .page-title-text {
-                        padding-left: 24px;
+                        padding-left: 1.5rem;
                     }
                 }
 
@@ -435,7 +435,7 @@ $wiki-mobile-grid-breakpoints: 520px;
 
                     &.wiki-category-add {
                         color: var(--bs-emphasis-color);
-                        margin-left: 8px;
+                        margin-left: .5rem;
                     }
                 }
 
@@ -444,7 +444,7 @@ $wiki-mobile-grid-breakpoints: 520px;
                 }
 
                 .ti {
-                    font-size: 14px;
+                    font-size: .875rem;
                 }
 
                 .ti-caret-down-filled {
@@ -472,7 +472,7 @@ $wiki-mobile-grid-breakpoints: 520px;
                 }
 
                 .page-title-icon {
-                    margin-left: 8px;
+                    margin-left: .5rem;
                     .page-title-icon-visibility {
                         color: var(--bs-secondary-color);
                     }
@@ -485,8 +485,8 @@ $wiki-mobile-grid-breakpoints: 520px;
 
             &.wiki-page-is-dropping {
                 ul.wiki-page-list:not(.wiki-page-list-droppable-target) {
-                    padding-top: 25px;
-                    margin-top: -25px;
+                    padding-top: 1.5625rem;
+                    margin-top: -1.5625rem;
                 }
 
                 li:not(.wiki-current-target-category-over) {
@@ -507,18 +507,18 @@ $wiki-mobile-grid-breakpoints: 520px;
 
         ul.wiki-page-history {
             list-style: none;
-            margin-left: 22px;
+            margin-left: 1.375rem;
             padding-left: 0;
             border-left: 1px dashed var(--hh-wiki-border-color-main);
 
             &.wiki-page-history-with-diff {
                 > li {
-                    padding-left: 67px;
+                    padding-left: 4.1875rem;
                 }
             }
 
             > li {
-                padding: 20px 18px;
+                padding: 1.25rem 1.125rem;
                 position: relative;
 
                 &:first-child::before {
@@ -529,17 +529,17 @@ $wiki-mobile-grid-breakpoints: 520px;
                     top: 0;
                     left: -1px;
                     width: 1px;
-                    height: 38px;
+                    height: 2.375rem;
                 }
 
                 h4 {
-                    font-size: 16px;
+                    font-size: var(--hh-font-size-title);
                     font-weight: 600;
                 }
 
                 h5 {
                     margin-bottom: 0;
-                    font-size: 13px;
+                    font-size: var(--hh-font-size-meta);
 
                     &, a {
                         color: var(--hh-wiki-text-color-title);
@@ -549,7 +549,7 @@ $wiki-mobile-grid-breakpoints: 520px;
                 .horizontal-line {
                     position: absolute;
                     left: 2px;
-                    top: 38px;
+                    top: 2.375rem;
                     letter-spacing: 1px;
                     border-top: 1px dashed var(--hh-wiki-border-color-main);
 
@@ -566,18 +566,18 @@ $wiki-mobile-grid-breakpoints: 520px;
                 }
 
                 .alert {
-                    padding: 10px;
+                    padding: .625rem;
                     margin-bottom: 0;
 
                     .horizontal-line {
-                        top: 48px;
+                        top: 3rem;
                     }
                 }
             }
         }
 
         button.wiki-page-history-btn-compare {
-            margin-left: 15px;
+            margin-left: 1rem;
         }
 
         &.wiki-page-diff {
@@ -595,12 +595,12 @@ $wiki-mobile-grid-breakpoints: 520px;
     }
 
     .wiki-page-history-title {
-        padding-left: 15px;
+        padding-left: 1rem;
         font-weight: 600;
-        font-size: 20px;
+        font-size: 1.25rem;
 
         .ti {
-            font-size: 14px;
+            font-size: .875rem;
         }
     }
 }
@@ -613,12 +613,12 @@ $wiki-mobile-grid-breakpoints: 520px;
 
 .wiki-page-content-header {
     display: flex;
-    margin-bottom: 10px;
-    padding: 10px 10px;
+    margin-bottom: .5rem;
+    padding: .5rem .5rem;
 
     h3 {
-        font-size: 28px;
-        line-height: 28px;
+        font-size: 1.75rem;
+        line-height: 1;
         white-space: nowrap;
 
         &, a {
@@ -626,30 +626,30 @@ $wiki-mobile-grid-breakpoints: 520px;
         }
 
         .ti {
-            font-size: 20px;
-            margin-right: 8px;
+            font-size: 1.25rem;
+            margin-right: .5rem;
             position: relative;
             top: -3px;
         }
     }
 
     .wiki-search-form {
-        margin: 0 0 10px;
+        margin: 0 0 .5rem;
     }
 
     .wiki-page-content-header-actions {
         float: right;
-        padding-top: 5px;
+        padding-top: .25rem;
 
         .btn {
-            margin-bottom: 4px;
+            margin-bottom: .25rem;
         }
     }
 
     .wiki-search-form {
         width: 100%;
         max-width: none;
-        margin-right: 50px !important;
+        margin-right: 3rem !important;
     }
 
     .wiki-page-content-header-actions {
@@ -658,7 +658,7 @@ $wiki-mobile-grid-breakpoints: 520px;
 
     @include media-breakpoint-down(md) {
         .wiki-search-form {
-            margin-right: 10px !important;
+            margin-right: .5rem !important;
         }
     }
 
@@ -709,17 +709,16 @@ $wiki-mobile-grid-breakpoints: 520px;
 .wiki-search-form {
     float: right;
     position: relative;
-    margin-left: 4px;
+    margin-left: .25rem;
     max-width: 168px;
 
     input[name=keyword] {
         background: var(--hh-wiki-bg-color-input);
-        font-size: 13px;
+        font-size: var(--hh-font-size-meta);
         border: none;
         color: var(--bs-body-color);
-        padding-left: 26px;
-        height: 36px;
-        min-height: 36px;
+        padding-left: 1.625rem;
+        min-height: 2.25rem;
         &::placeholder {
             color: var(--bs-secondary-color) !important;
             opacity: 1;
@@ -735,13 +734,13 @@ $wiki-mobile-grid-breakpoints: 520px;
         position: absolute;
         top: 0;
         background: none;
-        padding: 5px 8px;
+        padding: .3125rem .5rem;
         border: none;
         box-shadow: none;
 
         i.ti {
             color: var(--bs-secondary-color) !important;
-            margin-top: 6px;
+            margin-top: .375rem;
         }
     }
 }
@@ -783,7 +782,7 @@ $wiki-mobile-grid-breakpoints: 520px;
 
     .ui-sortable-drop-area {
         border-bottom: 2px solid var(--hh-wiki-border-color-dragdrop-marker);
-        margin-top: -6px;
+        margin-top: -.375rem;
         margin-bottom: -2px;
     }
 
@@ -805,17 +804,17 @@ $wiki-mobile-grid-breakpoints: 520px;
     position: relative;
 
     #category_list_view.wiki-page-list {
-        padding: 0 0 10px 0;
-        margin: 0 -14px;
+        padding: 0 0 .5rem 0;
+        margin: 0 -1rem;
 
         .page-title {
-            padding-left: 12px;
-            padding-right: 12px;
+            padding-left: .75rem;
+            padding-right: .75rem;
         }
     }
 
     .wiki-page-content {
-        padding: 0 4px;
+        padding: 0 .25rem;
     }
 
     .wiki-page-content-header {
@@ -823,7 +822,7 @@ $wiki-mobile-grid-breakpoints: 520px;
         @include media-breakpoint-down(xl) {
             display: flex;
         }
-        padding: 3px 0 0;
+        padding: .25rem 0 0;
         border: none;
 
         h3 {
@@ -834,17 +833,17 @@ $wiki-mobile-grid-breakpoints: 520px;
             }
 
             .ti {
-                font-size: 16px;
+                font-size: 1rem;
                 margin: 0;
             }
         }
 
         .btn-add-page {
-            padding: 4px 6px;
-            line-height: 9px;
+            padding: .25rem .375rem;
+            line-height: .5625rem;
 
             &:active {
-                padding: 3px 5px;
+                padding: .1875rem .3125rem;
             }
         }
 
@@ -854,7 +853,7 @@ $wiki-mobile-grid-breakpoints: 520px;
     }
 
     .wiki-search-form {
-        margin: 55px 0 15px;
+        margin: 3rem 0 1rem;
         display: block;
         float: none;
         clear: both;
@@ -872,7 +871,7 @@ $wiki-mobile-grid-breakpoints: 520px;
     }
 
     @include media-breakpoint-down(xl) {
-        padding-right: 15px;
+        padding-right: 1rem;
 
         &:not(.d-none) {
             width: 100% !important;
@@ -892,23 +891,23 @@ $wiki-mobile-grid-breakpoints: 520px;
         }
 
         .wiki-page-content-header {
-            padding: 14px 8px 20px;
+            padding: 1rem .5rem 1rem;
 
             h3 {
                 color: var(--bs-body-color);
-                font-weight: normal;
+                font-weight: 400;
                 text-transform: none;
-                font-size: 12px;
-                margin-right: 16px;
+                font-size: var(--hh-font-size-meta);
+                margin-right: 1rem;
 
                 &, .ti {
-                    font-size: 28px;
+                    font-size: 1.75rem;
                 }
             }
 
             .btn-sm {
-                padding: 4px 8px;
-                margin-top: 4px;
+                padding: .25rem .5rem;
+                margin-top: .25rem;
             }
 
             .btn-add-page {
@@ -931,11 +930,11 @@ $wiki-mobile-grid-breakpoints: 520px;
     }
 
     .table-responsive {
-        padding-left: 15px;
-        padding-right: 15px;
+        padding-left: 1rem;
+        padding-right: 1rem;
 
         .grid-view {
-            padding: 15px 0;
+            padding: 1rem 0;
 
             .pagination {
                 margin-bottom: 0;
@@ -948,8 +947,8 @@ $wiki-mobile-grid-breakpoints: 520px;
             }
 
             .wiki-page-list-row-title {
-                font-size: 14px;
-                font-weight: 500;
+                font-size: var(--bs-body-font-size);
+                font-weight: 600;
 
                 a {
                     display: block;
@@ -962,7 +961,7 @@ $wiki-mobile-grid-breakpoints: 520px;
             }
 
             td {
-                font-size: 14px;
+                font-size: var(--bs-body-font-size);
                 border: none;
 
                 &:hover {
@@ -970,7 +969,7 @@ $wiki-mobile-grid-breakpoints: 520px;
                 }
 
                 &:first-child {
-                    padding-left: 12px;
+                    padding-left: 1rem;
                     @include border-radius-left();
                 }
 
@@ -1020,10 +1019,10 @@ $wiki-mobile-grid-breakpoints: 520px;
 .wiki-preview {
     border: 1px solid var(--hh-wiki-border-color-main-600);
     @include border-radius();
-    padding: 10px;
+    padding: .5rem;
 
     .wiki-preview-content {
-        margin-bottom: 10px;
+        margin-bottom: .5rem;
     }
 }
 

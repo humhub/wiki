@@ -30,8 +30,8 @@ if (Helper::isEnterpriseTheme()) {
 
 $settings = new DefaultSettings(['contentContainer' => $contentContainer]);
 ?>
-<div class="panel panel-default">
-    <div class="panel-body">
+<div class="card content-card">
+    <div class="card-body">
         <?php WikiContent::begin(['cssClass' => 'wiki-page-content']) ?>
         <div class="wiki-page-content-header clearfix">
             <h3><?= Html::encode($settings->module_label) ?></h3>

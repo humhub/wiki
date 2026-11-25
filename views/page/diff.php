@@ -15,8 +15,8 @@ use yii\helpers\Html;
 
 humhub\modules\wiki\assets\Assets::register($this);
 ?>
-<div class="panel panel-default">
-    <div class="panel-body">
+<div class="card content-card">
+    <div class="card-body">
         <?php WikiContent::begin(['cssClass' => 'wiki-page-content wiki-page-diff']) ?>
 
         <?= $this->render('_view_header', [

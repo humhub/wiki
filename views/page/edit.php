@@ -29,8 +29,8 @@ use humhub\widgets\form\ContentVisibilitySelect;
 
 Assets::register($this);
 ?>
-<div class="panel panel-default">
-    <div class="panel-body<?= $model->page->isCategory ? ' wiki-category-page-edit' : '' ?>">
+<div class="card content-card">
+    <div class="card-body<?= $model->page->isCategory ? ' wiki-category-page-edit' : '' ?>">
         <?php WikiContent::begin([
             'id' => 'wiki-page-edit',
             'cssClass' => 'wiki-page-content',
