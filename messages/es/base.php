@@ -96,6 +96,7 @@ return [
     'Drag to reorder' => '',
     'Edit pages' => '',
     'More actions' => '',
+    'Title' => '',
     'Whenever someone edits a wiki page.' => '',
     'Wiki page content ID' => '',
     'Wiki pages' => '',

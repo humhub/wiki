@@ -90,6 +90,7 @@ return [
     'There are no entries yet :(' => '',
     'This field only allows a maximum 1 page.' => '',
     'This page is empty.' => '',
+    'Title' => '',
     'View History' => '',
     'Whenever someone edits a wiki page.' => '',
     'Wiki' => '',

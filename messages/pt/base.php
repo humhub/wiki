@@ -94,6 +94,7 @@ return [
     'Table of Contents' => '',
     'There are no entries yet :(' => '',
     'This field only allows a maximum 1 page.' => '',
+    'Title' => '',
     'Whenever someone edits a wiki page.' => '',
     'Wiki page content ID' => '',
     'Wiki pages' => '',

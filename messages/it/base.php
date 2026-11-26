@@ -96,6 +96,7 @@ return [
     'Page history' => '',
     'Parent Page' => '',
     'Subpages' => '',
+    'Title' => '',
     'Whenever someone edits a wiki page.' => '',
     'Wiki page content ID' => '',
     'Wiki pages' => '',

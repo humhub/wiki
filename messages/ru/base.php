@@ -95,6 +95,7 @@ return [
     'No wiki pages found.' => '',
     'Revert not possible. Already latest revision!' => '',
     'Search for Wiki Title' => '',
+    'Title' => '',
     'View History' => '',
     'Whenever someone edits a wiki page.' => '',
     'Wiki page content ID' => '',

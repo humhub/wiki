@@ -98,6 +98,7 @@ return [
     'Drag to reorder' => '',
     'Edit pages' => '',
     'More actions' => '',
+    'Title' => '',
     'View History' => '',
     '{displayName} edited the Wiki page "{contentTitle}".' => '',
 ];

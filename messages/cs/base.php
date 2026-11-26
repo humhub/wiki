@@ -95,6 +95,7 @@ return [
     'Hide Navigation Entry' => '',
     'More actions' => '',
     'No wiki pages found.' => '',
+    'Title' => '',
     'View History' => '',
     'Whenever someone edits a wiki page.' => '',
     'Wiki page content ID' => '',

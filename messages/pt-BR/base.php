@@ -99,5 +99,6 @@ return [
     'show changes' => 'mostrar mudanças',
     'Drag to reorder' => '',
     'More actions' => '',
+    'Title' => '',
     '{displayName} edited the Wiki page "{contentTitle}".' => '',
 ];

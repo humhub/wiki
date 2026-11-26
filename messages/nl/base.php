@@ -100,4 +100,5 @@ return [
     'show changes' => 'wijzigingen tonen',
     '{displayName} edited the Wiki page "{contentTitle}".' => '{displayName} heeft de Wiki-pagina "{contentTitle}" bewerkt.',
     'More actions' => '',
+    'Title' => '',
 ];
