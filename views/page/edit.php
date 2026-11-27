@@ -94,7 +94,10 @@ Assets::register($this);
                     'disabled' => $model->isDisabledField('title'),
                 ])->label(false); ?>
 
-            <?= $form->field($model->revision, 'content')->widget(WikiEditor::class)->label(false) ?>
+            <?= $form->field($model->revision, 'content')->widget(WikiEditor::class, [
+                // Stable across page loads: the core keeps a draft backup of the unsaved text
+                'id' => 'wiki-page-editor-' . (int) $model->page->id,
+            ])->label(false) ?>
 
             <?php $category = $form->field($model->page, 'parent_page_id') ?>
             <?= $displayFieldCategory

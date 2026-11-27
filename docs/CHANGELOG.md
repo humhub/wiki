@@ -3,6 +3,7 @@ Changelog
 
 2.7.0 (Unreleased)
 ------------------
+- Enh: The page editor keeps a draft backup of the unsaved text, restored after a reload or a click away (humhub/humhub@06772b7ff4)
 - Fix: The search field and the editor's title and topics fields have a name for screen readers
 - Enh: Cards instead of Bootstrap 3 panels, sizes in rem and the text styles of the core 1.20 (humhub/humhub#8777)
 - Fix: The visibility icon of a page takes the muted text colour, the lines of the page tree the border colour (humhub/humhub#8752)
