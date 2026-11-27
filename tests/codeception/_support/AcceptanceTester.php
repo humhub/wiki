@@ -57,7 +57,7 @@ class AcceptanceTester extends \AcceptanceTester
         $this->amGoingTo('Create my first wiki category page');
         $this->waitForText('Create new page', 30);
         $this->fillField('#wikipage-title', 'First Test Wiki Category');
-        $this->fillField('#wikipagerevision-content .humhub-ui-richtext', '# My First Wiki Category!');
+        $this->fillField('[id^="wiki-page-editor-"] .humhub-ui-richtext', '# My First Wiki Category!');
         $this->click('Save');
         $this->seeSuccess();
 
@@ -76,7 +76,7 @@ class AcceptanceTester extends \AcceptanceTester
         $this->waitForText('Create new page', 30);
 
         $this->fillField('#wikipage-title', 'First Sub Page');
-        $this->fillField('#wikipagerevision-content .humhub-ui-richtext', '# My Sub Page!');
+        $this->fillField('[id^="wiki-page-editor-"] .humhub-ui-richtext', '# My Sub Page!');
         $this->click('Save');
         $this->seeSuccess();
 
@@ -95,7 +95,7 @@ class AcceptanceTester extends \AcceptanceTester
         $this->waitForText('Create new page', 30);
 
         $this->fillField('#wikipage-title', 'Second Page');
-        $this->fillField('#wikipagerevision-content .humhub-ui-richtext', '# My Second Page!');
+        $this->fillField('[id^="wiki-page-editor-"] .humhub-ui-richtext', '# My Second Page!');
         $this->jsClick('.form-collapsible-fields-label.collapsed label');
         $this->selectFromPicker('#wikipage-parent_page_id', 'First Test Wiki Category');
         $this->click('Save');
@@ -162,7 +162,7 @@ class AcceptanceTester extends \AcceptanceTester
 
         $this->click('Edit');
         $this->waitForElementVisible('#wiki-page-edit');
-        $this->fillField('#wikipagerevision-content .humhub-ui-richtext', '# My Sub Page Updated!');
+        $this->fillField('[id^="wiki-page-editor-"] .humhub-ui-richtext', '# My Sub Page Updated!');
         $this->click('Save');
         $this->seeSuccess();
 
@@ -202,7 +202,7 @@ class AcceptanceTester extends \AcceptanceTester
         $this->amGoingTo("Create my public {$type} wiki page");
         $this->waitForText('Create new page', 30);
         $this->fillField('#wikipage-title', "First Public {$type} Wiki Page");
-        $this->fillField('#wikipagerevision-content .humhub-ui-richtext', "# My First Wiki {$type} Public Page!");
+        $this->fillField('[id^="wiki-page-editor-"] .humhub-ui-richtext', "# My First Wiki {$type} Public Page!");
         $this->jsClick('.form-collapsible-fields-label.collapsed label');
         $this->jsClick('#pageeditform-ispublic');
         $this->click('Save');
@@ -224,7 +224,7 @@ class AcceptanceTester extends \AcceptanceTester
         $this->click('Create page');
         $this->waitForText('Create new page', 30);
         $this->fillField('#wikipage-title', "First Private {$type} Wiki Page");
-        $this->fillField('#wikipagerevision-content .humhub-ui-richtext', "# My First Wiki {$type} Private Page!");
+        $this->fillField('[id^="wiki-page-editor-"] .humhub-ui-richtext', "# My First Wiki {$type} Private Page!");
         $this->click('Save');
         $this->seeSuccess();
 
